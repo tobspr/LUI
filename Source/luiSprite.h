@@ -13,13 +13,14 @@
 ////////////////////////////////////////////////////////////////////
 
 #include "pandabase.h"
+#include "pandasymbols.h"
 #include "lpoint2.h"
 #include "lvector2.h"
 #include "texture.h"
 #include "referenceCount.h"
 
 
-class LUISprite : public ReferenceCount {
+class EXPCL_PANDASKEL LUISprite : public ReferenceCount {
 
   PUBLISHED:
 		// Setter / Getter 
@@ -74,3 +75,6 @@ class LUISprite : public ReferenceCount {
 		// Determines wheter the sprite will get rendered
 		bool	    _visible;
 };
+
+
+#include "luiSprite.I"

@@ -17,6 +17,7 @@
 #include "luiSprite.h"
 #include "lvector2.h"
 #include "pandabase.h"
+#include "pandasymbols.h"
 #include "referenceCount.h"
 #include "texture.h"
 
@@ -1235,7 +1236,7 @@ static PyMethodDef python_simple_funcs[] = {
 
 EXPORT_THIS struct LibraryDef LUI_moddef = {python_simple_funcs, BuildInstants};
 static InterrogateModuleDef _in_module_def = {
-  1409082340,  /* file_identifier */
+  1409082704,  /* file_identifier */
   "LUI",  /* library_name */
   "jJ0G",  /* library_hash_name */
   "LUI",  /* module_name */
