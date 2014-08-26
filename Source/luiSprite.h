@@ -25,22 +25,22 @@ class EXPCL_PANDASKEL LUISprite : public ReferenceCount {
   PUBLISHED:
 		// Setter / Getter 
 		INLINE void set_pos(const LPoint2 &pos);
-		INLINE const LPoint2 &get_pos();
+		INLINE LPoint2 &get_pos() const;
 
 		INLINE void set_size(const LVector2 &size);
-		INLINE const LVector2 &get_size();
+		INLINE LVector2 &get_size() const;
 
 		INLINE void set_texcoord_start(const LVector2 &texcoord_start);
-		INLINE const LVector2 &get_texcoord_start();
+		INLINE LVector2 &get_texcoord_start() const;
 		
 		INLINE void set_texcoord_end(const LVector2 &texcoord_end);
-		INLINE const LVector2 &get_texcoord_end();
+		INLINE LVector2 &get_texcoord_end() const;
 		
 		INLINE void set_color(const LVecBase4f &color);
-		INLINE const LVecBase4f &get_color();
+		INLINE LVecBase4f &get_color() const;
 
 		INLINE void set_texture(Texture* tex);
-		INLINE Texture* get_texture();
+		INLINE Texture* get_texture() const;
 
 		INLINE void set_z_index(float z_index);
 		INLINE float get_z_index();

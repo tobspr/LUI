@@ -127,7 +127,7 @@ static const char *Dtool_LUISprite_set_pos_3_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline LPoint2f const &LUISprite::get_pos(void)
+ * inline LPoint2f &LUISprite::get_pos(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_pos_4(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -137,33 +137,27 @@ static PyObject *Dtool_LUISprite_get_pos_4(PyObject *self) {
     return NULL;
   }
 
-  if (!((Dtool_PyInstDef *)self)->_is_const) {
-    // 1-inline LPoint2f const &LUISprite::get_pos(void)
-    LPoint2f const *return_value = &((local_this)->get_pos());
+  // 1-inline LPoint2f &LUISprite::get_pos(void) const
+  LPoint2f *return_value = &(((const LUISprite*)local_this)->get_pos());
 #ifndef NDEBUG
-    Notify *notify = Notify::ptr();
-    if (notify->has_assert_failed()) {
-      PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-      notify->clear_assert_failed();
-      return (PyObject *)NULL;
-    }
+  Notify *notify = Notify::ptr();
+  if (notify->has_assert_failed()) {
+    PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+    notify->clear_assert_failed();
+    return (PyObject *)NULL;
+  }
 #endif
-    if (return_value == NULL) {
-      Py_INCREF(Py_None);
-      return Py_None;
-    } else {
-      return DTool_CreatePyInstance((void *)return_value, Dtool_LPoint2f, false, true);
-    }
+  if (return_value == NULL) {
+    Py_INCREF(Py_None);
+    return Py_None;
   } else {
-    PyErr_SetString(PyExc_TypeError,
-                    "Cannot call LUISprite.get_pos() on a const object.");
-    return (PyObject *) NULL;
+    return DTool_CreatePyInstance((void *)return_value, Dtool_LPoint2f, false, false);
   }
 
   if (!PyErr_Occurred()) {
     PyErr_SetString(PyExc_TypeError,
       "Arguments must match:\n"
-      "get_pos(LUISprite this)\n"
+      "get_pos(const LUISprite this)\n"
       "");
   }
   return (PyObject *) NULL;
@@ -172,7 +166,7 @@ static PyObject *Dtool_LUISprite_get_pos_4(PyObject *self) {
 #ifndef NDEBUG
 static const char *Dtool_LUISprite_get_pos_4_comment =
   "C++ Interface:\n"
-  "get_pos(LUISprite this)\n"
+  "get_pos(const LUISprite this)\n"
   "\n"
   "// Setter / Getter\n"
   "";
@@ -253,7 +247,7 @@ static const char *Dtool_LUISprite_set_size_5_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline LVector2f const &LUISprite::get_size(void)
+ * inline LVector2f &LUISprite::get_size(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_size_6(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -263,33 +257,27 @@ static PyObject *Dtool_LUISprite_get_size_6(PyObject *self) {
     return NULL;
   }
 
-  if (!((Dtool_PyInstDef *)self)->_is_const) {
-    // 1-inline LVector2f const &LUISprite::get_size(void)
-    LVector2f const *return_value = &((local_this)->get_size());
+  // 1-inline LVector2f &LUISprite::get_size(void) const
+  LVector2f *return_value = &(((const LUISprite*)local_this)->get_size());
 #ifndef NDEBUG
-    Notify *notify = Notify::ptr();
-    if (notify->has_assert_failed()) {
-      PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-      notify->clear_assert_failed();
-      return (PyObject *)NULL;
-    }
+  Notify *notify = Notify::ptr();
+  if (notify->has_assert_failed()) {
+    PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+    notify->clear_assert_failed();
+    return (PyObject *)NULL;
+  }
 #endif
-    if (return_value == NULL) {
-      Py_INCREF(Py_None);
-      return Py_None;
-    } else {
-      return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, true);
-    }
+  if (return_value == NULL) {
+    Py_INCREF(Py_None);
+    return Py_None;
   } else {
-    PyErr_SetString(PyExc_TypeError,
-                    "Cannot call LUISprite.get_size() on a const object.");
-    return (PyObject *) NULL;
+    return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, false);
   }
 
   if (!PyErr_Occurred()) {
     PyErr_SetString(PyExc_TypeError,
       "Arguments must match:\n"
-      "get_size(LUISprite this)\n"
+      "get_size(const LUISprite this)\n"
       "");
   }
   return (PyObject *) NULL;
@@ -298,7 +286,7 @@ static PyObject *Dtool_LUISprite_get_size_6(PyObject *self) {
 #ifndef NDEBUG
 static const char *Dtool_LUISprite_get_size_6_comment =
   "C++ Interface:\n"
-  "get_size(LUISprite this)\n"
+  "get_size(const LUISprite this)\n"
   "\n"
   "";
 #else
@@ -378,7 +366,7 @@ static const char *Dtool_LUISprite_set_texcoord_start_7_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline LVector2f const &LUISprite::get_texcoord_start(void)
+ * inline LVector2f &LUISprite::get_texcoord_start(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_texcoord_start_8(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -388,33 +376,27 @@ static PyObject *Dtool_LUISprite_get_texcoord_start_8(PyObject *self) {
     return NULL;
   }
 
-  if (!((Dtool_PyInstDef *)self)->_is_const) {
-    // 1-inline LVector2f const &LUISprite::get_texcoord_start(void)
-    LVector2f const *return_value = &((local_this)->get_texcoord_start());
+  // 1-inline LVector2f &LUISprite::get_texcoord_start(void) const
+  LVector2f *return_value = &(((const LUISprite*)local_this)->get_texcoord_start());
 #ifndef NDEBUG
-    Notify *notify = Notify::ptr();
-    if (notify->has_assert_failed()) {
-      PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-      notify->clear_assert_failed();
-      return (PyObject *)NULL;
-    }
+  Notify *notify = Notify::ptr();
+  if (notify->has_assert_failed()) {
+    PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+    notify->clear_assert_failed();
+    return (PyObject *)NULL;
+  }
 #endif
-    if (return_value == NULL) {
-      Py_INCREF(Py_None);
-      return Py_None;
-    } else {
-      return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, true);
-    }
+  if (return_value == NULL) {
+    Py_INCREF(Py_None);
+    return Py_None;
   } else {
-    PyErr_SetString(PyExc_TypeError,
-                    "Cannot call LUISprite.get_texcoord_start() on a const object.");
-    return (PyObject *) NULL;
+    return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, false);
   }
 
   if (!PyErr_Occurred()) {
     PyErr_SetString(PyExc_TypeError,
       "Arguments must match:\n"
-      "get_texcoord_start(LUISprite this)\n"
+      "get_texcoord_start(const LUISprite this)\n"
       "");
   }
   return (PyObject *) NULL;
@@ -423,7 +405,7 @@ static PyObject *Dtool_LUISprite_get_texcoord_start_8(PyObject *self) {
 #ifndef NDEBUG
 static const char *Dtool_LUISprite_get_texcoord_start_8_comment =
   "C++ Interface:\n"
-  "get_texcoord_start(LUISprite this)\n"
+  "get_texcoord_start(const LUISprite this)\n"
   "\n"
   "";
 #else
@@ -503,7 +485,7 @@ static const char *Dtool_LUISprite_set_texcoord_end_9_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline LVector2f const &LUISprite::get_texcoord_end(void)
+ * inline LVector2f &LUISprite::get_texcoord_end(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_texcoord_end_10(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -513,33 +495,27 @@ static PyObject *Dtool_LUISprite_get_texcoord_end_10(PyObject *self) {
     return NULL;
   }
 
-  if (!((Dtool_PyInstDef *)self)->_is_const) {
-    // 1-inline LVector2f const &LUISprite::get_texcoord_end(void)
-    LVector2f const *return_value = &((local_this)->get_texcoord_end());
+  // 1-inline LVector2f &LUISprite::get_texcoord_end(void) const
+  LVector2f *return_value = &(((const LUISprite*)local_this)->get_texcoord_end());
 #ifndef NDEBUG
-    Notify *notify = Notify::ptr();
-    if (notify->has_assert_failed()) {
-      PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-      notify->clear_assert_failed();
-      return (PyObject *)NULL;
-    }
+  Notify *notify = Notify::ptr();
+  if (notify->has_assert_failed()) {
+    PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+    notify->clear_assert_failed();
+    return (PyObject *)NULL;
+  }
 #endif
-    if (return_value == NULL) {
-      Py_INCREF(Py_None);
-      return Py_None;
-    } else {
-      return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, true);
-    }
+  if (return_value == NULL) {
+    Py_INCREF(Py_None);
+    return Py_None;
   } else {
-    PyErr_SetString(PyExc_TypeError,
-                    "Cannot call LUISprite.get_texcoord_end() on a const object.");
-    return (PyObject *) NULL;
+    return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, false);
   }
 
   if (!PyErr_Occurred()) {
     PyErr_SetString(PyExc_TypeError,
       "Arguments must match:\n"
-      "get_texcoord_end(LUISprite this)\n"
+      "get_texcoord_end(const LUISprite this)\n"
       "");
   }
   return (PyObject *) NULL;
@@ -548,7 +524,7 @@ static PyObject *Dtool_LUISprite_get_texcoord_end_10(PyObject *self) {
 #ifndef NDEBUG
 static const char *Dtool_LUISprite_get_texcoord_end_10_comment =
   "C++ Interface:\n"
-  "get_texcoord_end(LUISprite this)\n"
+  "get_texcoord_end(const LUISprite this)\n"
   "\n"
   "";
 #else
@@ -628,7 +604,7 @@ static const char *Dtool_LUISprite_set_color_11_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline LVecBase4f const &LUISprite::get_color(void)
+ * inline LVecBase4f &LUISprite::get_color(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_color_12(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -638,33 +614,27 @@ static PyObject *Dtool_LUISprite_get_color_12(PyObject *self) {
     return NULL;
   }
 
-  if (!((Dtool_PyInstDef *)self)->_is_const) {
-    // 1-inline LVecBase4f const &LUISprite::get_color(void)
-    LVecBase4f const *return_value = &((local_this)->get_color());
+  // 1-inline LVecBase4f &LUISprite::get_color(void) const
+  LVecBase4f *return_value = &(((const LUISprite*)local_this)->get_color());
 #ifndef NDEBUG
-    Notify *notify = Notify::ptr();
-    if (notify->has_assert_failed()) {
-      PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-      notify->clear_assert_failed();
-      return (PyObject *)NULL;
-    }
+  Notify *notify = Notify::ptr();
+  if (notify->has_assert_failed()) {
+    PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+    notify->clear_assert_failed();
+    return (PyObject *)NULL;
+  }
 #endif
-    if (return_value == NULL) {
-      Py_INCREF(Py_None);
-      return Py_None;
-    } else {
-      return DTool_CreatePyInstance((void *)return_value, Dtool_LVecBase4f, false, true);
-    }
+  if (return_value == NULL) {
+    Py_INCREF(Py_None);
+    return Py_None;
   } else {
-    PyErr_SetString(PyExc_TypeError,
-                    "Cannot call LUISprite.get_color() on a const object.");
-    return (PyObject *) NULL;
+    return DTool_CreatePyInstance((void *)return_value, Dtool_LVecBase4f, false, false);
   }
 
   if (!PyErr_Occurred()) {
     PyErr_SetString(PyExc_TypeError,
       "Arguments must match:\n"
-      "get_color(LUISprite this)\n"
+      "get_color(const LUISprite this)\n"
       "");
   }
   return (PyObject *) NULL;
@@ -673,7 +643,7 @@ static PyObject *Dtool_LUISprite_get_color_12(PyObject *self) {
 #ifndef NDEBUG
 static const char *Dtool_LUISprite_get_color_12_comment =
   "C++ Interface:\n"
-  "get_color(LUISprite this)\n"
+  "get_color(const LUISprite this)\n"
   "\n"
   "";
 #else
@@ -753,7 +723,7 @@ static const char *Dtool_LUISprite_set_texture_13_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline Texture *LUISprite::get_texture(void)
+ * inline Texture *LUISprite::get_texture(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_texture_14(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -763,36 +733,30 @@ static PyObject *Dtool_LUISprite_get_texture_14(PyObject *self) {
     return NULL;
   }
 
-  if (!((Dtool_PyInstDef *)self)->_is_const) {
-    // 1-inline Texture *LUISprite::get_texture(void)
-    Texture *return_value = (local_this)->get_texture();
-    if (return_value != (Texture *)0) {
-      return_value->ref();
-    }
+  // 1-inline Texture *LUISprite::get_texture(void) const
+  Texture *return_value = ((const LUISprite*)local_this)->get_texture();
+  if (return_value != (Texture *)0) {
+    return_value->ref();
+  }
 #ifndef NDEBUG
-    Notify *notify = Notify::ptr();
-    if (notify->has_assert_failed()) {
-      PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-      notify->clear_assert_failed();
-      return (PyObject *)NULL;
-    }
+  Notify *notify = Notify::ptr();
+  if (notify->has_assert_failed()) {
+    PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+    notify->clear_assert_failed();
+    return (PyObject *)NULL;
+  }
 #endif
-    if (return_value == NULL) {
-      Py_INCREF(Py_None);
-      return Py_None;
-    } else {
-      return DTool_CreatePyInstanceTyped((void *)return_value, Dtool_Texture, true, false, (return_value)->as_typed_object()->get_type_index());
-    }
+  if (return_value == NULL) {
+    Py_INCREF(Py_None);
+    return Py_None;
   } else {
-    PyErr_SetString(PyExc_TypeError,
-                    "Cannot call LUISprite.get_texture() on a const object.");
-    return (PyObject *) NULL;
+    return DTool_CreatePyInstanceTyped((void *)return_value, Dtool_Texture, true, false, (return_value)->as_typed_object()->get_type_index());
   }
 
   if (!PyErr_Occurred()) {
     PyErr_SetString(PyExc_TypeError,
       "Arguments must match:\n"
-      "get_texture(LUISprite this)\n"
+      "get_texture(const LUISprite this)\n"
       "");
   }
   return (PyObject *) NULL;
@@ -801,7 +765,7 @@ static PyObject *Dtool_LUISprite_get_texture_14(PyObject *self) {
 #ifndef NDEBUG
 static const char *Dtool_LUISprite_get_texture_14_comment =
   "C++ Interface:\n"
-  "get_texture(LUISprite this)\n"
+  "get_texture(const LUISprite this)\n"
   "\n"
   "";
 #else
@@ -1236,7 +1200,7 @@ static PyMethodDef python_simple_funcs[] = {
 
 EXPORT_THIS struct LibraryDef LUI_moddef = {python_simple_funcs, BuildInstants};
 static InterrogateModuleDef _in_module_def = {
-  1409082704,  /* file_identifier */
+  1409082969,  /* file_identifier */
   "LUI",  /* library_name */
   "jJ0G",  /* library_hash_name */
   "LUI",  /* module_name */
@@ -1246,7 +1210,7 @@ static InterrogateModuleDef _in_module_def = {
   (void **)0,  /* fptrs */
   0,  /* num_fptrs */
   1,  /* first_index */
-  55  /* next_index */
+  60  /* next_index */
 };
 
 Configure(_in_configure_LUI);
