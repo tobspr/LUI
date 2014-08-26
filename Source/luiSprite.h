@@ -24,7 +24,11 @@
 
 class EXPCL_PANDASKEL LUISprite : public ReferenceCount {
 
-  PUBLISHED:
+PUBLISHED:
+
+    LUISprite();
+    ~LUISprite();
+
 		// Setter / Getter 
 		INLINE void set_pos(const LPoint2 &pos);
 		INLINE const LPoint2 &get_pos() const;

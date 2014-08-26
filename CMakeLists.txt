@@ -33,7 +33,7 @@ endif()
 # Check if all supplied directories exist
 set(CHECK_DIRS ${PANDA_SRC} ${PANDA_BIN} ${PANDA_LIBS} ${PANDA_INCLUDE} ${PYTHON_LIBS} ${PYTHON_INCLUDE} ${PYTHON_BIN} ${PANDA_THIRDPARTY})
 foreach(DIRECTORY ${CHECK_DIRS})
-  message("Checking directory '${DIRECTORY}'")
+  # message("Checking directory '${DIRECTORY}'")
   if(NOT (EXISTS "${DIRECTORY}" AND IS_DIRECTORY "${DIRECTORY}"))
       message(FATAL_ERROR "The supplied directory '${DIRECTORY}' does not exist! Correct the path in CMakeLists.txt!")
   endif()
@@ -97,6 +97,9 @@ ELSE()
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -mtune=native -march=native")
 ENDIF()
 
+
+# Add defines
+add_definitions( -DBUILDING_PANDASKEL )
 
 # Build library
 add_library(LUI MODULE ${SOURCES})

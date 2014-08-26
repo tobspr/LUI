@@ -49,7 +49,7 @@ command += "-srcdir \"" + join(cwd, "Source") + "\" "
 
 command += allSourcesStr
 
-print command
+# print command
 
 system(command)
 
@@ -60,5 +60,5 @@ command += "-module " + moduleName + " "
 command += "-library " + moduleName + " " 
 command += "-oc Source/InterrogateWrapper.cxx " 
 command += "Source/InterrogateModule.in " 
-print command
+# print command
 system(command)
