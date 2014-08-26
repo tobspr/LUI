@@ -82,7 +82,6 @@ PUBLISHED:
 		bool	      _visible;
 };
 
-
 #include "luiSprite.I"
 
 #endif
