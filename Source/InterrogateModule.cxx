@@ -127,7 +127,7 @@ static const char *Dtool_LUISprite_set_pos_3_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline LPoint2f &LUISprite::get_pos(void) const
+ * inline LPoint2f const &LUISprite::get_pos(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_pos_4(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -137,8 +137,8 @@ static PyObject *Dtool_LUISprite_get_pos_4(PyObject *self) {
     return NULL;
   }
 
-  // 1-inline LPoint2f &LUISprite::get_pos(void) const
-  LPoint2f *return_value = &(((const LUISprite*)local_this)->get_pos());
+  // 1-inline LPoint2f const &LUISprite::get_pos(void) const
+  LPoint2f const *return_value = &(((const LUISprite*)local_this)->get_pos());
 #ifndef NDEBUG
   Notify *notify = Notify::ptr();
   if (notify->has_assert_failed()) {
@@ -151,7 +151,7 @@ static PyObject *Dtool_LUISprite_get_pos_4(PyObject *self) {
     Py_INCREF(Py_None);
     return Py_None;
   } else {
-    return DTool_CreatePyInstance((void *)return_value, Dtool_LPoint2f, false, false);
+    return DTool_CreatePyInstance((void *)return_value, Dtool_LPoint2f, false, true);
   }
 
   if (!PyErr_Occurred()) {
@@ -247,7 +247,7 @@ static const char *Dtool_LUISprite_set_size_5_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline LVector2f &LUISprite::get_size(void) const
+ * inline LVector2f const &LUISprite::get_size(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_size_6(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -257,8 +257,8 @@ static PyObject *Dtool_LUISprite_get_size_6(PyObject *self) {
     return NULL;
   }
 
-  // 1-inline LVector2f &LUISprite::get_size(void) const
-  LVector2f *return_value = &(((const LUISprite*)local_this)->get_size());
+  // 1-inline LVector2f const &LUISprite::get_size(void) const
+  LVector2f const *return_value = &(((const LUISprite*)local_this)->get_size());
 #ifndef NDEBUG
   Notify *notify = Notify::ptr();
   if (notify->has_assert_failed()) {
@@ -271,7 +271,7 @@ static PyObject *Dtool_LUISprite_get_size_6(PyObject *self) {
     Py_INCREF(Py_None);
     return Py_None;
   } else {
-    return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, false);
+    return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, true);
   }
 
   if (!PyErr_Occurred()) {
@@ -366,7 +366,7 @@ static const char *Dtool_LUISprite_set_texcoord_start_7_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline LVector2f &LUISprite::get_texcoord_start(void) const
+ * inline LVector2f const &LUISprite::get_texcoord_start(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_texcoord_start_8(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -376,8 +376,8 @@ static PyObject *Dtool_LUISprite_get_texcoord_start_8(PyObject *self) {
     return NULL;
   }
 
-  // 1-inline LVector2f &LUISprite::get_texcoord_start(void) const
-  LVector2f *return_value = &(((const LUISprite*)local_this)->get_texcoord_start());
+  // 1-inline LVector2f const &LUISprite::get_texcoord_start(void) const
+  LVector2f const *return_value = &(((const LUISprite*)local_this)->get_texcoord_start());
 #ifndef NDEBUG
   Notify *notify = Notify::ptr();
   if (notify->has_assert_failed()) {
@@ -390,7 +390,7 @@ static PyObject *Dtool_LUISprite_get_texcoord_start_8(PyObject *self) {
     Py_INCREF(Py_None);
     return Py_None;
   } else {
-    return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, false);
+    return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, true);
   }
 
   if (!PyErr_Occurred()) {
@@ -485,7 +485,7 @@ static const char *Dtool_LUISprite_set_texcoord_end_9_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline LVector2f &LUISprite::get_texcoord_end(void) const
+ * inline LVector2f const &LUISprite::get_texcoord_end(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_texcoord_end_10(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -495,8 +495,8 @@ static PyObject *Dtool_LUISprite_get_texcoord_end_10(PyObject *self) {
     return NULL;
   }
 
-  // 1-inline LVector2f &LUISprite::get_texcoord_end(void) const
-  LVector2f *return_value = &(((const LUISprite*)local_this)->get_texcoord_end());
+  // 1-inline LVector2f const &LUISprite::get_texcoord_end(void) const
+  LVector2f const *return_value = &(((const LUISprite*)local_this)->get_texcoord_end());
 #ifndef NDEBUG
   Notify *notify = Notify::ptr();
   if (notify->has_assert_failed()) {
@@ -509,7 +509,7 @@ static PyObject *Dtool_LUISprite_get_texcoord_end_10(PyObject *self) {
     Py_INCREF(Py_None);
     return Py_None;
   } else {
-    return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, false);
+    return DTool_CreatePyInstance((void *)return_value, Dtool_LVector2f, false, true);
   }
 
   if (!PyErr_Occurred()) {
@@ -604,7 +604,7 @@ static const char *Dtool_LUISprite_set_color_11_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * inline LVecBase4f &LUISprite::get_color(void) const
+ * inline LVecBase4f const &LUISprite::get_color(void) const
  *******************************************************************/
 static PyObject *Dtool_LUISprite_get_color_12(PyObject *self) {
   LUISprite *local_this = NULL;
@@ -614,8 +614,8 @@ static PyObject *Dtool_LUISprite_get_color_12(PyObject *self) {
     return NULL;
   }
 
-  // 1-inline LVecBase4f &LUISprite::get_color(void) const
-  LVecBase4f *return_value = &(((const LUISprite*)local_this)->get_color());
+  // 1-inline LVecBase4f const &LUISprite::get_color(void) const
+  LVecBase4f const *return_value = &(((const LUISprite*)local_this)->get_color());
 #ifndef NDEBUG
   Notify *notify = Notify::ptr();
   if (notify->has_assert_failed()) {
@@ -628,7 +628,7 @@ static PyObject *Dtool_LUISprite_get_color_12(PyObject *self) {
     Py_INCREF(Py_None);
     return Py_None;
   } else {
-    return DTool_CreatePyInstance((void *)return_value, Dtool_LVecBase4f, false, false);
+    return DTool_CreatePyInstance((void *)return_value, Dtool_LVecBase4f, false, true);
   }
 
   if (!PyErr_Occurred()) {
@@ -1200,7 +1200,7 @@ static PyMethodDef python_simple_funcs[] = {
 
 EXPORT_THIS struct LibraryDef LUI_moddef = {python_simple_funcs, BuildInstants};
 static InterrogateModuleDef _in_module_def = {
-  1409082969,  /* file_identifier */
+  1409083262,  /* file_identifier */
   "LUI",  /* library_name */
   "jJ0G",  /* library_hash_name */
   "LUI",  /* module_name */
@@ -1210,7 +1210,7 @@ static InterrogateModuleDef _in_module_def = {
   (void **)0,  /* fptrs */
   0,  /* num_fptrs */
   1,  /* first_index */
-  60  /* next_index */
+  57  /* next_index */
 };
 
 Configure(_in_configure_LUI);
