@@ -17,11 +17,9 @@
 
 #include "pandabase.h"
 #include "pandasymbols.h"
-#include "lpoint2.h"
-#include "lvector2.h"
+#include "luse.h"
 #include "texture.h"
 #include "referenceCount.h"
-
 
 
 class EXPCL_PANDASKEL LUISprite : public ReferenceCount {
@@ -40,8 +38,8 @@ class EXPCL_PANDASKEL LUISprite : public ReferenceCount {
 		INLINE void set_texcoord_end(const LVector2 &texcoord_end);
 		INLINE const LVector2 &get_texcoord_end() const;
 		
-		INLINE void set_color(const LVecBase4f &color);
-		INLINE const LVecBase4f &get_color() const;
+    INLINE void set_color(const LColor &color);
+    INLINE const LColor &get_color() const;
 
 		INLINE void set_texture(Texture* tex);
 		INLINE Texture* get_texture() const;
@@ -68,16 +66,16 @@ class EXPCL_PANDASKEL LUISprite : public ReferenceCount {
 		LVector2    _texcoord_end;
 		
 		// Color scale, including alpha
-		LVecBase4   _color;
+		LColor      _color;
 
 		// The actual sprite texture
 		PT(Texture) _tex;
 
 		// The z-index
-		float	    _z_index;
+		float	      _z_index;
 
 		// Determines wheter the sprite will get rendered
-		bool	    _visible;
+		bool	      _visible;
 };
 
 
