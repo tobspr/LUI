@@ -12,6 +12,9 @@
 //
 ////////////////////////////////////////////////////////////////////
 
+#ifndef LUI_SPRITE_H
+#define LUI_SPRITE_H
+
 #include "pandabase.h"
 #include "pandasymbols.h"
 #include "lpoint2.h"
@@ -79,3 +82,5 @@ class EXPCL_PANDASKEL LUISprite : public ReferenceCount {
 
 
 #include "luiSprite.I"
+
+#endif
