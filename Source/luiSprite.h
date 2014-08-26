@@ -21,24 +21,25 @@
 
 class LUISprite : public ReferenceCount {
 
+  PUBLISHED:
 		// Setter / Getter 
-		INLINE void set_pos(LPoint2 &pos);
-		INLINE LPoint2 &get_pos();
+		INLINE void set_pos(const LPoint2 &pos);
+		INLINE const LPoint2 &get_pos();
 
-		INLINE void set_size(LVector2 &size);
-		INLINE LVector2 &get_size();
+		INLINE void set_size(const LVector2 &size);
+		INLINE const LVector2 &get_size();
 
-		INLINE void set_texcoord_start(LVector2 &texcoord_start);
-		INLINE LVector2 &get_texcoord_start();
+		INLINE void set_texcoord_start(const LVector2 &texcoord_start);
+		INLINE const LVector2 &get_texcoord_start();
 		
-		INLINE void set_texcoord_end(LVector2 &texcoord_end);
-		INLINE LVector2 &get_texcoord_end();
+		INLINE void set_texcoord_end(const LVector2 &texcoord_end);
+		INLINE const LVector2 &get_texcoord_end();
 		
-		INLINE void set_color(LVecBase4f &color);
-		INLINE LVecBase4f &get_color();
+		INLINE void set_color(const LVecBase4f &color);
+		INLINE const LVecBase4f &get_color();
 
-		INLINE void set_texture(PT(Texture) tex);
-		INLINE PT(Texture) get_texture();
+		INLINE void set_texture(Texture* tex);
+		INLINE Texture* get_texture();
 
 		INLINE void set_z_index(float z_index);
 		INLINE float get_z_index();

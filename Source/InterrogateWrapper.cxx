@@ -5,6 +5,7 @@
 #undef _POSIX_C_SOURCE
 #include "py_panda.h"
 
+IMPORT_THIS LibraryDef LUI_moddef;
 
 #if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef py_LUI_module = {
@@ -23,7 +24,7 @@ extern "C" PyObject *PyInit_LUI();
 #endif
 
 PyObject *PyInit_LUI() {
-  LibraryDef *defs[] = {NULL};
+  LibraryDef *defs[] = {&LUI_moddef, NULL};
 
   return Dtool_PyModuleInitHelper(defs, &py_LUI_module);
 }
@@ -37,7 +38,7 @@ extern "C" void initLUI();
 #endif
 
 void initLUI() {
-  LibraryDef *defs[] = {NULL};
+  LibraryDef *defs[] = {&LUI_moddef, NULL};
 
   Dtool_PyModuleInitHelper(defs, "LUI");
 }

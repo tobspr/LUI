@@ -63,6 +63,7 @@ execute_process(
 message("Interrogate output: ${output} ${errors}")
 
 # Collect sources for compiling
+file(GLOB SOURCES_H Source/*.h)
 file(GLOB SOURCES Source/*.cxx)
 
 set(SOURCES ${SOURCES_H} ${SOURCES})
