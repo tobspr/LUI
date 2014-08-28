@@ -7,8 +7,8 @@ INLINE void LUISprite::set_pos(const LPoint2 &pos) {
     update_vertices();
 }
 
-INLINE const LPoint2 &LUISprite::get_pos() const {
-    return NULL; // Todo
+INLINE LPoint2 LUISprite::get_pos() {
+    return LPoint2(_data[0].x, _data[0].y);
 }
 
 INLINE void LUISprite::set_size(const LVector2 &size) {
@@ -41,8 +41,8 @@ INLINE void LUISprite::set_texcoord_start(const LVector2 &texcoord_start) {
   _data[1].v = texcoord_start.get_y();
 }
 
-INLINE const LVector2 &LUISprite::get_texcoord_start() const {
-    return NULL; // Todo
+INLINE LVector2 LUISprite::get_texcoord_start() {
+    return LVector2(_data[0].u, _data[0].v);
 }
 
 INLINE void LUISprite::set_texcoord_end(const LVector2 &texcoord_end) {
@@ -52,8 +52,8 @@ INLINE void LUISprite::set_texcoord_end(const LVector2 &texcoord_end) {
   _data[3].v = texcoord_end.get_y();
 }
 
-INLINE const LVector2 &LUISprite::get_texcoord_end() const {
-    return NULL; // Todo
+INLINE LVector2 LUISprite::get_texcoord_end() {
+    return LVector2(_data[2].u, _data[2].v);
 }
 		
 INLINE void LUISprite::set_color(const LColor &color) {
@@ -65,8 +65,12 @@ INLINE void LUISprite::set_color(const LColor &color) {
     }
 }
 
-INLINE const LColor &LUISprite::get_color() const {
-    return NULL; // Todo
+INLINE LColor LUISprite::get_color() {
+  return LColor(
+    _data[0].col[0], 
+    _data[0].col[1], 
+    _data[0].col[2],
+    _data[0].col[3]);
 }
 
 INLINE void LUISprite::set_texture(Texture* tex) {

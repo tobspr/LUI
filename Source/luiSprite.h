@@ -22,19 +22,19 @@ PUBLISHED:
 
 		// Setter / Getter 
 		INLINE void set_pos(const LPoint2 &pos);
-		INLINE const LPoint2 &get_pos() const;
+		INLINE LPoint2 get_pos();
 
 		INLINE void set_size(const LVector2 &size);
 		INLINE const LVector2 &get_size() const;
 
 		INLINE void set_texcoord_start(const LVector2 &texcoord_start);
-		INLINE const LVector2 &get_texcoord_start() const;
+		INLINE LVector2 get_texcoord_start();
 		
 		INLINE void set_texcoord_end(const LVector2 &texcoord_end);
-		INLINE const LVector2 &get_texcoord_end() const;
+		INLINE LVector2 get_texcoord_end();
 		
     INLINE void set_color(const LColor &color);
-    INLINE const LColor &get_color() const;
+    INLINE LColor get_color();
 
 		INLINE void set_texture(Texture* tex);
 		INLINE Texture* get_texture() const;
