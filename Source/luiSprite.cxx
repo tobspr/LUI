@@ -10,6 +10,19 @@ LUISprite::LUISprite() :
   _visible(true), 
   _pool_slot(-1), 
   _vertex_pool(NULL) {  
+
+    for (int i = 0; i < 4; i++) {
+      _data[i].x = 0.0;
+      _data[i].y = 0.0;
+      _data[i].z = 0.0;
+      _data[i].u = 0.0;
+      _data[i].v = 0.0;
+      _data[i].col[0] = 0;
+      _data[i].col[1] = 0;
+      _data[i].col[2] = 0;
+      _data[i].col[3] = 0;
+    }
+
 }
 
 LUISprite::~LUISprite() {}

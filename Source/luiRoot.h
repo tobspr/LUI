@@ -9,6 +9,9 @@
 #include "pandasymbols.h"
 #include "luse.h"
 #include "referenceCount.h"
+#include "luiVertexPool.h"
+
+#include "config_lui.h"
 
 class LUIRoot {
 
@@ -17,6 +20,11 @@ class LUIRoot {
     LUIRoot();
     ~LUIRoot();
 		
+  public:
+
+
+    LUIVertexPool* get_vpool_by_texture(Texture* tex);
+    
 	private:
 
      // todo
