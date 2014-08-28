@@ -1,16 +1,6 @@
 // Filename: luiSprite.h
 // Created by:  tobspr (26Aug14)
 //
-////////////////////////////////////////////////////////////////////
-//
-// PANDA 3D SOFTWARE
-// Copyright (c) Carnegie Mellon University.  All rights reserved.
-//
-// All use of this software is subject to the terms of the revised BSD
-// license.  You should have received a copy of this license along
-// with this source code in a file named "LICENSE."
-//
-////////////////////////////////////////////////////////////////////
 
 #ifndef LUI_SPRITE_H
 #define LUI_SPRITE_H
@@ -21,6 +11,7 @@
 #include "texture.h"
 #include "referenceCount.h"
 
+class LUIVertexPool;
 
 class EXPCL_PANDASKEL LUISprite : public ReferenceCount {
 
@@ -58,9 +49,30 @@ PUBLISHED:
 		INLINE void hide();
 		INLINE void show();
 		
-	private:
-		// XY Position of the sprite
-		LPoint2     _pos;
+  public:
+
+    INLINE void set_pool_slot(int slot);
+    INLINE int get_pool_slot();
+
+	protected:
+
+    INLINE void update_vertices();
+
+		struct LUIVertexData {
+        float x;
+        float y;
+        float z;
+        float u;
+        float v;
+        unsigned char col[4];
+    };
+
+    // Stores data for 4 corner vertices
+    // 0 - Upper Left
+    // 1 - Upper Right
+    // 2 - Lower Right
+    // 3 - Lower Left
+    LUIVertexData _data[4];
 
 		// XY Size of the sprite, there is no scale
 		LVector2    _size;
@@ -69,17 +81,15 @@ PUBLISHED:
 		LVector2    _texcoord_start;
 		LVector2    _texcoord_end;
 		
-		// Color scale, including alpha
-		LColor      _color;
-
-		// The actual sprite texture
-		PT(Texture) _tex;
-
-		// The z-index
-		float	      _z_index;
-
 		// Determines wheter the sprite will get rendered
 		bool	      _visible;
+
+    // Index in the luiVertexPool
+    int         _pool_slot;
+
+    // Handle to the luiVertexPool
+    LUIVertexPool* _vertex_pool;
+
 };
 
 #include "luiSprite.I"
