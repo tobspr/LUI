@@ -1,8 +1,7 @@
-LUI
-===
 
 ![LUI Logo](https://raw.githubusercontent.com/tobspr/LUI/master/Images/Logo.png)
 
+===
 
 Lightweight user interface for Panda3D
 
