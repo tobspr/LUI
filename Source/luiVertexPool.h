@@ -1,9 +1,9 @@
-// Filename: luiSprite.h
+// Filename: luiVertexPool.h
 // Created by:  tobspr (28Aug14)
 //
 
-#ifndef LUI_SPRITE_H
-#define LUI_SPRITE_H
+#ifndef LUI_VERTEX_POOL_H
+#define LUI_VERTEX_POOL_H
 
 #include "pandabase.h"
 #include "pandasymbols.h"
@@ -21,7 +21,6 @@ public:
 		
 	private:
 
-     vector<LUISprite*> _sprite_slots;
      // todo
 
 
