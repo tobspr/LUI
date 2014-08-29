@@ -4,9 +4,7 @@
 ////////////////////////////////////////////////////////////////////
 
 #include "config_lui.h"
-#include "glgsg.h"
-
 #include "dconfig.h"
 
-//ConfigureDef(config_glgsg);
+//ConfigureDef(config_lui);
 NotifyCategoryDef(lui, ":lui");

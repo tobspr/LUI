@@ -23,6 +23,8 @@ LUISprite::LUISprite() :
       _data[i].col[3] = 0;
     }
 
+    lui_cat.spam() << "Constructed new LUISprite\n";
+
 }
 
 LUISprite::~LUISprite() {}

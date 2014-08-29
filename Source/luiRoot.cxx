@@ -3,6 +3,7 @@
 
 
 LUIRoot::LUIRoot() {
+  printf("hi1!\n");
     lui_cat.error() << "hi!\n";
 }
 LUIRoot::~LUIRoot() {}

@@ -1354,7 +1354,7 @@ static PyMethodDef python_simple_funcs[] = {
 
 EXPORT_THIS struct LibraryDef LUI_moddef = {python_simple_funcs, BuildInstants};
 static InterrogateModuleDef _in_module_def = {
-  1409255364,  /* file_identifier */
+  1409295109,  /* file_identifier */
   "LUI",  /* library_name */
   "jJ0G",  /* library_hash_name */
   "LUI",  /* module_name */

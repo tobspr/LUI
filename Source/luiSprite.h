@@ -10,6 +10,8 @@
 #include "luse.h"
 #include "texture.h"
 #include "referenceCount.h"
+#include "config_lui.h"
+#include <iostream>
 
 class LUIVertexPool;
 

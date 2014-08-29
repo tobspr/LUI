@@ -2,7 +2,6 @@
 
 cmake_minimum_required (VERSION 2.6)
 project (LUI)
-set(CMAKE_BUILD_TYPE "Release")
 
 
 
@@ -64,9 +63,10 @@ message("Interrogate output: ${output} ${errors}")
 
 # Collect sources for compiling
 file(GLOB SOURCES_H Source/*.h)
+file(GLOB SOURCES_I Source/*.I)
 file(GLOB SOURCES Source/*.cxx)
 
-set(SOURCES ${SOURCES_H} ${SOURCES})
+set(SOURCES ${SOURCES_H} ${SOURCES_I} ${SOURCES})
 
 # Link python library
 IF (WIN32)
@@ -91,7 +91,13 @@ IF(MSVC)
 
    # optimize for speed, not size
    ADD_DEFINITIONS("/Ot")
+   ADD_DEFINITIONS("/O2")
+   ADD_DEFINITIONS("/Ob2")
+   ADD_DEFINITIONS("/MP")
+   ADD_DEFINITIONS("/DEBUG")
+   #ADD_DEFINITIONS("/Yc")
    ADD_DEFINITIONS("/fp:fast")
+
 
 ELSE()
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -mtune=native -march=native")
@@ -103,6 +109,13 @@ add_definitions( -DBUILDING_PANDASKEL )
 
 # Build library
 add_library(LUI MODULE ${SOURCES})
+
+
+
+IF(MSVC)
+   SET_TARGET_PROPERTIES(LUI PROPERTIES LINK_FLAGS "/DEBUG /INCREMENTAL /ASSEMBLYDEBUG /MAP /MAPINFO:EXPORTS")
+ENDIF()
+
 
 # Python wants .pyd on windows
 IF (WIN32)
@@ -120,3 +133,5 @@ add_custom_command(
     POST_BUILD
     COMMAND "${PYTHON_BIN}/python" "finalize.py" "$<TARGET_FILE:LUI>"
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
+
+set(CMAKE_BUILD_TYPE "Release")
