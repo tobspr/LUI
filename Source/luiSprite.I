@@ -5,7 +5,7 @@ INLINE void LUISprite::set_pos(const LPoint2 &pos) {
 }
 
 INLINE void LUISprite::set_pos(float x, float y) {
-  if (fmod(x, 1.0) != 0.0 || fmod(y, 1.0) != 0.0) {
+  if (!is_valid_coord(x, y)) {
     lui_cat.warning() << "Non-pixel position detected!\n";
   }
   _data[0].x = x;
@@ -23,7 +23,7 @@ INLINE void LUISprite::set_size(const LVector2 &size) {
 }
 
 INLINE void LUISprite::set_size(float x, float y) {
-    if (fmod(x, 1.0) != 0.0 || fmod(y, 1.0) != 0.0) {
+  if (!is_valid_coord(x, y)) {
     lui_cat.warning() << "Non-pixel size detected!\n";
   }
   _size.set_x(x);
@@ -54,6 +54,9 @@ INLINE void LUISprite::set_texcoord_start(const LVector2 &texcoord_start) {
 }
 
 INLINE void LUISprite::set_texcoord_start(float u, float v) {
+  if (!is_valid_coord(u, v)) {
+    lui_cat.warning() << "Non-pixel texcoord (start) detected!\n";
+  }
   _data[0].u = u;
   _data[3].u = u;
   _data[0].v = v;
@@ -69,6 +72,9 @@ INLINE void LUISprite::set_texcoord_end(const LVector2 &texcoord_end) {
 }
 
 INLINE void LUISprite::set_texcoord_end(float u, float v) {
+  if (!is_valid_coord(u, v)) {
+    lui_cat.warning() << "Non-pixel texcoord (end) detected!\n";
+  }
   _data[2].u = u;
   _data[1].u = u;
   _data[2].v = v;
@@ -141,4 +147,8 @@ INLINE void LUISprite::set_pool_slot(int slot) {
 
 INLINE int LUISprite::get_pool_slot() {
   return _pool_slot;
+}
+
+INLINE bool LUISprite::is_valid_coord(float x, float y) {
+  return fmod(x, 1.0) == 0.0 && fmod(y, 1.0) == 0.0;
 }

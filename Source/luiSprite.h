@@ -70,6 +70,7 @@ PUBLISHED:
 	protected:
 
     INLINE void update_vertices();
+    INLINE bool is_valid_coord(float x, float y);
 
 		struct LUIVertexData {
         float x;

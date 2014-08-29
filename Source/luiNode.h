@@ -8,18 +8,26 @@
 #include "pandabase.h"
 #include "pandasymbols.h"
 #include "referenceCount.h"
+#include "internalName.h"
 #include "luse.h"
 
-class LUINode {
+class LUISprite;
 
-public:
+class EXPCL_PANDASKEL LUINode : public ReferenceCount {
+
+  PUBLISHED:
 
     LUINode();
     ~LUINode();
-		
+  
+    void add_widget(LUINode *node);
+    PT(LUISprite) attach_sprite(string identifier);
+
 	private:
 
-     // todo
+    vector<LUINode> _nodes;
+    vector<LUISprite> _sprites;
+
 };
 
 #endif
