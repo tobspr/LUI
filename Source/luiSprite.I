@@ -1,37 +1,37 @@
 
 
 INLINE void LUISprite::set_pos(const LPoint2 &pos) {
-  
-  // Upper Left
-  _data[0].x = pos.get_x();
-  _data[0].y = pos.get_y();
- 
-  // Works
-  cout << "Set position (cout): " << 5 << "\n";
+  set_pos(pos.get_x(), pos.get_y());
+}
 
-  cout << "Locale: " << cout.getloc().name().c_str() << "\n";
-
-  // Crashes
-  // Access violation reading 0xFFFFFFFFFFFFFFFF
-  lui_cat.error() << "Set position (lui_cat): " << 5 << "\n";
-
+INLINE void LUISprite::set_pos(float x, float y) {
+  if (fmod(x, 1.0) != 0.0 || fmod(y, 1.0) != 0.0) {
+    lui_cat.warning() << "Non-pixel position detected!\n";
+  }
+  _data[0].x = x;
+  _data[0].y = y;
   update_vertices();
 }
+
 
 INLINE LPoint2 LUISprite::get_pos() {
   return LPoint2(_data[0].x, _data[0].y);
 }
 
 INLINE void LUISprite::set_size(const LVector2 &size) {
-  lui_cat.spam() << "Set size: " << size.get_x() << ", " << size.get_y() << "\n";
-  _size = size;
+  set_size(size.get_x(), size.get_y());
+}
+
+INLINE void LUISprite::set_size(float x, float y) {
+    if (fmod(x, 1.0) != 0.0 || fmod(y, 1.0) != 0.0) {
+    lui_cat.warning() << "Non-pixel size detected!\n";
+  }
+  _size.set_x(x);
+  _size.set_y(y);
   update_vertices();
 }
 
 INLINE void LUISprite::update_vertices() {
-  lui_cat.spam() << "Updating vertices, based on _data[0] = " 
-                  << _data[0].x << ", " << _data[0].y << " and size = "
-                  << _size.get_x() << ", " << _size.get_y() << "\n";
   // Upper Right
   _data[1].x = _data[0].x + _size.get_x();
   _data[1].y = _data[0].y;
@@ -50,23 +50,29 @@ INLINE const LVector2 &LUISprite::get_size() const {
 }
 
 INLINE void LUISprite::set_texcoord_start(const LVector2 &texcoord_start) {
-  lui_cat.spam() << "Set texcoord start: " << texcoord_start.get_x() << ", " << texcoord_start.get_y() << "\n";
-  _data[0].u = texcoord_start.get_x();
-  _data[3].u = texcoord_start.get_x();
-  _data[0].v = texcoord_start.get_y();
-  _data[1].v = texcoord_start.get_y();
+  set_texcoord_start(texcoord_start.get_x(), texcoord_start.get_y());
+}
+
+INLINE void LUISprite::set_texcoord_start(float u, float v) {
+  _data[0].u = u;
+  _data[3].u = u;
+  _data[0].v = v;
+  _data[1].v = v;
 }
 
 INLINE LVector2 LUISprite::get_texcoord_start() {
-    return LVector2(_data[0].u, _data[0].v);
+  return LVector2(_data[0].u, _data[0].v);
 }
 
 INLINE void LUISprite::set_texcoord_end(const LVector2 &texcoord_end) {
-  lui_cat.spam() << "Set texcoord end: " << texcoord_end.get_x() << ", " << texcoord_end.get_y() << "\n";
-  _data[2].u = texcoord_end.get_x();
-  _data[1].u = texcoord_end.get_x();
-  _data[2].v = texcoord_end.get_y();
-  _data[3].v = texcoord_end.get_y();
+  set_texcoord_end(texcoord_end.get_x(), texcoord_end.get_y());
+}
+
+INLINE void LUISprite::set_texcoord_end(float u, float v) {
+  _data[2].u = u;
+  _data[1].u = u;
+  _data[2].v = v;
+  _data[3].v = v;
 }
 
 INLINE LVector2 LUISprite::get_texcoord_end() {
@@ -74,22 +80,24 @@ INLINE LVector2 LUISprite::get_texcoord_end() {
 }
 		
 INLINE void LUISprite::set_color(const LColor &color) {
-  lui_cat.spam() << "Set color: (" << color.get_x() << ", " << color.get_y() << ", "
-                 << color.get_z() << ", " << color.get_w() << "\n";
+  set_color(color.get_x(), color.get_y(), color.get_z(), color.get_w());
+}
+
+INLINE void LUISprite::set_color(float r, float g, float b, float a) {
   for (int i = 0; i < 4; i++) {
-    _data[i].col[0] = color.get_x();
-    _data[i].col[1] = color.get_y();
-    _data[i].col[2] = color.get_z();
-    _data[i].col[3] = color.get_w();
+    _data[i].color[0] = r;
+    _data[i].color[1] = g;
+    _data[i].color[2] = b;
+    _data[i].color[3] = a;
   }
 }
 
 INLINE LColor LUISprite::get_color() {
   return LColor(
-    _data[0].col[0], 
-    _data[0].col[1], 
-    _data[0].col[2],
-    _data[0].col[3]);
+    _data[0].color[0], 
+    _data[0].color[1], 
+    _data[0].color[2],
+    _data[0].color[3]);
 }
 
 INLINE void LUISprite::set_texture(Texture* tex) {
@@ -102,7 +110,6 @@ INLINE Texture* LUISprite::get_texture() const {
 }
 
 INLINE void LUISprite::set_z_index(float z_index) {
-  lui_cat.spam() << "Set z-index: " << z_index << "\n";
   for (int i = 0; i < 4; i++) {
     _data[i].z = z_index;
   }
@@ -113,7 +120,6 @@ INLINE float LUISprite::get_z_index() {
 }
 		
 INLINE void LUISprite::set_visible(bool visible) {
-  lui_cat.spam() << "Set visible: " << (visible?"true":"false") << "\n";
   _visible = visible;
 }
 
@@ -130,7 +136,6 @@ INLINE void LUISprite::show() {
 }
 
 INLINE void LUISprite::set_pool_slot(int slot) {
-  lui_cat.spam() << "Set pool slot: " << slot << "\n";
   _pool_slot = slot;
 }
 

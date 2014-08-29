@@ -66,61 +66,107 @@ IMPORT_THIS struct Dtool_PyTypedObject Dtool_Texture;
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_pos(LPoint2f const &pos)
+ * inline void LUISprite::set_pos(float x, float y)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_pos_4(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_pos_4(PyObject *self, PyObject *args, PyObject *kwds) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
     PyErr_SetString(PyExc_AttributeError, "C++ object is not yet constructed, or already destructed.");
     return NULL;
   }
-  {
-    PyObject *coerced = NULL;
-    PyObject **coerced_ptr = NULL;
-    bool report_errors = false;
-    while (true) {
-      if (!((Dtool_PyInstDef *)self)->_is_const) {
-        // 1-inline void LUISprite::set_pos(LPoint2f const &pos)
-        LPoint2f *arg_this = (LPoint2f *)DTOOL_Call_GetPointerThisClass(arg, &Dtool_LPoint2f, 1, "LUISprite.set_pos", 1, coerced_ptr, report_errors);
+  int parameter_count = PyTuple_Size(args);
+  if (kwds != NULL && PyDict_Check(kwds)) {
+    parameter_count += PyDict_Size(kwds);
+  }
+  switch (parameter_count) {
+  case 1: {
+    {
+      PyObject *coerced = NULL;
+      PyObject **coerced_ptr = NULL;
+      bool report_errors = false;
+      while (true) {
+        if (!((Dtool_PyInstDef *)self)->_is_const) {
+          // 1-inline void LUISprite::set_pos(LPoint2f const &pos)
+          PyObject *param1;
+          static char *keyword_list[] = {(char *)"pos", NULL};
+          if (PyArg_ParseTupleAndKeywords(args, kwds, "O:set_pos", keyword_list, &param1)) {
+            LPoint2f *param1_this = (LPoint2f *)DTOOL_Call_GetPointerThisClass(param1, &Dtool_LPoint2f, 1, "LUISprite.set_pos", 1, coerced_ptr, report_errors);
 
-        if (arg_this != NULL) {
-          (local_this)->set_pos(*arg_this);
-          Py_XDECREF(coerced);
+            if (param1_this != NULL) {
+              (local_this)->set_pos(*param1_this);
+              Py_XDECREF(coerced);
 #ifndef NDEBUG
-          Notify *notify = Notify::ptr();
-          if (notify->has_assert_failed()) {
-            PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-            notify->clear_assert_failed();
-            return (PyObject *)NULL;
-          }
+              Notify *notify = Notify::ptr();
+              if (notify->has_assert_failed()) {
+                PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+                notify->clear_assert_failed();
+                return (PyObject *)NULL;
+              }
 #endif
-          Py_INCREF(Py_None);
-          return Py_None;
+              Py_INCREF(Py_None);
+              return Py_None;
+            }
+          }
+        } else {
+          PyErr_SetString(PyExc_TypeError,
+                          "Cannot call LUISprite.set_pos() on a const object.");
+          return (PyObject *) NULL;
         }
-      } else {
-        PyErr_SetString(PyExc_TypeError,
-                        "Cannot call LUISprite.set_pos() on a const object.");
-        return (PyObject *) NULL;
-      }
 
-      if (coerced_ptr == NULL && !report_errors) {
-        coerced_ptr = &coerced;
-        continue;
+        if (coerced_ptr == NULL && !report_errors) {
+          coerced_ptr = &coerced;
+          continue;
+        }
+        if (!report_errors) {
+          report_errors = true;
+          continue;
+        }
+        break;
       }
-      if (!report_errors) {
-        report_errors = true;
-        continue;
-      }
-      break;
+      Py_XDECREF(coerced);
     }
-    Py_XDECREF(coerced);
+    break;
   }
-  if (!PyErr_Occurred()) {
+  case 2: {
+
+    if (!((Dtool_PyInstDef *)self)->_is_const) {
+      // 1-inline void LUISprite::set_pos(float x, float y)
+      float param1;
+      float param2;
+      static char *keyword_list[] = {(char *)"x", (char *)"y", NULL};
+      if (PyArg_ParseTupleAndKeywords(args, kwds, "ff:set_pos", keyword_list, &param1, &param2)) {
+        (local_this)->set_pos((float)param1, (float)param2);
+#ifndef NDEBUG
+        Notify *notify = Notify::ptr();
+        if (notify->has_assert_failed()) {
+          PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+          notify->clear_assert_failed();
+          return (PyObject *)NULL;
+        }
+#endif
+        Py_INCREF(Py_None);
+        return Py_None;
+      }
+    } else {
+      PyErr_SetString(PyExc_TypeError,
+                      "Cannot call LUISprite.set_pos() on a const object.");
+      return (PyObject *) NULL;
+    }
+
+    break;
+  }
+  default:
+    PyErr_Format(PyExc_TypeError, "set_pos() takes 2 or 3 arguments (%d given)", parameter_count + 1);
+    return (PyObject *) NULL;
+  }
+  if (!PyErr_Occurred()) { // Let error pass on
     PyErr_SetString(PyExc_TypeError,
-      "Arguments must match:\n"
+      "Arguments must match one of:\n"
       "set_pos(LUISprite this, const LPoint2f pos)\n"
+      "set_pos(LUISprite this, float x, float y)\n"
       "");
-  }
+ }
   return (PyObject *) NULL;
 }
 
@@ -128,6 +174,9 @@ static PyObject *Dtool_LUISprite_set_pos_4(PyObject *self, PyObject *arg) {
 static const char *Dtool_LUISprite_set_pos_4_comment =
   "C++ Interface:\n"
   "set_pos(LUISprite this, const LPoint2f pos)\n"
+  "set_pos(LUISprite this, float x, float y)\n"
+  "\n"
+  "// Setter / Getter\n"
   "\n"
   "// Setter / Getter\n"
   "";
@@ -185,7 +234,6 @@ static const char *Dtool_LUISprite_get_pos_5_comment =
   "C++ Interface:\n"
   "get_pos(LUISprite this)\n"
   "\n"
-  "// Setter / Getter\n"
   "";
 #else
 static const char *Dtool_LUISprite_get_pos_5_comment = NULL;
@@ -194,61 +242,107 @@ static const char *Dtool_LUISprite_get_pos_5_comment = NULL;
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_size(LVector2f const &size)
+ * inline void LUISprite::set_size(float x, float y)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_size_6(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_size_6(PyObject *self, PyObject *args, PyObject *kwds) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
     PyErr_SetString(PyExc_AttributeError, "C++ object is not yet constructed, or already destructed.");
     return NULL;
   }
-  {
-    PyObject *coerced = NULL;
-    PyObject **coerced_ptr = NULL;
-    bool report_errors = false;
-    while (true) {
-      if (!((Dtool_PyInstDef *)self)->_is_const) {
-        // 1-inline void LUISprite::set_size(LVector2f const &size)
-        LVector2f *arg_this = (LVector2f *)DTOOL_Call_GetPointerThisClass(arg, &Dtool_LVector2f, 1, "LUISprite.set_size", 1, coerced_ptr, report_errors);
+  int parameter_count = PyTuple_Size(args);
+  if (kwds != NULL && PyDict_Check(kwds)) {
+    parameter_count += PyDict_Size(kwds);
+  }
+  switch (parameter_count) {
+  case 1: {
+    {
+      PyObject *coerced = NULL;
+      PyObject **coerced_ptr = NULL;
+      bool report_errors = false;
+      while (true) {
+        if (!((Dtool_PyInstDef *)self)->_is_const) {
+          // 1-inline void LUISprite::set_size(LVector2f const &size)
+          PyObject *param1;
+          static char *keyword_list[] = {(char *)"size", NULL};
+          if (PyArg_ParseTupleAndKeywords(args, kwds, "O:set_size", keyword_list, &param1)) {
+            LVector2f *param1_this = (LVector2f *)DTOOL_Call_GetPointerThisClass(param1, &Dtool_LVector2f, 1, "LUISprite.set_size", 1, coerced_ptr, report_errors);
 
-        if (arg_this != NULL) {
-          (local_this)->set_size(*arg_this);
-          Py_XDECREF(coerced);
+            if (param1_this != NULL) {
+              (local_this)->set_size(*param1_this);
+              Py_XDECREF(coerced);
 #ifndef NDEBUG
-          Notify *notify = Notify::ptr();
-          if (notify->has_assert_failed()) {
-            PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-            notify->clear_assert_failed();
-            return (PyObject *)NULL;
-          }
+              Notify *notify = Notify::ptr();
+              if (notify->has_assert_failed()) {
+                PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+                notify->clear_assert_failed();
+                return (PyObject *)NULL;
+              }
 #endif
-          Py_INCREF(Py_None);
-          return Py_None;
+              Py_INCREF(Py_None);
+              return Py_None;
+            }
+          }
+        } else {
+          PyErr_SetString(PyExc_TypeError,
+                          "Cannot call LUISprite.set_size() on a const object.");
+          return (PyObject *) NULL;
         }
-      } else {
-        PyErr_SetString(PyExc_TypeError,
-                        "Cannot call LUISprite.set_size() on a const object.");
-        return (PyObject *) NULL;
-      }
 
-      if (coerced_ptr == NULL && !report_errors) {
-        coerced_ptr = &coerced;
-        continue;
+        if (coerced_ptr == NULL && !report_errors) {
+          coerced_ptr = &coerced;
+          continue;
+        }
+        if (!report_errors) {
+          report_errors = true;
+          continue;
+        }
+        break;
       }
-      if (!report_errors) {
-        report_errors = true;
-        continue;
-      }
-      break;
+      Py_XDECREF(coerced);
     }
-    Py_XDECREF(coerced);
+    break;
   }
-  if (!PyErr_Occurred()) {
+  case 2: {
+
+    if (!((Dtool_PyInstDef *)self)->_is_const) {
+      // 1-inline void LUISprite::set_size(float x, float y)
+      float param1;
+      float param2;
+      static char *keyword_list[] = {(char *)"x", (char *)"y", NULL};
+      if (PyArg_ParseTupleAndKeywords(args, kwds, "ff:set_size", keyword_list, &param1, &param2)) {
+        (local_this)->set_size((float)param1, (float)param2);
+#ifndef NDEBUG
+        Notify *notify = Notify::ptr();
+        if (notify->has_assert_failed()) {
+          PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+          notify->clear_assert_failed();
+          return (PyObject *)NULL;
+        }
+#endif
+        Py_INCREF(Py_None);
+        return Py_None;
+      }
+    } else {
+      PyErr_SetString(PyExc_TypeError,
+                      "Cannot call LUISprite.set_size() on a const object.");
+      return (PyObject *) NULL;
+    }
+
+    break;
+  }
+  default:
+    PyErr_Format(PyExc_TypeError, "set_size() takes 2 or 3 arguments (%d given)", parameter_count + 1);
+    return (PyObject *) NULL;
+  }
+  if (!PyErr_Occurred()) { // Let error pass on
     PyErr_SetString(PyExc_TypeError,
-      "Arguments must match:\n"
+      "Arguments must match one of:\n"
       "set_size(LUISprite this, const LVector2f size)\n"
+      "set_size(LUISprite this, float x, float y)\n"
       "");
-  }
+ }
   return (PyObject *) NULL;
 }
 
@@ -256,6 +350,7 @@ static PyObject *Dtool_LUISprite_set_size_6(PyObject *self, PyObject *arg) {
 static const char *Dtool_LUISprite_set_size_6_comment =
   "C++ Interface:\n"
   "set_size(LUISprite this, const LVector2f size)\n"
+  "set_size(LUISprite this, float x, float y)\n"
   "\n"
   "";
 #else
@@ -313,61 +408,107 @@ static const char *Dtool_LUISprite_get_size_7_comment = NULL;
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_texcoord_start(LVector2f const &texcoord_start)
+ * inline void LUISprite::set_texcoord_start(float u, float v)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_texcoord_start_8(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_texcoord_start_8(PyObject *self, PyObject *args, PyObject *kwds) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
     PyErr_SetString(PyExc_AttributeError, "C++ object is not yet constructed, or already destructed.");
     return NULL;
   }
-  {
-    PyObject *coerced = NULL;
-    PyObject **coerced_ptr = NULL;
-    bool report_errors = false;
-    while (true) {
-      if (!((Dtool_PyInstDef *)self)->_is_const) {
-        // 1-inline void LUISprite::set_texcoord_start(LVector2f const &texcoord_start)
-        LVector2f *arg_this = (LVector2f *)DTOOL_Call_GetPointerThisClass(arg, &Dtool_LVector2f, 1, "LUISprite.set_texcoord_start", 1, coerced_ptr, report_errors);
+  int parameter_count = PyTuple_Size(args);
+  if (kwds != NULL && PyDict_Check(kwds)) {
+    parameter_count += PyDict_Size(kwds);
+  }
+  switch (parameter_count) {
+  case 1: {
+    {
+      PyObject *coerced = NULL;
+      PyObject **coerced_ptr = NULL;
+      bool report_errors = false;
+      while (true) {
+        if (!((Dtool_PyInstDef *)self)->_is_const) {
+          // 1-inline void LUISprite::set_texcoord_start(LVector2f const &texcoord_start)
+          PyObject *param1;
+          static char *keyword_list[] = {(char *)"texcoord_start", NULL};
+          if (PyArg_ParseTupleAndKeywords(args, kwds, "O:set_texcoord_start", keyword_list, &param1)) {
+            LVector2f *param1_this = (LVector2f *)DTOOL_Call_GetPointerThisClass(param1, &Dtool_LVector2f, 1, "LUISprite.set_texcoord_start", 1, coerced_ptr, report_errors);
 
-        if (arg_this != NULL) {
-          (local_this)->set_texcoord_start(*arg_this);
-          Py_XDECREF(coerced);
+            if (param1_this != NULL) {
+              (local_this)->set_texcoord_start(*param1_this);
+              Py_XDECREF(coerced);
 #ifndef NDEBUG
-          Notify *notify = Notify::ptr();
-          if (notify->has_assert_failed()) {
-            PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-            notify->clear_assert_failed();
-            return (PyObject *)NULL;
-          }
+              Notify *notify = Notify::ptr();
+              if (notify->has_assert_failed()) {
+                PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+                notify->clear_assert_failed();
+                return (PyObject *)NULL;
+              }
 #endif
-          Py_INCREF(Py_None);
-          return Py_None;
+              Py_INCREF(Py_None);
+              return Py_None;
+            }
+          }
+        } else {
+          PyErr_SetString(PyExc_TypeError,
+                          "Cannot call LUISprite.set_texcoord_start() on a const object.");
+          return (PyObject *) NULL;
         }
-      } else {
-        PyErr_SetString(PyExc_TypeError,
-                        "Cannot call LUISprite.set_texcoord_start() on a const object.");
-        return (PyObject *) NULL;
-      }
 
-      if (coerced_ptr == NULL && !report_errors) {
-        coerced_ptr = &coerced;
-        continue;
+        if (coerced_ptr == NULL && !report_errors) {
+          coerced_ptr = &coerced;
+          continue;
+        }
+        if (!report_errors) {
+          report_errors = true;
+          continue;
+        }
+        break;
       }
-      if (!report_errors) {
-        report_errors = true;
-        continue;
-      }
-      break;
+      Py_XDECREF(coerced);
     }
-    Py_XDECREF(coerced);
+    break;
   }
-  if (!PyErr_Occurred()) {
+  case 2: {
+
+    if (!((Dtool_PyInstDef *)self)->_is_const) {
+      // 1-inline void LUISprite::set_texcoord_start(float u, float v)
+      float param1;
+      float param2;
+      static char *keyword_list[] = {(char *)"u", (char *)"v", NULL};
+      if (PyArg_ParseTupleAndKeywords(args, kwds, "ff:set_texcoord_start", keyword_list, &param1, &param2)) {
+        (local_this)->set_texcoord_start((float)param1, (float)param2);
+#ifndef NDEBUG
+        Notify *notify = Notify::ptr();
+        if (notify->has_assert_failed()) {
+          PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+          notify->clear_assert_failed();
+          return (PyObject *)NULL;
+        }
+#endif
+        Py_INCREF(Py_None);
+        return Py_None;
+      }
+    } else {
+      PyErr_SetString(PyExc_TypeError,
+                      "Cannot call LUISprite.set_texcoord_start() on a const object.");
+      return (PyObject *) NULL;
+    }
+
+    break;
+  }
+  default:
+    PyErr_Format(PyExc_TypeError, "set_texcoord_start() takes 2 or 3 arguments (%d given)", parameter_count + 1);
+    return (PyObject *) NULL;
+  }
+  if (!PyErr_Occurred()) { // Let error pass on
     PyErr_SetString(PyExc_TypeError,
-      "Arguments must match:\n"
+      "Arguments must match one of:\n"
       "set_texcoord_start(LUISprite this, const LVector2f texcoord_start)\n"
+      "set_texcoord_start(LUISprite this, float u, float v)\n"
       "");
-  }
+ }
   return (PyObject *) NULL;
 }
 
@@ -375,6 +516,7 @@ static PyObject *Dtool_LUISprite_set_texcoord_start_8(PyObject *self, PyObject *
 static const char *Dtool_LUISprite_set_texcoord_start_8_comment =
   "C++ Interface:\n"
   "set_texcoord_start(LUISprite this, const LVector2f texcoord_start)\n"
+  "set_texcoord_start(LUISprite this, float u, float v)\n"
   "\n"
   "";
 #else
@@ -439,61 +581,107 @@ static const char *Dtool_LUISprite_get_texcoord_start_9_comment = NULL;
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_texcoord_end(LVector2f const &texcoord_end)
+ * inline void LUISprite::set_texcoord_end(float u, float v)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_texcoord_end_10(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_texcoord_end_10(PyObject *self, PyObject *args, PyObject *kwds) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
     PyErr_SetString(PyExc_AttributeError, "C++ object is not yet constructed, or already destructed.");
     return NULL;
   }
-  {
-    PyObject *coerced = NULL;
-    PyObject **coerced_ptr = NULL;
-    bool report_errors = false;
-    while (true) {
-      if (!((Dtool_PyInstDef *)self)->_is_const) {
-        // 1-inline void LUISprite::set_texcoord_end(LVector2f const &texcoord_end)
-        LVector2f *arg_this = (LVector2f *)DTOOL_Call_GetPointerThisClass(arg, &Dtool_LVector2f, 1, "LUISprite.set_texcoord_end", 1, coerced_ptr, report_errors);
+  int parameter_count = PyTuple_Size(args);
+  if (kwds != NULL && PyDict_Check(kwds)) {
+    parameter_count += PyDict_Size(kwds);
+  }
+  switch (parameter_count) {
+  case 1: {
+    {
+      PyObject *coerced = NULL;
+      PyObject **coerced_ptr = NULL;
+      bool report_errors = false;
+      while (true) {
+        if (!((Dtool_PyInstDef *)self)->_is_const) {
+          // 1-inline void LUISprite::set_texcoord_end(LVector2f const &texcoord_end)
+          PyObject *param1;
+          static char *keyword_list[] = {(char *)"texcoord_end", NULL};
+          if (PyArg_ParseTupleAndKeywords(args, kwds, "O:set_texcoord_end", keyword_list, &param1)) {
+            LVector2f *param1_this = (LVector2f *)DTOOL_Call_GetPointerThisClass(param1, &Dtool_LVector2f, 1, "LUISprite.set_texcoord_end", 1, coerced_ptr, report_errors);
 
-        if (arg_this != NULL) {
-          (local_this)->set_texcoord_end(*arg_this);
-          Py_XDECREF(coerced);
+            if (param1_this != NULL) {
+              (local_this)->set_texcoord_end(*param1_this);
+              Py_XDECREF(coerced);
 #ifndef NDEBUG
-          Notify *notify = Notify::ptr();
-          if (notify->has_assert_failed()) {
-            PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-            notify->clear_assert_failed();
-            return (PyObject *)NULL;
-          }
+              Notify *notify = Notify::ptr();
+              if (notify->has_assert_failed()) {
+                PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+                notify->clear_assert_failed();
+                return (PyObject *)NULL;
+              }
 #endif
-          Py_INCREF(Py_None);
-          return Py_None;
+              Py_INCREF(Py_None);
+              return Py_None;
+            }
+          }
+        } else {
+          PyErr_SetString(PyExc_TypeError,
+                          "Cannot call LUISprite.set_texcoord_end() on a const object.");
+          return (PyObject *) NULL;
         }
-      } else {
-        PyErr_SetString(PyExc_TypeError,
-                        "Cannot call LUISprite.set_texcoord_end() on a const object.");
-        return (PyObject *) NULL;
-      }
 
-      if (coerced_ptr == NULL && !report_errors) {
-        coerced_ptr = &coerced;
-        continue;
+        if (coerced_ptr == NULL && !report_errors) {
+          coerced_ptr = &coerced;
+          continue;
+        }
+        if (!report_errors) {
+          report_errors = true;
+          continue;
+        }
+        break;
       }
-      if (!report_errors) {
-        report_errors = true;
-        continue;
-      }
-      break;
+      Py_XDECREF(coerced);
     }
-    Py_XDECREF(coerced);
+    break;
   }
-  if (!PyErr_Occurred()) {
+  case 2: {
+
+    if (!((Dtool_PyInstDef *)self)->_is_const) {
+      // 1-inline void LUISprite::set_texcoord_end(float u, float v)
+      float param1;
+      float param2;
+      static char *keyword_list[] = {(char *)"u", (char *)"v", NULL};
+      if (PyArg_ParseTupleAndKeywords(args, kwds, "ff:set_texcoord_end", keyword_list, &param1, &param2)) {
+        (local_this)->set_texcoord_end((float)param1, (float)param2);
+#ifndef NDEBUG
+        Notify *notify = Notify::ptr();
+        if (notify->has_assert_failed()) {
+          PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+          notify->clear_assert_failed();
+          return (PyObject *)NULL;
+        }
+#endif
+        Py_INCREF(Py_None);
+        return Py_None;
+      }
+    } else {
+      PyErr_SetString(PyExc_TypeError,
+                      "Cannot call LUISprite.set_texcoord_end() on a const object.");
+      return (PyObject *) NULL;
+    }
+
+    break;
+  }
+  default:
+    PyErr_Format(PyExc_TypeError, "set_texcoord_end() takes 2 or 3 arguments (%d given)", parameter_count + 1);
+    return (PyObject *) NULL;
+  }
+  if (!PyErr_Occurred()) { // Let error pass on
     PyErr_SetString(PyExc_TypeError,
-      "Arguments must match:\n"
+      "Arguments must match one of:\n"
       "set_texcoord_end(LUISprite this, const LVector2f texcoord_end)\n"
+      "set_texcoord_end(LUISprite this, float u, float v)\n"
       "");
-  }
+ }
   return (PyObject *) NULL;
 }
 
@@ -501,6 +689,7 @@ static PyObject *Dtool_LUISprite_set_texcoord_end_10(PyObject *self, PyObject *a
 static const char *Dtool_LUISprite_set_texcoord_end_10_comment =
   "C++ Interface:\n"
   "set_texcoord_end(LUISprite this, const LVector2f texcoord_end)\n"
+  "set_texcoord_end(LUISprite this, float u, float v)\n"
   "\n"
   "";
 #else
@@ -565,61 +754,109 @@ static const char *Dtool_LUISprite_get_texcoord_end_11_comment = NULL;
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_color(LVecBase4f const &color)
+ * inline void LUISprite::set_color(float r, float g, float b, float a)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_color_12(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_color_12(PyObject *self, PyObject *args, PyObject *kwds) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
     PyErr_SetString(PyExc_AttributeError, "C++ object is not yet constructed, or already destructed.");
     return NULL;
   }
-  {
-    PyObject *coerced = NULL;
-    PyObject **coerced_ptr = NULL;
-    bool report_errors = false;
-    while (true) {
-      if (!((Dtool_PyInstDef *)self)->_is_const) {
-        // 1-inline void LUISprite::set_color(LVecBase4f const &color)
-        LVecBase4f *arg_this = (LVecBase4f *)DTOOL_Call_GetPointerThisClass(arg, &Dtool_LVecBase4f, 1, "LUISprite.set_color", 1, coerced_ptr, report_errors);
+  int parameter_count = PyTuple_Size(args);
+  if (kwds != NULL && PyDict_Check(kwds)) {
+    parameter_count += PyDict_Size(kwds);
+  }
+  switch (parameter_count) {
+  case 1: {
+    {
+      PyObject *coerced = NULL;
+      PyObject **coerced_ptr = NULL;
+      bool report_errors = false;
+      while (true) {
+        if (!((Dtool_PyInstDef *)self)->_is_const) {
+          // 1-inline void LUISprite::set_color(LVecBase4f const &color)
+          PyObject *param1;
+          static char *keyword_list[] = {(char *)"color", NULL};
+          if (PyArg_ParseTupleAndKeywords(args, kwds, "O:set_color", keyword_list, &param1)) {
+            LVecBase4f *param1_this = (LVecBase4f *)DTOOL_Call_GetPointerThisClass(param1, &Dtool_LVecBase4f, 1, "LUISprite.set_color", 1, coerced_ptr, report_errors);
 
-        if (arg_this != NULL) {
-          (local_this)->set_color(*arg_this);
-          Py_XDECREF(coerced);
+            if (param1_this != NULL) {
+              (local_this)->set_color(*param1_this);
+              Py_XDECREF(coerced);
 #ifndef NDEBUG
-          Notify *notify = Notify::ptr();
-          if (notify->has_assert_failed()) {
-            PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
-            notify->clear_assert_failed();
-            return (PyObject *)NULL;
-          }
+              Notify *notify = Notify::ptr();
+              if (notify->has_assert_failed()) {
+                PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+                notify->clear_assert_failed();
+                return (PyObject *)NULL;
+              }
 #endif
-          Py_INCREF(Py_None);
-          return Py_None;
+              Py_INCREF(Py_None);
+              return Py_None;
+            }
+          }
+        } else {
+          PyErr_SetString(PyExc_TypeError,
+                          "Cannot call LUISprite.set_color() on a const object.");
+          return (PyObject *) NULL;
         }
-      } else {
-        PyErr_SetString(PyExc_TypeError,
-                        "Cannot call LUISprite.set_color() on a const object.");
-        return (PyObject *) NULL;
-      }
 
-      if (coerced_ptr == NULL && !report_errors) {
-        coerced_ptr = &coerced;
-        continue;
+        if (coerced_ptr == NULL && !report_errors) {
+          coerced_ptr = &coerced;
+          continue;
+        }
+        if (!report_errors) {
+          report_errors = true;
+          continue;
+        }
+        break;
       }
-      if (!report_errors) {
-        report_errors = true;
-        continue;
-      }
-      break;
+      Py_XDECREF(coerced);
     }
-    Py_XDECREF(coerced);
+    break;
   }
-  if (!PyErr_Occurred()) {
+  case 4: {
+
+    if (!((Dtool_PyInstDef *)self)->_is_const) {
+      // 1-inline void LUISprite::set_color(float r, float g, float b, float a)
+      float param1;
+      float param2;
+      float param3;
+      float param4;
+      static char *keyword_list[] = {(char *)"r", (char *)"g", (char *)"b", (char *)"a", NULL};
+      if (PyArg_ParseTupleAndKeywords(args, kwds, "ffff:set_color", keyword_list, &param1, &param2, &param3, &param4)) {
+        (local_this)->set_color((float)param1, (float)param2, (float)param3, (float)param4);
+#ifndef NDEBUG
+        Notify *notify = Notify::ptr();
+        if (notify->has_assert_failed()) {
+          PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+          notify->clear_assert_failed();
+          return (PyObject *)NULL;
+        }
+#endif
+        Py_INCREF(Py_None);
+        return Py_None;
+      }
+    } else {
+      PyErr_SetString(PyExc_TypeError,
+                      "Cannot call LUISprite.set_color() on a const object.");
+      return (PyObject *) NULL;
+    }
+
+    break;
+  }
+  default:
+    PyErr_Format(PyExc_TypeError, "set_color() takes 2 or 5 arguments (%d given)", parameter_count + 1);
+    return (PyObject *) NULL;
+  }
+  if (!PyErr_Occurred()) { // Let error pass on
     PyErr_SetString(PyExc_TypeError,
-      "Arguments must match:\n"
+      "Arguments must match one of:\n"
       "set_color(LUISprite this, const LVecBase4f color)\n"
+      "set_color(LUISprite this, float r, float g, float b, float a)\n"
       "");
-  }
+ }
   return (PyObject *) NULL;
 }
 
@@ -627,6 +864,7 @@ static PyObject *Dtool_LUISprite_set_color_12(PyObject *self, PyObject *arg) {
 static const char *Dtool_LUISprite_set_color_12_comment =
   "C++ Interface:\n"
   "set_color(LUISprite this, const LVecBase4f color)\n"
+  "set_color(LUISprite this, float r, float g, float b, float a)\n"
   "\n"
   "";
 #else
@@ -1241,24 +1479,24 @@ inline void *Dtool_DowncastInterface_LUIRoot(void *from_this, Dtool_PyTypedObjec
 //*** Py Init Code For .. LUISprite | LUISprite
 //********************************************************************
 PyMethodDef Dtool_Methods_LUISprite[] = {
-  { "set_pos", (PyCFunction) &Dtool_LUISprite_set_pos_4, METH_O, (char *) Dtool_LUISprite_set_pos_4_comment},
-  { "setPos", (PyCFunction) &Dtool_LUISprite_set_pos_4, METH_O, (char *) Dtool_LUISprite_set_pos_4_comment},
+  { "set_pos", (PyCFunction) &Dtool_LUISprite_set_pos_4, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_pos_4_comment},
+  { "setPos", (PyCFunction) &Dtool_LUISprite_set_pos_4, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_pos_4_comment},
   { "get_pos", (PyCFunction) &Dtool_LUISprite_get_pos_5, METH_NOARGS, (char *) Dtool_LUISprite_get_pos_5_comment},
   { "getPos", (PyCFunction) &Dtool_LUISprite_get_pos_5, METH_NOARGS, (char *) Dtool_LUISprite_get_pos_5_comment},
-  { "set_size", (PyCFunction) &Dtool_LUISprite_set_size_6, METH_O, (char *) Dtool_LUISprite_set_size_6_comment},
-  { "setSize", (PyCFunction) &Dtool_LUISprite_set_size_6, METH_O, (char *) Dtool_LUISprite_set_size_6_comment},
+  { "set_size", (PyCFunction) &Dtool_LUISprite_set_size_6, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_size_6_comment},
+  { "setSize", (PyCFunction) &Dtool_LUISprite_set_size_6, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_size_6_comment},
   { "get_size", (PyCFunction) &Dtool_LUISprite_get_size_7, METH_NOARGS, (char *) Dtool_LUISprite_get_size_7_comment},
   { "getSize", (PyCFunction) &Dtool_LUISprite_get_size_7, METH_NOARGS, (char *) Dtool_LUISprite_get_size_7_comment},
-  { "set_texcoord_start", (PyCFunction) &Dtool_LUISprite_set_texcoord_start_8, METH_O, (char *) Dtool_LUISprite_set_texcoord_start_8_comment},
-  { "setTexcoordStart", (PyCFunction) &Dtool_LUISprite_set_texcoord_start_8, METH_O, (char *) Dtool_LUISprite_set_texcoord_start_8_comment},
+  { "set_texcoord_start", (PyCFunction) &Dtool_LUISprite_set_texcoord_start_8, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_start_8_comment},
+  { "setTexcoordStart", (PyCFunction) &Dtool_LUISprite_set_texcoord_start_8, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_start_8_comment},
   { "get_texcoord_start", (PyCFunction) &Dtool_LUISprite_get_texcoord_start_9, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_start_9_comment},
   { "getTexcoordStart", (PyCFunction) &Dtool_LUISprite_get_texcoord_start_9, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_start_9_comment},
-  { "set_texcoord_end", (PyCFunction) &Dtool_LUISprite_set_texcoord_end_10, METH_O, (char *) Dtool_LUISprite_set_texcoord_end_10_comment},
-  { "setTexcoordEnd", (PyCFunction) &Dtool_LUISprite_set_texcoord_end_10, METH_O, (char *) Dtool_LUISprite_set_texcoord_end_10_comment},
+  { "set_texcoord_end", (PyCFunction) &Dtool_LUISprite_set_texcoord_end_10, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_end_10_comment},
+  { "setTexcoordEnd", (PyCFunction) &Dtool_LUISprite_set_texcoord_end_10, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_end_10_comment},
   { "get_texcoord_end", (PyCFunction) &Dtool_LUISprite_get_texcoord_end_11, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_end_11_comment},
   { "getTexcoordEnd", (PyCFunction) &Dtool_LUISprite_get_texcoord_end_11, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_end_11_comment},
-  { "set_color", (PyCFunction) &Dtool_LUISprite_set_color_12, METH_O, (char *) Dtool_LUISprite_set_color_12_comment},
-  { "setColor", (PyCFunction) &Dtool_LUISprite_set_color_12, METH_O, (char *) Dtool_LUISprite_set_color_12_comment},
+  { "set_color", (PyCFunction) &Dtool_LUISprite_set_color_12, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_color_12_comment},
+  { "setColor", (PyCFunction) &Dtool_LUISprite_set_color_12, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_color_12_comment},
   { "get_color", (PyCFunction) &Dtool_LUISprite_get_color_13, METH_NOARGS, (char *) Dtool_LUISprite_get_color_13_comment},
   { "getColor", (PyCFunction) &Dtool_LUISprite_get_color_13, METH_NOARGS, (char *) Dtool_LUISprite_get_color_13_comment},
   { "set_texture", (PyCFunction) &Dtool_LUISprite_set_texture_14, METH_O, (char *) Dtool_LUISprite_set_texture_14_comment},
@@ -1354,7 +1592,7 @@ static PyMethodDef python_simple_funcs[] = {
 
 EXPORT_THIS struct LibraryDef LUI_moddef = {python_simple_funcs, BuildInstants};
 static InterrogateModuleDef _in_module_def = {
-  1409295109,  /* file_identifier */
+  1409312180,  /* file_identifier */
   "LUI",  /* library_name */
   "jJ0G",  /* library_hash_name */
   "LUI",  /* module_name */
@@ -1364,7 +1602,7 @@ static InterrogateModuleDef _in_module_def = {
   (void **)0,  /* fptrs */
   0,  /* num_fptrs */
   1,  /* first_index */
-  66  /* next_index */
+  71  /* next_index */
 };
 
 Configure(_in_configure_LUI);

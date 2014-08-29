@@ -15,9 +15,12 @@ print dir(LUI)
 sprite = LUI.LUISprite()
 print sprite.getPos()
 
-pos = LPoint2(1.5,1.0)
+pos = LPoint2(0.5,1.0)
 sprite.setPos(pos)
 print sprite.getPos()
+print sprite.getPos().getX()
+
+# sprite.setTexcoordStart(0.0, 0.0)
 
 root = LUI.LUIRoot()
 print type(root)

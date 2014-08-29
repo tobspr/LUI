@@ -15,6 +15,12 @@
 
 class LUIVertexPool;
 
+////////////////////////////////////////////////////////////////////
+//       Class : LUISprite
+// Description : A LUISprite stores a single card, including position,
+//               scale, and uv coordinates. It also notifies the
+//               LUIVertexPool when any scalar or texture got changed.
+////////////////////////////////////////////////////////////////////
 class EXPCL_PANDASKEL LUISprite : public ReferenceCount {
 
 PUBLISHED:
@@ -24,18 +30,23 @@ PUBLISHED:
 
 		// Setter / Getter 
 		INLINE void set_pos(const LPoint2 &pos);
+    INLINE void set_pos(float x, float y);
 		INLINE LPoint2 get_pos();
 
 		INLINE void set_size(const LVector2 &size);
+    INLINE void set_size(float x, float y);
 		INLINE const LVector2 &get_size() const;
 
 		INLINE void set_texcoord_start(const LVector2 &texcoord_start);
+    INLINE void set_texcoord_start(float u, float v);
 		INLINE LVector2 get_texcoord_start();
 		
 		INLINE void set_texcoord_end(const LVector2 &texcoord_end);
+    INLINE void set_texcoord_end(float u, float v);
 		INLINE LVector2 get_texcoord_end();
 		
     INLINE void set_color(const LColor &color);
+    INLINE void set_color(float r, float g, float b, float a);
     INLINE LColor get_color();
 
 		INLINE void set_texture(Texture* tex);
@@ -66,7 +77,7 @@ PUBLISHED:
         float z;
         float u;
         float v;
-        unsigned char col[4];
+        float color[4];
     };
 
     // Stores data for 4 corner vertices
@@ -78,18 +89,14 @@ PUBLISHED:
 
 		// XY Size of the sprite, there is no scale
 		LVector2    _size;
-
-		// Card UV's
-		LVector2    _texcoord_start;
-		LVector2    _texcoord_end;
 		
 		// Determines wheter the sprite will get rendered
 		bool	      _visible;
 
-    // Index in the luiVertexPool
+    // Index in the LUIVertexPool
     int         _pool_slot;
 
-    // Handle to the luiVertexPool
+    // Handle to the LUIVertexPool
     LUIVertexPool* _vertex_pool;
 
 };
