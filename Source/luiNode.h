@@ -10,8 +10,12 @@
 #include "referenceCount.h"
 #include "internalName.h"
 #include "luse.h"
+#include "luiAtlas.h"
+#include "luiSprite.h"
+#include "config_lui.h"
 
 class LUISprite;
+class LUIRoot;
 
 class EXPCL_PANDASKEL LUINode : public ReferenceCount {
 
@@ -21,12 +25,17 @@ class EXPCL_PANDASKEL LUINode : public ReferenceCount {
     ~LUINode();
   
     void add_widget(LUINode *node);
-    PT(LUISprite) attach_sprite(string identifier);
+    
+    LUIAtlasDescriptor get_atlas_image(string identifier);
+    PT(LUISprite) attach_sprite(float x, float y, LUIAtlasDescriptor desc);
+    //PT(LUISprite) attach_sprite(string identifier
 
 	private:
 
     vector<LUINode> _nodes;
-    vector<LUISprite> _sprites;
+    vector<LUISprite*> _sprites;
+
+    LUIRoot* _root;
 
 };
 

@@ -29,14 +29,26 @@ PUBLISHED:
     ~LUISprite();
 
 		// Setter / Getter 
+
+    // Position
 		INLINE void set_pos(const LPoint2 &pos);
     INLINE void set_pos(float x, float y);
+    INLINE void set_x(float x);
+    INLINE void set_y(float y);
+    INLINE float get_x();
+    INLINE float get_y();
 		INLINE LPoint2 get_pos();
 
+    // Size
 		INLINE void set_size(const LVector2 &size);
-    INLINE void set_size(float x, float y);
+    INLINE void set_size(float w, float h);
+    INLINE void set_width(float w);
+    INLINE void set_height(float h);
+    INLINE float get_width();
+    INLINE float get_height();
 		INLINE const LVector2 &get_size() const;
-
+      
+    // Texcoord
 		INLINE void set_texcoord_start(const LVector2 &texcoord_start);
     INLINE void set_texcoord_start(float u, float v);
 		INLINE LVector2 get_texcoord_start();
@@ -45,21 +57,23 @@ PUBLISHED:
     INLINE void set_texcoord_end(float u, float v);
 		INLINE LVector2 get_texcoord_end();
 		
+    // Color
     INLINE void set_color(const LColor &color);
     INLINE void set_color(float r, float g, float b, float a);
     INLINE LColor get_color();
 
+    // Texture
 		INLINE void set_texture(Texture* tex);
 		INLINE Texture* get_texture() const;
 
+    // Z-Index
 		INLINE void set_z_index(float z_index);
 		INLINE float get_z_index();
 		
+    // Visible
 		INLINE void set_visible(bool visible);
 		INLINE bool is_visible();
-
-		// Shortcuts for set_visible
-		INLINE void hide();
+    INLINE void hide();
 		INLINE void show();
 		
   public:
@@ -69,16 +83,12 @@ PUBLISHED:
 
 	protected:
 
-    INLINE void update_vertices();
-    INLINE bool is_valid_coord(float x, float y);
+    INLINE void recompute_vertices();
 
 		struct LUIVertexData {
-        float x;
-        float y;
-        float z;
-        float u;
-        float v;
-        float color[4];
+        PN_stdfloat x, y, z;
+        PN_stdfloat u, v;
+        PN_stdfloat color[4];
     };
 
     // Stores data for 4 corner vertices

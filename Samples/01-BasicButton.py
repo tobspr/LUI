@@ -1,7 +1,11 @@
 
+from LUI import LUINode
+
 class BasicButton(LUINode):
 
     def __init__(self, text):
+        LUINode.__init__(self)
+
         self.imgLeft  = self.attach_sprite(00, 0, self.get_atlas_image("btn_left.png"))
         self.imgMid   = self.attach_sprite(10, 0, self.get_atlas_image("btn_mid.png"))
         self.imgRight = self.attach_sprite(50, 0, self.get_atlas_image("btn_right.png"))
@@ -19,3 +23,7 @@ class BasicButton(LUINode):
         self.imgLeft.set_texture(self.get_atlas_image("btn_left.png"))
         self.imgMid.set_texture(self.get_atlas_image("btn_mid.png"))
         self.imgRight.set_texture(self.get_atlas_image("btn_right.png"))
+
+button = BasicButton("Click Me")
+ui = base.lui
+ui.add(button)

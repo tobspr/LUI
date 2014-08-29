@@ -39,6 +39,8 @@ class TestLUISprite(unittest.TestCase):
         self.assertAlmostEqual(color.get_z(), 1.0)
         self.assertAlmostEqual(color.get_w(), 1.0)
 
+        self.assertEqual(slot, -1)
+
         # Test position getters & Setters
         self.sprite.set_pos(10.0, 20.0)
         pos = self.sprite.get_pos()
@@ -50,6 +52,12 @@ class TestLUISprite(unittest.TestCase):
         self.assertAlmostEqual(pos.get_x(), 12.0)
         self.assertAlmostEqual(pos.get_y(), 23.0)
 
+        self.sprite.set_x(15.0)
+        self.assertAlmostEqual(self.sprite.get_x(), 15.0)
+
+        self.sprite.set_y(self.sprite.get_x() * 2.0)
+        self.assertAlmostEqual(self.sprite.get_y(), 30.0)
+
         # Test size getters & setters
         self.sprite.set_size(50, 60.0)
         scale = self.sprite.get_size()
@@ -60,6 +68,13 @@ class TestLUISprite(unittest.TestCase):
         scale = self.sprite.get_size()
         self.assertAlmostEqual(scale.get_x(), 24.0)
         self.assertAlmostEqual(scale.get_y(), 46.0)
+
+        self.sprite.set_width(105.0)
+        self.assertAlmostEqual(self.sprite.get_width(), 105.0)
+        self.assertAlmostEqual(self.sprite.get_size().get_x(), 105.0)
+        self.sprite.set_height(32.0)
+        self.assertAlmostEqual(self.sprite.get_height(), 32.0)
+        self.assertAlmostEqual(self.sprite.get_size().get_y(), 32.0)
 
         # Test color setters and getters
         self.sprite.set_color(0.2, 0.5, 1.0, 0.5)
@@ -75,6 +90,7 @@ class TestLUISprite(unittest.TestCase):
         self.assertAlmostEqual(col.get_y(), 0.54)
         self.assertAlmostEqual(col.get_z(), 0.4)
         self.assertAlmostEqual(col.get_w(), 0.7)
+
 
 if __name__ == '__main__':
     unittest.main()
