@@ -36,7 +36,10 @@ private:
   LVector2 _size;
   LVector2 _uv_begin;
   LVector2 _uv_end;
-  
+
+
+  static int _instance_count;
+
 };
 
 #include "luiAtlasDescriptor.I"

@@ -15,3 +15,7 @@ INLINE LUIAtlasEntry* LUIAtlas::get_entry(const string &name) {
 INLINE Texture* LUIAtlas::get_texture() {
   return _tex;
 }
+
+INLINE int LUIAtlas::get_size() {
+  return _size;
+}

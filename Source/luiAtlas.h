@@ -36,6 +36,8 @@ PUBLISHED:
   INLINE bool has_entry(const string &name);
   INLINE LUIAtlasEntry* get_entry(const string &name);
 
+  INLINE int get_size();
+
 private:
 
   void add_entry(const string &name, int x, int y, int w, int h);

@@ -51,6 +51,7 @@ class EXPCL_PANDASKEL LUINode : public ReferenceCount {
     vector<LUISprite*> _sprites;
 
     LUIRoot* _root;
+    LUINode* _parent;
 
 };
 

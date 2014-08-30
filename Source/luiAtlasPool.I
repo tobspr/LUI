@@ -28,8 +28,8 @@ INLINE PT(LUIAtlasDescriptor) LUIAtlasPool::get_descriptor(const string &atlas_i
   if (entry != NULL) {
     PT(LUIAtlasDescriptor) descriptor = new LUIAtlasDescriptor();
     descriptor->set_size(entry->size);
-    descriptor->set_uv_begin(entry->pos);
-    descriptor->set_uv_end(entry->pos + entry->size);
+    descriptor->set_uv_begin(entry->pos / float(atlas->get_size()) );
+    descriptor->set_uv_end( (entry->pos + entry->size) / float(atlas->get_size()) );
     descriptor->set_texture(atlas->get_texture());
     return descriptor;
   } 

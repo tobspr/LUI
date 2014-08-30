@@ -4,7 +4,7 @@
 
 
 
-LUIAtlas::LUIAtlas() : _size(0) {
+LUIAtlas::LUIAtlas() : _size(1) {
   lui_cat.spam() << "Constructed new LUIAtlas" << endl;
 }
 

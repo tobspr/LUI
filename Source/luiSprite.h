@@ -106,7 +106,7 @@ PUBLISHED:
 
 		// XY Size of the sprite, there is no scale
 		LVector2    _size;
-		
+
 		// Determines wheter the sprite will get rendered
 		bool	      _visible;
 

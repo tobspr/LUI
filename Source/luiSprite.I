@@ -5,7 +5,9 @@ INLINE void LUISprite::set_pos(const LPoint2 &pos) {
 }
 
 INLINE void LUISprite::set_pos(float x, float y) {
-  cout << "Set Pos: " << x << "/" << y << endl;
+  if (lui_cat.is_spam()) {
+    cout << "Set Pos: " << x << "/" << y << endl;
+  }
   _data[0].x = x;
   _data[0].y = y;
   recompute_vertices();
@@ -36,7 +38,9 @@ INLINE void LUISprite::set_size(const LVector2 &size) {
 }
 
 INLINE void LUISprite::set_size(float w, float h) {
-  cout << "Set Size: " << w << "x" << h << endl;
+  if (lui_cat.is_spam()) {
+    cout << "Set Size: " << w << "x" << h << endl;
+  }
   set_width(w);
   set_height(h);
 }
@@ -87,7 +91,9 @@ INLINE void LUISprite::set_texcoord_start(const LVector2 &texcoord_start) {
 }
 
 INLINE void LUISprite::set_texcoord_start(float u, float v) {
-  cout << "Set Texcoord Start: " << u << " / " << v << endl;
+  if (lui_cat.is_spam() && lui_cat.is_spam()) {
+    cout << "Set texcoord start: " << u << " / " << v << endl;
+  }
   _data[0].u = u;
   _data[3].u = u;
   _data[0].v = v;
@@ -103,7 +109,9 @@ INLINE void LUISprite::set_texcoord_end(const LVector2 &texcoord_end) {
 }
 
 INLINE void LUISprite::set_texcoord_end(float u, float v) {
-  cout << "Set Texcoord End: " << u << " / " << v << endl;
+  if (lui_cat.is_spam() && lui_cat.is_spam()) {
+    cout << "Set texcoord end: " << u << " / " << v << endl;
+  }
   _data[2].u = u;
   _data[1].u = u;
   _data[2].v = v;
@@ -138,12 +146,12 @@ INLINE LColor LUISprite::get_color() {
 INLINE void LUISprite::set_texture(Texture* tex) {
   if (tex != NULL) {
 
-    cout << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
+    if (lui_cat.is_spam())
+      cout << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
     _tex = tex;
 
     set_texcoord_start(0, 0);
-    set_texcoord_end(tex->get_x_size(), tex->get_y_size());
-
+    set_texcoord_end(1, 1);
   }
 }
 

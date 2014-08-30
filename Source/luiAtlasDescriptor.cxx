@@ -2,12 +2,22 @@
 #include "luiAtlasDescriptor.h"
 
 
+int LUIAtlasDescriptor::_instance_count = 0;
+
 LUIAtlasDescriptor::LUIAtlasDescriptor() {
-  lui_cat.spam() << "Constructed a new atlas descriptor" << endl;
+  _instance_count ++;
+
+  if (lui_cat.is_spam() && lui_cat.is_spam()) {
+    cout << "Constructed a new atlas descriptor (active: " << _instance_count << ")" << endl;
+  }
 }
 
 LUIAtlasDescriptor::~LUIAtlasDescriptor() {
-  lui_cat.spam() << "Destructed an atlas descriptor" << endl;
+  _instance_count --;
+
+  if (lui_cat.is_spam()) {
+    cout << "Destructed an atlas descriptor (left: " << _instance_count << ")" << endl;
+  }
 }
 
 
