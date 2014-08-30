@@ -39,8 +39,6 @@ class TestLUISprite(unittest.TestCase):
         self.assertAlmostEqual(color.get_z(), 1.0)
         self.assertAlmostEqual(color.get_w(), 1.0)
 
-        self.assertEqual(slot, -1)
-
         # Test position getters & Setters
         self.sprite.set_pos(10.0, 20.0)
         pos = self.sprite.get_pos()

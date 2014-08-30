@@ -5,6 +5,10 @@ sys.path.insert(0, "../")
 
 from LUI import LUINode, LUIRoot
 
+from panda3d.core import loadPrcFileData
+
+loadPrcFileData("", "notify-level-lui spam")
+
 
 class BasicButton(LUINode):
 
@@ -41,8 +45,9 @@ class BasicButton(LUINode):
         self.imgRight.set_texture(self.get_atlas_image("btn_right"))
 
 root = LUIRoot()
+root.load_atlas("default", "Res/atlas.txt", "Res/atlas.png")
+# root.load_atlas("default")
 root.reparent_to(pixel2d)
-root.load_atlas("default", "atlas.dat", "atlas.png")
 
 button = BasicButton()
 button.set_pos(20, 20)
