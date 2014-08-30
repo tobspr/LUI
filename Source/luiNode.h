@@ -24,9 +24,8 @@ class EXPCL_PANDASKEL LUINode : public ReferenceCount {
 
   PUBLISHED:
 
-    LUINode();
+    LUINode(float w, float h);
     ~LUINode();
-  
     
     INLINE PT(LUIAtlasDescriptor) get_atlas_image(const string &identifier);
     INLINE PT(LUIAtlasDescriptor) get_atlas_image(const string &atlas_id, const string &identifier);
@@ -40,15 +39,22 @@ class EXPCL_PANDASKEL LUINode : public ReferenceCount {
     INLINE int get_sprite_count();
     INLINE PT(LUISprite) get_sprite(int n);
 
+    INLINE const LVector2 &get_size() const;
+    INLINE void set_size(const LVector2 &size);
+    INLINE void set_size(float w, float h);
+
     void operator += (PT(LUINode) node);
 
 
 	private:
 
     PT(LUISprite) construct_and_attach_sprite(float x, float y);
+    INLINE void refresh_sprite_positions();
 
     vector<LUINode> _nodes;
     vector<LUISprite*> _sprites;
+
+    LVector2 _size;
 
     LUIRoot* _root;
     LUINode* _parent;

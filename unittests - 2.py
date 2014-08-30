@@ -5,7 +5,7 @@ sys.path.insert(0, "../")
 
 from LUI import LUINode, LUIRoot, LUIAtlasPool
 
-from panda3d.core import loadPrcFileData, TexturePool
+from panda3d.core import loadPrcFileData, TexturePool, LVector2
 
 # loadPrcFileData("", "notify-level-lui spam")
 
@@ -15,7 +15,14 @@ class BasicButton(LUINode):
     """ This is a builting template. It will be included with LUI. """
 
     def __init__(self, text):
-        LUINode.__init__(self)
+        LUINode.__init__(self, 50, 30)
+
+
+        print "\nTest case 1: Setting & Getting size"
+        print self.get_size()
+        self.set_size(100, 200)
+        print self.get_size()
+
 
         print "\nTest case 1: Using ':image'"
         self.imgLeft = self.attach_sprite(0, 0, ":btn_left")
@@ -30,6 +37,7 @@ class BasicButton(LUINode):
         print "\nTest case 4: Using get_atlas_image('default', 'image')"
         self.imgRight2 = self.attach_sprite(
             50, 0, self.get_atlas_image("default", "btn_right"))
+
 
         print "\nTest case 5: Attaching an arbitrary image"
         self.imgRight3 = self.attach_sprite(
@@ -56,10 +64,13 @@ class BasicButton(LUINode):
         for n in xrange(self.get_sprite_count()):
             sprite = self.get_sprite(n)
             print "\tSprite:"
-            print "\t\tPos:", sprite.get_pos()
             print "\t\tSize:", sprite.get_size()
             print "\t\tTexc-Start:", sprite.get_texcoord_start()
             print "\t\tTexc-End:", sprite.get_texcoord_end()
+
+        print "\nTest case 10: Resizing widget"
+        self.set_size(30, 40)
+        
 
     def on_mouse_over(self, event):
         self.imgLeft.set_texture(":btn_left_hover")

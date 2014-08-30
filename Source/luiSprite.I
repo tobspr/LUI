@@ -1,73 +1,5 @@
 
 
-INLINE void LUISprite::set_pos(const LPoint2 &pos) {
-  set_pos(pos.get_x(), pos.get_y());
-}
-
-INLINE void LUISprite::set_pos(float x, float y) {
-  if (lui_cat.is_spam()) {
-    cout << "Set Pos: " << x << "/" << y << endl;
-  }
-  _data[0].x = x;
-  _data[0].y = y;
-  recompute_vertices();
-}
-
-INLINE void LUISprite::set_x(float x) {
-  set_pos(x, _data[0].y);
-}
-
-INLINE void LUISprite::set_y(float y) {
-  set_pos(_data[0].x, y);
-}
-
-INLINE float LUISprite::get_x() {
-  return _data[0].x;
-}
-
-INLINE float LUISprite::get_y() {
-  return _data[0].y;
-}
-
-INLINE LPoint2 LUISprite::get_pos() {
-  return LPoint2(_data[0].x, _data[0].y);
-}
-
-INLINE void LUISprite::set_size(const LVector2 &size) {
-  set_size(size.get_x(), size.get_y());
-}
-
-INLINE void LUISprite::set_size(float w, float h) {
-  if (lui_cat.is_spam()) {
-    cout << "Set Size: " << w << "x" << h << endl;
-  }
-  set_width(w);
-  set_height(h);
-}
-
-
-INLINE void LUISprite::set_width(float w) {
-  _size.set_x(w);
-  _data[1].x = _data[0].x + w;
-  _data[2].x = _data[0].x + w;
-}
-
-INLINE void LUISprite::set_height(float h) {
-  _size.set_y(h);
-  _data[2].y = _data[0].y + h;
-  _data[3].y = _data[0].y + h;
-}
-
-INLINE float LUISprite::get_width() {
-  // Width is TopRight.x - TopLeft.x
-  return _data[1].x - _data[0].x;
-}
-
-INLINE float LUISprite::get_height() {
-  // Height is BottomLeft.y - TopLeft.y
-  return _data[3].y - _data[0].y;
-}
-
 INLINE void LUISprite::recompute_vertices() {
   // Upper Right
   _data[1].x = _data[0].x + _size.get_x();
@@ -82,9 +14,8 @@ INLINE void LUISprite::recompute_vertices() {
   _data[3].y = _data[0].y + _size.get_y();
 }
 
-INLINE const LVector2 &LUISprite::get_size() const {
-    return _size;
-}
+
+
 
 INLINE void LUISprite::set_texcoord_start(const LVector2 &texcoord_start) {
   set_texcoord_start(texcoord_start.get_x(), texcoord_start.get_y());
@@ -211,22 +142,6 @@ INLINE void LUISprite::set_z_index(float z_index) {
 
 INLINE float LUISprite::get_z_index() {
   return _data[0].z;
-}
-		
-INLINE void LUISprite::set_visible(bool visible) {
-  _visible = visible;
-}
-
-INLINE bool LUISprite::is_visible() {
-  return _visible;
-}
-
-INLINE void LUISprite::hide() {
-  set_visible(false);
-}
-
-INLINE void LUISprite::show() {
-  set_visible(true);
 }
 
 INLINE void LUISprite::set_pool_slot(int slot) {

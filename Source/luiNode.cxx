@@ -3,7 +3,7 @@
 #include "luiNode.h"
 
 
-LUINode::LUINode() {
+LUINode::LUINode(float w, float h) : _size(w, h) {
   lui_cat.spam() << "Created a new LUINode" << endl;
 }
 
