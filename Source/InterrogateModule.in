@@ -1,24 +1,36 @@
-1409327601
+1409394827
 2 2
 3 LUI 4 jJ0G 3 LUI 
-32
-37 7 LUINode 0 4 69 16 LUINode::LUINode 0 1 1 0
+37
+42 14 LUIAtlasPacker 0 4 79 30 LUIAtlasPacker::LUIAtlasPacker 0 1 1 0
+41
+LUIAtlasPacker::LUIAtlasPacker(int size);
+
+43 13 find_position 0 4 79 29 LUIAtlasPacker::find_position 0 1 2 0
+54
+LVector2f LUIAtlasPacker::find_position(int w, int h);
+
+44 7 LUINode 0 4 81 16 LUINode::LUINode 0 1 3 0
 23
 LUINode::LUINode(void);
 
-38 10 add_widget 0 4 69 19 LUINode::add_widget 0 1 2 0
-40
-void LUINode::add_widget(LUINode *node);
-
-39 15 get_atlas_image 0 4 69 24 LUINode::get_atlas_image 0 1 3 0
+45 15 get_atlas_image 0 4 81 24 LUINode::get_atlas_image 0 1 4 0
 77
 LUIAtlasDescriptor LUINode::get_atlas_image(basic_string< char > identifier);
 
-40 9 LUISprite 0 4 71 20 LUISprite::LUISprite 0 1 4 0
+46 13 attach_sprite 0 4 81 22 LUINode::attach_sprite 0 1 5 0
+89
+PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, LUIAtlasDescriptor desc);
+
+47 11 operator += 0 4 81 20 LUINode::operator += 0 1 6 0
+53
+void LUINode::operator +=(PointerTo< LUINode > node);
+
+48 9 LUISprite 0 4 82 20 LUISprite::LUISprite 0 1 7 0
 27
 LUISprite::LUISprite(void);
 
-41 7 set_pos 0 4 71 18 LUISprite::set_pos 0 2 5 6 64
+49 7 set_pos 0 4 82 18 LUISprite::set_pos 0 2 8 9 64
 // Setter / Getter 
 // Position
 
@@ -28,27 +40,27 @@ LUISprite::LUISprite(void);
 inline void LUISprite::set_pos(LPoint2f const &pos);
 inline void LUISprite::set_pos(float x, float y);
 
-42 5 set_x 0 4 71 16 LUISprite::set_x 0 1 7 0
+50 5 set_x 0 4 82 16 LUISprite::set_x 0 1 10 0
 38
 inline void LUISprite::set_x(float x);
 
-43 5 set_y 0 4 71 16 LUISprite::set_y 0 1 8 0
+51 5 set_y 0 4 82 16 LUISprite::set_y 0 1 11 0
 38
 inline void LUISprite::set_y(float y);
 
-44 5 get_x 0 4 71 16 LUISprite::get_x 0 1 9 0
+52 5 get_x 0 4 82 16 LUISprite::get_x 0 1 12 0
 36
 inline float LUISprite::get_x(void);
 
-45 5 get_y 0 4 71 16 LUISprite::get_y 0 1 10 0
+53 5 get_y 0 4 82 16 LUISprite::get_y 0 1 13 0
 36
 inline float LUISprite::get_y(void);
 
-46 7 get_pos 0 4 71 18 LUISprite::get_pos 0 1 11 0
+54 7 get_pos 0 4 82 18 LUISprite::get_pos 0 1 14 0
 41
 inline LPoint2f LUISprite::get_pos(void);
 
-47 8 set_size 0 4 71 19 LUISprite::set_size 0 2 12 13 16
+55 8 set_size 0 4 82 19 LUISprite::set_size 0 2 15 16 16
 // Size
 
 // Size
@@ -56,27 +68,27 @@ inline LPoint2f LUISprite::get_pos(void);
 inline void LUISprite::set_size(LVector2f const &size);
 inline void LUISprite::set_size(float w, float h);
 
-48 9 set_width 0 4 71 20 LUISprite::set_width 0 1 14 0
+56 9 set_width 0 4 82 20 LUISprite::set_width 0 1 17 0
 42
 inline void LUISprite::set_width(float w);
 
-49 10 set_height 0 4 71 21 LUISprite::set_height 0 1 15 0
+57 10 set_height 0 4 82 21 LUISprite::set_height 0 1 18 0
 43
 inline void LUISprite::set_height(float h);
 
-50 9 get_width 0 4 71 20 LUISprite::get_width 0 1 16 0
+58 9 get_width 0 4 82 20 LUISprite::get_width 0 1 19 0
 40
 inline float LUISprite::get_width(void);
 
-51 10 get_height 0 4 71 21 LUISprite::get_height 0 1 17 0
+59 10 get_height 0 4 82 21 LUISprite::get_height 0 1 20 0
 41
 inline float LUISprite::get_height(void);
 
-52 8 get_size 0 4 71 19 LUISprite::get_size 0 1 18 0
+60 8 get_size 0 4 82 19 LUISprite::get_size 0 1 21 0
 56
 inline LVector2f const &LUISprite::get_size(void) const;
 
-53 18 set_texcoord_start 0 4 71 29 LUISprite::set_texcoord_start 0 2 19 20 24
+61 18 set_texcoord_start 0 4 82 29 LUISprite::set_texcoord_start 0 2 22 23 24
 // Texcoord
 
 // Texcoord
@@ -84,20 +96,20 @@ inline LVector2f const &LUISprite::get_size(void) const;
 inline void LUISprite::set_texcoord_start(LVector2f const &texcoord_start);
 inline void LUISprite::set_texcoord_start(float u, float v);
 
-54 18 get_texcoord_start 0 4 71 29 LUISprite::get_texcoord_start 0 1 21 0
+62 18 get_texcoord_start 0 4 82 29 LUISprite::get_texcoord_start 0 1 24 0
 53
 inline LVector2f LUISprite::get_texcoord_start(void);
 
-55 16 set_texcoord_end 0 4 71 27 LUISprite::set_texcoord_end 0 2 22 23 0
+63 16 set_texcoord_end 0 4 82 27 LUISprite::set_texcoord_end 0 2 25 26 0
 130
 inline void LUISprite::set_texcoord_end(LVector2f const &texcoord_end);
 inline void LUISprite::set_texcoord_end(float u, float v);
 
-56 16 get_texcoord_end 0 4 71 27 LUISprite::get_texcoord_end 0 1 24 0
+64 16 get_texcoord_end 0 4 82 27 LUISprite::get_texcoord_end 0 1 27 0
 51
 inline LVector2f LUISprite::get_texcoord_end(void);
 
-57 9 set_color 0 4 71 20 LUISprite::set_color 0 2 25 26 18
+65 9 set_color 0 4 82 20 LUISprite::set_color 0 2 28 29 18
 // Color
 
 // Color
@@ -105,99 +117,112 @@ inline LVector2f LUISprite::get_texcoord_end(void);
 inline void LUISprite::set_color(LVecBase4f const &color);
 inline void LUISprite::set_color(float r, float g, float b, float a);
 
-58 9 get_color 0 4 71 20 LUISprite::get_color 0 1 27 0
+66 9 get_color 0 4 82 20 LUISprite::get_color 0 1 30 0
 45
 inline LVecBase4f LUISprite::get_color(void);
 
-59 11 set_texture 0 4 71 22 LUISprite::set_texture 0 1 28 10
+67 11 set_texture 0 4 82 22 LUISprite::set_texture 0 1 31 10
 // Texture
 49
 inline void LUISprite::set_texture(Texture *tex);
 
-60 11 get_texture 0 4 71 22 LUISprite::get_texture 0 1 29 10
+68 11 get_texture 0 4 82 22 LUISprite::get_texture 0 1 32 10
 // Texture
 51
 inline Texture *LUISprite::get_texture(void) const;
 
-61 11 set_z_index 0 4 71 22 LUISprite::set_z_index 0 1 30 10
+69 11 set_z_index 0 4 82 22 LUISprite::set_z_index 0 1 33 10
 // Z-Index
 50
 inline void LUISprite::set_z_index(float z_index);
 
-62 11 get_z_index 0 4 71 22 LUISprite::get_z_index 0 1 31 10
+70 11 get_z_index 0 4 82 22 LUISprite::get_z_index 0 1 34 10
 // Z-Index
 42
 inline float LUISprite::get_z_index(void);
 
-63 11 set_visible 0 4 71 22 LUISprite::set_visible 0 1 32 10
+71 11 set_visible 0 4 82 22 LUISprite::set_visible 0 1 35 10
 // Visible
 49
 inline void LUISprite::set_visible(bool visible);
 
-64 10 is_visible 0 4 71 21 LUISprite::is_visible 0 1 33 10
+72 10 is_visible 0 4 82 21 LUISprite::is_visible 0 1 36 10
 // Visible
 40
 inline bool LUISprite::is_visible(void);
 
-65 4 hide 0 4 71 15 LUISprite::hide 0 1 34 0
+73 4 hide 0 4 82 15 LUISprite::hide 0 1 37 0
 34
 inline void LUISprite::hide(void);
 
-66 4 show 0 4 71 15 LUISprite::show 0 1 35 0
+74 4 show 0 4 82 15 LUISprite::show 0 1 38 0
 34
 inline void LUISprite::show(void);
 
-67 7 LUIRoot 0 4 72 16 LUIRoot::LUIRoot 0 1 36 0
+75 7 LUIRoot 0 4 83 16 LUIRoot::LUIRoot 0 1 39 0
 23
 LUIRoot::LUIRoot(void);
 
-68 8 ~LUIRoot 0 4 72 17 LUIRoot::~LUIRoot 0 0 0
+76 8 ~LUIRoot 0 4 83 17 LUIRoot::~LUIRoot 0 0 0
 24
 LUIRoot::~LUIRoot(void);
 
-36
-1 14 Dtool_jJ0G3T7O 0 7 3 73 0 14 Dtool_jJ0G3T7O 0 0 
-2 14 Dtool_jJ0GK178 0 4 4 74 0 14 Dtool_jJ0GK178 0 2 4 this 3 73  4 node 1 73  
-3 14 Dtool_jJ0G0SVM 0 7 5 77 0 14 Dtool_jJ0G0SVM 0 2 4 this 3 73  10 identifier 1 76  
-4 14 Dtool_jJ0G0beO 0 7 7 78 0 14 Dtool_jJ0G0beO 0 0 
-5 14 Dtool_jJ0GTnVb 0 4 8 74 0 14 Dtool_jJ0GTnVb 31 // Setter / Getter 
-// Position 2 4 this 3 78  3 pos 1 79  
-6 14 Dtool_jJ0GAvgp 0 4 8 74 0 14 Dtool_jJ0GAvgp 31 // Setter / Getter 
-// Position 3 4 this 3 78  1 x 1 82  1 y 1 82  
-7 14 Dtool_jJ0Gqd_o 0 4 9 74 0 14 Dtool_jJ0Gqd_o 0 2 4 this 3 78  1 x 1 82  
-8 14 Dtool_jJ0GStJp 0 4 10 74 0 14 Dtool_jJ0GStJp 0 2 4 this 3 78  1 y 1 82  
-9 14 Dtool_jJ0GbRKp 0 6 11 82 0 14 Dtool_jJ0GbRKp 0 1 4 this 3 78  
-10 14 Dtool_jJ0GTAUp 0 6 12 82 0 14 Dtool_jJ0GTAUp 0 1 4 this 3 78  
-11 14 Dtool_jJ0Gs6Ij 0 7 13 83 0 14 Dtool_jJ0Gs6Ij 0 1 4 this 3 78  
-12 14 Dtool_jJ0GDSuu 0 4 14 74 0 14 Dtool_jJ0GDSuu 7 // Size 2 4 this 3 78  4 size 1 84  
-13 14 Dtool_jJ0G8DXk 0 4 14 74 0 14 Dtool_jJ0G8DXk 7 // Size 3 4 this 3 78  1 w 1 82  1 h 1 82  
-14 14 Dtool_jJ0GScMs 0 4 15 74 0 14 Dtool_jJ0GScMs 0 2 4 this 3 78  1 w 1 82  
-15 14 Dtool_jJ0GtpzG 0 4 16 74 0 14 Dtool_jJ0GtpzG 0 2 4 this 3 78  1 h 1 82  
-16 14 Dtool_jJ0GEQxw 0 6 17 82 0 14 Dtool_jJ0GEQxw 0 1 4 this 3 78  
-17 14 Dtool_jJ0Ghcak 0 6 18 82 0 14 Dtool_jJ0Ghcak 0 1 4 this 3 78  
-18 14 Dtool_jJ0G_Emi 0 6 19 84 0 14 Dtool_jJ0G_Emi 0 1 4 this 3 87  
-19 14 Dtool_jJ0GZPqC 0 4 20 74 0 14 Dtool_jJ0GZPqC 11 // Texcoord 2 4 this 3 78  14 texcoord_start 1 84  
-20 14 Dtool_jJ0GN_OZ 0 4 20 74 0 14 Dtool_jJ0GN_OZ 11 // Texcoord 3 4 this 3 78  1 u 1 82  1 v 1 82  
-21 14 Dtool_jJ0Gmg_s 0 7 21 89 0 14 Dtool_jJ0Gmg_s 0 1 4 this 3 78  
-22 14 Dtool_jJ0G1aLq 0 4 22 74 0 14 Dtool_jJ0G1aLq 0 2 4 this 3 78  12 texcoord_end 1 84  
-23 14 Dtool_jJ0Gpyol 0 4 22 74 0 14 Dtool_jJ0Gpyol 0 3 4 this 3 78  1 u 1 82  1 v 1 82  
-24 14 Dtool_jJ0GbKPb 0 7 23 89 0 14 Dtool_jJ0GbKPb 0 1 4 this 3 78  
-25 14 Dtool_jJ0GjsUJ 0 4 24 74 0 14 Dtool_jJ0GjsUJ 8 // Color 2 4 this 3 78  5 color 1 90  
-26 14 Dtool_jJ0G0obL 0 4 24 74 0 14 Dtool_jJ0G0obL 8 // Color 5 4 this 3 78  1 r 1 82  1 g 1 82  1 b 1 82  1 a 1 82  
-27 14 Dtool_jJ0GZ92J 0 7 25 93 0 14 Dtool_jJ0GZ92J 0 1 4 this 3 78  
-28 14 Dtool_jJ0GBbSG 0 4 26 74 0 14 Dtool_jJ0GBbSG 10 // Texture 2 4 this 3 78  3 tex 1 94  
-29 14 Dtool_jJ0GAHju 0 7 27 94 0 14 Dtool_jJ0GAHju 10 // Texture 1 4 this 3 87  
-30 14 Dtool_jJ0G0CvJ 0 4 28 74 0 14 Dtool_jJ0G0CvJ 10 // Z-Index 2 4 this 3 78  7 z_index 1 82  
-31 14 Dtool_jJ0GQj7I 0 6 29 82 0 14 Dtool_jJ0GQj7I 10 // Z-Index 1 4 this 3 78  
-32 14 Dtool_jJ0Gzi7K 0 4 30 74 0 14 Dtool_jJ0Gzi7K 10 // Visible 2 4 this 3 78  7 visible 1 96  
-33 14 Dtool_jJ0GCgZS 0 6 31 96 0 14 Dtool_jJ0GCgZS 10 // Visible 1 4 this 3 78  
-34 14 Dtool_jJ0Ga9z_ 0 4 32 74 0 14 Dtool_jJ0Ga9z_ 0 1 4 this 3 78  
-35 14 Dtool_jJ0GYuHT 0 4 33 74 0 14 Dtool_jJ0GYuHT 0 1 4 this 3 78  
-36 14 Dtool_jJ0Gxl7v 0 7 35 97 68 14 Dtool_jJ0Gxl7v 0 0 
-29
-69 7 LUINode 0 75777 7 LUINode 7 LUINode 0 0 0 1 37 0 0 2 38 39 0 0 1 0 70 0 0 0 0 0
+77 13 attach_sprite 0 4 83 22 LUIRoot::attach_sprite 0 1 40 0
+89
+PointerTo< LUISprite > LUIRoot::attach_sprite(float x, float y, LUIAtlasDescriptor desc);
 
-70 14 ReferenceCount 0 2049 14 ReferenceCount 14 ReferenceCount 0 0 0 0 0 0 0 0 0 0 0 0 425
+78 11 operator += 0 4 83 20 LUIRoot::operator += 0 1 41 0
+53
+void LUIRoot::operator +=(PointerTo< LUINode > node);
+
+41
+1 14 Dtool_jJ0GL9zA 0 7 3 85 0 14 Dtool_jJ0GL9zA 0 1 4 size 1 84  
+2 14 Dtool_jJ0G8x4_ 0 7 4 87 0 14 Dtool_jJ0G8x4_ 0 3 4 this 3 85  1 w 1 84  1 h 1 84  
+3 14 Dtool_jJ0G3T7O 0 7 6 88 0 14 Dtool_jJ0G3T7O 0 0 
+4 14 Dtool_jJ0G0SVM 0 7 7 91 0 14 Dtool_jJ0G0SVM 0 2 4 this 3 88  10 identifier 1 90  
+5 14 Dtool_jJ0GaylZ 0 7 8 93 0 14 Dtool_jJ0GaylZ 0 4 4 this 3 88  1 x 1 92  1 y 1 92  4 desc 1 91  
+6 14 Dtool_jJ0GKeO5 0 7 9 88 0 14 Dtool_jJ0GKeO5 0 2 4 this 3 88  4 node 1 88  
+7 14 Dtool_jJ0G0beO 0 7 11 93 0 14 Dtool_jJ0G0beO 0 0 
+8 14 Dtool_jJ0GTnVb 0 4 12 97 0 14 Dtool_jJ0GTnVb 31 // Setter / Getter 
+// Position 2 4 this 3 93  3 pos 1 94  
+9 14 Dtool_jJ0GAvgp 0 4 12 97 0 14 Dtool_jJ0GAvgp 31 // Setter / Getter 
+// Position 3 4 this 3 93  1 x 1 92  1 y 1 92  
+10 14 Dtool_jJ0Gqd_o 0 4 13 97 0 14 Dtool_jJ0Gqd_o 0 2 4 this 3 93  1 x 1 92  
+11 14 Dtool_jJ0GStJp 0 4 14 97 0 14 Dtool_jJ0GStJp 0 2 4 this 3 93  1 y 1 92  
+12 14 Dtool_jJ0GbRKp 0 6 15 92 0 14 Dtool_jJ0GbRKp 0 1 4 this 3 93  
+13 14 Dtool_jJ0GTAUp 0 6 16 92 0 14 Dtool_jJ0GTAUp 0 1 4 this 3 93  
+14 14 Dtool_jJ0Gs6Ij 0 7 17 98 0 14 Dtool_jJ0Gs6Ij 0 1 4 this 3 93  
+15 14 Dtool_jJ0GDSuu 0 4 18 97 0 14 Dtool_jJ0GDSuu 7 // Size 2 4 this 3 93  4 size 1 99  
+16 14 Dtool_jJ0G8DXk 0 4 18 97 0 14 Dtool_jJ0G8DXk 7 // Size 3 4 this 3 93  1 w 1 92  1 h 1 92  
+17 14 Dtool_jJ0GScMs 0 4 19 97 0 14 Dtool_jJ0GScMs 0 2 4 this 3 93  1 w 1 92  
+18 14 Dtool_jJ0GtpzG 0 4 20 97 0 14 Dtool_jJ0GtpzG 0 2 4 this 3 93  1 h 1 92  
+19 14 Dtool_jJ0GEQxw 0 6 21 92 0 14 Dtool_jJ0GEQxw 0 1 4 this 3 93  
+20 14 Dtool_jJ0Ghcak 0 6 22 92 0 14 Dtool_jJ0Ghcak 0 1 4 this 3 93  
+21 14 Dtool_jJ0G_Emi 0 6 23 99 0 14 Dtool_jJ0G_Emi 0 1 4 this 3 101  
+22 14 Dtool_jJ0GZPqC 0 4 24 97 0 14 Dtool_jJ0GZPqC 11 // Texcoord 2 4 this 3 93  14 texcoord_start 1 99  
+23 14 Dtool_jJ0GN_OZ 0 4 24 97 0 14 Dtool_jJ0GN_OZ 11 // Texcoord 3 4 this 3 93  1 u 1 92  1 v 1 92  
+24 14 Dtool_jJ0Gmg_s 0 7 25 87 0 14 Dtool_jJ0Gmg_s 0 1 4 this 3 93  
+25 14 Dtool_jJ0G1aLq 0 4 26 97 0 14 Dtool_jJ0G1aLq 0 2 4 this 3 93  12 texcoord_end 1 99  
+26 14 Dtool_jJ0Gpyol 0 4 26 97 0 14 Dtool_jJ0Gpyol 0 3 4 this 3 93  1 u 1 92  1 v 1 92  
+27 14 Dtool_jJ0GbKPb 0 7 27 87 0 14 Dtool_jJ0GbKPb 0 1 4 this 3 93  
+28 14 Dtool_jJ0GjsUJ 0 4 28 97 0 14 Dtool_jJ0GjsUJ 8 // Color 2 4 this 3 93  5 color 1 103  
+29 14 Dtool_jJ0G0obL 0 4 28 97 0 14 Dtool_jJ0G0obL 8 // Color 5 4 this 3 93  1 r 1 92  1 g 1 92  1 b 1 92  1 a 1 92  
+30 14 Dtool_jJ0GZ92J 0 7 29 106 0 14 Dtool_jJ0GZ92J 0 1 4 this 3 93  
+31 14 Dtool_jJ0GBbSG 0 4 30 97 0 14 Dtool_jJ0GBbSG 10 // Texture 2 4 this 3 93  3 tex 1 107  
+32 14 Dtool_jJ0GAHju 0 7 31 107 0 14 Dtool_jJ0GAHju 10 // Texture 1 4 this 3 101  
+33 14 Dtool_jJ0G0CvJ 0 4 32 97 0 14 Dtool_jJ0G0CvJ 10 // Z-Index 2 4 this 3 93  7 z_index 1 92  
+34 14 Dtool_jJ0GQj7I 0 6 33 92 0 14 Dtool_jJ0GQj7I 10 // Z-Index 1 4 this 3 93  
+35 14 Dtool_jJ0Gzi7K 0 4 34 97 0 14 Dtool_jJ0Gzi7K 10 // Visible 2 4 this 3 93  7 visible 1 109  
+36 14 Dtool_jJ0GCgZS 0 6 35 109 0 14 Dtool_jJ0GCgZS 10 // Visible 1 4 this 3 93  
+37 14 Dtool_jJ0Ga9z_ 0 4 36 97 0 14 Dtool_jJ0Ga9z_ 0 1 4 this 3 93  
+38 14 Dtool_jJ0GYuHT 0 4 37 97 0 14 Dtool_jJ0GYuHT 0 1 4 this 3 93  
+39 14 Dtool_jJ0Gxl7v 0 7 39 110 76 14 Dtool_jJ0Gxl7v 0 0 
+40 14 Dtool_jJ0GZszv 0 7 41 93 0 14 Dtool_jJ0GZszv 0 4 4 this 3 110  1 x 1 92  1 y 1 92  4 desc 1 91  
+41 14 Dtool_jJ0Gs8cP 0 6 42 110 0 14 Dtool_jJ0Gs8cP 0 2 4 this 3 110  4 node 1 88  
+32
+79 14 LUIAtlasPacker 0 75777 14 LUIAtlasPacker 14 LUIAtlasPacker 0 0 0 1 42 0 0 1 43 0 0 1 0 80 0 0 0 0 0
+
+80 14 ReferenceCount 0 2049 14 ReferenceCount 14 ReferenceCount 0 0 0 0 0 0 0 0 0 0 0 0 425
 ////////////////////////////////////////////////////////////////////
 //       Class : ReferenceCount
 // Description : A base class for all things that want to be
@@ -206,7 +231,9 @@ LUIRoot::~LUIRoot(void);
 //               objects when the last pointer to them goes away.
 ////////////////////////////////////////////////////////////////////
 
-71 9 LUISprite 0 75777 9 LUISprite 9 LUISprite 0 0 0 1 40 0 0 26 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 0 0 1 0 70 0 0 0 0 371
+81 7 LUINode 0 75777 7 LUINode 7 LUINode 0 0 0 1 44 0 0 3 45 46 47 0 0 1 0 80 0 0 0 0 0
+
+82 9 LUISprite 0 75777 9 LUISprite 9 LUISprite 0 0 0 1 48 0 0 26 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 0 0 1 0 80 0 0 0 0 371
 ////////////////////////////////////////////////////////////////////
 //       Class : LUISprite
 // Description : A LUISprite stores a single card, including position,
@@ -214,50 +241,11 @@ LUIRoot::~LUIRoot(void);
 //               LUIVertexPool when any scalar or texture got changed.
 ////////////////////////////////////////////////////////////////////
 
-72 7 LUIRoot 0 26625 7 LUIRoot 7 LUIRoot 0 0 0 1 67 68 0 0 0 0 0 0 0 0
+83 7 LUIRoot 0 26625 7 LUIRoot 7 LUIRoot 0 0 0 1 75 76 0 2 77 78 0 0 0 0 0 0
 
-73 9 LUINode * 0 8576 9 LUINode * 9 LUINode * 0 0 69 0 0 0 0 0 0 0 0 0 0
+84 3 int 0 8194 3 int 3 int 0 1 0 0 0 0 0 0 0 0 0 0 0
 
-74 4 void 0 8194 4 void 4 void 0 6 0 0 0 0 0 0 0 0 0 0 0
-
-75 18 LUIAtlasDescriptor 0 1049600 18 LUIAtlasDescriptor 18 LUIAtlasDescriptor 0 0 0 0 0 0 0 0 0 0 0 0 0
-
-76 13 atomic string 0 2 13 atomic string 13 atomic string 0 7 0 0 0 0 0 0 0 0 0 0 0
-
-77 20 LUIAtlasDescriptor * 0 8576 20 LUIAtlasDescriptor * 20 LUIAtlasDescriptor * 0 0 75 0 0 0 0 0 0 0 0 0 0
-
-78 11 LUISprite * 0 8576 11 LUISprite * 11 LUISprite * 0 0 71 0 0 0 0 0 0 0 0 0 0
-
-79 16 LPoint2f const * 0 8576 16 LPoint2f const * 16 LPoint2f const * 0 0 80 0 0 0 0 0 0 0 0 0 0
-
-80 14 LPoint2f const 0 8832 14 LPoint2f const 14 LPoint2f const 0 0 81 0 0 0 0 0 0 0 0 0 0
-
-81 8 LPoint2f 0 2048 8 LPoint2f 8 LPoint2f 0 0 0 0 0 0 0 0 0 0 0 0 706
-// Filename: lpoint2_src.h
-// Created by:  drose (08Mar00)
-//
-////////////////////////////////////////////////////////////////////
-//
-// PANDA 3D SOFTWARE
-// Copyright (c) Carnegie Mellon University.  All rights reserved.
-//
-// All use of this software is subject to the terms of the revised BSD
-// license.  You should have received a copy of this license along
-// with this source code in a file named "LICENSE."
-//
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-//       Class : LPoint2
-// Description : This is a two-component point in space.
-////////////////////////////////////////////////////////////////////
-
-82 5 float 0 8194 5 float 5 float 0 2 0 0 0 0 0 0 0 0 0 0 0
-
-83 10 LPoint2f * 0 8576 10 LPoint2f * 10 LPoint2f * 0 0 81 0 0 0 0 0 0 0 0 0 0
-
-84 17 LVector2f const * 0 8576 17 LVector2f const * 17 LVector2f const * 0 0 85 0 0 0 0 0 0 0 0 0 0
-
-85 15 LVector2f const 0 8832 15 LVector2f const 15 LVector2f const 0 0 86 0 0 0 0 0 0 0 0 0 0
+85 16 LUIAtlasPacker * 0 8576 16 LUIAtlasPacker * 16 LUIAtlasPacker * 0 0 79 0 0 0 0 0 0 0 0 0 0
 
 86 9 LVector2f 0 2048 9 LVector2f 9 LVector2f 0 0 0 0 0 0 0 0 0 0 0 0 707
 // Filename: lvector2_src.h
@@ -278,28 +266,71 @@ LUIRoot::~LUIRoot(void);
 // Description : This is a two-component vector offset.
 ////////////////////////////////////////////////////////////////////
 
-87 17 LUISprite const * 0 8576 17 LUISprite const * 17 LUISprite const * 0 0 88 0 0 0 0 0 0 0 0 0 0
+87 11 LVector2f * 0 8576 11 LVector2f * 11 LVector2f * 0 0 86 0 0 0 0 0 0 0 0 0 0
 
-88 15 LUISprite const 0 8832 15 LUISprite const 15 LUISprite const 0 0 71 0 0 0 0 0 0 0 0 0 0
+88 9 LUINode * 0 8576 9 LUINode * 9 LUINode * 0 0 81 0 0 0 0 0 0 0 0 0 0
 
-89 11 LVector2f * 0 8576 11 LVector2f * 11 LVector2f * 0 0 86 0 0 0 0 0 0 0 0 0 0
+89 18 LUIAtlasDescriptor 0 1049600 18 LUIAtlasDescriptor 18 LUIAtlasDescriptor 0 0 0 0 0 0 0 0 0 0 0 0 0
 
-90 18 LVecBase4f const * 0 8576 18 LVecBase4f const * 18 LVecBase4f const * 0 0 91 0 0 0 0 0 0 0 0 0 0
+90 13 atomic string 0 2 13 atomic string 13 atomic string 0 7 0 0 0 0 0 0 0 0 0 0 0
 
-91 16 LVecBase4f const 0 8832 16 LVecBase4f const 16 LVecBase4f const 0 0 92 0 0 0 0 0 0 0 0 0 0
+91 20 LUIAtlasDescriptor * 0 8576 20 LUIAtlasDescriptor * 20 LUIAtlasDescriptor * 0 0 89 0 0 0 0 0 0 0 0 0 0
 
-92 10 LVecBase4f 0 2048 10 LVecBase4f 10 LVecBase4f 0 0 0 0 0 0 0 0 0 0 0 0 265
+92 5 float 0 8194 5 float 5 float 0 2 0 0 0 0 0 0 0 0 0 0 0
+
+93 11 LUISprite * 0 8576 11 LUISprite * 11 LUISprite * 0 0 82 0 0 0 0 0 0 0 0 0 0
+
+94 16 LPoint2f const * 0 8576 16 LPoint2f const * 16 LPoint2f const * 0 0 95 0 0 0 0 0 0 0 0 0 0
+
+95 14 LPoint2f const 0 8832 14 LPoint2f const 14 LPoint2f const 0 0 96 0 0 0 0 0 0 0 0 0 0
+
+96 8 LPoint2f 0 2048 8 LPoint2f 8 LPoint2f 0 0 0 0 0 0 0 0 0 0 0 0 706
+// Filename: lpoint2_src.h
+// Created by:  drose (08Mar00)
+//
+////////////////////////////////////////////////////////////////////
+//
+// PANDA 3D SOFTWARE
+// Copyright (c) Carnegie Mellon University.  All rights reserved.
+//
+// All use of this software is subject to the terms of the revised BSD
+// license.  You should have received a copy of this license along
+// with this source code in a file named "LICENSE."
+//
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+//       Class : LPoint2
+// Description : This is a two-component point in space.
+////////////////////////////////////////////////////////////////////
+
+97 4 void 0 8194 4 void 4 void 0 6 0 0 0 0 0 0 0 0 0 0 0
+
+98 10 LPoint2f * 0 8576 10 LPoint2f * 10 LPoint2f * 0 0 96 0 0 0 0 0 0 0 0 0 0
+
+99 17 LVector2f const * 0 8576 17 LVector2f const * 17 LVector2f const * 0 0 100 0 0 0 0 0 0 0 0 0 0
+
+100 15 LVector2f const 0 8832 15 LVector2f const 15 LVector2f const 0 0 86 0 0 0 0 0 0 0 0 0 0
+
+101 17 LUISprite const * 0 8576 17 LUISprite const * 17 LUISprite const * 0 0 102 0 0 0 0 0 0 0 0 0 0
+
+102 15 LUISprite const 0 8832 15 LUISprite const 15 LUISprite const 0 0 82 0 0 0 0 0 0 0 0 0 0
+
+103 18 LVecBase4f const * 0 8576 18 LVecBase4f const * 18 LVecBase4f const * 0 0 104 0 0 0 0 0 0 0 0 0 0
+
+104 16 LVecBase4f const 0 8832 16 LVecBase4f const 16 LVecBase4f const 0 0 105 0 0 0 0 0 0 0 0 0 0
+
+105 10 LVecBase4f 0 2048 10 LVecBase4f 10 LVecBase4f 0 0 0 0 0 0 0 0 0 0 0 0 265
 ////////////////////////////////////////////////////////////////////
 //       Class : LVecBase4
 // Description : This is the base class for all three-component
 //               vectors and points.
 ////////////////////////////////////////////////////////////////////
 
-93 12 LVecBase4f * 0 8576 12 LVecBase4f * 12 LVecBase4f * 0 0 92 0 0 0 0 0 0 0 0 0 0
+106 12 LVecBase4f * 0 8576 12 LVecBase4f * 12 LVecBase4f * 0 0 105 0 0 0 0 0 0 0 0 0 0
 
-94 9 Texture * 0 8576 9 Texture * 9 Texture * 0 0 95 0 0 0 0 0 0 0 0 0 0
+107 9 Texture * 0 8576 9 Texture * 9 Texture * 0 0 108 0 0 0 0 0 0 0 0 0 0
 
-95 7 Texture 0 2048 7 Texture 7 Texture 0 0 0 0 0 0 0 0 0 0 0 0 1051
+108 7 Texture 0 2048 7 Texture 7 Texture 0 0 0 0 0 0 0 0 0 0 0 0 1051
 ////////////////////////////////////////////////////////////////////
 //       Class : Texture
 // Description : Represents a texture object, which is typically a
@@ -319,9 +350,9 @@ LUIRoot::~LUIRoot(void);
 //               system RAM image is automatically freed.
 ////////////////////////////////////////////////////////////////////
 
-96 4 bool 0 8194 4 bool 4 bool 0 4 0 0 0 0 0 0 0 0 0 0 0
+109 4 bool 0 8194 4 bool 4 bool 0 4 0 0 0 0 0 0 0 0 0 0 0
 
-97 9 LUIRoot * 0 8576 9 LUIRoot * 9 LUIRoot * 0 0 72 0 0 0 0 0 0 0 0 0 0
+110 9 LUIRoot * 0 8576 9 LUIRoot * 9 LUIRoot * 0 0 83 0 0 0 0 0 0 0 0 0 0
 
 0
 0

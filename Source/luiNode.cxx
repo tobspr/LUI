@@ -11,7 +11,8 @@ LUINode::~LUINode() {
 
 }
 
-void LUINode::add_widget(LUINode *node) {
+void LUINode::operator += (PT(LUINode) node) {
+    cout << "Add widget" << endl;
 }
 
 LUIAtlasDescriptor LUINode::get_atlas_image(string identifier) {
