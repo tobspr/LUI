@@ -3,17 +3,15 @@
 
 
 
-LUIAtlasDescriptor::LUIAtlasDescriptor() {
-}
-
-LUIAtlasDescriptor::~LUIAtlasDescriptor() {
-}
-
-
 
 LUIAtlas::LUIAtlas() : _size(0) {
-
+  lui_cat.spam() << "Constructed new LUIAtlas" << endl;
 }
+
+LUIAtlas::~LUIAtlas() {
+   lui_cat.spam() << "Destructed LUIAtlas" << endl;
+}
+
 
 
 bool LUIAtlas::load_descriptor_file(const string &descriptor_path) {
@@ -21,7 +19,7 @@ bool LUIAtlas::load_descriptor_file(const string &descriptor_path) {
   lui_cat.info() << "Loading atlas description from " << descriptor_path << endl;
 
 
-  // This sucks
+  // This sucks & crashes
   //VirtualFileSystem *vfs = VirtualFileSystem::get_global_ptr();
 
   //PT(VirtualFile) file = vfs->get_file(descriptor_path);
@@ -42,24 +40,34 @@ bool LUIAtlas::load_descriptor_file(const string &descriptor_path) {
 
   //cout << "Returning .. " << endl;
 
-  // This rocks
+  // This works perfectly
+  // Doesn't support VirtualFileSystem though :(
+
   std::ifstream infile(descriptor_path);
 
   string name;
   int x, y, w, h;
   while (infile >> name >> x >> y >> w >> h)
   {
-      add_descriptor(name, x, y, w, h);
+      add_entry(name, x, y, w, h);
   }
 
-
-  return false;
+  return true;
 }
 
-void LUIAtlas::add_descriptor(const string &name, int x, int y, int w, int h) {
-    cout << "Registering descriptor " << name << " at position " << x << " / " << y << " and size " << w << "x" << h << endl;
+void LUIAtlas::add_entry(const string &name, int x, int y, int w, int h) {
 
+    if(lui_cat.is_spam()) {
+      cout << "Registering entry " << name << " at position " << x << " / " << y << " and size " << w << "x" << h << endl;
+    }
+
+    LUIAtlasEntry* entry = new LUIAtlasEntry();
+    entry->pos = LVector2(x, y);
+    entry->size = LVector2(w, h);
+    _entries[name] = entry;
 }
+
+
 
 bool LUIAtlas::load_texture(const string &texture_path) {
     lui_cat.info() << "Loading atlas texture from " << texture_path << endl;
@@ -67,13 +75,12 @@ bool LUIAtlas::load_texture(const string &texture_path) {
     _tex = TexturePool::load_texture(texture_path);
 
     if (_tex == NULL) {
-      lui_cat.info() << "Failed loading atlas texture" << endl;
+      lui_cat.error() << "Failed loading atlas texture" << endl;
       return false;
     }
 
-    return false;
+    _size = _tex->get_x_size();
+
+    return true;
 }
 
-LUIAtlas::~LUIAtlas() {
-
-}

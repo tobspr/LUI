@@ -19,17 +19,16 @@
 
 #include "config_lui.h"
 
-class LUIRoot {
+class EXPCL_PANDASKEL LUIRoot {
 
   PUBLISHED:
 
     LUIRoot();
     ~LUIRoot();
 		
-    PT(LUISprite) attach_sprite(float x, float y, LUIAtlasDescriptor desc);
+    PT(LUISprite) attach_sprite(float x, float y, LUIAtlasDescriptor* desc);
     void operator += (PT(LUINode) node);
 
-    void load_atlas(const string &atlas_id, const string &atlas_desc_path, const string &atlas_tex_path);
 
   public:
 
@@ -42,9 +41,6 @@ class LUIRoot {
     // can maintain the ability to attach nodes directly to the
     // root
     PT(LUINode) _root;
-
-
-    map<string, PT(LUIAtlas)> _atlases;
 
 };
 

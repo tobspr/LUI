@@ -14,7 +14,9 @@ LUISprite::LUISprite() :
     set_size(10, 10);
     set_color(1.0, 1.0, 1.0, 1.0);
 
-    lui_cat.info() << "Constructed new LUISprite\n";
+    lui_cat.spam() << "Constructed new LUISprite\n";
 }
 
-LUISprite::~LUISprite() {}
+LUISprite::~LUISprite() {
+  lui_cat.spam() << "Destructed a LUISprite\n";
+}

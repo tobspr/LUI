@@ -86,10 +86,6 @@ set(LIBRARIES ${LIBRARIES} "libp3direct.lib")
 
 # Optimizations
 IF(MSVC)
-   # sse2 is faster
-   ADD_DEFINITIONS("/arch:SSE2")
-
-   # optimize for speed, not size
    ADD_DEFINITIONS("/Ot")
    ADD_DEFINITIONS("/O2")
    ADD_DEFINITIONS("/Ob2")
@@ -98,7 +94,6 @@ IF(MSVC)
    #ADD_DEFINITIONS("/Yc")
    ADD_DEFINITIONS("/fp:fast")
 
-
 ELSE()
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -mtune=native -march=native")
 ENDIF()
@@ -106,6 +101,10 @@ ENDIF()
 
 # Add defines
 add_definitions( -DBUILDING_PANDASKEL )
+add_definitions( -D_CRT_SECURE_NO_WARNINGS )
+
+# Ignore some warnings
+add_definitions( /wd4267 /wd4101 )
 
 # Build library
 add_library(LUI MODULE ${SOURCES})

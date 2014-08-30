@@ -16,30 +16,14 @@
 
 #include "config_lui.h"
 
-
-class EXPCL_PANDASKEL LUIAtlasDescriptor : public ReferenceCount {
-
-PUBLISHED:
-  LUIAtlasDescriptor();
-  ~LUIAtlasDescriptor();
-
-public:
-
-  // Todo: Add getters & setters
-  Texture* tex;
-  PN_stdfloat width, height;
-  LVector2 uv_begin;
-  LVector2 uv_end;
-
-  
+struct LUIAtlasEntry {
+    LVector2 size;
+    LVector2 pos;
 };
-
-
-
 
 class EXPCL_PANDASKEL LUIAtlas : public ReferenceCount {
 
-public:
+PUBLISHED:
 
   LUIAtlas();
   ~LUIAtlas();
@@ -47,16 +31,21 @@ public:
   bool load_descriptor_file(const string &descriptor_path);
   bool load_texture(const string &texture_path);
 
+  INLINE Texture* get_texture();
+
+  INLINE bool has_entry(const string &name);
+  INLINE LUIAtlasEntry* get_entry(const string &name);
+
 private:
 
-  void add_descriptor(const string &name, int x, int y, int w, int h);
-
+  void add_entry(const string &name, int x, int y, int w, int h);
 
   PT(Texture) _tex;
-  map<string, PT(LUIAtlasDescriptor)> _descriptors;
+  map<string, LUIAtlasEntry*> _entries;
   int _size;
+  
 };
 
-
+#include "luiAtlas.I"
 
 #endif

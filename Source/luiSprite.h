@@ -11,6 +11,10 @@
 #include "texture.h"
 #include "referenceCount.h"
 #include "config_lui.h"
+#include "luiAtlasDescriptor.h"
+#include "luiAtlasPool.h"
+#include "texturePool.h"
+
 #include <iostream>
 
 class LUIVertexPool;
@@ -64,7 +68,9 @@ PUBLISHED:
 
     // Texture
 		INLINE void set_texture(Texture* tex);
-		INLINE Texture* get_texture() const;
+    INLINE void set_texture(LUIAtlasDescriptor *descriptor);
+    INLINE void set_texture(const string &source);
+		INLINE Texture *get_texture() const;
 
     // Z-Index
 		INLINE void set_z_index(float z_index);
@@ -109,6 +115,8 @@ PUBLISHED:
 
     // Handle to the LUIVertexPool
     LUIVertexPool* _vertex_pool;
+
+    PT(Texture) _tex;
 
 };
 

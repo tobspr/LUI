@@ -5,6 +5,7 @@ INLINE void LUISprite::set_pos(const LPoint2 &pos) {
 }
 
 INLINE void LUISprite::set_pos(float x, float y) {
+  cout << "Set Pos: " << x << "/" << y << endl;
   _data[0].x = x;
   _data[0].y = y;
   recompute_vertices();
@@ -35,6 +36,7 @@ INLINE void LUISprite::set_size(const LVector2 &size) {
 }
 
 INLINE void LUISprite::set_size(float w, float h) {
+  cout << "Set Size: " << w << "x" << h << endl;
   set_width(w);
   set_height(h);
 }
@@ -132,13 +134,54 @@ INLINE LColor LUISprite::get_color() {
 }
 
 INLINE void LUISprite::set_texture(Texture* tex) {
-  lui_cat.error() << "set_texture is not implemented yet\n";
+  if (tex != NULL) {
+    _tex = tex;
+  }
 }
 
-INLINE Texture* LUISprite::get_texture() const {
-  lui_cat.error() << "get_texture is not implemented yet\n";
-  return NULL;
+INLINE Texture *LUISprite::get_texture() const {
+  return _tex;
 }
+
+INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
+  lui_cat.spam() << "LUISprite -> set texture from descriptor" << endl;
+  
+  if (descriptor == NULL) {
+    lui_cat.spam() << "Ignoring null descriptor" << endl;
+    return;
+  }
+
+  set_size(descriptor->get_size());
+  set_texcoord_start(descriptor->get_uv_begin());
+  set_texcoord_end(descriptor->get_uv_end());
+  set_texture(descriptor->get_texture());
+
+}
+
+INLINE void LUISprite::set_texture(const string &source) {
+  
+  // Check for "atlasName:entry" syntax
+  size_t separator = source.find(":");
+  if (separator != string::npos) {
+    lui_cat.spam() << "Detected 'atlasName:entry' syntax" << endl; 
+
+    string entry_name = source.substr(separator + 1);
+    string atlas_name = source.substr(0, separator);
+  
+    if (atlas_name.length() < 1) {
+      atlas_name = "default";
+    }
+
+    PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_name, entry_name);
+    set_texture(descriptor);
+    return;
+  } 
+
+  // Otherwise, load texture from file
+  PT(Texture) tex = TexturePool::load_texture(source);
+  set_texture(tex);
+}
+
 
 INLINE void LUISprite::set_z_index(float z_index) {
   for (int i = 0; i < 4; i++) {
