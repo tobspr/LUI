@@ -1,87 +1,100 @@
-1409416868
+1409420852
 2 2
 3 LUI 4 jJ0G 3 LUI 
-49
-3 8 LUIAtlas 0 4 1 18 LUIAtlas::LUIAtlas 0 0 0
+52
+63 8 LUIAtlas 0 4 115 18 LUIAtlas::LUIAtlas 0 1 1 0
 25
 LUIAtlas::LUIAtlas(void);
 
-4 20 load_descriptor_file 0 4 1 30 LUIAtlas::load_descriptor_file 0 0 0
+64 20 load_descriptor_file 0 4 115 30 LUIAtlas::load_descriptor_file 0 1 2 0
 81
 bool LUIAtlas::load_descriptor_file(basic_string< char > const &descriptor_path);
 
-5 12 load_texture 0 4 1 22 LUIAtlas::load_texture 0 0 0
+65 12 load_texture 0 4 115 22 LUIAtlas::load_texture 0 1 3 0
 70
 bool LUIAtlas::load_texture(basic_string< char > const &texture_path);
 
-6 11 get_texture 0 4 1 21 LUIAtlas::get_texture 0 0 0
+66 11 get_texture 0 4 115 21 LUIAtlas::get_texture 0 1 4 0
 44
 inline Texture *LUIAtlas::get_texture(void);
 
-7 9 has_entry 0 4 1 19 LUIAtlas::has_entry 0 0 0
+67 9 has_entry 0 4 115 19 LUIAtlas::has_entry 0 1 5 0
 66
 inline bool LUIAtlas::has_entry(basic_string< char > const &name);
 
-8 9 get_entry 0 4 1 19 LUIAtlas::get_entry 0 0 0
+68 9 get_entry 0 4 115 19 LUIAtlas::get_entry 0 1 6 0
 76
 inline LUIAtlasEntry *LUIAtlas::get_entry(basic_string< char > const &name);
 
-10 18 LUIAtlasDescriptor 0 4 9 38 LUIAtlasDescriptor::LUIAtlasDescriptor 0 0 0
+69 18 LUIAtlasDescriptor 0 4 117 38 LUIAtlasDescriptor::LUIAtlasDescriptor 0 1 7 0
 45
 LUIAtlasDescriptor::LUIAtlasDescriptor(void);
 
-12 14 LUIAtlasPacker 0 4 11 30 LUIAtlasPacker::LUIAtlasPacker 0 0 0
+70 14 LUIAtlasPacker 0 4 118 30 LUIAtlasPacker::LUIAtlasPacker 0 1 8 0
 41
 LUIAtlasPacker::LUIAtlasPacker(int size);
 
-13 13 find_position 0 4 11 29 LUIAtlasPacker::find_position 0 0 0
+71 13 find_position 0 4 118 29 LUIAtlasPacker::find_position 0 1 9 0
 54
 LVector2f LUIAtlasPacker::find_position(int w, int h);
 
-15 14 get_global_ptr 0 4 14 28 LUIAtlasPool::get_global_ptr 0 0 0
+72 14 get_global_ptr 0 4 119 28 LUIAtlasPool::get_global_ptr 0 1 10 0
 56
 static LUIAtlasPool *LUIAtlasPool::get_global_ptr(void);
 
-16 10 load_atlas 0 4 14 24 LUIAtlasPool::load_atlas 0 0 0
+73 10 load_atlas 0 4 119 24 LUIAtlasPool::load_atlas 0 1 11 0
 157
 void LUIAtlasPool::load_atlas(basic_string< char > const &atlas_id, basic_string< char > const &atlas_desc_path, basic_string< char > const &atlas_tex_path);
 
-17 9 has_atlas 0 4 14 23 LUIAtlasPool::has_atlas 0 0 0
+74 9 has_atlas 0 4 119 23 LUIAtlasPool::has_atlas 0 1 12 0
 74
 inline bool LUIAtlasPool::has_atlas(basic_string< char > const &atlas_id);
 
-18 9 get_atlas 0 4 14 23 LUIAtlasPool::get_atlas 0 0 0
+75 9 get_atlas 0 4 119 23 LUIAtlasPool::get_atlas 0 1 13 0
 91
 inline PointerTo< LUIAtlas > LUIAtlasPool::get_atlas(basic_string< char > const &atlas_id);
 
-19 14 get_descriptor 0 4 14 28 LUIAtlasPool::get_descriptor 0 0 0
+76 14 get_descriptor 0 4 119 28 LUIAtlasPool::get_descriptor 0 2 14 15 0
 251
 inline PointerTo< LUIAtlasDescriptor > LUIAtlasPool::get_descriptor(basic_string< char > const &entry_id);
 inline PointerTo< LUIAtlasDescriptor > LUIAtlasPool::get_descriptor(basic_string< char > const &atlas_id, basic_string< char > const &entry_id);
 
-21 7 LUINode 0 4 20 16 LUINode::LUINode 0 0 0
+77 7 LUINode 0 4 120 16 LUINode::LUINode 0 1 16 0
 23
 LUINode::LUINode(void);
 
-22 15 get_atlas_image 0 4 20 24 LUINode::get_atlas_image 0 0 0
-233
-PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &identifier);
-PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &atlas_id, basic_string< char > const &identifier);
+78 15 get_atlas_image 0 4 120 24 LUINode::get_atlas_image 0 2 17 18 0
+247
+inline PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &identifier);
+inline PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &atlas_id, basic_string< char > const &identifier);
 
-23 13 attach_sprite 0 4 20 22 LUINode::attach_sprite 0 0 0
-203
-PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, basic_string< char > const &source);
-PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, PointerTo< LUIAtlasDescriptor > desc);
+79 13 attach_sprite 0 4 120 22 LUINode::attach_sprite 0 3 19 20 21 0
+315
+inline PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, basic_string< char > const &source);
+inline PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, PointerTo< LUIAtlasDescriptor > desc);
+inline PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, PointerTo< Texture > tex);
 
-24 11 operator += 0 4 20 20 LUINode::operator += 0 0 0
+80 13 remove_sprite 0 4 120 22 LUINode::remove_sprite 0 1 22 0
+66
+inline void LUINode::remove_sprite(PointerTo< LUISprite > sprite);
+
+81 16 get_sprite_count 0 4 120 25 LUINode::get_sprite_count 0 1 23 0
+43
+inline int LUINode::get_sprite_count(void);
+
+82 10 get_sprite 0 4 120 19 LUINode::get_sprite 0 1 24 0
+57
+inline PointerTo< LUISprite > LUINode::get_sprite(int n);
+
+83 11 operator += 0 4 120 20 LUINode::operator += 0 1 25 0
 53
 void LUINode::operator +=(PointerTo< LUINode > node);
 
-26 9 LUISprite 0 4 25 20 LUISprite::LUISprite 0 0 0
+84 9 LUISprite 0 4 121 20 LUISprite::LUISprite 0 1 26 0
 27
 LUISprite::LUISprite(void);
 
-27 7 set_pos 0 4 25 18 LUISprite::set_pos 0 0 64
+85 7 set_pos 0 4 121 18 LUISprite::set_pos 0 2 27 28 64
 // Setter / Getter 
 // Position
 
@@ -91,27 +104,27 @@ LUISprite::LUISprite(void);
 inline void LUISprite::set_pos(LPoint2f const &pos);
 inline void LUISprite::set_pos(float x, float y);
 
-28 5 set_x 0 4 25 16 LUISprite::set_x 0 0 0
+86 5 set_x 0 4 121 16 LUISprite::set_x 0 1 29 0
 38
 inline void LUISprite::set_x(float x);
 
-29 5 set_y 0 4 25 16 LUISprite::set_y 0 0 0
+87 5 set_y 0 4 121 16 LUISprite::set_y 0 1 30 0
 38
 inline void LUISprite::set_y(float y);
 
-30 5 get_x 0 4 25 16 LUISprite::get_x 0 0 0
+88 5 get_x 0 4 121 16 LUISprite::get_x 0 1 31 0
 36
 inline float LUISprite::get_x(void);
 
-31 5 get_y 0 4 25 16 LUISprite::get_y 0 0 0
+89 5 get_y 0 4 121 16 LUISprite::get_y 0 1 32 0
 36
 inline float LUISprite::get_y(void);
 
-32 7 get_pos 0 4 25 18 LUISprite::get_pos 0 0 0
+90 7 get_pos 0 4 121 18 LUISprite::get_pos 0 1 33 0
 41
 inline LPoint2f LUISprite::get_pos(void);
 
-33 8 set_size 0 4 25 19 LUISprite::set_size 0 0 16
+91 8 set_size 0 4 121 19 LUISprite::set_size 0 2 34 35 16
 // Size
 
 // Size
@@ -119,27 +132,27 @@ inline LPoint2f LUISprite::get_pos(void);
 inline void LUISprite::set_size(LVector2f const &size);
 inline void LUISprite::set_size(float w, float h);
 
-34 9 set_width 0 4 25 20 LUISprite::set_width 0 0 0
+92 9 set_width 0 4 121 20 LUISprite::set_width 0 1 36 0
 42
 inline void LUISprite::set_width(float w);
 
-35 10 set_height 0 4 25 21 LUISprite::set_height 0 0 0
+93 10 set_height 0 4 121 21 LUISprite::set_height 0 1 37 0
 43
 inline void LUISprite::set_height(float h);
 
-36 9 get_width 0 4 25 20 LUISprite::get_width 0 0 0
+94 9 get_width 0 4 121 20 LUISprite::get_width 0 1 38 0
 40
 inline float LUISprite::get_width(void);
 
-37 10 get_height 0 4 25 21 LUISprite::get_height 0 0 0
+95 10 get_height 0 4 121 21 LUISprite::get_height 0 1 39 0
 41
 inline float LUISprite::get_height(void);
 
-38 8 get_size 0 4 25 19 LUISprite::get_size 0 0 0
+96 8 get_size 0 4 121 19 LUISprite::get_size 0 1 40 0
 56
 inline LVector2f const &LUISprite::get_size(void) const;
 
-39 18 set_texcoord_start 0 4 25 29 LUISprite::set_texcoord_start 0 0 24
+97 18 set_texcoord_start 0 4 121 29 LUISprite::set_texcoord_start 0 2 41 42 24
 // Texcoord
 
 // Texcoord
@@ -147,20 +160,20 @@ inline LVector2f const &LUISprite::get_size(void) const;
 inline void LUISprite::set_texcoord_start(LVector2f const &texcoord_start);
 inline void LUISprite::set_texcoord_start(float u, float v);
 
-40 18 get_texcoord_start 0 4 25 29 LUISprite::get_texcoord_start 0 0 0
+98 18 get_texcoord_start 0 4 121 29 LUISprite::get_texcoord_start 0 1 43 0
 53
 inline LVector2f LUISprite::get_texcoord_start(void);
 
-41 16 set_texcoord_end 0 4 25 27 LUISprite::set_texcoord_end 0 0 0
+99 16 set_texcoord_end 0 4 121 27 LUISprite::set_texcoord_end 0 2 44 45 0
 130
 inline void LUISprite::set_texcoord_end(LVector2f const &texcoord_end);
 inline void LUISprite::set_texcoord_end(float u, float v);
 
-42 16 get_texcoord_end 0 4 25 27 LUISprite::get_texcoord_end 0 0 0
+100 16 get_texcoord_end 0 4 121 27 LUISprite::get_texcoord_end 0 1 46 0
 51
 inline LVector2f LUISprite::get_texcoord_end(void);
 
-43 9 set_color 0 4 25 20 LUISprite::set_color 0 0 18
+101 9 set_color 0 4 121 20 LUISprite::set_color 0 2 47 48 18
 // Color
 
 // Color
@@ -168,11 +181,11 @@ inline LVector2f LUISprite::get_texcoord_end(void);
 inline void LUISprite::set_color(LVecBase4f const &color);
 inline void LUISprite::set_color(float r, float g, float b, float a);
 
-44 9 get_color 0 4 25 20 LUISprite::get_color 0 0 0
+102 9 get_color 0 4 121 20 LUISprite::get_color 0 1 49 0
 45
 inline LVecBase4f LUISprite::get_color(void);
 
-45 11 set_texture 0 4 25 22 LUISprite::set_texture 0 0 22
+103 11 set_texture 0 4 121 22 LUISprite::set_texture 0 3 50 51 52 22
 // Texture
 
 // Texture
@@ -181,59 +194,123 @@ inline void LUISprite::set_texture(Texture *tex);
 inline void LUISprite::set_texture(LUIAtlasDescriptor *descriptor);
 inline void LUISprite::set_texture(basic_string< char > const &source);
 
-46 11 get_texture 0 4 25 22 LUISprite::get_texture 0 0 0
+104 11 get_texture 0 4 121 22 LUISprite::get_texture 0 1 53 0
 51
 inline Texture *LUISprite::get_texture(void) const;
 
-47 11 set_z_index 0 4 25 22 LUISprite::set_z_index 0 0 10
+105 11 set_z_index 0 4 121 22 LUISprite::set_z_index 0 1 54 10
 // Z-Index
 50
 inline void LUISprite::set_z_index(float z_index);
 
-48 11 get_z_index 0 4 25 22 LUISprite::get_z_index 0 0 10
+106 11 get_z_index 0 4 121 22 LUISprite::get_z_index 0 1 55 10
 // Z-Index
 42
 inline float LUISprite::get_z_index(void);
 
-49 11 set_visible 0 4 25 22 LUISprite::set_visible 0 0 10
+107 11 set_visible 0 4 121 22 LUISprite::set_visible 0 1 56 10
 // Visible
 49
 inline void LUISprite::set_visible(bool visible);
 
-50 10 is_visible 0 4 25 21 LUISprite::is_visible 0 0 10
+108 10 is_visible 0 4 121 21 LUISprite::is_visible 0 1 57 10
 // Visible
 40
 inline bool LUISprite::is_visible(void);
 
-51 4 hide 0 4 25 15 LUISprite::hide 0 0 0
+109 4 hide 0 4 121 15 LUISprite::hide 0 1 58 0
 34
 inline void LUISprite::hide(void);
 
-52 4 show 0 4 25 15 LUISprite::show 0 0 0
+110 4 show 0 4 121 15 LUISprite::show 0 1 59 0
 34
 inline void LUISprite::show(void);
 
-54 7 LUIRoot 0 4 53 16 LUIRoot::LUIRoot 0 0 0
+111 7 LUIRoot 0 4 122 16 LUIRoot::LUIRoot 0 1 60 0
 23
 LUIRoot::LUIRoot(void);
 
-55 8 ~LUIRoot 0 4 53 17 LUIRoot::~LUIRoot 0 0 0
+112 8 ~LUIRoot 0 4 122 17 LUIRoot::~LUIRoot 0 0 0
 24
 LUIRoot::~LUIRoot(void);
 
-56 13 attach_sprite 0 4 53 22 LUIRoot::attach_sprite 0 0 0
+113 13 attach_sprite 0 4 122 22 LUIRoot::attach_sprite 0 1 61 0
 90
 PointerTo< LUISprite > LUIRoot::attach_sprite(float x, float y, LUIAtlasDescriptor *desc);
 
-57 11 operator += 0 4 53 20 LUIRoot::operator += 0 0 0
+114 11 operator += 0 4 122 20 LUIRoot::operator += 0 1 62 0
 53
 void LUIRoot::operator +=(PointerTo< LUINode > node);
 
-0
-8
-1 8 LUIAtlas 0 75777 8 LUIAtlas 8 LUIAtlas 0 0 0 1 3 0 0 5 4 5 6 7 8 0 0 1 0 2 0 0 0 0 0
+62
+1 14 Dtool_jJ0Ge_HK 0 7 3 123 0 14 Dtool_jJ0Ge_HK 0 0 
+2 14 Dtool_jJ0GBOW6 0 6 4 125 0 14 Dtool_jJ0GBOW6 0 2 4 this 3 123  15 descriptor_path 1 124  
+3 14 Dtool_jJ0GSx6K 0 6 5 125 0 14 Dtool_jJ0GSx6K 0 2 4 this 3 123  12 texture_path 1 124  
+4 14 Dtool_jJ0GBRYx 0 7 6 127 0 14 Dtool_jJ0GBRYx 0 1 4 this 3 123  
+5 14 Dtool_jJ0G5TJc 0 6 7 125 0 14 Dtool_jJ0G5TJc 0 2 4 this 3 123  4 name 1 124  
+6 14 Dtool_jJ0GcT8z 0 6 8 128 0 14 Dtool_jJ0GcT8z 0 2 4 this 3 123  4 name 1 124  
+7 14 Dtool_jJ0G8xhK 0 7 10 130 0 14 Dtool_jJ0G8xhK 0 0 
+8 14 Dtool_jJ0GL9zA 0 7 12 132 0 14 Dtool_jJ0GL9zA 0 1 4 size 1 131  
+9 14 Dtool_jJ0G8x4_ 0 7 13 134 0 14 Dtool_jJ0G8x4_ 0 3 4 this 3 132  1 w 1 131  1 h 1 131  
+10 14 Dtool_jJ0GzFLW 0 6 15 135 0 14 Dtool_jJ0GzFLW 0 0 
+11 14 Dtool_jJ0Gr0Me 0 4 16 136 0 14 Dtool_jJ0Gr0Me 0 4 4 this 3 135  8 atlas_id 1 124  15 atlas_desc_path 1 124  14 atlas_tex_path 1 124  
+12 14 Dtool_jJ0GeRSm 0 6 17 125 0 14 Dtool_jJ0GeRSm 0 2 4 this 3 135  8 atlas_id 1 124  
+13 14 Dtool_jJ0GVax7 0 7 18 123 0 14 Dtool_jJ0GVax7 0 2 4 this 3 135  8 atlas_id 1 124  
+14 14 Dtool_jJ0G_XMf 0 7 19 130 0 14 Dtool_jJ0G_XMf 0 2 4 this 3 135  8 entry_id 1 124  
+15 14 Dtool_jJ0GFBo3 0 7 19 130 0 14 Dtool_jJ0GFBo3 0 3 4 this 3 135  8 atlas_id 1 124  8 entry_id 1 124  
+16 14 Dtool_jJ0G3T7O 0 7 21 137 0 14 Dtool_jJ0G3T7O 0 0 
+17 14 Dtool_jJ0G0SVM 0 7 22 130 0 14 Dtool_jJ0G0SVM 0 2 4 this 3 137  10 identifier 1 124  
+18 14 Dtool_jJ0GqcgU 0 7 22 130 0 14 Dtool_jJ0GqcgU 0 3 4 this 3 137  8 atlas_id 1 124  10 identifier 1 124  
+19 14 Dtool_jJ0GdxpG 0 7 23 139 0 14 Dtool_jJ0GdxpG 0 4 4 this 3 137  1 x 1 138  1 y 1 138  4 desc 1 130  
+20 14 Dtool_jJ0GYdYP 0 7 23 139 0 14 Dtool_jJ0GYdYP 0 4 4 this 3 137  1 x 1 138  1 y 1 138  3 tex 1 127  
+21 14 Dtool_jJ0G4bwZ 0 7 23 139 0 14 Dtool_jJ0G4bwZ 0 4 4 this 3 137  1 x 1 138  1 y 1 138  6 source 1 124  
+22 14 Dtool_jJ0GLTFc 0 4 24 136 0 14 Dtool_jJ0GLTFc 0 2 4 this 3 137  6 sprite 1 139  
+23 14 Dtool_jJ0GP9Lr 0 6 25 131 0 14 Dtool_jJ0GP9Lr 0 1 4 this 3 137  
+24 14 Dtool_jJ0GWZAJ 0 7 26 139 0 14 Dtool_jJ0GWZAJ 0 2 4 this 3 137  1 n 1 131  
+25 14 Dtool_jJ0GKeO5 0 7 27 137 0 14 Dtool_jJ0GKeO5 0 2 4 this 3 137  4 node 1 137  
+26 14 Dtool_jJ0G0beO 0 7 29 139 0 14 Dtool_jJ0G0beO 0 0 
+27 14 Dtool_jJ0GTnVb 0 4 30 136 0 14 Dtool_jJ0GTnVb 31 // Setter / Getter 
+// Position 2 4 this 3 139  3 pos 1 140  
+28 14 Dtool_jJ0GAvgp 0 4 30 136 0 14 Dtool_jJ0GAvgp 31 // Setter / Getter 
+// Position 3 4 this 3 139  1 x 1 138  1 y 1 138  
+29 14 Dtool_jJ0Gqd_o 0 4 31 136 0 14 Dtool_jJ0Gqd_o 0 2 4 this 3 139  1 x 1 138  
+30 14 Dtool_jJ0GStJp 0 4 32 136 0 14 Dtool_jJ0GStJp 0 2 4 this 3 139  1 y 1 138  
+31 14 Dtool_jJ0GbRKp 0 6 33 138 0 14 Dtool_jJ0GbRKp 0 1 4 this 3 139  
+32 14 Dtool_jJ0GTAUp 0 6 34 138 0 14 Dtool_jJ0GTAUp 0 1 4 this 3 139  
+33 14 Dtool_jJ0Gs6Ij 0 7 35 143 0 14 Dtool_jJ0Gs6Ij 0 1 4 this 3 139  
+34 14 Dtool_jJ0GDSuu 0 4 36 136 0 14 Dtool_jJ0GDSuu 7 // Size 2 4 this 3 139  4 size 1 144  
+35 14 Dtool_jJ0G8DXk 0 4 36 136 0 14 Dtool_jJ0G8DXk 7 // Size 3 4 this 3 139  1 w 1 138  1 h 1 138  
+36 14 Dtool_jJ0GScMs 0 4 37 136 0 14 Dtool_jJ0GScMs 0 2 4 this 3 139  1 w 1 138  
+37 14 Dtool_jJ0GtpzG 0 4 38 136 0 14 Dtool_jJ0GtpzG 0 2 4 this 3 139  1 h 1 138  
+38 14 Dtool_jJ0GEQxw 0 6 39 138 0 14 Dtool_jJ0GEQxw 0 1 4 this 3 139  
+39 14 Dtool_jJ0Ghcak 0 6 40 138 0 14 Dtool_jJ0Ghcak 0 1 4 this 3 139  
+40 14 Dtool_jJ0G_Emi 0 6 41 144 0 14 Dtool_jJ0G_Emi 0 1 4 this 3 146  
+41 14 Dtool_jJ0GZPqC 0 4 42 136 0 14 Dtool_jJ0GZPqC 11 // Texcoord 2 4 this 3 139  14 texcoord_start 1 144  
+42 14 Dtool_jJ0GN_OZ 0 4 42 136 0 14 Dtool_jJ0GN_OZ 11 // Texcoord 3 4 this 3 139  1 u 1 138  1 v 1 138  
+43 14 Dtool_jJ0Gmg_s 0 7 43 134 0 14 Dtool_jJ0Gmg_s 0 1 4 this 3 139  
+44 14 Dtool_jJ0G1aLq 0 4 44 136 0 14 Dtool_jJ0G1aLq 0 2 4 this 3 139  12 texcoord_end 1 144  
+45 14 Dtool_jJ0Gpyol 0 4 44 136 0 14 Dtool_jJ0Gpyol 0 3 4 this 3 139  1 u 1 138  1 v 1 138  
+46 14 Dtool_jJ0GbKPb 0 7 45 134 0 14 Dtool_jJ0GbKPb 0 1 4 this 3 139  
+47 14 Dtool_jJ0GjsUJ 0 4 46 136 0 14 Dtool_jJ0GjsUJ 8 // Color 2 4 this 3 139  5 color 1 148  
+48 14 Dtool_jJ0G0obL 0 4 46 136 0 14 Dtool_jJ0G0obL 8 // Color 5 4 this 3 139  1 r 1 138  1 g 1 138  1 b 1 138  1 a 1 138  
+49 14 Dtool_jJ0GZ92J 0 7 47 151 0 14 Dtool_jJ0GZ92J 0 1 4 this 3 139  
+50 14 Dtool_jJ0Gk1Cl 0 4 48 136 0 14 Dtool_jJ0Gk1Cl 10 // Texture 2 4 this 3 139  10 descriptor 1 130  
+51 14 Dtool_jJ0GBbSG 0 4 48 136 0 14 Dtool_jJ0GBbSG 10 // Texture 2 4 this 3 139  3 tex 1 127  
+52 14 Dtool_jJ0GCkWd 0 4 48 136 0 14 Dtool_jJ0GCkWd 0 2 4 this 3 139  6 source 1 124  
+53 14 Dtool_jJ0GAHju 0 7 49 127 0 14 Dtool_jJ0GAHju 0 1 4 this 3 146  
+54 14 Dtool_jJ0G0CvJ 0 4 50 136 0 14 Dtool_jJ0G0CvJ 10 // Z-Index 2 4 this 3 139  7 z_index 1 138  
+55 14 Dtool_jJ0GQj7I 0 6 51 138 0 14 Dtool_jJ0GQj7I 10 // Z-Index 1 4 this 3 139  
+56 14 Dtool_jJ0Gzi7K 0 4 52 136 0 14 Dtool_jJ0Gzi7K 10 // Visible 2 4 this 3 139  7 visible 1 125  
+57 14 Dtool_jJ0GCgZS 0 6 53 125 0 14 Dtool_jJ0GCgZS 10 // Visible 1 4 this 3 139  
+58 14 Dtool_jJ0Ga9z_ 0 4 54 136 0 14 Dtool_jJ0Ga9z_ 0 1 4 this 3 139  
+59 14 Dtool_jJ0GYuHT 0 4 55 136 0 14 Dtool_jJ0GYuHT 0 1 4 this 3 139  
+60 14 Dtool_jJ0Gxl7v 0 7 57 152 112 14 Dtool_jJ0Gxl7v 0 0 
+61 14 Dtool_jJ0GkP7R 0 7 59 139 0 14 Dtool_jJ0GkP7R 0 4 4 this 3 152  1 x 1 138  1 y 1 138  4 desc 1 130  
+62 14 Dtool_jJ0Gs8cP 0 6 60 152 0 14 Dtool_jJ0Gs8cP 0 2 4 this 3 152  4 node 1 137  
+39
+115 8 LUIAtlas 0 75777 8 LUIAtlas 8 LUIAtlas 0 0 0 1 63 0 0 5 64 65 66 67 68 0 0 1 0 116 0 0 0 0 0
 
-2 14 ReferenceCount 0 2049 14 ReferenceCount 14 ReferenceCount 0 0 0 0 0 0 0 0 0 0 0 0 425
+116 14 ReferenceCount 0 2049 14 ReferenceCount 14 ReferenceCount 0 0 0 0 0 0 0 0 0 0 0 0 425
 ////////////////////////////////////////////////////////////////////
 //       Class : ReferenceCount
 // Description : A base class for all things that want to be
@@ -242,15 +319,15 @@ void LUIRoot::operator +=(PointerTo< LUINode > node);
 //               objects when the last pointer to them goes away.
 ////////////////////////////////////////////////////////////////////
 
-9 18 LUIAtlasDescriptor 0 75777 18 LUIAtlasDescriptor 18 LUIAtlasDescriptor 0 0 0 1 10 0 0 0 0 0 1 0 2 0 0 0 0 0
+117 18 LUIAtlasDescriptor 0 75777 18 LUIAtlasDescriptor 18 LUIAtlasDescriptor 0 0 0 1 69 0 0 0 0 0 1 0 116 0 0 0 0 0
 
-11 14 LUIAtlasPacker 0 75777 14 LUIAtlasPacker 14 LUIAtlasPacker 0 0 0 1 12 0 0 1 13 0 0 1 0 2 0 0 0 0 0
+118 14 LUIAtlasPacker 0 75777 14 LUIAtlasPacker 14 LUIAtlasPacker 0 0 0 1 70 0 0 1 71 0 0 1 0 116 0 0 0 0 0
 
-14 12 LUIAtlasPool 0 43009 12 LUIAtlasPool 12 LUIAtlasPool 0 0 0 0 0 0 5 15 16 17 18 19 0 0 0 0 0 0
+119 12 LUIAtlasPool 0 43009 12 LUIAtlasPool 12 LUIAtlasPool 0 0 0 0 0 0 5 72 73 74 75 76 0 0 0 0 0 0
 
-20 7 LUINode 0 75777 7 LUINode 7 LUINode 0 0 0 1 21 0 0 3 22 23 24 0 0 1 0 2 0 0 0 0 0
+120 7 LUINode 0 75777 7 LUINode 7 LUINode 0 0 0 1 77 0 0 6 78 79 80 81 82 83 0 0 1 0 116 0 0 0 0 0
 
-25 9 LUISprite 0 75777 9 LUISprite 9 LUISprite 0 0 0 1 26 0 0 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 0 0 1 0 2 0 0 0 0 371
+121 9 LUISprite 0 75777 9 LUISprite 9 LUISprite 0 0 0 1 84 0 0 26 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 0 0 1 0 116 0 0 0 0 371
 ////////////////////////////////////////////////////////////////////
 //       Class : LUISprite
 // Description : A LUISprite stores a single card, including position,
@@ -258,7 +335,126 @@ void LUIRoot::operator +=(PointerTo< LUINode > node);
 //               LUIVertexPool when any scalar or texture got changed.
 ////////////////////////////////////////////////////////////////////
 
-53 7 LUIRoot 0 26625 7 LUIRoot 7 LUIRoot 0 0 0 1 54 55 0 2 56 57 0 0 0 0 0 0
+122 7 LUIRoot 0 26625 7 LUIRoot 7 LUIRoot 0 0 0 1 111 112 0 2 113 114 0 0 0 0 0 0
+
+123 10 LUIAtlas * 0 8576 10 LUIAtlas * 10 LUIAtlas * 0 0 115 0 0 0 0 0 0 0 0 0 0
+
+124 13 atomic string 0 2 13 atomic string 13 atomic string 0 7 0 0 0 0 0 0 0 0 0 0 0
+
+125 4 bool 0 8194 4 bool 4 bool 0 4 0 0 0 0 0 0 0 0 0 0 0
+
+126 7 Texture 0 2048 7 Texture 7 Texture 0 0 0 0 0 0 0 0 0 0 0 0 1051
+////////////////////////////////////////////////////////////////////
+//       Class : Texture
+// Description : Represents a texture object, which is typically a
+//               single 2-d image but may also represent a 1-d or 3-d
+//               texture image, or the six 2-d faces of a cube map
+//               texture.
+//
+//               A texture's image data might be stored in system RAM
+//               (see get_ram_image()) or its image may be represented
+//               in texture memory on one or more
+//               GraphicsStateGuardians (see prepare()), or both.  The
+//               typical usage pattern is that a texture is loaded
+//               from an image file on disk, which copies its image
+//               data into system RAM; then the first time the texture
+//               is rendered its image data is copied to texture
+//               memory (actually, to the graphics API), and the
+//               system RAM image is automatically freed.
+////////////////////////////////////////////////////////////////////
+
+127 9 Texture * 0 8576 9 Texture * 9 Texture * 0 0 126 0 0 0 0 0 0 0 0 0 0
+
+128 15 LUIAtlasEntry * 0 8576 15 LUIAtlasEntry * 15 LUIAtlasEntry * 0 0 129 0 0 0 0 0 0 0 0 0 0
+
+129 13 LUIAtlasEntry 0 1049600 13 LUIAtlasEntry 13 LUIAtlasEntry 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+130 20 LUIAtlasDescriptor * 0 8576 20 LUIAtlasDescriptor * 20 LUIAtlasDescriptor * 0 0 117 0 0 0 0 0 0 0 0 0 0
+
+131 3 int 0 8194 3 int 3 int 0 1 0 0 0 0 0 0 0 0 0 0 0
+
+132 16 LUIAtlasPacker * 0 8576 16 LUIAtlasPacker * 16 LUIAtlasPacker * 0 0 118 0 0 0 0 0 0 0 0 0 0
+
+133 9 LVector2f 0 2048 9 LVector2f 9 LVector2f 0 0 0 0 0 0 0 0 0 0 0 0 707
+// Filename: lvector2_src.h
+// Created by:  drose (08Mar00)
+//
+////////////////////////////////////////////////////////////////////
+//
+// PANDA 3D SOFTWARE
+// Copyright (c) Carnegie Mellon University.  All rights reserved.
+//
+// All use of this software is subject to the terms of the revised BSD
+// license.  You should have received a copy of this license along
+// with this source code in a file named "LICENSE."
+//
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+//       Class : LVector2
+// Description : This is a two-component vector offset.
+////////////////////////////////////////////////////////////////////
+
+134 11 LVector2f * 0 8576 11 LVector2f * 11 LVector2f * 0 0 133 0 0 0 0 0 0 0 0 0 0
+
+135 14 LUIAtlasPool * 0 8576 14 LUIAtlasPool * 14 LUIAtlasPool * 0 0 119 0 0 0 0 0 0 0 0 0 0
+
+136 4 void 0 8194 4 void 4 void 0 6 0 0 0 0 0 0 0 0 0 0 0
+
+137 9 LUINode * 0 8576 9 LUINode * 9 LUINode * 0 0 120 0 0 0 0 0 0 0 0 0 0
+
+138 5 float 0 8194 5 float 5 float 0 2 0 0 0 0 0 0 0 0 0 0 0
+
+139 11 LUISprite * 0 8576 11 LUISprite * 11 LUISprite * 0 0 121 0 0 0 0 0 0 0 0 0 0
+
+140 16 LPoint2f const * 0 8576 16 LPoint2f const * 16 LPoint2f const * 0 0 141 0 0 0 0 0 0 0 0 0 0
+
+141 14 LPoint2f const 0 8832 14 LPoint2f const 14 LPoint2f const 0 0 142 0 0 0 0 0 0 0 0 0 0
+
+142 8 LPoint2f 0 2048 8 LPoint2f 8 LPoint2f 0 0 0 0 0 0 0 0 0 0 0 0 706
+// Filename: lpoint2_src.h
+// Created by:  drose (08Mar00)
+//
+////////////////////////////////////////////////////////////////////
+//
+// PANDA 3D SOFTWARE
+// Copyright (c) Carnegie Mellon University.  All rights reserved.
+//
+// All use of this software is subject to the terms of the revised BSD
+// license.  You should have received a copy of this license along
+// with this source code in a file named "LICENSE."
+//
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+//       Class : LPoint2
+// Description : This is a two-component point in space.
+////////////////////////////////////////////////////////////////////
+
+143 10 LPoint2f * 0 8576 10 LPoint2f * 10 LPoint2f * 0 0 142 0 0 0 0 0 0 0 0 0 0
+
+144 17 LVector2f const * 0 8576 17 LVector2f const * 17 LVector2f const * 0 0 145 0 0 0 0 0 0 0 0 0 0
+
+145 15 LVector2f const 0 8832 15 LVector2f const 15 LVector2f const 0 0 133 0 0 0 0 0 0 0 0 0 0
+
+146 17 LUISprite const * 0 8576 17 LUISprite const * 17 LUISprite const * 0 0 147 0 0 0 0 0 0 0 0 0 0
+
+147 15 LUISprite const 0 8832 15 LUISprite const 15 LUISprite const 0 0 121 0 0 0 0 0 0 0 0 0 0
+
+148 18 LVecBase4f const * 0 8576 18 LVecBase4f const * 18 LVecBase4f const * 0 0 149 0 0 0 0 0 0 0 0 0 0
+
+149 16 LVecBase4f const 0 8832 16 LVecBase4f const 16 LVecBase4f const 0 0 150 0 0 0 0 0 0 0 0 0 0
+
+150 10 LVecBase4f 0 2048 10 LVecBase4f 10 LVecBase4f 0 0 0 0 0 0 0 0 0 0 0 0 265
+////////////////////////////////////////////////////////////////////
+//       Class : LVecBase4
+// Description : This is the base class for all three-component
+//               vectors and points.
+////////////////////////////////////////////////////////////////////
+
+151 12 LVecBase4f * 0 8576 12 LVecBase4f * 12 LVecBase4f * 0 0 150 0 0 0 0 0 0 0 0 0 0
+
+152 9 LUIRoot * 0 8576 9 LUIRoot * 9 LUIRoot * 0 0 122 0 0 0 0 0 0 0 0 0 0
+
+153 6 string 0 2048 20 basic_string< char > 20 basic_string< char > 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 0
 0

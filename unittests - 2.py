@@ -5,9 +5,9 @@ sys.path.insert(0, "../")
 
 from LUI import LUINode, LUIRoot, LUIAtlasPool
 
-from panda3d.core import loadPrcFileData
+from panda3d.core import loadPrcFileData, TexturePool
 
-# loadPrcFileData("", "notify-level-lui spam")
+loadPrcFileData("", "notify-level-lui spam")
 
 
 class BasicButton(LUINode):
@@ -31,8 +31,37 @@ class BasicButton(LUINode):
         self.imgRight2 = self.attach_sprite(
             50, 0, self.get_atlas_image("default", "btn_right"))
 
+        print "\nTest case 5: Attaching an arbitrary image"
+        self.imgRight3 = self.attach_sprite(
+            50, 0, "Res/atlas.png")
+
+        print "\nTest case 6: Attaching a prebuilt texture"
+        self.imgRight4 = self.attach_sprite(
+            50, 0, TexturePool.loadTexture("Res/atlas.png") )
+
+        print "\nTest case 7: Attaching an arbitrary non-existing image"
+        self.imgRight5 = self.attach_sprite(
+            50, 0, "Res/DoesNotExist.png")
+
+    
+        print "\nTest case 8: Attaching a sprite but not storing it"
+        self.attach_sprite(50, 0, ":btn_right")
+
+
+        print "\nTesting if all pointers are still valid"
+        print "Num attached sprites: ", self.get_sprite_count()
         
-        print "\nTest case 5: Using attach_text(...)"
+        for n in xrange(self.get_sprite_count()):
+            sprite = self.get_sprite(n)
+            print "\tSprite:"
+            print "\t\tPos:",sprite.get_pos()
+            print "\t\tSize:",sprite.get_size()
+            print "\t\tTexc-Start:",sprite.get_texcoord_start()
+            print "\t\tTexc-End:",sprite.get_texcoord_end()
+
+
+
+        print "\nTest case 9: Using attach_text(...)"
         self.text = self.attach_text(0, 0, text, 20, TextNode.ACenter, 50)
 
         self.bind("mouseover", self.on_mouse_over)
@@ -40,6 +69,7 @@ class BasicButton(LUINode):
 
         self.imgRight = self.attach_sprite(
             50, 0, loader.loadTexture("btn_right"))
+
 
     def on_mouse_over(self, event):
         self.imgLeft.set_texture(":btn_left_hover")

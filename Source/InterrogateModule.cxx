@@ -990,8 +990,8 @@ inline void *Dtool_DowncastInterface_LUIAtlasPool(void *from_this, Dtool_PyTyped
 //********************************************************************
 /******************************************************************
  * Python type method wrapper for
- * PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &identifier)
- * PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &atlas_id, basic_string< char > const &identifier)
+ * inline PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &identifier)
+ * inline PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &atlas_id, basic_string< char > const &identifier)
  *******************************************************************/
 static PyObject *Dtool_LUINode_get_atlas_image_22(PyObject *self, PyObject *args, PyObject *kwds) {
   LUINode *local_this = NULL;
@@ -1008,7 +1008,7 @@ static PyObject *Dtool_LUINode_get_atlas_image_22(PyObject *self, PyObject *args
   case 1: {
 
     if (!((Dtool_PyInstDef *)self)->_is_const) {
-      // 1-PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &identifier)
+      // 1-inline PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &identifier)
       char *param1_str;
       Py_ssize_t param1_len;
       static char *keyword_list[] = {(char *)"identifier", NULL};
@@ -1043,7 +1043,7 @@ static PyObject *Dtool_LUINode_get_atlas_image_22(PyObject *self, PyObject *args
   case 2: {
 
     if (!((Dtool_PyInstDef *)self)->_is_const) {
-      // 1-PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &atlas_id, basic_string< char > const &identifier)
+      // 1-inline PointerTo< LUIAtlasDescriptor > LUINode::get_atlas_image(basic_string< char > const &atlas_id, basic_string< char > const &identifier)
       char *param1_str;
       Py_ssize_t param1_len;
       char *param2_str;
@@ -1104,8 +1104,9 @@ static const char *Dtool_LUINode_get_atlas_image_22_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
- * PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, PointerTo< LUIAtlasDescriptor > desc)
- * PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, basic_string< char > const &source)
+ * inline PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, PointerTo< LUIAtlasDescriptor > desc)
+ * inline PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, PointerTo< Texture > tex)
+ * inline PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, basic_string< char > const &source)
  *******************************************************************/
 static PyObject *Dtool_LUINode_attach_sprite_23(PyObject *self, PyObject *args, PyObject *kwds) {
   LUINode *local_this = NULL;
@@ -1120,7 +1121,7 @@ static PyObject *Dtool_LUINode_attach_sprite_23(PyObject *self, PyObject *args, 
     bool report_errors = false;
     while (true) {
       if (!((Dtool_PyInstDef *)self)->_is_const) {
-      // -2 PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, PointerTo< LUIAtlasDescriptor > desc)
+      // -2 inline PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, PointerTo< LUIAtlasDescriptor > desc)
         float param1;
         float param2;
         PyObject *param3;
@@ -1154,7 +1155,41 @@ static PyObject *Dtool_LUINode_attach_sprite_23(PyObject *self, PyObject *args, 
       }
 
       if (!((Dtool_PyInstDef *)self)->_is_const) {
-      // -2 PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, basic_string< char > const &source)
+      // -2 inline PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, PointerTo< Texture > tex)
+        float param1;
+        float param2;
+        PyObject *param3;
+        static char *keyword_list[] = {(char *)"x", (char *)"y", (char *)"tex", NULL};
+        if (PyArg_ParseTupleAndKeywords(args, kwds, "ffO:attach_sprite", keyword_list, &param1, &param2, &param3)) {
+          Texture *param3_this = (Texture *)DTOOL_Call_GetPointerThisClass(param3, &Dtool_Texture, 3, "LUINode.attach_sprite", 1, coerced_ptr, report_errors);
+
+          if (param3_this != NULL) {
+            PointerTo< LUISprite > return_value = (local_this)->attach_sprite((float)param1, (float)param2, param3_this);
+            if (return_value != (LUISprite *)0) {
+              return_value->ref();
+            }
+            Py_XDECREF(coerced);
+#ifndef NDEBUG
+            Notify *notify = Notify::ptr();
+            if (notify->has_assert_failed()) {
+              PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+              notify->clear_assert_failed();
+              return (PyObject *)NULL;
+            }
+#endif
+            if (return_value.p() == NULL) {
+              Py_INCREF(Py_None);
+              return Py_None;
+            } else {
+              return DTool_CreatePyInstance((void *)return_value.p(), Dtool_LUISprite, true, false);
+            }
+          }
+        }
+        PyErr_Clear();
+      }
+
+      if (!((Dtool_PyInstDef *)self)->_is_const) {
+      // -2 inline PointerTo< LUISprite > LUINode::attach_sprite(float x, float y, basic_string< char > const &source)
         float param1;
         float param2;
         char *param3_str;
@@ -1200,6 +1235,7 @@ static PyObject *Dtool_LUINode_attach_sprite_23(PyObject *self, PyObject *args, 
     PyErr_SetString(PyExc_TypeError,
       "Arguments must match:\n"
       "attach_sprite(LUINode this, float x, float y, const LUIAtlasDescriptor desc)\n"
+      "attach_sprite(LUINode this, float x, float y, const Texture tex)\n"
       "attach_sprite(LUINode this, float x, float y, str source)\n"
       "");
   }
@@ -1210,6 +1246,7 @@ static PyObject *Dtool_LUINode_attach_sprite_23(PyObject *self, PyObject *args, 
 static const char *Dtool_LUINode_attach_sprite_23_comment =
   "C++ Interface:\n"
   "attach_sprite(LUINode this, float x, float y, const LUIAtlasDescriptor desc)\n"
+  "attach_sprite(LUINode this, float x, float y, const Texture tex)\n"
   "attach_sprite(LUINode this, float x, float y, str source)\n"
   "\n"
   "";
@@ -1219,9 +1256,192 @@ static const char *Dtool_LUINode_attach_sprite_23_comment = NULL;
 
 /******************************************************************
  * Python type method wrapper for
+ * inline void LUINode::remove_sprite(PointerTo< LUISprite > sprite)
+ *******************************************************************/
+static PyObject *Dtool_LUINode_remove_sprite_24(PyObject *self, PyObject *arg) {
+  LUINode *local_this = NULL;
+  DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUINode, (void **)&local_this);
+  if (local_this == NULL) {
+    PyErr_SetString(PyExc_AttributeError, "C++ object is not yet constructed, or already destructed.");
+    return NULL;
+  }
+  {
+    PyObject *coerced = NULL;
+    PyObject **coerced_ptr = NULL;
+    bool report_errors = false;
+    while (true) {
+      if (!((Dtool_PyInstDef *)self)->_is_const) {
+        // 1-inline void LUINode::remove_sprite(PointerTo< LUISprite > sprite)
+        LUISprite *arg_this = (LUISprite *)DTOOL_Call_GetPointerThisClass(arg, &Dtool_LUISprite, 1, "LUINode.remove_sprite", 1, coerced_ptr, report_errors);
+
+        if (arg_this != NULL) {
+          (local_this)->remove_sprite(arg_this);
+          Py_XDECREF(coerced);
+#ifndef NDEBUG
+          Notify *notify = Notify::ptr();
+          if (notify->has_assert_failed()) {
+            PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+            notify->clear_assert_failed();
+            return (PyObject *)NULL;
+          }
+#endif
+          Py_INCREF(Py_None);
+          return Py_None;
+        }
+      } else {
+        PyErr_SetString(PyExc_TypeError,
+                        "Cannot call LUINode.remove_sprite() on a const object.");
+        return (PyObject *) NULL;
+      }
+
+      if (coerced_ptr == NULL && !report_errors) {
+        coerced_ptr = &coerced;
+        continue;
+      }
+      if (!report_errors) {
+        report_errors = true;
+        continue;
+      }
+      break;
+    }
+    Py_XDECREF(coerced);
+  }
+  if (!PyErr_Occurred()) {
+    PyErr_SetString(PyExc_TypeError,
+      "Arguments must match:\n"
+      "remove_sprite(LUINode this, const LUISprite sprite)\n"
+      "");
+  }
+  return (PyObject *) NULL;
+}
+
+#ifndef NDEBUG
+static const char *Dtool_LUINode_remove_sprite_24_comment =
+  "C++ Interface:\n"
+  "remove_sprite(LUINode this, const LUISprite sprite)\n"
+  "\n"
+  "";
+#else
+static const char *Dtool_LUINode_remove_sprite_24_comment = NULL;
+#endif
+
+/******************************************************************
+ * Python type method wrapper for
+ * inline int LUINode::get_sprite_count(void)
+ *******************************************************************/
+static PyObject *Dtool_LUINode_get_sprite_count_25(PyObject *self) {
+  LUINode *local_this = NULL;
+  DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUINode, (void **)&local_this);
+  if (local_this == NULL) {
+    PyErr_SetString(PyExc_AttributeError, "C++ object is not yet constructed, or already destructed.");
+    return NULL;
+  }
+
+  if (!((Dtool_PyInstDef *)self)->_is_const) {
+    // 1-inline int LUINode::get_sprite_count(void)
+    int return_value = (local_this)->get_sprite_count();
+#ifndef NDEBUG
+    Notify *notify = Notify::ptr();
+    if (notify->has_assert_failed()) {
+      PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+      notify->clear_assert_failed();
+      return (PyObject *)NULL;
+    }
+#endif
+#if PY_MAJOR_VERSION >= 3
+    return PyLong_FromLong(return_value);
+#else
+    return PyInt_FromLong(return_value);
+#endif
+  } else {
+    PyErr_SetString(PyExc_TypeError,
+                    "Cannot call LUINode.get_sprite_count() on a const object.");
+    return (PyObject *) NULL;
+  }
+
+  if (!PyErr_Occurred()) {
+    PyErr_SetString(PyExc_TypeError,
+      "Arguments must match:\n"
+      "get_sprite_count(LUINode this)\n"
+      "");
+  }
+  return (PyObject *) NULL;
+}
+
+#ifndef NDEBUG
+static const char *Dtool_LUINode_get_sprite_count_25_comment =
+  "C++ Interface:\n"
+  "get_sprite_count(LUINode this)\n"
+  "\n"
+  "";
+#else
+static const char *Dtool_LUINode_get_sprite_count_25_comment = NULL;
+#endif
+
+/******************************************************************
+ * Python type method wrapper for
+ * inline PointerTo< LUISprite > LUINode::get_sprite(int n)
+ *******************************************************************/
+static PyObject *Dtool_LUINode_get_sprite_26(PyObject *self, PyObject *arg) {
+  LUINode *local_this = NULL;
+  DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUINode, (void **)&local_this);
+  if (local_this == NULL) {
+    PyErr_SetString(PyExc_AttributeError, "C++ object is not yet constructed, or already destructed.");
+    return NULL;
+  }
+
+  if (!((Dtool_PyInstDef *)self)->_is_const) {
+    // 1-inline PointerTo< LUISprite > LUINode::get_sprite(int n)
+    if (PyInt_Check(arg)) {
+      PointerTo< LUISprite > return_value = (local_this)->get_sprite((int)PyInt_AS_LONG(arg));
+      if (return_value != (LUISprite *)0) {
+        return_value->ref();
+      }
+#ifndef NDEBUG
+      Notify *notify = Notify::ptr();
+      if (notify->has_assert_failed()) {
+        PyErr_SetString(PyExc_AssertionError, notify->get_assert_error_message().c_str());
+        notify->clear_assert_failed();
+        return (PyObject *)NULL;
+      }
+#endif
+      if (return_value.p() == NULL) {
+        Py_INCREF(Py_None);
+        return Py_None;
+      } else {
+        return DTool_CreatePyInstance((void *)return_value.p(), Dtool_LUISprite, true, false);
+      }
+    }
+  } else {
+    PyErr_SetString(PyExc_TypeError,
+                    "Cannot call LUINode.get_sprite() on a const object.");
+    return (PyObject *) NULL;
+  }
+
+  if (!PyErr_Occurred()) {
+    PyErr_SetString(PyExc_TypeError,
+      "Arguments must match:\n"
+      "get_sprite(LUINode this, int n)\n"
+      "");
+  }
+  return (PyObject *) NULL;
+}
+
+#ifndef NDEBUG
+static const char *Dtool_LUINode_get_sprite_26_comment =
+  "C++ Interface:\n"
+  "get_sprite(LUINode this, int n)\n"
+  "\n"
+  "";
+#else
+static const char *Dtool_LUINode_get_sprite_26_comment = NULL;
+#endif
+
+/******************************************************************
+ * Python type method wrapper for
  * void LUINode::operator +=(PointerTo< LUINode > node)
  *******************************************************************/
-static PyObject *Dtool_LUINode_operator_24(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUINode_operator_27(PyObject *self, PyObject *arg) {
   LUINode *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUINode, (void **)&local_this);
   if (local_this == NULL) {
@@ -1279,13 +1499,13 @@ static PyObject *Dtool_LUINode_operator_24(PyObject *self, PyObject *arg) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUINode_operator_24_comment =
+static const char *Dtool_LUINode_operator_27_comment =
   "C++ Interface:\n"
   "__iadd__(LUINode this, const LUINode node)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUINode_operator_24_comment = NULL;
+static const char *Dtool_LUINode_operator_27_comment = NULL;
 #endif
 
 /******************************************************************
@@ -1361,7 +1581,7 @@ inline void *Dtool_DowncastInterface_LUINode(void *from_this, Dtool_PyTypedObjec
  * inline void LUISprite::set_pos(LPoint2f const &pos)
  * inline void LUISprite::set_pos(float x, float y)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_pos_27(PyObject *self, PyObject *args, PyObject *kwds) {
+static PyObject *Dtool_LUISprite_set_pos_30(PyObject *self, PyObject *args, PyObject *kwds) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -1464,7 +1684,7 @@ static PyObject *Dtool_LUISprite_set_pos_27(PyObject *self, PyObject *args, PyOb
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_pos_27_comment =
+static const char *Dtool_LUISprite_set_pos_30_comment =
   "C++ Interface:\n"
   "set_pos(LUISprite this, const LPoint2f pos)\n"
   "set_pos(LUISprite this, float x, float y)\n"
@@ -1476,14 +1696,14 @@ static const char *Dtool_LUISprite_set_pos_27_comment =
   "// Position\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_pos_27_comment = NULL;
+static const char *Dtool_LUISprite_set_pos_30_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_x(float x)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_x_28(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_x_31(PyObject *self, PyObject *arg) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -1522,20 +1742,20 @@ static PyObject *Dtool_LUISprite_set_x_28(PyObject *self, PyObject *arg) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_x_28_comment =
+static const char *Dtool_LUISprite_set_x_31_comment =
   "C++ Interface:\n"
   "set_x(LUISprite this, float x)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_x_28_comment = NULL;
+static const char *Dtool_LUISprite_set_x_31_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_y(float y)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_y_29(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_y_32(PyObject *self, PyObject *arg) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -1574,20 +1794,20 @@ static PyObject *Dtool_LUISprite_set_y_29(PyObject *self, PyObject *arg) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_y_29_comment =
+static const char *Dtool_LUISprite_set_y_32_comment =
   "C++ Interface:\n"
   "set_y(LUISprite this, float y)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_y_29_comment = NULL;
+static const char *Dtool_LUISprite_set_y_32_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline float LUISprite::get_x(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_x_30(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_x_33(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -1623,20 +1843,20 @@ static PyObject *Dtool_LUISprite_get_x_30(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_x_30_comment =
+static const char *Dtool_LUISprite_get_x_33_comment =
   "C++ Interface:\n"
   "get_x(LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_x_30_comment = NULL;
+static const char *Dtool_LUISprite_get_x_33_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline float LUISprite::get_y(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_y_31(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_y_34(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -1672,20 +1892,20 @@ static PyObject *Dtool_LUISprite_get_y_31(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_y_31_comment =
+static const char *Dtool_LUISprite_get_y_34_comment =
   "C++ Interface:\n"
   "get_y(LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_y_31_comment = NULL;
+static const char *Dtool_LUISprite_get_y_34_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline LPoint2f LUISprite::get_pos(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_pos_32(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_pos_35(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -1727,13 +1947,13 @@ static PyObject *Dtool_LUISprite_get_pos_32(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_pos_32_comment =
+static const char *Dtool_LUISprite_get_pos_35_comment =
   "C++ Interface:\n"
   "get_pos(LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_pos_32_comment = NULL;
+static const char *Dtool_LUISprite_get_pos_35_comment = NULL;
 #endif
 
 /******************************************************************
@@ -1741,7 +1961,7 @@ static const char *Dtool_LUISprite_get_pos_32_comment = NULL;
  * inline void LUISprite::set_size(LVector2f const &size)
  * inline void LUISprite::set_size(float w, float h)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_size_33(PyObject *self, PyObject *args, PyObject *kwds) {
+static PyObject *Dtool_LUISprite_set_size_36(PyObject *self, PyObject *args, PyObject *kwds) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -1844,7 +2064,7 @@ static PyObject *Dtool_LUISprite_set_size_33(PyObject *self, PyObject *args, PyO
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_size_33_comment =
+static const char *Dtool_LUISprite_set_size_36_comment =
   "C++ Interface:\n"
   "set_size(LUISprite this, const LVector2f size)\n"
   "set_size(LUISprite this, float w, float h)\n"
@@ -1854,14 +2074,14 @@ static const char *Dtool_LUISprite_set_size_33_comment =
   "// Size\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_size_33_comment = NULL;
+static const char *Dtool_LUISprite_set_size_36_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_width(float w)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_width_34(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_width_37(PyObject *self, PyObject *arg) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -1900,20 +2120,20 @@ static PyObject *Dtool_LUISprite_set_width_34(PyObject *self, PyObject *arg) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_width_34_comment =
+static const char *Dtool_LUISprite_set_width_37_comment =
   "C++ Interface:\n"
   "set_width(LUISprite this, float w)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_width_34_comment = NULL;
+static const char *Dtool_LUISprite_set_width_37_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_height(float h)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_height_35(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_height_38(PyObject *self, PyObject *arg) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -1952,20 +2172,20 @@ static PyObject *Dtool_LUISprite_set_height_35(PyObject *self, PyObject *arg) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_height_35_comment =
+static const char *Dtool_LUISprite_set_height_38_comment =
   "C++ Interface:\n"
   "set_height(LUISprite this, float h)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_height_35_comment = NULL;
+static const char *Dtool_LUISprite_set_height_38_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline float LUISprite::get_width(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_width_36(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_width_39(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2001,20 +2221,20 @@ static PyObject *Dtool_LUISprite_get_width_36(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_width_36_comment =
+static const char *Dtool_LUISprite_get_width_39_comment =
   "C++ Interface:\n"
   "get_width(LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_width_36_comment = NULL;
+static const char *Dtool_LUISprite_get_width_39_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline float LUISprite::get_height(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_height_37(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_height_40(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2050,20 +2270,20 @@ static PyObject *Dtool_LUISprite_get_height_37(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_height_37_comment =
+static const char *Dtool_LUISprite_get_height_40_comment =
   "C++ Interface:\n"
   "get_height(LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_height_37_comment = NULL;
+static const char *Dtool_LUISprite_get_height_40_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline LVector2f const &LUISprite::get_size(void) const
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_size_38(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_size_41(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2098,13 +2318,13 @@ static PyObject *Dtool_LUISprite_get_size_38(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_size_38_comment =
+static const char *Dtool_LUISprite_get_size_41_comment =
   "C++ Interface:\n"
   "get_size(const LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_size_38_comment = NULL;
+static const char *Dtool_LUISprite_get_size_41_comment = NULL;
 #endif
 
 /******************************************************************
@@ -2112,7 +2332,7 @@ static const char *Dtool_LUISprite_get_size_38_comment = NULL;
  * inline void LUISprite::set_texcoord_start(LVector2f const &texcoord_start)
  * inline void LUISprite::set_texcoord_start(float u, float v)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_texcoord_start_39(PyObject *self, PyObject *args, PyObject *kwds) {
+static PyObject *Dtool_LUISprite_set_texcoord_start_42(PyObject *self, PyObject *args, PyObject *kwds) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2215,7 +2435,7 @@ static PyObject *Dtool_LUISprite_set_texcoord_start_39(PyObject *self, PyObject 
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_texcoord_start_39_comment =
+static const char *Dtool_LUISprite_set_texcoord_start_42_comment =
   "C++ Interface:\n"
   "set_texcoord_start(LUISprite this, const LVector2f texcoord_start)\n"
   "set_texcoord_start(LUISprite this, float u, float v)\n"
@@ -2225,14 +2445,14 @@ static const char *Dtool_LUISprite_set_texcoord_start_39_comment =
   "// Texcoord\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_texcoord_start_39_comment = NULL;
+static const char *Dtool_LUISprite_set_texcoord_start_42_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline LVector2f LUISprite::get_texcoord_start(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_texcoord_start_40(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_texcoord_start_43(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2274,13 +2494,13 @@ static PyObject *Dtool_LUISprite_get_texcoord_start_40(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_texcoord_start_40_comment =
+static const char *Dtool_LUISprite_get_texcoord_start_43_comment =
   "C++ Interface:\n"
   "get_texcoord_start(LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_texcoord_start_40_comment = NULL;
+static const char *Dtool_LUISprite_get_texcoord_start_43_comment = NULL;
 #endif
 
 /******************************************************************
@@ -2288,7 +2508,7 @@ static const char *Dtool_LUISprite_get_texcoord_start_40_comment = NULL;
  * inline void LUISprite::set_texcoord_end(LVector2f const &texcoord_end)
  * inline void LUISprite::set_texcoord_end(float u, float v)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_texcoord_end_41(PyObject *self, PyObject *args, PyObject *kwds) {
+static PyObject *Dtool_LUISprite_set_texcoord_end_44(PyObject *self, PyObject *args, PyObject *kwds) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2391,21 +2611,21 @@ static PyObject *Dtool_LUISprite_set_texcoord_end_41(PyObject *self, PyObject *a
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_texcoord_end_41_comment =
+static const char *Dtool_LUISprite_set_texcoord_end_44_comment =
   "C++ Interface:\n"
   "set_texcoord_end(LUISprite this, const LVector2f texcoord_end)\n"
   "set_texcoord_end(LUISprite this, float u, float v)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_texcoord_end_41_comment = NULL;
+static const char *Dtool_LUISprite_set_texcoord_end_44_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline LVector2f LUISprite::get_texcoord_end(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_texcoord_end_42(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_texcoord_end_45(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2447,13 +2667,13 @@ static PyObject *Dtool_LUISprite_get_texcoord_end_42(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_texcoord_end_42_comment =
+static const char *Dtool_LUISprite_get_texcoord_end_45_comment =
   "C++ Interface:\n"
   "get_texcoord_end(LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_texcoord_end_42_comment = NULL;
+static const char *Dtool_LUISprite_get_texcoord_end_45_comment = NULL;
 #endif
 
 /******************************************************************
@@ -2461,7 +2681,7 @@ static const char *Dtool_LUISprite_get_texcoord_end_42_comment = NULL;
  * inline void LUISprite::set_color(LVecBase4f const &color)
  * inline void LUISprite::set_color(float r, float g, float b, float a)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_color_43(PyObject *self, PyObject *args, PyObject *kwds) {
+static PyObject *Dtool_LUISprite_set_color_46(PyObject *self, PyObject *args, PyObject *kwds) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2566,7 +2786,7 @@ static PyObject *Dtool_LUISprite_set_color_43(PyObject *self, PyObject *args, Py
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_color_43_comment =
+static const char *Dtool_LUISprite_set_color_46_comment =
   "C++ Interface:\n"
   "set_color(LUISprite this, const LVecBase4f color)\n"
   "set_color(LUISprite this, float r, float g, float b, float a)\n"
@@ -2576,14 +2796,14 @@ static const char *Dtool_LUISprite_set_color_43_comment =
   "// Color\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_color_43_comment = NULL;
+static const char *Dtool_LUISprite_set_color_46_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline LVecBase4f LUISprite::get_color(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_color_44(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_color_47(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2625,13 +2845,13 @@ static PyObject *Dtool_LUISprite_get_color_44(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_color_44_comment =
+static const char *Dtool_LUISprite_get_color_47_comment =
   "C++ Interface:\n"
   "get_color(LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_color_44_comment = NULL;
+static const char *Dtool_LUISprite_get_color_47_comment = NULL;
 #endif
 
 /******************************************************************
@@ -2640,7 +2860,7 @@ static const char *Dtool_LUISprite_get_color_44_comment = NULL;
  * inline void LUISprite::set_texture(Texture *tex)
  * inline void LUISprite::set_texture(basic_string< char > const &source)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_texture_45(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_texture_48(PyObject *self, PyObject *arg) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2746,7 +2966,7 @@ static PyObject *Dtool_LUISprite_set_texture_45(PyObject *self, PyObject *arg) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_texture_45_comment =
+static const char *Dtool_LUISprite_set_texture_48_comment =
   "C++ Interface:\n"
   "set_texture(LUISprite this, LUIAtlasDescriptor descriptor)\n"
   "set_texture(LUISprite this, Texture tex)\n"
@@ -2757,14 +2977,14 @@ static const char *Dtool_LUISprite_set_texture_45_comment =
   "// Texture\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_texture_45_comment = NULL;
+static const char *Dtool_LUISprite_set_texture_48_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline Texture *LUISprite::get_texture(void) const
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_texture_46(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_texture_49(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2802,20 +3022,20 @@ static PyObject *Dtool_LUISprite_get_texture_46(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_texture_46_comment =
+static const char *Dtool_LUISprite_get_texture_49_comment =
   "C++ Interface:\n"
   "get_texture(const LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_texture_46_comment = NULL;
+static const char *Dtool_LUISprite_get_texture_49_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_z_index(float z_index)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_z_index_47(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_z_index_50(PyObject *self, PyObject *arg) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2854,21 +3074,21 @@ static PyObject *Dtool_LUISprite_set_z_index_47(PyObject *self, PyObject *arg) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_z_index_47_comment =
+static const char *Dtool_LUISprite_set_z_index_50_comment =
   "C++ Interface:\n"
   "set_z_index(LUISprite this, float z_index)\n"
   "\n"
   "// Z-Index\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_z_index_47_comment = NULL;
+static const char *Dtool_LUISprite_set_z_index_50_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline float LUISprite::get_z_index(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_get_z_index_48(PyObject *self) {
+static PyObject *Dtool_LUISprite_get_z_index_51(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2904,21 +3124,21 @@ static PyObject *Dtool_LUISprite_get_z_index_48(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_get_z_index_48_comment =
+static const char *Dtool_LUISprite_get_z_index_51_comment =
   "C++ Interface:\n"
   "get_z_index(LUISprite this)\n"
   "\n"
   "// Z-Index\n"
   "";
 #else
-static const char *Dtool_LUISprite_get_z_index_48_comment = NULL;
+static const char *Dtool_LUISprite_get_z_index_51_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::set_visible(bool visible)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_set_visible_49(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUISprite_set_visible_52(PyObject *self, PyObject *arg) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -2955,21 +3175,21 @@ static PyObject *Dtool_LUISprite_set_visible_49(PyObject *self, PyObject *arg) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_set_visible_49_comment =
+static const char *Dtool_LUISprite_set_visible_52_comment =
   "C++ Interface:\n"
   "set_visible(LUISprite this, bool visible)\n"
   "\n"
   "// Visible\n"
   "";
 #else
-static const char *Dtool_LUISprite_set_visible_49_comment = NULL;
+static const char *Dtool_LUISprite_set_visible_52_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline bool LUISprite::is_visible(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_is_visible_50(PyObject *self) {
+static PyObject *Dtool_LUISprite_is_visible_53(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -3005,21 +3225,21 @@ static PyObject *Dtool_LUISprite_is_visible_50(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_is_visible_50_comment =
+static const char *Dtool_LUISprite_is_visible_53_comment =
   "C++ Interface:\n"
   "is_visible(LUISprite this)\n"
   "\n"
   "// Visible\n"
   "";
 #else
-static const char *Dtool_LUISprite_is_visible_50_comment = NULL;
+static const char *Dtool_LUISprite_is_visible_53_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::hide(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_hide_51(PyObject *self) {
+static PyObject *Dtool_LUISprite_hide_54(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -3056,20 +3276,20 @@ static PyObject *Dtool_LUISprite_hide_51(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_hide_51_comment =
+static const char *Dtool_LUISprite_hide_54_comment =
   "C++ Interface:\n"
   "hide(LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_hide_51_comment = NULL;
+static const char *Dtool_LUISprite_hide_54_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * inline void LUISprite::show(void)
  *******************************************************************/
-static PyObject *Dtool_LUISprite_show_52(PyObject *self) {
+static PyObject *Dtool_LUISprite_show_55(PyObject *self) {
   LUISprite *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUISprite, (void **)&local_this);
   if (local_this == NULL) {
@@ -3106,13 +3326,13 @@ static PyObject *Dtool_LUISprite_show_52(PyObject *self) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUISprite_show_52_comment =
+static const char *Dtool_LUISprite_show_55_comment =
   "C++ Interface:\n"
   "show(LUISprite this)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUISprite_show_52_comment = NULL;
+static const char *Dtool_LUISprite_show_55_comment = NULL;
 #endif
 
 /******************************************************************
@@ -3187,7 +3407,7 @@ inline void *Dtool_DowncastInterface_LUISprite(void *from_this, Dtool_PyTypedObj
  * Python type method wrapper for
  * PointerTo< LUISprite > LUIRoot::attach_sprite(float x, float y, LUIAtlasDescriptor *desc)
  *******************************************************************/
-static PyObject *Dtool_LUIRoot_attach_sprite_56(PyObject *self, PyObject *args, PyObject *kwds) {
+static PyObject *Dtool_LUIRoot_attach_sprite_59(PyObject *self, PyObject *args, PyObject *kwds) {
   LUIRoot *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUIRoot, (void **)&local_this);
   if (local_this == NULL) {
@@ -3258,20 +3478,20 @@ static PyObject *Dtool_LUIRoot_attach_sprite_56(PyObject *self, PyObject *args, 
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUIRoot_attach_sprite_56_comment =
+static const char *Dtool_LUIRoot_attach_sprite_59_comment =
   "C++ Interface:\n"
   "attach_sprite(LUIRoot this, float x, float y, LUIAtlasDescriptor desc)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUIRoot_attach_sprite_56_comment = NULL;
+static const char *Dtool_LUIRoot_attach_sprite_59_comment = NULL;
 #endif
 
 /******************************************************************
  * Python type method wrapper for
  * void LUIRoot::operator +=(PointerTo< LUINode > node)
  *******************************************************************/
-static PyObject *Dtool_LUIRoot_operator_57(PyObject *self, PyObject *arg) {
+static PyObject *Dtool_LUIRoot_operator_60(PyObject *self, PyObject *arg) {
   LUIRoot *local_this = NULL;
   DTOOL_Call_ExtractThisPointerForType(self, &Dtool_LUIRoot, (void **)&local_this);
   if (local_this == NULL) {
@@ -3329,13 +3549,13 @@ static PyObject *Dtool_LUIRoot_operator_57(PyObject *self, PyObject *arg) {
 }
 
 #ifndef NDEBUG
-static const char *Dtool_LUIRoot_operator_57_comment =
+static const char *Dtool_LUIRoot_operator_60_comment =
   "C++ Interface:\n"
   "__iadd__(LUIRoot this, const LUINode node)\n"
   "\n"
   "";
 #else
-static const char *Dtool_LUIRoot_operator_57_comment = NULL;
+static const char *Dtool_LUIRoot_operator_60_comment = NULL;
 #endif
 
 /******************************************************************
@@ -3543,7 +3763,13 @@ PyMethodDef Dtool_Methods_LUINode[] = {
   { "getAtlasImage", (PyCFunction) &Dtool_LUINode_get_atlas_image_22, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUINode_get_atlas_image_22_comment},
   { "attach_sprite", (PyCFunction) &Dtool_LUINode_attach_sprite_23, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUINode_attach_sprite_23_comment},
   { "attachSprite", (PyCFunction) &Dtool_LUINode_attach_sprite_23, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUINode_attach_sprite_23_comment},
-  { "__iadd__", (PyCFunction) &Dtool_LUINode_operator_24, METH_O, (char *) Dtool_LUINode_operator_24_comment},
+  { "remove_sprite", (PyCFunction) &Dtool_LUINode_remove_sprite_24, METH_O, (char *) Dtool_LUINode_remove_sprite_24_comment},
+  { "removeSprite", (PyCFunction) &Dtool_LUINode_remove_sprite_24, METH_O, (char *) Dtool_LUINode_remove_sprite_24_comment},
+  { "get_sprite_count", (PyCFunction) &Dtool_LUINode_get_sprite_count_25, METH_NOARGS, (char *) Dtool_LUINode_get_sprite_count_25_comment},
+  { "getSpriteCount", (PyCFunction) &Dtool_LUINode_get_sprite_count_25, METH_NOARGS, (char *) Dtool_LUINode_get_sprite_count_25_comment},
+  { "get_sprite", (PyCFunction) &Dtool_LUINode_get_sprite_26, METH_O, (char *) Dtool_LUINode_get_sprite_26_comment},
+  { "getSprite", (PyCFunction) &Dtool_LUINode_get_sprite_26, METH_O, (char *) Dtool_LUINode_get_sprite_26_comment},
+  { "__iadd__", (PyCFunction) &Dtool_LUINode_operator_27, METH_O, (char *) Dtool_LUINode_operator_27_comment},
   { NULL, NULL }
 };
 
@@ -3551,8 +3777,8 @@ PyMethodDef Dtool_Methods_LUINode[] = {
 //  A wrapper function to satisfy Python's internal calling conventions.
 //     LUINode ...tp_as_number->nb_inplace_add = __iadd__
 //////////////////
-static PyObject *Dtool_LUINode_operator_24__iadd__(PyObject *self, PyObject *arg) {
-  return Dtool_LUINode_operator_24(self, arg);
+static PyObject *Dtool_LUINode_operator_27__iadd__(PyObject *self, PyObject *arg) {
+  return Dtool_LUINode_operator_27(self, arg);
 }
 
 void Dtool_PyModuleClassInit_LUINode(PyObject *module) {
@@ -3566,7 +3792,7 @@ void Dtool_PyModuleClassInit_LUINode(PyObject *module) {
     PyDict_SetItemString(Dtool_LUINode.As_PyTypeObject().tp_dict, "DtoolClassDict", Dtool_LUINode.As_PyTypeObject().tp_dict);
 #if PY_VERSION_HEX >= 0x2000000
     // tp_as_number->nb_inplace_add = __iadd__
-    Dtool_LUINode.As_PyTypeObject().tp_as_number->nb_inplace_add = &Dtool_LUINode_operator_24__iadd__;
+    Dtool_LUINode.As_PyTypeObject().tp_as_number->nb_inplace_add = &Dtool_LUINode_operator_27__iadd__;
 #endif
     if (PyType_Ready(&Dtool_LUINode.As_PyTypeObject()) < 0) {
       PyErr_SetString(PyExc_TypeError, "PyType_Ready(LUINode)");
@@ -3586,56 +3812,56 @@ void Dtool_PyModuleClassInit_LUINode(PyObject *module) {
 //*** Py Init Code For .. LUISprite | LUISprite
 //********************************************************************
 PyMethodDef Dtool_Methods_LUISprite[] = {
-  { "set_pos", (PyCFunction) &Dtool_LUISprite_set_pos_27, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_pos_27_comment},
-  { "setPos", (PyCFunction) &Dtool_LUISprite_set_pos_27, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_pos_27_comment},
-  { "set_x", (PyCFunction) &Dtool_LUISprite_set_x_28, METH_O, (char *) Dtool_LUISprite_set_x_28_comment},
-  { "setX", (PyCFunction) &Dtool_LUISprite_set_x_28, METH_O, (char *) Dtool_LUISprite_set_x_28_comment},
-  { "set_y", (PyCFunction) &Dtool_LUISprite_set_y_29, METH_O, (char *) Dtool_LUISprite_set_y_29_comment},
-  { "setY", (PyCFunction) &Dtool_LUISprite_set_y_29, METH_O, (char *) Dtool_LUISprite_set_y_29_comment},
-  { "get_x", (PyCFunction) &Dtool_LUISprite_get_x_30, METH_NOARGS, (char *) Dtool_LUISprite_get_x_30_comment},
-  { "getX", (PyCFunction) &Dtool_LUISprite_get_x_30, METH_NOARGS, (char *) Dtool_LUISprite_get_x_30_comment},
-  { "get_y", (PyCFunction) &Dtool_LUISprite_get_y_31, METH_NOARGS, (char *) Dtool_LUISprite_get_y_31_comment},
-  { "getY", (PyCFunction) &Dtool_LUISprite_get_y_31, METH_NOARGS, (char *) Dtool_LUISprite_get_y_31_comment},
-  { "get_pos", (PyCFunction) &Dtool_LUISprite_get_pos_32, METH_NOARGS, (char *) Dtool_LUISprite_get_pos_32_comment},
-  { "getPos", (PyCFunction) &Dtool_LUISprite_get_pos_32, METH_NOARGS, (char *) Dtool_LUISprite_get_pos_32_comment},
-  { "set_size", (PyCFunction) &Dtool_LUISprite_set_size_33, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_size_33_comment},
-  { "setSize", (PyCFunction) &Dtool_LUISprite_set_size_33, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_size_33_comment},
-  { "set_width", (PyCFunction) &Dtool_LUISprite_set_width_34, METH_O, (char *) Dtool_LUISprite_set_width_34_comment},
-  { "setWidth", (PyCFunction) &Dtool_LUISprite_set_width_34, METH_O, (char *) Dtool_LUISprite_set_width_34_comment},
-  { "set_height", (PyCFunction) &Dtool_LUISprite_set_height_35, METH_O, (char *) Dtool_LUISprite_set_height_35_comment},
-  { "setHeight", (PyCFunction) &Dtool_LUISprite_set_height_35, METH_O, (char *) Dtool_LUISprite_set_height_35_comment},
-  { "get_width", (PyCFunction) &Dtool_LUISprite_get_width_36, METH_NOARGS, (char *) Dtool_LUISprite_get_width_36_comment},
-  { "getWidth", (PyCFunction) &Dtool_LUISprite_get_width_36, METH_NOARGS, (char *) Dtool_LUISprite_get_width_36_comment},
-  { "get_height", (PyCFunction) &Dtool_LUISprite_get_height_37, METH_NOARGS, (char *) Dtool_LUISprite_get_height_37_comment},
-  { "getHeight", (PyCFunction) &Dtool_LUISprite_get_height_37, METH_NOARGS, (char *) Dtool_LUISprite_get_height_37_comment},
-  { "get_size", (PyCFunction) &Dtool_LUISprite_get_size_38, METH_NOARGS, (char *) Dtool_LUISprite_get_size_38_comment},
-  { "getSize", (PyCFunction) &Dtool_LUISprite_get_size_38, METH_NOARGS, (char *) Dtool_LUISprite_get_size_38_comment},
-  { "set_texcoord_start", (PyCFunction) &Dtool_LUISprite_set_texcoord_start_39, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_start_39_comment},
-  { "setTexcoordStart", (PyCFunction) &Dtool_LUISprite_set_texcoord_start_39, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_start_39_comment},
-  { "get_texcoord_start", (PyCFunction) &Dtool_LUISprite_get_texcoord_start_40, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_start_40_comment},
-  { "getTexcoordStart", (PyCFunction) &Dtool_LUISprite_get_texcoord_start_40, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_start_40_comment},
-  { "set_texcoord_end", (PyCFunction) &Dtool_LUISprite_set_texcoord_end_41, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_end_41_comment},
-  { "setTexcoordEnd", (PyCFunction) &Dtool_LUISprite_set_texcoord_end_41, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_end_41_comment},
-  { "get_texcoord_end", (PyCFunction) &Dtool_LUISprite_get_texcoord_end_42, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_end_42_comment},
-  { "getTexcoordEnd", (PyCFunction) &Dtool_LUISprite_get_texcoord_end_42, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_end_42_comment},
-  { "set_color", (PyCFunction) &Dtool_LUISprite_set_color_43, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_color_43_comment},
-  { "setColor", (PyCFunction) &Dtool_LUISprite_set_color_43, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_color_43_comment},
-  { "get_color", (PyCFunction) &Dtool_LUISprite_get_color_44, METH_NOARGS, (char *) Dtool_LUISprite_get_color_44_comment},
-  { "getColor", (PyCFunction) &Dtool_LUISprite_get_color_44, METH_NOARGS, (char *) Dtool_LUISprite_get_color_44_comment},
-  { "set_texture", (PyCFunction) &Dtool_LUISprite_set_texture_45, METH_O, (char *) Dtool_LUISprite_set_texture_45_comment},
-  { "setTexture", (PyCFunction) &Dtool_LUISprite_set_texture_45, METH_O, (char *) Dtool_LUISprite_set_texture_45_comment},
-  { "get_texture", (PyCFunction) &Dtool_LUISprite_get_texture_46, METH_NOARGS, (char *) Dtool_LUISprite_get_texture_46_comment},
-  { "getTexture", (PyCFunction) &Dtool_LUISprite_get_texture_46, METH_NOARGS, (char *) Dtool_LUISprite_get_texture_46_comment},
-  { "set_z_index", (PyCFunction) &Dtool_LUISprite_set_z_index_47, METH_O, (char *) Dtool_LUISprite_set_z_index_47_comment},
-  { "setZIndex", (PyCFunction) &Dtool_LUISprite_set_z_index_47, METH_O, (char *) Dtool_LUISprite_set_z_index_47_comment},
-  { "get_z_index", (PyCFunction) &Dtool_LUISprite_get_z_index_48, METH_NOARGS, (char *) Dtool_LUISprite_get_z_index_48_comment},
-  { "getZIndex", (PyCFunction) &Dtool_LUISprite_get_z_index_48, METH_NOARGS, (char *) Dtool_LUISprite_get_z_index_48_comment},
-  { "set_visible", (PyCFunction) &Dtool_LUISprite_set_visible_49, METH_O, (char *) Dtool_LUISprite_set_visible_49_comment},
-  { "setVisible", (PyCFunction) &Dtool_LUISprite_set_visible_49, METH_O, (char *) Dtool_LUISprite_set_visible_49_comment},
-  { "is_visible", (PyCFunction) &Dtool_LUISprite_is_visible_50, METH_NOARGS, (char *) Dtool_LUISprite_is_visible_50_comment},
-  { "isVisible", (PyCFunction) &Dtool_LUISprite_is_visible_50, METH_NOARGS, (char *) Dtool_LUISprite_is_visible_50_comment},
-  { "hide", (PyCFunction) &Dtool_LUISprite_hide_51, METH_NOARGS, (char *) Dtool_LUISprite_hide_51_comment},
-  { "show", (PyCFunction) &Dtool_LUISprite_show_52, METH_NOARGS, (char *) Dtool_LUISprite_show_52_comment},
+  { "set_pos", (PyCFunction) &Dtool_LUISprite_set_pos_30, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_pos_30_comment},
+  { "setPos", (PyCFunction) &Dtool_LUISprite_set_pos_30, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_pos_30_comment},
+  { "set_x", (PyCFunction) &Dtool_LUISprite_set_x_31, METH_O, (char *) Dtool_LUISprite_set_x_31_comment},
+  { "setX", (PyCFunction) &Dtool_LUISprite_set_x_31, METH_O, (char *) Dtool_LUISprite_set_x_31_comment},
+  { "set_y", (PyCFunction) &Dtool_LUISprite_set_y_32, METH_O, (char *) Dtool_LUISprite_set_y_32_comment},
+  { "setY", (PyCFunction) &Dtool_LUISprite_set_y_32, METH_O, (char *) Dtool_LUISprite_set_y_32_comment},
+  { "get_x", (PyCFunction) &Dtool_LUISprite_get_x_33, METH_NOARGS, (char *) Dtool_LUISprite_get_x_33_comment},
+  { "getX", (PyCFunction) &Dtool_LUISprite_get_x_33, METH_NOARGS, (char *) Dtool_LUISprite_get_x_33_comment},
+  { "get_y", (PyCFunction) &Dtool_LUISprite_get_y_34, METH_NOARGS, (char *) Dtool_LUISprite_get_y_34_comment},
+  { "getY", (PyCFunction) &Dtool_LUISprite_get_y_34, METH_NOARGS, (char *) Dtool_LUISprite_get_y_34_comment},
+  { "get_pos", (PyCFunction) &Dtool_LUISprite_get_pos_35, METH_NOARGS, (char *) Dtool_LUISprite_get_pos_35_comment},
+  { "getPos", (PyCFunction) &Dtool_LUISprite_get_pos_35, METH_NOARGS, (char *) Dtool_LUISprite_get_pos_35_comment},
+  { "set_size", (PyCFunction) &Dtool_LUISprite_set_size_36, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_size_36_comment},
+  { "setSize", (PyCFunction) &Dtool_LUISprite_set_size_36, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_size_36_comment},
+  { "set_width", (PyCFunction) &Dtool_LUISprite_set_width_37, METH_O, (char *) Dtool_LUISprite_set_width_37_comment},
+  { "setWidth", (PyCFunction) &Dtool_LUISprite_set_width_37, METH_O, (char *) Dtool_LUISprite_set_width_37_comment},
+  { "set_height", (PyCFunction) &Dtool_LUISprite_set_height_38, METH_O, (char *) Dtool_LUISprite_set_height_38_comment},
+  { "setHeight", (PyCFunction) &Dtool_LUISprite_set_height_38, METH_O, (char *) Dtool_LUISprite_set_height_38_comment},
+  { "get_width", (PyCFunction) &Dtool_LUISprite_get_width_39, METH_NOARGS, (char *) Dtool_LUISprite_get_width_39_comment},
+  { "getWidth", (PyCFunction) &Dtool_LUISprite_get_width_39, METH_NOARGS, (char *) Dtool_LUISprite_get_width_39_comment},
+  { "get_height", (PyCFunction) &Dtool_LUISprite_get_height_40, METH_NOARGS, (char *) Dtool_LUISprite_get_height_40_comment},
+  { "getHeight", (PyCFunction) &Dtool_LUISprite_get_height_40, METH_NOARGS, (char *) Dtool_LUISprite_get_height_40_comment},
+  { "get_size", (PyCFunction) &Dtool_LUISprite_get_size_41, METH_NOARGS, (char *) Dtool_LUISprite_get_size_41_comment},
+  { "getSize", (PyCFunction) &Dtool_LUISprite_get_size_41, METH_NOARGS, (char *) Dtool_LUISprite_get_size_41_comment},
+  { "set_texcoord_start", (PyCFunction) &Dtool_LUISprite_set_texcoord_start_42, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_start_42_comment},
+  { "setTexcoordStart", (PyCFunction) &Dtool_LUISprite_set_texcoord_start_42, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_start_42_comment},
+  { "get_texcoord_start", (PyCFunction) &Dtool_LUISprite_get_texcoord_start_43, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_start_43_comment},
+  { "getTexcoordStart", (PyCFunction) &Dtool_LUISprite_get_texcoord_start_43, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_start_43_comment},
+  { "set_texcoord_end", (PyCFunction) &Dtool_LUISprite_set_texcoord_end_44, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_end_44_comment},
+  { "setTexcoordEnd", (PyCFunction) &Dtool_LUISprite_set_texcoord_end_44, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_texcoord_end_44_comment},
+  { "get_texcoord_end", (PyCFunction) &Dtool_LUISprite_get_texcoord_end_45, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_end_45_comment},
+  { "getTexcoordEnd", (PyCFunction) &Dtool_LUISprite_get_texcoord_end_45, METH_NOARGS, (char *) Dtool_LUISprite_get_texcoord_end_45_comment},
+  { "set_color", (PyCFunction) &Dtool_LUISprite_set_color_46, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_color_46_comment},
+  { "setColor", (PyCFunction) &Dtool_LUISprite_set_color_46, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUISprite_set_color_46_comment},
+  { "get_color", (PyCFunction) &Dtool_LUISprite_get_color_47, METH_NOARGS, (char *) Dtool_LUISprite_get_color_47_comment},
+  { "getColor", (PyCFunction) &Dtool_LUISprite_get_color_47, METH_NOARGS, (char *) Dtool_LUISprite_get_color_47_comment},
+  { "set_texture", (PyCFunction) &Dtool_LUISprite_set_texture_48, METH_O, (char *) Dtool_LUISprite_set_texture_48_comment},
+  { "setTexture", (PyCFunction) &Dtool_LUISprite_set_texture_48, METH_O, (char *) Dtool_LUISprite_set_texture_48_comment},
+  { "get_texture", (PyCFunction) &Dtool_LUISprite_get_texture_49, METH_NOARGS, (char *) Dtool_LUISprite_get_texture_49_comment},
+  { "getTexture", (PyCFunction) &Dtool_LUISprite_get_texture_49, METH_NOARGS, (char *) Dtool_LUISprite_get_texture_49_comment},
+  { "set_z_index", (PyCFunction) &Dtool_LUISprite_set_z_index_50, METH_O, (char *) Dtool_LUISprite_set_z_index_50_comment},
+  { "setZIndex", (PyCFunction) &Dtool_LUISprite_set_z_index_50, METH_O, (char *) Dtool_LUISprite_set_z_index_50_comment},
+  { "get_z_index", (PyCFunction) &Dtool_LUISprite_get_z_index_51, METH_NOARGS, (char *) Dtool_LUISprite_get_z_index_51_comment},
+  { "getZIndex", (PyCFunction) &Dtool_LUISprite_get_z_index_51, METH_NOARGS, (char *) Dtool_LUISprite_get_z_index_51_comment},
+  { "set_visible", (PyCFunction) &Dtool_LUISprite_set_visible_52, METH_O, (char *) Dtool_LUISprite_set_visible_52_comment},
+  { "setVisible", (PyCFunction) &Dtool_LUISprite_set_visible_52, METH_O, (char *) Dtool_LUISprite_set_visible_52_comment},
+  { "is_visible", (PyCFunction) &Dtool_LUISprite_is_visible_53, METH_NOARGS, (char *) Dtool_LUISprite_is_visible_53_comment},
+  { "isVisible", (PyCFunction) &Dtool_LUISprite_is_visible_53, METH_NOARGS, (char *) Dtool_LUISprite_is_visible_53_comment},
+  { "hide", (PyCFunction) &Dtool_LUISprite_hide_54, METH_NOARGS, (char *) Dtool_LUISprite_hide_54_comment},
+  { "show", (PyCFunction) &Dtool_LUISprite_show_55, METH_NOARGS, (char *) Dtool_LUISprite_show_55_comment},
   { NULL, NULL }
 };
 
@@ -3676,9 +3902,9 @@ void Dtool_PyModuleClassInit_LUISprite(PyObject *module) {
 //*** Py Init Code For .. LUIRoot | LUIRoot
 //********************************************************************
 PyMethodDef Dtool_Methods_LUIRoot[] = {
-  { "attach_sprite", (PyCFunction) &Dtool_LUIRoot_attach_sprite_56, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUIRoot_attach_sprite_56_comment},
-  { "attachSprite", (PyCFunction) &Dtool_LUIRoot_attach_sprite_56, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUIRoot_attach_sprite_56_comment},
-  { "__iadd__", (PyCFunction) &Dtool_LUIRoot_operator_57, METH_O, (char *) Dtool_LUIRoot_operator_57_comment},
+  { "attach_sprite", (PyCFunction) &Dtool_LUIRoot_attach_sprite_59, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUIRoot_attach_sprite_59_comment},
+  { "attachSprite", (PyCFunction) &Dtool_LUIRoot_attach_sprite_59, METH_VARARGS | METH_KEYWORDS, (char *) Dtool_LUIRoot_attach_sprite_59_comment},
+  { "__iadd__", (PyCFunction) &Dtool_LUIRoot_operator_60, METH_O, (char *) Dtool_LUIRoot_operator_60_comment},
   { NULL, NULL }
 };
 
@@ -3686,8 +3912,8 @@ PyMethodDef Dtool_Methods_LUIRoot[] = {
 //  A wrapper function to satisfy Python's internal calling conventions.
 //     LUIRoot ...tp_as_number->nb_inplace_add = __iadd__
 //////////////////
-static PyObject *Dtool_LUIRoot_operator_57__iadd__(PyObject *self, PyObject *arg) {
-  return Dtool_LUIRoot_operator_57(self, arg);
+static PyObject *Dtool_LUIRoot_operator_60__iadd__(PyObject *self, PyObject *arg) {
+  return Dtool_LUIRoot_operator_60(self, arg);
 }
 
 void Dtool_PyModuleClassInit_LUIRoot(PyObject *module) {
@@ -3701,7 +3927,7 @@ void Dtool_PyModuleClassInit_LUIRoot(PyObject *module) {
     PyDict_SetItemString(Dtool_LUIRoot.As_PyTypeObject().tp_dict, "DtoolClassDict", Dtool_LUIRoot.As_PyTypeObject().tp_dict);
 #if PY_VERSION_HEX >= 0x2000000
     // tp_as_number->nb_inplace_add = __iadd__
-    Dtool_LUIRoot.As_PyTypeObject().tp_as_number->nb_inplace_add = &Dtool_LUIRoot_operator_57__iadd__;
+    Dtool_LUIRoot.As_PyTypeObject().tp_as_number->nb_inplace_add = &Dtool_LUIRoot_operator_60__iadd__;
 #endif
     if (PyType_Ready(&Dtool_LUIRoot.As_PyTypeObject()) < 0) {
       PyErr_SetString(PyExc_TypeError, "PyType_Ready(LUIRoot)");
@@ -3750,7 +3976,7 @@ static PyMethodDef python_simple_funcs[] = {
 
 EXPORT_THIS struct LibraryDef LUI_moddef = {python_simple_funcs, BuildInstants};
 static InterrogateModuleDef _in_module_def = {
-  1409416858,  /* file_identifier */
+  1409420852,  /* file_identifier */
   "LUI",  /* library_name */
   "jJ0G",  /* library_hash_name */
   "LUI",  /* module_name */
@@ -3760,7 +3986,7 @@ static InterrogateModuleDef _in_module_def = {
   (void **)0,  /* fptrs */
   0,  /* num_fptrs */
   1,  /* first_index */
-  147  /* next_index */
+  154  /* next_index */
 };
 
 Configure(_in_configure_LUI);

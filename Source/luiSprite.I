@@ -87,6 +87,7 @@ INLINE void LUISprite::set_texcoord_start(const LVector2 &texcoord_start) {
 }
 
 INLINE void LUISprite::set_texcoord_start(float u, float v) {
+  cout << "Set Texcoord Start: " << u << " / " << v << endl;
   _data[0].u = u;
   _data[3].u = u;
   _data[0].v = v;
@@ -102,6 +103,7 @@ INLINE void LUISprite::set_texcoord_end(const LVector2 &texcoord_end) {
 }
 
 INLINE void LUISprite::set_texcoord_end(float u, float v) {
+  cout << "Set Texcoord End: " << u << " / " << v << endl;
   _data[2].u = u;
   _data[1].u = u;
   _data[2].v = v;
@@ -135,12 +137,14 @@ INLINE LColor LUISprite::get_color() {
 
 INLINE void LUISprite::set_texture(Texture* tex) {
   if (tex != NULL) {
-    _tex = tex;
-  }
-}
 
-INLINE Texture *LUISprite::get_texture() const {
-  return _tex;
+    cout << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
+    _tex = tex;
+
+    set_texcoord_start(0, 0);
+    set_texcoord_end(tex->get_x_size(), tex->get_y_size());
+
+  }
 }
 
 INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
@@ -151,11 +155,10 @@ INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
     return;
   }
 
+  set_texture(descriptor->get_texture());
   set_size(descriptor->get_size());
   set_texcoord_start(descriptor->get_uv_begin());
   set_texcoord_end(descriptor->get_uv_end());
-  set_texture(descriptor->get_texture());
-
 }
 
 INLINE void LUISprite::set_texture(const string &source) {
@@ -179,9 +182,18 @@ INLINE void LUISprite::set_texture(const string &source) {
 
   // Otherwise, load texture from file
   PT(Texture) tex = TexturePool::load_texture(source);
+
+  if (tex == NULL) {
+    lui_cat.error() << "Could not load " << source << endl;
+    return;
+  }
+
   set_texture(tex);
 }
 
+INLINE Texture *LUISprite::get_texture() const {
+  return _tex;
+}
 
 INLINE void LUISprite::set_z_index(float z_index) {
   for (int i = 0; i < 4; i++) {

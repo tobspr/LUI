@@ -8,13 +8,15 @@ LUISprite::LUISprite() :
   _pool_slot(-1), 
   _vertex_pool(NULL) {  
 
+    lui_cat.spam() << "Constructed new LUISprite\n";
+
     set_pos(0, 0);
     set_texcoord_start(0, 0);
     set_texcoord_end(1, 1);
     set_size(10, 10);
     set_color(1.0, 1.0, 1.0, 1.0);
 
-    lui_cat.spam() << "Constructed new LUISprite\n";
+    
 }
 
 LUISprite::~LUISprite() {
