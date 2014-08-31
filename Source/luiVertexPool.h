@@ -22,8 +22,6 @@ public:
 	private:
 
      // todo
-
-
 };
 
 #endif

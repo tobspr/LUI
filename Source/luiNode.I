@@ -35,6 +35,19 @@ INLINE PT(LUISprite) LUINode::attach_sprite(float x, float y, PT(Texture) tex) {
 }
 
 
+INLINE PT(LUISprite) LUINode::attach_sprite(const string &source) {
+  return attach_sprite(0, 0, source);
+}
+
+INLINE PT(LUISprite) LUINode::attach_sprite(PT(LUIAtlasDescriptor) desc) {
+  return attach_sprite(0, 0, desc);
+}
+
+INLINE PT(LUISprite) LUINode::attach_sprite(PT(Texture) tex) {
+  return attach_sprite(0, 0, tex);
+}
+
+
 INLINE PT(LUIAtlasDescriptor) LUINode::get_atlas_image(const string &identifier) {
   return LUIAtlasPool::get_global_ptr()->get_descriptor("default", identifier);
 }
@@ -47,12 +60,6 @@ INLINE PT(LUISprite) LUINode::construct_and_attach_sprite(float x, float y) {
    PT(LUISprite) sprite = new LUISprite(this);
    sprite->set_top_left(x, y);
    _sprites.push_back(sprite);
-
-   // We have to manually increment the reference count, as the sprite is now stored in the vector -
-   // Just calling push_back won't increment the reference count. So the object would instantly get deleted,
-   // if the app does not keep a reference to it.
-   sprite->ref();
-
    return sprite;
 }
 
@@ -65,25 +72,19 @@ INLINE void LUINode::remove_sprite(PT(LUISprite) sprite) {
   lui_cat.spam() << "Removing sprite .." << endl;
 
   _sprites.erase(remove(_sprites.begin(), _sprites.end(),sprite ), _sprites.end());
-   sprite->unref();
-}
 
-INLINE const LVector2 &LUINode::get_size() const {
-  return _size;
-}
+  cout << "Reference count is now: " << sprite->get_ref_count() << endl;
 
-INLINE void LUINode::set_size(const LVector2 &size) {
-  set_size(size.get_x(), size.get_y());
-}
 
-INLINE void LUINode::set_size(float w, float h) {
-   _size.set_x(w);
-   _size.set_y(h);
-   refresh_sprite_positions();
 }
 
 INLINE void LUINode::refresh_sprite_positions() {
+  lui_cat.spam() << "Refreshing child positions .. " << endl;
   for (int i = 0; i < _sprites.size(); i++) {
     _sprites[i]->recompute_position();
   }  
+}
+
+INLINE void LUINode::refresh_sprite_visibility() {
+  // todo
 }

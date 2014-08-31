@@ -14,9 +14,6 @@ INLINE void LUISprite::recompute_vertices() {
   _data[3].y = _data[0].y + _size.get_y();
 }
 
-
-
-
 INLINE void LUISprite::set_texcoord_start(const LVector2 &texcoord_start) {
   set_texcoord_start(texcoord_start.get_x(), texcoord_start.get_y());
 }

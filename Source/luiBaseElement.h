@@ -20,10 +20,13 @@ PUBLISHED:
 
   // Position
   INLINE void set_top_left(float top, float left);
+  INLINE void set_pos(float top, float left);
+
   INLINE void set_top(float top);
   INLINE void set_bottom(float bottom);
   INLINE void set_left(float left);
   INLINE void set_right(float right);
+  INLINE LVector2 get_abs_pos();
 
   // Size
   INLINE void set_size(const LVector2 &size);
@@ -43,17 +46,18 @@ public:
   INLINE void set_parent(LUIBaseElement* parent);
   INLINE LUIBaseElement* get_parent();
 
-protected:
-
   INLINE void recompute_position();
 
+protected:
+
+  
+
   // Interface
-  virtual void on_position_changed() = 0;
-  virtual void on_size_changed() = 0;
+  virtual void on_bounds_changed() = 0;
   virtual void on_visibility_changed() = 0;
 
   PN_stdfloat _offset_x, _offset_y;
-  bool _stick_top, _stick_left;
+  bool        _stick_top, _stick_left;
   PN_stdfloat _pos_x, _pos_y;
   LVector2    _size;
   bool	      _visible;

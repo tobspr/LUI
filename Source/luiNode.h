@@ -15,49 +15,49 @@
 #include "luiNode.h"
 #include "luiAtlasPool.h"
 #include "luiAtlasDescriptor.h"
+#include "luiBaseElement.h"
 #include "config_lui.h"
 
 class LUISprite;
 class LUIRoot;
 
-class EXPCL_PANDASKEL LUINode : public ReferenceCount {
+class EXPCL_PANDASKEL LUINode : public ReferenceCount, public LUIBaseElement {
 
-  PUBLISHED:
+PUBLISHED:
 
-    LUINode(float w, float h);
-    ~LUINode();
-    
-    INLINE PT(LUIAtlasDescriptor) get_atlas_image(const string &identifier);
-    INLINE PT(LUIAtlasDescriptor) get_atlas_image(const string &atlas_id, const string &identifier);
+  LUINode(float w, float h);
+  ~LUINode();
 
-    INLINE PT(LUISprite) attach_sprite(float x, float y, const string &source);
-    INLINE PT(LUISprite) attach_sprite(float x, float y, PT(LUIAtlasDescriptor) desc);
-    INLINE PT(LUISprite) attach_sprite(float x, float y, PT(Texture) tex);
+  INLINE PT(LUIAtlasDescriptor) get_atlas_image(const string &identifier);
+  INLINE PT(LUIAtlasDescriptor) get_atlas_image(const string &atlas_id, const string &identifier);
 
-    INLINE void remove_sprite(PT(LUISprite) sprite);
+  INLINE PT(LUISprite) attach_sprite(float x, float y, const string &source);
+  INLINE PT(LUISprite) attach_sprite(float x, float y, PT(LUIAtlasDescriptor) desc);
+  INLINE PT(LUISprite) attach_sprite(float x, float y, PT(Texture) tex);
 
-    INLINE int get_sprite_count();
-    INLINE PT(LUISprite) get_sprite(int n);
+  INLINE PT(LUISprite) attach_sprite(const string &source);
+  INLINE PT(LUISprite) attach_sprite(PT(LUIAtlasDescriptor) desc);
+  INLINE PT(LUISprite) attach_sprite(PT(Texture) tex);
 
-    INLINE const LVector2 &get_size() const;
-    INLINE void set_size(const LVector2 &size);
-    INLINE void set_size(float w, float h);
+  INLINE void remove_sprite(PT(LUISprite) sprite);
+  INLINE int get_sprite_count();
+  INLINE PT(LUISprite) get_sprite(int n);
 
-    void operator += (PT(LUINode) node);
+  void operator += (PT(LUINode) node);
+private:
 
+  // Interface to LUIBaseElement
+  void on_bounds_changed();
+  void on_visibility_changed();
 
-	private:
+  PT(LUISprite) construct_and_attach_sprite(float x, float y);
+  INLINE void refresh_sprite_positions();
+  INLINE void refresh_sprite_visibility();
 
-    PT(LUISprite) construct_and_attach_sprite(float x, float y);
-    INLINE void refresh_sprite_positions();
+  vector<PT(LUINode)> _nodes;
+  vector<PT(LUISprite)> _sprites;
 
-    vector<LUINode> _nodes;
-    vector<LUISprite*> _sprites;
-
-    LVector2 _size;
-
-    LUIRoot* _root;
-    LUINode* _parent;
+  LUIRoot* _root;
 
 };
 

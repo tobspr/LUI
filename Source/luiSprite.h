@@ -31,68 +31,70 @@ class EXPCL_PANDASKEL LUISprite : public ReferenceCount, public LUIBaseElement  
 
 PUBLISHED:
 
-    // Texcoord
-		INLINE void set_texcoord_start(const LVector2 &texcoord_start);
-    INLINE void set_texcoord_start(float u, float v);
-		INLINE LVector2 get_texcoord_start();
-		
-		INLINE void set_texcoord_end(const LVector2 &texcoord_end);
-    INLINE void set_texcoord_end(float u, float v);
-		INLINE LVector2 get_texcoord_end();
-		
-    // Color
-    INLINE void set_color(const LColor &color);
-    INLINE void set_color(float r, float g, float b, float a);
-    INLINE LColor get_color();
+  // Texcoord
+  INLINE void set_texcoord_start(const LVector2 &texcoord_start);
+  INLINE void set_texcoord_start(float u, float v);
+  INLINE LVector2 get_texcoord_start();
 
-    // Texture
-		INLINE void set_texture(Texture* tex);
-    INLINE void set_texture(LUIAtlasDescriptor *descriptor);
-    INLINE void set_texture(const string &source);
-		INLINE Texture *get_texture() const;
+  INLINE void set_texcoord_end(const LVector2 &texcoord_end);
+  INLINE void set_texcoord_end(float u, float v);
+  INLINE LVector2 get_texcoord_end();
 
-    // Z-Index
-		INLINE void set_z_index(float z_index);
-		INLINE float get_z_index();
-	
-  public:
+  // Color
+  INLINE void set_color(const LColor &color);
+  INLINE void set_color(float r, float g, float b, float a);
+  INLINE LColor get_color();
 
-    LUISprite(LUINode* parent);
-    ~LUISprite();
+  // Texture
+  INLINE void set_texture(Texture* tex);
+  INLINE void set_texture(LUIAtlasDescriptor *descriptor);
+  INLINE void set_texture(const string &source);
+  INLINE Texture *get_texture() const;
 
-    INLINE void set_pool_slot(int slot);
-    INLINE int get_pool_slot();
+  // Z-Index
+  INLINE void set_z_index(float z_index);
+  INLINE float get_z_index();
 
-	protected:
+public:
 
-    INLINE void recompute_vertices();
+  LUISprite(LUIBaseElement* parent);
+  ~LUISprite();
 
-    // Interface to LUIBaseElement
-    LVector2 get_parent_size();
-    void on_position_changed();
-    void on_size_changed();
-    void on_visibility_changed();
-    
-		struct LUIVertexData {
-        PN_stdfloat x, y, z;
-        PN_stdfloat u, v;
-        PN_stdfloat color[4];
-    };
-    
-    // Stores data for 4 corner vertices
-    // 0 - Upper Left
-    // 1 - Upper Right
-    // 2 - Lower Right
-    // 3 - Lower Left
-    LUIVertexData _data[4];
+  INLINE void set_pool_slot(int slot);
+  INLINE int get_pool_slot();
 
-    // Index in the LUIVertexPool
-    int         _pool_slot;
+protected:
 
-    // Handle to the LUIVertexPool
-    LUIVertexPool* _vertex_pool;
+  INLINE void recompute_vertices();
 
-    PT(Texture) _tex;
+  // Interface to LUIBaseElement
+  void on_bounds_changed();
+  void on_visibility_changed();
+
+  struct LUIVertexData {
+    PN_stdfloat x, y, z;
+    PN_stdfloat u, v;
+    PN_stdfloat color[4];
+  };
+
+  // Stores data for 4 corner vertices
+  // 0 - Upper Left
+  // 1 - Upper Right
+  // 2 - Lower Right
+  // 3 - Lower Left
+  LUIVertexData _data[4];
+
+  // Index in the LUIVertexPool
+  int           _pool_slot;
+
+  // Handle to the LUIVertexPool
+  LUIVertexPool* _vertex_pool;
+
+  PT(Texture)   _tex;
+
+  // Keep track of the amount of instances created, for 
+  // tracking memory leaks
+  static int    _instance_count;
 
 };
 
