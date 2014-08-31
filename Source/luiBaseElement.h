@@ -16,7 +16,7 @@ class EXPCL_PANDASKEL LUIBaseElement {
 PUBLISHED:
 
   LUIBaseElement();
-  ~LUIBaseElement();
+  virtual ~LUIBaseElement();
 
   // Position
   INLINE void set_top_left(float top, float left);
