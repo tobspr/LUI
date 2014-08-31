@@ -2,8 +2,6 @@
 INLINE int LUIVertexPool::allocate_slot() {
 
   int next = _slots.get_lowest_off_bit();
-  //int next = _last_allocated_slot;
-  _last_allocated_slot ++;
 
   if (lui_cat.is_spam()) {
     cout << "Allocating slot " << next << endl;

@@ -61,18 +61,18 @@ public:
   LUISprite(LUIBaseElement* parent);
   ~LUISprite();
 
-  INLINE void set_pool_slot(int slot);
   INLINE int get_pool_slot();
 
   struct LUIVertexData {
     PN_stdfloat x, y, z;
-    PN_stdfloat u, v;
     PN_stdfloat color[4];
+    PN_stdfloat u, v;
   };
 
 protected:
 
   INLINE void recompute_vertices();
+  void update_vertex_pool();
   void assign_vertex_pool();
   void unassign_vertex_pool();
 

@@ -32,7 +32,6 @@ private:
   PT(Texture) _tex;
   PT(GeomVertexData) _vertex_data;
   BitArray _slots;
-  int _last_allocated_slot;
 
 };
 

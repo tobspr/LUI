@@ -26,6 +26,7 @@ INLINE void LUISprite::set_uv_range(const LTexCoord &uv_begin, const LTexCoord &
 
   _data[3].u = uv_begin.get_x();
   _data[3].v = uv_end.get_y();
+  update_vertex_pool();
 }
 
 
@@ -47,6 +48,7 @@ INLINE void LUISprite::set_color(float r, float g, float b, float a) {
     _data[i].color[2] = b;
     _data[i].color[3] = a;
   }
+  update_vertex_pool();
 }
 
 INLINE LColor LUISprite::get_color() {
@@ -59,9 +61,15 @@ INLINE LColor LUISprite::get_color() {
 
 INLINE void LUISprite::set_texture(Texture* tex) {
 
+  if (tex == _tex) {
+    // No change
+    return;
+  }
+
   // Unassign old texture
   if (_tex != NULL && _vertex_pool != NULL) {
     unassign_vertex_pool();
+    _tex = tex;
   }
 
   if (tex != NULL) {
@@ -120,14 +128,11 @@ INLINE void LUISprite::set_z_index(float z_index) {
   for (int i = 0; i < 4; i++) {
     _data[i].y = z_index;
   }
+  update_vertex_pool();
 }
 
 INLINE float LUISprite::get_z_index() {
   return _data[0].y;
-}
-
-INLINE void LUISprite::set_pool_slot(int slot) {
-  _pool_slot = slot;
 }
 
 INLINE int LUISprite::get_pool_slot() {

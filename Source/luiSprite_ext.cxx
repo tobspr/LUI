@@ -58,6 +58,16 @@ void LUISprite::assign_vertex_pool() {
     cout << "Got vertex pool slot: " << _pool_slot << endl;
   }
 
+  update_vertex_pool();
+
+}
+
+
+void LUISprite::update_vertex_pool() {
+
+  if (_vertex_pool != NULL && _root != NULL) {
+    cout << "Updating vertex pool , pool slot is " << _pool_slot << endl;
+  }
 }
 
 void LUISprite::unassign_vertex_pool() {

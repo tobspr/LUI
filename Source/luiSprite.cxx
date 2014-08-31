@@ -38,11 +38,13 @@ void LUISprite::on_bounds_changed() {
   _data[0].x = _pos_x;
   _data[0].z = _pos_y;
   recompute_vertices();
+  update_vertex_pool();
 }
 
 void LUISprite::on_visibility_changed() {
 
 }
+
 
 void LUISprite::on_detached() {
   if (_tex != NULL) {
