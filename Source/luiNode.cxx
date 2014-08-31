@@ -15,10 +15,6 @@ LUINode::~LUINode() {
   _nodes.clear();
 }
 
-void LUINode::operator += (PT(LUINode) node) {
-  lui_cat.info() << "Addding widget .." << endl;
-}
-
 
 void LUINode::on_bounds_changed() {
   refresh_sprite_positions();

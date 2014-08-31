@@ -78,11 +78,33 @@ INLINE void LUINode::remove_sprite(PT(LUISprite) sprite) {
 
 INLINE void LUINode::refresh_sprite_positions() {
   lui_cat.spam() << "Refreshing child positions .. " << endl;
+  
+  // Update sprites
   for (int i = 0; i < _sprites.size(); i++) {
     _sprites[i]->recompute_position();
   }  
+
+  // Updates nodes
+  for (int i = 0; i < _nodes.size(); i ++) {
+    _nodes[i]->recompute_position();
+  }
+
 }
 
 INLINE void LUINode::refresh_sprite_visibility() {
   // todo
+}
+
+INLINE PT(LUINode) LUINode::add_child(PT(LUINode) node) {
+  lui_cat.info() << "Addding widget .." << endl;
+
+  if (node->get_parent() != NULL) {
+    lui_cat.error() << "You cannot reattach a node, unattach the node from it's current parent first" << endl;
+    return node;
+  }
+
+  node->set_parent(this);
+  node->recompute_position();
+  _nodes.push_back(node);
+  return node;
 }

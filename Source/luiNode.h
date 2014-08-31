@@ -40,7 +40,8 @@ PUBLISHED:
   INLINE int get_sprite_count();
   INLINE PT(LUISprite) get_sprite(int n);
 
-  void operator += (PT(LUINode) node);
+  INLINE PT(LUINode) add_child(PT(LUINode) node);
+
 private:
 
   // Interface to LUIBaseElement

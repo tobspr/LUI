@@ -43,10 +43,11 @@ PUBLISHED:
   INLINE void hide();
   INLINE void show();
 
+  INLINE LUIBaseElement* get_parent();
+
 public:
 
   INLINE void set_parent(LUIBaseElement* parent);
-  INLINE LUIBaseElement* get_parent();
   INLINE void recompute_position();
 
 protected:
