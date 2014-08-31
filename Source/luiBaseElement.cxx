@@ -10,7 +10,8 @@ LUIBaseElement::LUIBaseElement() :
   _stick_top(true),
   _stick_left(true),
   _size(0),
-  _parent(NULL)
+  _parent(NULL),
+  _root(NULL)
 {
 }
 

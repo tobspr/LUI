@@ -110,7 +110,7 @@ INLINE void LUIBaseElement::recompute_position() {
     parent_pos = _parent->get_abs_pos();
   };
 
-  if (lui_cat.is_spam() && lui_cat.is_spam()) {
+  if (lui_cat.is_spam()) {
     cout << "Recomputing position, parent size is " << parent_size.get_x() << "x" 
       << parent_size.get_y() << ", Pos is " << parent_pos.get_x() 
       << " / " << parent_pos.get_y() << endl;

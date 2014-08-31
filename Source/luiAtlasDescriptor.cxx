@@ -7,7 +7,7 @@ int LUIAtlasDescriptor::_instance_count = 0;
 LUIAtlasDescriptor::LUIAtlasDescriptor() {
   _instance_count ++;
 
-  if (lui_cat.is_spam() && lui_cat.is_spam()) {
+  if (lui_cat.is_spam()) {
     cout << "Constructed a new atlas descriptor (active: " << _instance_count << ")" << endl;
   }
 }

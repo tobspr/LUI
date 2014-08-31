@@ -2,14 +2,29 @@
 #include "luiRoot.h"
 
 
-LUIRoot::LUIRoot() {
-  lui_cat.spam() << "Initialized new LUIRoot\n";
+LUIRoot::LUIRoot(float width, float height) {
+
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Initialized new LUIRoot\n";
+  }
+  _root = new LUINode(width, height);
+  _root->set_root(this);
+
 }
 LUIRoot::~LUIRoot() {
-  lui_cat.spam() << "Destructed LUIRoot\n";
-}
 
-LUIVertexPool* LUIRoot::get_vpool_by_texture(Texture* tex) {
-  return NULL;
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Destructed LUIRoot\n";
+  }
+
+  // Destruct all LUIVertexPools stored in _pools, as they are not
+  // reference counted ..
+  for(LUIVertexPoolMap::iterator iter = _pools.begin(); iter != _pools.end(); ++iter)
+  {
+    LUIVertexPool* pool =  iter->second;
+    delete pool;
+  }
+  _pools.clear();
+
 }
 

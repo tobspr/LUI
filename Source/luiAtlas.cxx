@@ -5,11 +5,16 @@
 
 
 LUIAtlas::LUIAtlas() : _size(1) {
-  lui_cat.spam() << "Constructed new LUIAtlas" << endl;
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Constructed new LUIAtlas" << endl;
+  }
 }
 
 LUIAtlas::~LUIAtlas() {
-  lui_cat.spam() << "Destructed LUIAtlas" << endl;
+
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Destructed LUIAtlas" << endl;
+  }
   // TODO: Delete all entries from vector
 }
 

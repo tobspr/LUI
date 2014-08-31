@@ -58,21 +58,39 @@ INLINE LColor LUISprite::get_color() {
 }
 
 INLINE void LUISprite::set_texture(Texture* tex) {
+
+  // Unassign old texture
+  if (_tex != NULL && _vertex_pool != NULL) {
+    unassign_vertex_pool();
+  }
+
   if (tex != NULL) {
 
-    if (lui_cat.is_spam())
+    if (lui_cat.is_spam()) {
       cout << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
+    }
     _tex = tex;
-
     set_uv_range(LTexCoord(0), LTexCoord(0));
+    
+    // Assign new texture
+    if (_root != NULL) {
+
+      if (lui_cat.is_spam()) {
+        cout << "Assigning vertex pool from set_texture, as _tex is not NULL" << endl;
+      }
+      assign_vertex_pool();
+    }
   }
 }
 
 INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
-  lui_cat.spam() << "LUISprite -> set texture from descriptor" << endl;
+
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "LUISprite -> set texture from descriptor" << endl;
+  }
 
   if (descriptor == NULL) {
-    lui_cat.spam() << "Ignoring null descriptor" << endl;
+    lui_cat.warning() << "Ignoring null descriptor" << endl;
     return;
   }
 
@@ -115,3 +133,4 @@ INLINE void LUISprite::set_pool_slot(int slot) {
 INLINE int LUISprite::get_pool_slot() {
   return _pool_slot;
 }
+

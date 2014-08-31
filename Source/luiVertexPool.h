@@ -8,20 +8,20 @@
 #include "pandabase.h"
 #include "pandasymbols.h"
 #include "luse.h"
-#include "referenceCount.h"
-
+#include "texture.h"
 #include "luiSprite.h"
 
 class LUIVertexPool {
 
 public:
 
-  LUIVertexPool();
+  LUIVertexPool(Texture *tex);
   ~LUIVertexPool();
 
 private:
 
-  // todo
+  PT(Texture) _tex;
+  
 };
 
 #endif

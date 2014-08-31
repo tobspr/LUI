@@ -14,7 +14,7 @@ LUISprite::LUISprite(LUIBaseElement* parent) :
 
   _instance_count ++;
 
-  if (lui_cat.is_spam() && lui_cat.is_spam()) {
+  if (lui_cat.is_spam()) {
     cout << "Constructed new LUISprite, (active: " << _instance_count << ")" << endl;  
   }
 
@@ -26,9 +26,9 @@ LUISprite::LUISprite(LUIBaseElement* parent) :
 }
 
 LUISprite::~LUISprite() {
-  if (lui_cat.is_spam() && lui_cat.is_spam()) {
+  if (lui_cat.is_spam()) {
     _instance_count --;
-    cout << "Destructed LUISprite, (left: " << _instance_count << ")" << endl;  
+    cout << "Destructing LUISprite, instances left: " << _instance_count << endl;
   }
 }
 
@@ -42,3 +42,10 @@ void LUISprite::on_visibility_changed() {
 
 }
 
+void LUISprite::on_detached() {
+  if (_tex != NULL) {
+    unassign_vertex_pool();
+  }
+  _root = NULL;
+  _parent = NULL;
+}

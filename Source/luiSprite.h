@@ -11,10 +11,11 @@
 #include "texture.h"
 #include "referenceCount.h"
 #include "config_lui.h"
+#include "luiBaseElement.h"
 #include "luiAtlasDescriptor.h"
 #include "luiAtlasPool.h"
+#include "luiVertexPool.h"
 #include "texturePool.h"
-#include "luiBaseElement.h"
 
 #include <iostream>
 
@@ -28,6 +29,8 @@ class LUINode;
 //               LUIVertexPool when any scalar or texture got changed.
 ////////////////////////////////////////////////////////////////////
 class EXPCL_PANDASKEL LUISprite : public ReferenceCount, public LUIBaseElement  {
+
+  friend class LUINode;
 
 PUBLISHED:
 
@@ -61,10 +64,14 @@ public:
 protected:
 
   INLINE void recompute_vertices();
+  void assign_vertex_pool();
+  void unassign_vertex_pool();
 
   // Interface to LUIBaseElement
   void on_bounds_changed();
   void on_visibility_changed();
+  void on_detached();
+  void set_root(LUIRoot* root);
 
   struct LUIVertexData {
     PN_stdfloat x, y, z;

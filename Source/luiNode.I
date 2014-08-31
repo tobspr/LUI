@@ -14,7 +14,10 @@ INLINE PT(LUISprite) LUINode::get_sprite(int n) {
 }
 
 INLINE LUISprite *LUINode::attach_sprite(const string &source, const string &atlas_id, float x, float y) {
-  lui_cat.spam() << "Attach sprite from atlas descriptor" << endl;
+
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Attach sprite from atlas descriptor" << endl;
+  }
 
   PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, source);
 
@@ -29,14 +32,19 @@ INLINE LUISprite *LUINode::attach_sprite(const string &source, const string &atl
 }
 
 INLINE LUISprite *LUINode::attach_sprite(const string &source, float x, float y) {
-  lui_cat.spam() << "Attach sprite from string: '" << source << "'" << endl;
+
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Attach sprite from string: '" << source << "'" << endl;
+  }
   PT(LUISprite) sprite = construct_and_attach_sprite(x, y);
   sprite->set_texture(source);
   return sprite;
 }
 
 INLINE LUISprite *LUINode::attach_sprite(PT(Texture) tex, float x, float y) {
-  lui_cat.spam() << "Attach sprite from texture handle" << endl;
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Attach sprite from texture handle" << endl;
+  }
   PT(LUISprite) sprite = construct_and_attach_sprite(x, y);
   sprite->set_texture(tex);
   return sprite;
@@ -67,18 +75,44 @@ INLINE void LUINode::remove_sprite(PT(LUISprite) sprite) {
     return;
   }
 
-  lui_cat.spam() << "Removing sprite .." << endl;
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Removing sprite .." << endl;
+  }
 
   _sprites.erase(remove(_sprites.begin(), _sprites.end(),sprite ), _sprites.end());
 
-  cout << "Reference count is now: " << sprite->get_ref_count() << endl;
+  sprite->on_detached();
 
-
+  if (lui_cat.is_spam()) {
+    cout << "Reference count is now: " << sprite->get_ref_count() << endl;
+  }
 }
 
-INLINE void LUINode::refresh_sprite_positions() {
-  lui_cat.spam() << "Refreshing child positions .. " << endl;
+INLINE void LUINode::remove_child(PT(LUINode) node) {
+  if (find(_nodes.begin(), _nodes.end(), node) == _nodes.end()) {
+    lui_cat.warning() << "Attempted to remove node, but node is not attached to this node" << endl;
+    return;
+  }
+
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Removing node .." << endl;
+  }
+
+  _nodes.erase(remove(_nodes.begin(), _nodes.end(),node ), _nodes.end());
+
+  node->on_detached();
   
+  if (lui_cat.is_spam()) {
+    cout << "Reference count is now: " << node->get_ref_count() << endl;
+  }
+}
+
+INLINE void LUINode::refresh_child_positions() {
+
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Refreshing child positions .. " << endl;
+  }
+
   // Update sprites
   for (int i = 0; i < _sprites.size(); i++) {
     _sprites[i]->recompute_position();
@@ -91,7 +125,7 @@ INLINE void LUINode::refresh_sprite_positions() {
 
 }
 
-INLINE void LUINode::refresh_sprite_visibility() {
+INLINE void LUINode::refresh_child_visibility() {
   // todo
 }
 
@@ -106,5 +140,9 @@ INLINE PT(LUINode) LUINode::add_child(PT(LUINode) node) {
   node->set_parent(this);
   node->recompute_position();
   _nodes.push_back(node);
+
+  // This has to be last. Otherwise we're attaching to the VertexPool with outdated positions
+  node->set_root(_root);
   return node;
 }
+

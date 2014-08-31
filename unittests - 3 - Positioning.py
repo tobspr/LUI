@@ -67,6 +67,8 @@ class Positioning_Test(LUINode):
         # Same for this
         self.set_bottom(10)
 
+        print "Test passed"
+
 LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "Res/atlas.txt", "Res/atlas.png")
 

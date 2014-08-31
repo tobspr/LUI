@@ -11,7 +11,11 @@
 #include "referenceCount.h"
 #include "config_lui.h"
 
+class LUIRoot;
+
 class EXPCL_PANDASKEL LUIBaseElement {
+
+
 
 PUBLISHED:
 
@@ -52,6 +56,9 @@ public:
 
 protected:
 
+  virtual void set_root(LUIRoot* root) = 0;
+  virtual void on_detached() = 0;
+
   // Interface
   virtual void on_bounds_changed() = 0;
   virtual void on_visibility_changed() = 0;
@@ -63,6 +70,7 @@ protected:
   bool _visible;
 
   LUIBaseElement *_parent;
+  LUIRoot *_root;
 
 };
 

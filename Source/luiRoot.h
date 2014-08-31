@@ -9,31 +9,34 @@
 #include "pandasymbols.h"
 #include "luse.h"
 #include "referenceCount.h"
-#include "filename.h"
-#include "virtualFileSystem.h"
-
 #include "luiVertexPool.h"
-#include "luiNode.h"
 #include "luiAtlas.h"
+#include "luiNode.h"
 
 #include "config_lui.h"
 
 class LUINode;
 
+typedef pmap<Texture*, LUIVertexPool*> LUIVertexPoolMap;
+
 class EXPCL_PANDASKEL LUIRoot {
 
 PUBLISHED:
 
-  LUIRoot();
+  LUIRoot(float width, float height);
   ~LUIRoot();
 
-  INLINE PT(LUINode) root();
+  INLINE PT(LUINode) node();
 
 public:
 
-  LUIVertexPool* get_vpool_by_texture(Texture* tex);
+  INLINE LUIVertexPool* get_vpool_by_texture(Texture* tex);
 
 private:
+
+  // Vertex pools are stored as single pointers, to avoid circular
+  // references. The destructor of LUIRoot takes care of deleting them.
+  LUIVertexPoolMap _pools;
 
   // We store a private root node.
   // With this, we don't have to inherit from LUINode, but

@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, "../")
 
-from LUI import LUINode, LUIAtlasPool
+from LUI import LUINode, LUIAtlasPool, LUIRoot
 
 from panda3d.core import loadPrcFileData
 loadPrcFileData("", "notify-level-lui spam")
@@ -17,6 +17,9 @@ class Children(LUINode):
 
     def __init__(self):
         LUINode.__init__(self, 200, 200)
+
+        self.attach_sprite("Res/btn_left.png")
+        self.get_sprite(0).set_right(0)
 
 
 class Parent_Test(LUINode):
@@ -33,13 +36,38 @@ class Parent_Test(LUINode):
         self.test_child = self.add_child(Children())
         self.set_pos(10, 10)
 
-        print self.test_child.get_abs_pos()
+        assert(vec_equal(self.test_child.get_abs_pos(), 10, 10))
         self.test_child.set_right(0)
         self.test_child.set_bottom(0)
-        print self.test_child.get_abs_pos()
+        assert(vec_equal(self.test_child.get_abs_pos(), 310, 310))
+        assert(
+            vec_equal(self.test_child.get_sprite(0).get_abs_pos(), 500, 310))
 
+        print "Test passed."
 
 LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "Res/atlas.txt", "Res/atlas.png")
 
+ui = LUIRoot(512, 512)
+ui2 = LUIRoot(756, 756)
+
 test = Parent_Test()
+
+print "\n\nReparenting node to root"
+ui.node().add_child(test)
+
+print "\n\nChanging image"
+test.test_child.get_sprite(0).set_texture("Res/btn_right.png")
+
+print "\n\nRemoving node first"
+ui.node().remove_child(test)
+
+print "\n\nAttaching to new root"
+ui2.node().add_child(test)
+
+
+print "\n\nRemoving sprite"
+# test.test_child.remove_sprite(test.test_child.get_sprite(0))
+test.remove_child(test.test_child)
+
+print "\n\nTests Done."

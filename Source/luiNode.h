@@ -11,17 +11,20 @@
 #include "internalName.h"
 #include "luse.h"
 #include "luiAtlas.h"
+#include "luiBaseElement.h"
 #include "luiSprite.h"
-#include "luiNode.h"
 #include "luiAtlasPool.h"
 #include "luiAtlasDescriptor.h"
-#include "luiBaseElement.h"
+
 #include "config_lui.h"
 
 class LUISprite;
 class LUIRoot;
 
+
 class EXPCL_PANDASKEL LUINode : public ReferenceCount, public LUIBaseElement {
+
+  friend class LUIRoot;
 
 PUBLISHED:
 
@@ -39,23 +42,29 @@ PUBLISHED:
   INLINE void remove_sprite(PT(LUISprite) sprite);
   INLINE int get_sprite_count();
   INLINE PT(LUISprite) get_sprite(int n);
-
   INLINE PT(LUINode) add_child(PT(LUINode) node);
+  INLINE void remove_child(PT(LUINode) node);
+  // TODO: Add remove_child
 
-private:
+protected:
+
 
   // Interface to LUIBaseElement
   void on_bounds_changed();
   void on_visibility_changed();
+  void on_detached();
+  void set_root(LUIRoot* root);
+  
 
   PT(LUISprite) construct_and_attach_sprite(float x, float y);
-  INLINE void refresh_sprite_positions();
-  INLINE void refresh_sprite_visibility();
+  INLINE void refresh_child_positions();
+  INLINE void refresh_child_visibility();
+
 
   pvector<PT(LUINode)> _nodes;
   pvector<PT(LUISprite)> _sprites;
 
-  LUIRoot* _root;
+  static int _instance_count;
 
 };
 
