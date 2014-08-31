@@ -10,8 +10,8 @@ LUIAtlas::LUIAtlas() : _size(1) {
 
 LUIAtlas::~LUIAtlas() {
   lui_cat.spam() << "Destructed LUIAtlas" << endl;
+  // TODO: Delete all entries from vector
 }
-
 
 
 bool LUIAtlas::load_descriptor_file(const string &descriptor_path) {

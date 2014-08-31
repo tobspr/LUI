@@ -43,7 +43,7 @@ private:
   void add_entry(const string &name, int x, int y, int w, int h);
 
   PT(Texture) _tex;
-  map<string, LUIAtlasEntry*> _entries;
+  pmap<string, LUIAtlasEntry*> _entries;
   int _size;
 
 };

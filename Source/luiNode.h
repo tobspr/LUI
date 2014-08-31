@@ -28,16 +28,13 @@ PUBLISHED:
   LUINode(float w, float h);
   ~LUINode();
 
-  INLINE PT(LUIAtlasDescriptor) get_atlas_image(const string &identifier);
-  INLINE PT(LUIAtlasDescriptor) get_atlas_image(const string &atlas_id, const string &identifier);
+  INLINE LUISprite *attach_sprite(const string &source, float x, float y);
+  INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id, float x, float y);
+  INLINE LUISprite *attach_sprite(PT(Texture) tex, float x, float y);
 
-  INLINE PT(LUISprite) attach_sprite(const string &source, float x, float y);
-  INLINE PT(LUISprite) attach_sprite(const string &source, const string &atlas_id, float x, float y);
-  INLINE PT(LUISprite) attach_sprite(PT(Texture) tex, float x, float y);
-
-  INLINE PT(LUISprite) attach_sprite(const string &source);
-  INLINE PT(LUISprite) attach_sprite(const string &source, const string &atlas_id);
-  INLINE PT(LUISprite) attach_sprite(PT(Texture) tex);
+  INLINE LUISprite *attach_sprite(const string &source);
+  INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id);
+  INLINE LUISprite *attach_sprite(PT(Texture) tex);
 
   INLINE void remove_sprite(PT(LUISprite) sprite);
   INLINE int get_sprite_count();
@@ -54,8 +51,8 @@ private:
   INLINE void refresh_sprite_positions();
   INLINE void refresh_sprite_visibility();
 
-  vector<PT(LUINode)> _nodes;
-  vector<PT(LUISprite)> _sprites;
+  pvector<PT(LUINode)> _nodes;
+  pvector<PT(LUISprite)> _sprites;
 
   LUIRoot* _root;
 

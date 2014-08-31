@@ -13,7 +13,7 @@ INLINE PT(LUISprite) LUINode::get_sprite(int n) {
   return NULL;
 }
 
-INLINE PT(LUISprite) LUINode::attach_sprite(const string &source, const string &atlas_id, float x, float y) {
+INLINE LUISprite *LUINode::attach_sprite(const string &source, const string &atlas_id, float x, float y) {
   lui_cat.spam() << "Attach sprite from atlas descriptor" << endl;
 
   PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, source);
@@ -28,40 +28,30 @@ INLINE PT(LUISprite) LUINode::attach_sprite(const string &source, const string &
   return sprite;
 }
 
-INLINE PT(LUISprite) LUINode::attach_sprite(const string &source, float x, float y) {
+INLINE LUISprite *LUINode::attach_sprite(const string &source, float x, float y) {
   lui_cat.spam() << "Attach sprite from string: '" << source << "'" << endl;
   PT(LUISprite) sprite = construct_and_attach_sprite(x, y);
   sprite->set_texture(source);
   return sprite;
 }
 
-INLINE PT(LUISprite) LUINode::attach_sprite(PT(Texture) tex, float x, float y) {
+INLINE LUISprite *LUINode::attach_sprite(PT(Texture) tex, float x, float y) {
   lui_cat.spam() << "Attach sprite from texture handle" << endl;
   PT(LUISprite) sprite = construct_and_attach_sprite(x, y);
   sprite->set_texture(tex);
   return sprite;
 }
 
-
-INLINE PT(LUISprite) LUINode::attach_sprite(const string &source) {
+INLINE LUISprite *LUINode::attach_sprite(const string &source) {
   return attach_sprite(source, 0, 0);
 }
 
-INLINE PT(LUISprite) LUINode::attach_sprite(const string &source, const string &atlas_id) {
+INLINE LUISprite *LUINode::attach_sprite(const string &source, const string &atlas_id) {
   return attach_sprite(source, atlas_id, 0, 0);
 }
 
-INLINE PT(LUISprite) LUINode::attach_sprite(PT(Texture) tex) {
+INLINE LUISprite *LUINode::attach_sprite(PT(Texture) tex) {
   return attach_sprite(tex, 0, 0);
-}
-
-
-INLINE PT(LUIAtlasDescriptor) LUINode::get_atlas_image(const string &identifier) {
-  return LUIAtlasPool::get_global_ptr()->get_descriptor("default", identifier);
-}
-
-INLINE PT(LUIAtlasDescriptor) LUINode::get_atlas_image(const string &atlas_id, const string &identifier) {
-  return LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, identifier);
 }
 
 INLINE PT(LUISprite) LUINode::construct_and_attach_sprite(float x, float y) {

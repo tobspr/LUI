@@ -45,12 +45,9 @@ public:
 
   INLINE void set_parent(LUIBaseElement* parent);
   INLINE LUIBaseElement* get_parent();
-
   INLINE void recompute_position();
 
 protected:
-
-
 
   // Interface
   virtual void on_bounds_changed() = 0;

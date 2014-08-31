@@ -20,43 +20,29 @@ class BasicButton(LUINode):
         self.set_size(100, 200)
         print self.get_size()
 
-        print "\nTest case 1: Using ':image'"
-        self.imgLeft = self.attach_sprite(0, 0, ":btn_left")
-
         print "\nTest case 2: Using 'default:image'"
-        self.imgMid = self.attach_sprite(10, 0, "default:btn_mid")
+        self.imgMid = self.attach_sprite("btn_mid", "default")
 
-        print "\nTest case 3: Using get_atlas_image('image')"
-        self.imgRight = self.attach_sprite(
-            50, 0, self.get_atlas_image("btn_right"))
+        print "\nTest case 3: Attaching an arbitrary image"
+        self.imgRight3 = self.attach_sprite("Res/atlas.png", 32, 32)
 
-        print "\nTest case 4: Using get_atlas_image('default', 'image')"
-        self.imgRight2 = self.attach_sprite(
-            50, 0, self.get_atlas_image("default", "btn_right"))
+        print "\nTest case 4: Attaching a texture object"
+        self.imgRight4 = self.attach_sprite(TexturePool.loadTexture("Res/atlas.png"))
 
-        print "\nTest case 5: Attaching an arbitrary image"
-        self.imgRight3 = self.attach_sprite(
-            50, 0, "Res/atlas.png")
+        print "\nTest case 5: Attaching a non-existing image"
+        self.imgRight5 = self.attach_sprite("Res/DoesNotExist.png")
 
-        print "\nTest case 6: Attaching a texture object"
-        self.imgRight4 = self.attach_sprite(
-            50, 0, TexturePool.loadTexture("Res/atlas.png"))
+        print "\nTest case 6: Attaching a sprite, but not storing a reference"
+        self.attach_sprite("btn_right", "default")
 
-        print "\nTest case 7: Attaching a non-existing image"
-        self.imgRight5 = self.attach_sprite(
-            50, 0, "Res/DoesNotExist.png")
-
-        print "\nTest case 8: Attaching a sprite, but not storing a reference"
-        self.attach_sprite(50, 0, ":btn_right")
-
-        print "\nTest case 9: Attaching and instantly removing a sprite"
-        tmp = self.attach_sprite(0, 0, ":btn_right")
+        print "\nTest case 7: Attaching and instantly removing a sprite"
+        tmp = self.attach_sprite("btn_right", "default")
         self.remove_sprite(tmp)
 
-        print "\nTest case 10: Resizing widget"
+        print "\nTest case 8: Resizing widget"
         self.set_size(30, 40)
 
-        print "\nTest case 11: Positioning widget"
+        print "\nTest case 9: Positioning widget"
         self.set_pos(50, 50)
 
         print "\nTesting if all pointers are still valid"
@@ -65,20 +51,10 @@ class BasicButton(LUINode):
         for n in xrange(self.get_sprite_count()):
             sprite = self.get_sprite(n)
             print "\tSprite:"
-            print "\t\tAbs-Pos:", sprite.get_absolute_pos()
+            print "\t\tAbs-Pos:", sprite.get_abs_pos()
             print "\t\tSize:", sprite.get_size()
             print "\t\tTexc-Start:", sprite.get_texcoord_start()
             print "\t\tTexc-End:", sprite.get_texcoord_end()
-
-    def on_mouse_over(self, event):
-        self.imgLeft.set_texture(":btn_left_hover")
-        self.imgMid.set_texture(":btn_mid_hover")
-        self.imgRight.set_texture(":btn_right_hover")
-
-    def on_mouse_out(self, event):
-        self.imgLeft.set_texture(":btn_left")
-        self.imgMid.set_texture(":btn_mid")
-        self.imgRight.set_texture(":btn_right")
 
 LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "Res/atlas.txt", "Res/atlas.png")
