@@ -6,7 +6,7 @@ sys.path.insert(0, "../")
 from LUI import LUINode, LUIAtlasPool, LUIRoot
 
 from panda3d.core import loadPrcFileData
-loadPrcFileData("", "notify-level-lui spam")
+# loadPrcFileData("", "notify-level-lui spam")
 
 
 def vec_equal(a, x, y):
@@ -59,7 +59,8 @@ ui.node().add_child(test)
 print "\n\nChanging image"
 test.test_child.get_sprite(0).set_texture("Res/btn_right.png")
 
-print "\n\nRemoving node first"
+
+print "\n\nRemoving node"
 ui.node().remove_child(test)
 
 print "\n\nAttaching to new root"
@@ -69,5 +70,12 @@ ui2.node().add_child(test)
 print "\n\nRemoving sprite"
 # test.test_child.remove_sprite(test.test_child.get_sprite(0))
 test.remove_child(test.test_child)
+
+print "\n\nRemoving node (should throw error)"
+ui.node().remove_child(test)
+
+print "\n\nRemoving node properly (should throw no error)"
+ui2.node().remove_child(test)
+
 
 print "\n\nTests Done."
