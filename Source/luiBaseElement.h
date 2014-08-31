@@ -57,10 +57,10 @@ protected:
   virtual void on_visibility_changed() = 0;
 
   PN_stdfloat _offset_x, _offset_y;
-  bool        _stick_top, _stick_left;
+  bool _stick_top, _stick_left;
   PN_stdfloat _pos_x, _pos_y;
-  LVector2    _size;
-  bool	      _visible;
+  LVector2 _size;
+  bool _visible;
 
   LUIBaseElement *_parent;
 

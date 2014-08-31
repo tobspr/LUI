@@ -85,16 +85,16 @@ protected:
   LUIVertexData _data[4];
 
   // Index in the LUIVertexPool
-  int           _pool_slot;
+  int _pool_slot;
 
   // Handle to the LUIVertexPool
   LUIVertexPool* _vertex_pool;
 
-  PT(Texture)   _tex;
+  PT(Texture) _tex;
 
   // Keep track of the amount of instances created, for 
   // tracking memory leaks
-  static int    _instance_count;
+  static int _instance_count;
 
 };
 
