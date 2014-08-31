@@ -1,7 +1,7 @@
 from panda3d.core import *
 
 loadPrcFileData("", """
-notify-level-lui spam
+notify-level-lui info
 """)
 
 import unittest
@@ -11,28 +11,22 @@ import LUI
 class TestLUISprite(unittest.TestCase):
 
     def setUp(self):
-        self.sprite = LUI.LUISprite()
+        self.node = LUI.LUINode(32, 32)
+        self.sprite = self.node.attachSprite("test")
+        self.sprite.set_size(5, 5)
 
     def test_LUISprite(self):
 
         # Test for uninitialized values
-        pos = self.sprite.get_pos()
+        pos = self.sprite.get_abs_pos()
         size = self.sprite.get_size()
-        texcStart = self.sprite.get_texcoord_start()
-        texcEnd = self.sprite.get_texcoord_end()
         color = self.sprite.get_color()
 
         self.assertAlmostEqual(pos.get_x(), 0.0)
         self.assertAlmostEqual(pos.get_y(), 0.0)
 
-        self.assertAlmostEqual(size.get_x(), 10.0)
-        self.assertAlmostEqual(size.get_y(), 10.0)
-
-        self.assertAlmostEqual(texcStart.get_x(), 0.0)
-        self.assertAlmostEqual(texcStart.get_y(), 0.0)
-
-        self.assertAlmostEqual(texcEnd.get_x(), 1.0)
-        self.assertAlmostEqual(texcEnd.get_y(), 1.0)
+        self.assertAlmostEqual(size.get_x(), 5.0)
+        self.assertAlmostEqual(size.get_y(), 5.0)
 
         self.assertAlmostEqual(color.get_x(), 1.0)
         self.assertAlmostEqual(color.get_y(), 1.0)
@@ -41,31 +35,21 @@ class TestLUISprite(unittest.TestCase):
 
         # Test position getters & Setters
         self.sprite.set_pos(10.0, 20.0)
-        pos = self.sprite.get_pos()
+        pos = self.sprite.get_abs_pos()
         self.assertAlmostEqual(pos.get_x(), 10.0)
         self.assertAlmostEqual(pos.get_y(), 20.0)
 
-        self.sprite.set_pos(LPoint2(12.0, 23.0))
-        pos = self.sprite.get_pos()
-        self.assertAlmostEqual(pos.get_x(), 12.0)
-        self.assertAlmostEqual(pos.get_y(), 23.0)
+        self.sprite.set_left(15.0)
+        self.assertAlmostEqual(self.sprite.get_abs_pos().get_x(), 15.0)
 
-        self.sprite.set_x(15.0)
-        self.assertAlmostEqual(self.sprite.get_x(), 15.0)
-
-        self.sprite.set_y(self.sprite.get_x() * 2.0)
-        self.assertAlmostEqual(self.sprite.get_y(), 30.0)
+        self.sprite.set_right(0.0)
+        self.assertAlmostEqual(self.sprite.get_abs_pos().get_x(), 32 - 5)
 
         # Test size getters & setters
         self.sprite.set_size(50, 60.0)
         scale = self.sprite.get_size()
         self.assertAlmostEqual(scale.get_x(), 50.0)
         self.assertAlmostEqual(scale.get_y(), 60.0)
-
-        self.sprite.set_size(LVector2(24.0, 46.0))
-        scale = self.sprite.get_size()
-        self.assertAlmostEqual(scale.get_x(), 24.0)
-        self.assertAlmostEqual(scale.get_y(), 46.0)
 
         self.sprite.set_width(105.0)
         self.assertAlmostEqual(self.sprite.get_width(), 105.0)

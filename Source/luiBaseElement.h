@@ -33,6 +33,8 @@ PUBLISHED:
   INLINE void set_size(float w, float h);
   INLINE void set_width(float w);
   INLINE void set_height(float h);
+  INLINE float get_width();
+  INLINE float get_height();
   INLINE const LVector2 &get_size() const;
 
   // Visible

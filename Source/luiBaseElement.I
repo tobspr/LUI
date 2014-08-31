@@ -88,6 +88,14 @@ INLINE void LUIBaseElement::set_height(float h) {
   recompute_position();
 }
 
+INLINE float LUIBaseElement::get_width() {
+  return _size.get_x();
+}
+
+INLINE float LUIBaseElement::get_height() {
+  return _size.get_y(); 
+}
+
 INLINE const LVector2 &LUIBaseElement::get_size() const {
   return _size;
 }
