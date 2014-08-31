@@ -32,13 +32,8 @@ class EXPCL_PANDASKEL LUISprite : public ReferenceCount, public LUIBaseElement  
 PUBLISHED:
 
   // Texcoord
-  INLINE void set_texcoord_start(const LVector2 &texcoord_start);
-  INLINE void set_texcoord_start(float u, float v);
-  INLINE LVector2 get_texcoord_start();
-
-  INLINE void set_texcoord_end(const LVector2 &texcoord_end);
-  INLINE void set_texcoord_end(float u, float v);
-  INLINE LVector2 get_texcoord_end();
+  INLINE void set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end);
+  INLINE void get_uv_range(LTexCoord &uv_begin, LTexCoord &uv_end);
 
   // Color
   INLINE void set_color(const LColor &color);

@@ -20,8 +20,7 @@ LUISprite::LUISprite(LUIBaseElement* parent) :
 
   set_parent(parent);
   set_top_left(0, 0);
-  set_texcoord_start(0, 0);
-  set_texcoord_end(1, 1);
+  set_uv_range(LVector2(0), LVector2(0));
   set_size(10, 10);
   set_color(1.0, 1.0, 1.0, 1.0);   
 }

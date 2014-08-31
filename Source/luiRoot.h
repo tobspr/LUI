@@ -29,8 +29,6 @@ PUBLISHED:
 
   INLINE PT(LUINode) root();
 
-
-
 public:
 
   LUIVertexPool* get_vpool_by_texture(Texture* tex);

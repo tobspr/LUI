@@ -21,22 +21,20 @@ public:
 
   INLINE Texture* get_texture() const;
   INLINE const LVector2 &get_size() const;
-  INLINE const LVector2 &get_uv_begin() const;
-  INLINE const LVector2 &get_uv_end() const;
+  INLINE const LTexCoord &get_uv_begin() const;
+  INLINE const LTexCoord &get_uv_end() const;
 
   INLINE void set_texture(Texture* tex);
   INLINE void set_size(const LVector2 &size);
-  INLINE void set_uv_begin(const LVector2 &uv_begin);
-  INLINE void set_uv_end(const LVector2 &uv_end);
+  INLINE void set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end);
 
 private:
 
   // Todo: Add getters & setters
   Texture* _tex;
   LVector2 _size;
-  LVector2 _uv_begin;
-  LVector2 _uv_end;
-
+  LTexCoord _uv_begin;
+  LTexCoord _uv_end;
 
   static int _instance_count;
 

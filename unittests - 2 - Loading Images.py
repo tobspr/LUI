@@ -5,7 +5,7 @@ sys.path.insert(0, "../")
 
 from LUI import LUINode, LUIRoot, LUIAtlasPool
 
-from panda3d.core import loadPrcFileData, TexturePool, LVector2
+from panda3d.core import loadPrcFileData, TexturePool, LVector2, LTexCoord
 
 # loadPrcFileData("", "notify-level-lui spam")
 
@@ -27,7 +27,8 @@ class BasicButton(LUINode):
         self.imgRight3 = self.attach_sprite("Res/atlas.png", 32, 32)
 
         print "\nTest case 4: Attaching a texture object"
-        self.imgRight4 = self.attach_sprite(TexturePool.loadTexture("Res/atlas.png"))
+        self.imgRight4 = self.attach_sprite(
+            TexturePool.loadTexture("Res/atlas.png"))
 
         print "\nTest case 5: Attaching a non-existing image"
         self.imgRight5 = self.attach_sprite("Res/DoesNotExist.png")
@@ -50,11 +51,15 @@ class BasicButton(LUINode):
 
         for n in xrange(self.get_sprite_count()):
             sprite = self.get_sprite(n)
+
+            start = LTexCoord()
+            end = LTexCoord()
+            sprite.get_uv_range(start, end)
+
             print "\tSprite:"
             print "\t\tAbs-Pos:", sprite.get_abs_pos()
             print "\t\tSize:", sprite.get_size()
-            print "\t\tTexc-Start:", sprite.get_texcoord_start()
-            print "\t\tTexc-End:", sprite.get_texcoord_end()
+            print "\t\tTexcoord:", start, ",", end
 
 LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "Res/atlas.txt", "Res/atlas.png")

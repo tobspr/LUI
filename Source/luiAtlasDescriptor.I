@@ -8,11 +8,11 @@ INLINE const LVector2 &LUIAtlasDescriptor::get_size() const {
   return _size;
 }
 
-INLINE const LVector2 &LUIAtlasDescriptor::get_uv_begin() const {
+INLINE const LTexCoord &LUIAtlasDescriptor::get_uv_begin() const {
   return _uv_begin;
 }
 
-INLINE const LVector2 &LUIAtlasDescriptor::get_uv_end() const {
+INLINE const LTexCoord &LUIAtlasDescriptor::get_uv_end() const {
   return _uv_end;
 }
 
@@ -24,10 +24,7 @@ INLINE void LUIAtlasDescriptor::set_size(const LVector2 &size) {
   _size = size;
 }
 
-INLINE void LUIAtlasDescriptor::set_uv_begin(const LVector2 &uv_begin) {
+INLINE void LUIAtlasDescriptor::set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end) {
   _uv_begin = uv_begin;
-}
-
-INLINE void LUIAtlasDescriptor::set_uv_end(const LVector2 &uv_end) {
   _uv_end = uv_end;
 }

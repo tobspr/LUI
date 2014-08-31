@@ -14,40 +14,26 @@ INLINE void LUISprite::recompute_vertices() {
   _data[3].y = _data[0].y + _size.get_y();
 }
 
-INLINE void LUISprite::set_texcoord_start(const LVector2 &texcoord_start) {
-  set_texcoord_start(texcoord_start.get_x(), texcoord_start.get_y());
+INLINE void LUISprite::set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end) {
+  _data[0].u = uv_begin.get_x();
+  _data[0].v = uv_begin.get_y();
+
+  _data[1].u = uv_end.get_x();
+  _data[1].v = uv_begin.get_y();
+
+  _data[2].u = uv_end.get_x();
+  _data[2].v = uv_end.get_y();
+
+  _data[3].u = uv_begin.get_x();
+  _data[3].v = uv_end.get_y();
 }
 
-INLINE void LUISprite::set_texcoord_start(float u, float v) {
-  if (lui_cat.is_spam() && lui_cat.is_spam()) {
-    cout << "Set texcoord start: " << u << " / " << v << endl;
-  }
-  _data[0].u = u;
-  _data[3].u = u;
-  _data[0].v = v;
-  _data[1].v = v;
-}
 
-INLINE LVector2 LUISprite::get_texcoord_start() {
-  return LVector2(_data[0].u, _data[0].v);
-}
-
-INLINE void LUISprite::set_texcoord_end(const LVector2 &texcoord_end) {
-  set_texcoord_end(texcoord_end.get_x(), texcoord_end.get_y());
-}
-
-INLINE void LUISprite::set_texcoord_end(float u, float v) {
-  if (lui_cat.is_spam() && lui_cat.is_spam()) {
-    cout << "Set texcoord end: " << u << " / " << v << endl;
-  }
-  _data[2].u = u;
-  _data[1].u = u;
-  _data[2].v = v;
-  _data[3].v = v;
-}
-
-INLINE LVector2 LUISprite::get_texcoord_end() {
-  return LVector2(_data[2].u, _data[2].v);
+INLINE void LUISprite::get_uv_range(LTexCoord &uv_begin, LTexCoord &uv_end) {
+  uv_begin.set_x(_data[0].u);
+  uv_begin.set_y(_data[0].v);
+  uv_end.set_x(_data[2].u);
+  uv_end.set_y(_data[2].v);
 }
 
 INLINE void LUISprite::set_color(const LColor &color) {
@@ -78,8 +64,7 @@ INLINE void LUISprite::set_texture(Texture* tex) {
       cout << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
     _tex = tex;
 
-    set_texcoord_start(0, 0);
-    set_texcoord_end(1, 1);
+    set_uv_range(LTexCoord(0), LTexCoord(0));
   }
 }
 
@@ -93,8 +78,7 @@ INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
 
   set_texture(descriptor->get_texture());
   set_size(descriptor->get_size());
-  set_texcoord_start(descriptor->get_uv_begin());
-  set_texcoord_end(descriptor->get_uv_end());
+  set_uv_range(descriptor->get_uv_begin(), descriptor->get_uv_end());
 }
 
 INLINE void LUISprite::set_texture(const string &source) {
