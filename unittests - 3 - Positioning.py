@@ -26,18 +26,19 @@ class Positioning_Test(LUINode):
     def do_tests(self):
         
         print "Running tests .."
-        sprite = self.attach_sprite("Res/atlas.png")
+        sprite = self.attach_sprite("Res/atlas.png", 20, 20)
         sprite.set_size(32, 32)
 
         # Check initial pos
-        assert(vec_equal(sprite.get_abs_pos(), 0, 0))
+        assert(vec_equal(sprite.get_abs_pos(), 20, 20))
 
         # Set parent pos
         self.set_pos(10, 10)
-        assert(vec_equal(sprite.get_abs_pos(), 10, 10))
+        assert(vec_equal(sprite.get_abs_pos(), 30, 30))
 
         # Revert parent pos
         self.set_pos(0, 0)
+        sprite.set_pos(0, 0)
         assert(vec_equal(sprite.get_abs_pos(), 0, 0))
 
         # Align to right
@@ -65,7 +66,6 @@ class Positioning_Test(LUINode):
 
         # Same for this
         self.set_bottom(10)
-
 
 LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "Res/atlas.txt", "Res/atlas.png")

@@ -31,12 +31,12 @@ PUBLISHED:
   INLINE PT(LUIAtlasDescriptor) get_atlas_image(const string &identifier);
   INLINE PT(LUIAtlasDescriptor) get_atlas_image(const string &atlas_id, const string &identifier);
 
-  INLINE PT(LUISprite) attach_sprite(float x, float y, const string &source);
-  INLINE PT(LUISprite) attach_sprite(float x, float y, PT(LUIAtlasDescriptor) desc);
-  INLINE PT(LUISprite) attach_sprite(float x, float y, PT(Texture) tex);
+  INLINE PT(LUISprite) attach_sprite(const string &source, float x, float y);
+  INLINE PT(LUISprite) attach_sprite(const string &source, const string &atlas_id, float x, float y);
+  INLINE PT(LUISprite) attach_sprite(PT(Texture) tex, float x, float y);
 
   INLINE PT(LUISprite) attach_sprite(const string &source);
-  INLINE PT(LUISprite) attach_sprite(PT(LUIAtlasDescriptor) desc);
+  INLINE PT(LUISprite) attach_sprite(const string &source, const string &atlas_id);
   INLINE PT(LUISprite) attach_sprite(PT(Texture) tex);
 
   INLINE void remove_sprite(PT(LUISprite) sprite);

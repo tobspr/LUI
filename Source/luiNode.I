@@ -13,21 +13,29 @@ INLINE PT(LUISprite) LUINode::get_sprite(int n) {
   return NULL;
 }
 
-INLINE PT(LUISprite) LUINode::attach_sprite(float x, float y, PT(LUIAtlasDescriptor) desc) {
+INLINE PT(LUISprite) LUINode::attach_sprite(const string &source, const string &atlas_id, float x, float y) {
   lui_cat.spam() << "Attach sprite from atlas descriptor" << endl;
+  
+  PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, source);
+
+  if (descriptor == NULL) {
+    lui_cat.error() << "Atlas entry '" << source << "' not found in atlas '" << atlas_id << "'" << endl;
+    return NULL;
+  }
+
   PT(LUISprite) sprite = construct_and_attach_sprite(x, y);
-  sprite->set_texture(desc);
+  sprite->set_texture(descriptor);
   return sprite;
 }
 
-INLINE PT(LUISprite) LUINode::attach_sprite(float x, float y, const string &source) {
+INLINE PT(LUISprite) LUINode::attach_sprite(const string &source, float x, float y) {
   lui_cat.spam() << "Attach sprite from string: '" << source << "'" << endl;
   PT(LUISprite) sprite = construct_and_attach_sprite(x, y);
   sprite->set_texture(source);
   return sprite;
 }
 
-INLINE PT(LUISprite) LUINode::attach_sprite(float x, float y, PT(Texture) tex) {
+INLINE PT(LUISprite) LUINode::attach_sprite(PT(Texture) tex, float x, float y) {
   lui_cat.spam() << "Attach sprite from texture handle" << endl;
   PT(LUISprite) sprite = construct_and_attach_sprite(x, y);
   sprite->set_texture(tex);
@@ -36,15 +44,15 @@ INLINE PT(LUISprite) LUINode::attach_sprite(float x, float y, PT(Texture) tex) {
 
 
 INLINE PT(LUISprite) LUINode::attach_sprite(const string &source) {
-  return attach_sprite(0, 0, source);
+  return attach_sprite(source, 0, 0);
 }
 
-INLINE PT(LUISprite) LUINode::attach_sprite(PT(LUIAtlasDescriptor) desc) {
-  return attach_sprite(0, 0, desc);
+INLINE PT(LUISprite) LUINode::attach_sprite(const string &source, const string &atlas_id) {
+  return attach_sprite(source, atlas_id, 0, 0);
 }
 
 INLINE PT(LUISprite) LUINode::attach_sprite(PT(Texture) tex) {
-  return attach_sprite(0, 0, tex);
+  return attach_sprite(tex, 0, 0);
 }
 
 

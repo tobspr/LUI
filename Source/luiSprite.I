@@ -99,24 +99,7 @@ INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
 
 INLINE void LUISprite::set_texture(const string &source) {
   
-  // Check for "atlasName:entry" syntax
-  size_t separator = source.find(":");
-  if (separator != string::npos) {
-    lui_cat.spam() << "Detected 'atlasName:entry' syntax" << endl; 
-
-    string entry_name = source.substr(separator + 1);
-    string atlas_name = source.substr(0, separator);
-  
-    if (atlas_name.length() < 1) {
-      atlas_name = "default";
-    }
-
-    PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_name, entry_name);
-    set_texture(descriptor);
-    return;
-  } 
-
-  // Otherwise, load texture from file
+  // load texture from file
   PT(Texture) tex = TexturePool::load_texture(source);
 
   if (tex == NULL) {

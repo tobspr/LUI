@@ -16,8 +16,9 @@
 #include "luiNode.h"
 #include "luiAtlas.h"
 
-
 #include "config_lui.h"
+
+class LUINode;
 
 class EXPCL_PANDASKEL LUIRoot {
 
@@ -26,8 +27,8 @@ class EXPCL_PANDASKEL LUIRoot {
     LUIRoot();
     ~LUIRoot();
 		
-    PT(LUISprite) attach_sprite(float x, float y, LUIAtlasDescriptor* desc);
-    void operator += (PT(LUINode) node);
+    INLINE PT(LUINode) root();
+
 
 
   public:
@@ -43,5 +44,7 @@ class EXPCL_PANDASKEL LUIRoot {
     PT(LUINode) _root;
 
 };
+
+#include "luiRoot.I"
 
 #endif
