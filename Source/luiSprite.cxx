@@ -18,8 +18,10 @@ LUISprite::LUISprite(LUIBaseElement* parent) :
     cout << "Constructed new LUISprite, (active: " << _instance_count << ")" << endl;  
   }
 
+
   set_parent(parent);
   set_top_left(0, 0);
+  set_z_index(0);
   set_uv_range(LVector2(0), LVector2(0));
   set_size(10, 10);
   set_color(1.0, 1.0, 1.0, 1.0);   
@@ -34,7 +36,7 @@ LUISprite::~LUISprite() {
 
 void LUISprite::on_bounds_changed() {
   _data[0].x = _pos_x;
-  _data[0].y = _pos_y;
+  _data[0].z = _pos_y;
   recompute_vertices();
 }
 

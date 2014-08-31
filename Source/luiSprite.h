@@ -22,6 +22,7 @@
 class LUIVertexPool;
 class LUINode;
 
+
 ////////////////////////////////////////////////////////////////////
 //       Class : LUISprite
 // Description : A LUISprite stores a single card, including position,
@@ -53,6 +54,8 @@ PUBLISHED:
   INLINE void set_z_index(float z_index);
   INLINE float get_z_index();
 
+  INLINE void print_vertices();
+
 public:
 
   LUISprite(LUIBaseElement* parent);
@@ -60,6 +63,12 @@ public:
 
   INLINE void set_pool_slot(int slot);
   INLINE int get_pool_slot();
+
+  struct LUIVertexData {
+    PN_stdfloat x, y, z;
+    PN_stdfloat u, v;
+    PN_stdfloat color[4];
+  };
 
 protected:
 
@@ -72,12 +81,6 @@ protected:
   void on_visibility_changed();
   void on_detached();
   void set_root(LUIRoot* root);
-
-  struct LUIVertexData {
-    PN_stdfloat x, y, z;
-    PN_stdfloat u, v;
-    PN_stdfloat color[4];
-  };
 
   // Stores data for 4 corner vertices
   // 0 - Upper Left

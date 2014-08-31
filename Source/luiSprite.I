@@ -3,15 +3,15 @@
 INLINE void LUISprite::recompute_vertices() {
   // Upper Right
   _data[1].x = _data[0].x + _size.get_x();
-  _data[1].y = _data[0].y;
+  _data[1].z = _data[0].z;
 
   // Lower Right
   _data[2].x =_data[0].x + _size.get_x();
-  _data[2].y =_data[0].y + _size.get_y();
+  _data[2].z =_data[0].z + _size.get_y();
 
   // Lower Left
   _data[3].x = _data[0].x;
-  _data[3].y = _data[0].y + _size.get_y();
+  _data[3].z = _data[0].z + _size.get_y();
 }
 
 INLINE void LUISprite::set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end) {
@@ -70,7 +70,7 @@ INLINE void LUISprite::set_texture(Texture* tex) {
       cout << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
     }
     _tex = tex;
-    set_uv_range(LTexCoord(0), LTexCoord(0));
+    set_uv_range(LTexCoord(0), LTexCoord(1));
     
     // Assign new texture
     if (_root != NULL) {
@@ -118,12 +118,12 @@ INLINE Texture *LUISprite::get_texture() const {
 
 INLINE void LUISprite::set_z_index(float z_index) {
   for (int i = 0; i < 4; i++) {
-    _data[i].z = z_index;
+    _data[i].y = z_index;
   }
 }
 
 INLINE float LUISprite::get_z_index() {
-  return _data[0].z;
+  return _data[0].y;
 }
 
 INLINE void LUISprite::set_pool_slot(int slot) {
@@ -134,3 +134,13 @@ INLINE int LUISprite::get_pool_slot() {
   return _pool_slot;
 }
 
+INLINE void LUISprite::print_vertices() {
+  cout << "LUISprite, 4 Vertices:" << endl;
+
+  for (int i = 0; i < 4; i++) {
+    cout << "  [Vertex] POS = " << _data[i].x << "," << _data[i].y << "," << _data[i].z 
+      << "; UV = " << _data[i].u << "," << _data[i].v 
+      << " COL = " << _data[i].color[0] << "," << _data[i].color[1] << "," << _data[i].color[2] << "," << _data[i].color[3] << endl;
+  }
+
+}

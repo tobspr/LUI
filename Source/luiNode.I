@@ -65,6 +65,8 @@ INLINE LUISprite *LUINode::attach_sprite(PT(Texture) tex) {
 INLINE PT(LUISprite) LUINode::construct_and_attach_sprite(float x, float y) {
   PT(LUISprite) sprite = new LUISprite(this);
   sprite->set_top_left(x, y);
+  sprite->set_root(_root);
+  sprite->set_parent(this);
   _sprites.push_back(sprite);
   return sprite;
 }
@@ -99,7 +101,6 @@ INLINE void LUINode::remove_child(PT(LUINode) node) {
   }
 
   _nodes.erase(remove(_nodes.begin(), _nodes.end(),node ), _nodes.end());
-
   node->on_detached();
   
   if (lui_cat.is_spam()) {
@@ -142,7 +143,9 @@ INLINE PT(LUINode) LUINode::add_child(PT(LUINode) node) {
   _nodes.push_back(node);
 
   // This has to be last. Otherwise we're attaching to the VertexPool with outdated positions
+  lui_cat.spam() << "Setting root on children" << endl;
   node->set_root(_root);
+
   return node;
 }
 

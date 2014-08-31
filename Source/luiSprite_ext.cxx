@@ -52,6 +52,12 @@ void LUISprite::assign_vertex_pool() {
   nassertv(pool != NULL);
 
   _vertex_pool = pool;
+  _pool_slot = pool->allocate_slot();
+
+  if (lui_cat.is_spam()) {
+    cout << "Got vertex pool slot: " << _pool_slot << endl;
+  }
+
 }
 
 void LUISprite::unassign_vertex_pool() {
@@ -61,7 +67,7 @@ void LUISprite::unassign_vertex_pool() {
   }
 
   if (_vertex_pool != NULL) {
-    
+    _vertex_pool->release_slot(_pool_slot);
+    _pool_slot = 0;
   }
-
 }

@@ -7,7 +7,7 @@ from LUI import LUINode, LUIRoot, LUIAtlasPool
 
 from panda3d.core import loadPrcFileData, TexturePool, LVector2, LTexCoord
 
-# loadPrcFileData("", "notify-level-lui spam")
+loadPrcFileData("", "notify-level-lui spam")
 
 
 class BasicButton(LUINode):
@@ -24,11 +24,11 @@ class BasicButton(LUINode):
         self.imgMid = self.attach_sprite("btn_mid", "default")
 
         print "\nTest case 3: Attaching an arbitrary image"
-        self.imgRight3 = self.attach_sprite("Res/atlas.png", 32, 32)
+        self.imgRight3 = self.attach_sprite("Res/btn_mid.png", 32, 32)
 
         print "\nTest case 4: Attaching a texture object"
         self.imgRight4 = self.attach_sprite(
-            TexturePool.loadTexture("Res/atlas.png"))
+            TexturePool.loadTexture("Res/btn_right.png"))
 
         print "\nTest case 5: Attaching a non-existing image"
         self.imgRight5 = self.attach_sprite("Res/DoesNotExist.png")
@@ -60,17 +60,21 @@ class BasicButton(LUINode):
             print "\t\tAbs-Pos:", sprite.get_abs_pos()
             print "\t\tSize:", sprite.get_size()
             print "\t\tTexcoord:", start, ",", end
+            sprite.print_vertices()
 
         print "Test passed."
 
 LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "Res/atlas.txt", "Res/atlas.png")
 
-root = LUIRoot()
+root = LUIRoot(512,512)
 # root.load_atlas("default")
 # root.reparent_to(pixel2d)
 
 button = BasicButton("Hello")
 button.set_top_left(20, 20)
+
+print "\n\nAttaching button:"
+root.node().add_child(button)
 # button.bind("click", myClickHandler)
 # root += button
