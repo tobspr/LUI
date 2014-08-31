@@ -26,6 +26,6 @@ void LUINode::on_bounds_changed() {
 
 
 void LUINode::on_visibility_changed() {
-  
+
 }
 

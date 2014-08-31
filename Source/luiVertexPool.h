@@ -16,12 +16,12 @@ class LUIVertexPool {
 
 public:
 
-    LUIVertexPool();
-    ~LUIVertexPool();
-		
-	private:
+  LUIVertexPool();
+  ~LUIVertexPool();
 
-     // todo
+private:
+
+  // todo
 };
 
 #endif

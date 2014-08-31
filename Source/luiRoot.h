@@ -22,26 +22,26 @@ class LUINode;
 
 class EXPCL_PANDASKEL LUIRoot {
 
-  PUBLISHED:
+PUBLISHED:
 
-    LUIRoot();
-    ~LUIRoot();
-		
-    INLINE PT(LUINode) root();
+  LUIRoot();
+  ~LUIRoot();
+
+  INLINE PT(LUINode) root();
 
 
 
-  public:
+public:
 
-    LUIVertexPool* get_vpool_by_texture(Texture* tex);
-    
-	private:
+  LUIVertexPool* get_vpool_by_texture(Texture* tex);
 
-    // We store a private root node.
-    // With this, we don't have to inherit from LUINode, but
-    // can maintain the ability to attach nodes directly to the
-    // root
-    PT(LUINode) _root;
+private:
+
+  // We store a private root node.
+  // With this, we don't have to inherit from LUINode, but
+  // can maintain the ability to attach nodes directly to the
+  // root
+  PT(LUINode) _root;
 
 };
 

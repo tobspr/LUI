@@ -33,7 +33,7 @@ INLINE PT(LUIAtlasDescriptor) LUIAtlasPool::get_descriptor(const string &atlas_i
     descriptor->set_texture(atlas->get_texture());
     return descriptor;
   } 
-    
+
   lui_cat.error() << "Atlas entry '" << entry_id << "' not found!" << endl;
   return NULL;
 

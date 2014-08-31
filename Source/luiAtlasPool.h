@@ -22,7 +22,7 @@ PUBLISHED:
 
   static LUIAtlasPool *get_global_ptr();
   void load_atlas(const string &atlas_id, const string &atlas_desc_path, const string &atlas_tex_path);
-  
+
   INLINE bool has_atlas(const string &atlas_id);
   INLINE PT(LUIAtlas) get_atlas(const string &atlas_id);
 

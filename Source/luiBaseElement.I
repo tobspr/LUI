@@ -10,7 +10,7 @@ INLINE void LUIBaseElement::set_top_left(float x, float y) {
   _offset_x = x;
   _offset_y = y;
   recompute_position();
-  
+
 }
 
 INLINE void LUIBaseElement::set_pos(float top, float left) {
@@ -89,14 +89,14 @@ INLINE void LUIBaseElement::set_height(float h) {
 }
 
 INLINE const LVector2 &LUIBaseElement::get_size() const {
-    return _size;
+  return _size;
 }
 
 INLINE void LUIBaseElement::recompute_position() {
   // Recompute actual position from top/bottom and left/right offsets
   LVector2 parent_size(0);
   LVector2 parent_pos(0);
-  
+
   if (_parent != (LUIBaseElement*)NULL) {
     parent_size = _parent->get_size();
     parent_pos = _parent->get_abs_pos();
@@ -104,8 +104,8 @@ INLINE void LUIBaseElement::recompute_position() {
 
   if (lui_cat.is_spam() && lui_cat.is_spam()) {
     cout << "Recomputing position, parent size is " << parent_size.get_x() << "x" 
-          << parent_size.get_y() << ", Pos is " << parent_pos.get_x() 
-          << " / " << parent_pos.get_y() << endl;
+      << parent_size.get_y() << ", Pos is " << parent_pos.get_x() 
+      << " / " << parent_pos.get_y() << endl;
   }
 
   if (_stick_top) {

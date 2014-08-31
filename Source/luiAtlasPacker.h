@@ -14,17 +14,17 @@
 
 class EXPCL_PANDASKEL LUIAtlasPacker : public ReferenceCount {
 
-  PUBLISHED:
-  
-    LUIAtlasPacker(int size);
-    ~LUIAtlasPacker();
+PUBLISHED:
 
-    LVector2 find_position(int w, int h);
+  LUIAtlasPacker(int size);
+  ~LUIAtlasPacker();
 
-	private:
-  
-     bool **values_bitmask;
-     int _size;
+  LVector2 find_position(int w, int h);
+
+private:
+
+  bool **values_bitmask;
+  int _size;
 
 };
 

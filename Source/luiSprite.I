@@ -4,7 +4,7 @@ INLINE void LUISprite::recompute_vertices() {
   // Upper Right
   _data[1].x = _data[0].x + _size.get_x();
   _data[1].y = _data[0].y;
-      
+
   // Lower Right
   _data[2].x =_data[0].x + _size.get_x();
   _data[2].y =_data[0].y + _size.get_y();
@@ -47,9 +47,9 @@ INLINE void LUISprite::set_texcoord_end(float u, float v) {
 }
 
 INLINE LVector2 LUISprite::get_texcoord_end() {
-    return LVector2(_data[2].u, _data[2].v);
+  return LVector2(_data[2].u, _data[2].v);
 }
-		
+
 INLINE void LUISprite::set_color(const LColor &color) {
   set_color(color.get_x(), color.get_y(), color.get_z(), color.get_w());
 }
@@ -85,7 +85,7 @@ INLINE void LUISprite::set_texture(Texture* tex) {
 
 INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
   lui_cat.spam() << "LUISprite -> set texture from descriptor" << endl;
-  
+
   if (descriptor == NULL) {
     lui_cat.spam() << "Ignoring null descriptor" << endl;
     return;
@@ -98,7 +98,7 @@ INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
 }
 
 INLINE void LUISprite::set_texture(const string &source) {
-  
+
   // load texture from file
   PT(Texture) tex = TexturePool::load_texture(source);
 

@@ -6,7 +6,7 @@ LUIAtlasPacker::LUIAtlasPacker(int size) : _size(size) {
   values_bitmask = new bool*[_size];
   for (int i = 0; i < _size; ++i)
     values_bitmask[i] = new bool[_size];
-  
+
   // Set to zero
   for (int x = 0; x < _size; x++) {
     for (int y = 0; y < _size; y++) {

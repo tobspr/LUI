@@ -15,7 +15,7 @@ INLINE PT(LUISprite) LUINode::get_sprite(int n) {
 
 INLINE PT(LUISprite) LUINode::attach_sprite(const string &source, const string &atlas_id, float x, float y) {
   lui_cat.spam() << "Attach sprite from atlas descriptor" << endl;
-  
+
   PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, source);
 
   if (descriptor == NULL) {
@@ -65,10 +65,10 @@ INLINE PT(LUIAtlasDescriptor) LUINode::get_atlas_image(const string &atlas_id, c
 }
 
 INLINE PT(LUISprite) LUINode::construct_and_attach_sprite(float x, float y) {
-   PT(LUISprite) sprite = new LUISprite(this);
-   sprite->set_top_left(x, y);
-   _sprites.push_back(sprite);
-   return sprite;
+  PT(LUISprite) sprite = new LUISprite(this);
+  sprite->set_top_left(x, y);
+  _sprites.push_back(sprite);
+  return sprite;
 }
 
 INLINE void LUINode::remove_sprite(PT(LUISprite) sprite) {

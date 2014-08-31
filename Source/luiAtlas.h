@@ -17,8 +17,8 @@
 #include "config_lui.h"
 
 struct LUIAtlasEntry {
-    LVector2 size;
-    LVector2 pos;
+  LVector2 size;
+  LVector2 pos;
 };
 
 class EXPCL_PANDASKEL LUIAtlas : public ReferenceCount {
@@ -45,7 +45,7 @@ private:
   PT(Texture) _tex;
   map<string, LUIAtlasEntry*> _entries;
   int _size;
-  
+
 };
 
 #include "luiAtlas.I"

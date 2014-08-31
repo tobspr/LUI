@@ -3,7 +3,7 @@
 
 
 LUIRoot::LUIRoot() {
-    lui_cat.spam() << "Initialized new LUIRoot\n";
+  lui_cat.spam() << "Initialized new LUIRoot\n";
 }
 LUIRoot::~LUIRoot() {
   lui_cat.spam() << "Destructed LUIRoot\n";

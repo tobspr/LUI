@@ -50,7 +50,7 @@ public:
 
 protected:
 
-  
+
 
   // Interface
   virtual void on_bounds_changed() = 0;
