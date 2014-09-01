@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, "../")
 
-from LUI import LUINode, LUIAtlasPool
+from LUI import LUIObject, LUIAtlasPool
 
 from panda3d.core import loadPrcFileData, LVector2
 
@@ -14,12 +14,12 @@ loadPrcFileData("", "notify-level-lui info")
 def vec_equal(a, x, y):
     return a.get_x() == float(x) and a.get_y() == float(y)
 
-class Positioning_Test(LUINode):
+class Positioning_Test(LUIObject):
 
-    """ Tests the positioning of the LUINode / LUISprite classes """
+    """ Tests the positioning of the LUIObject / LUISprite classes """
 
     def __init__(self):
-        LUINode.__init__(self, 500, 500)
+        LUIObject.__init__(self, 500, 500)
         self.do_tests()
 
 

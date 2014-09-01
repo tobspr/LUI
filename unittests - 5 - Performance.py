@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, "../")
 
-from LUI import LUINode, LUIAtlasPool, LUIRoot
+from LUI import LUIObject, LUIAtlasPool, LUIRoot
 
 from panda3d.core import loadPrcFileData
 import time
@@ -11,10 +11,10 @@ import time
 loadPrcFileData("", "notify-level-lui spam")
 
 
-class TestCase(LUINode):
+class TestCase(LUIObject):
 
     def __init__(self):
-        LUINode.__init__(self, 100, 100)
+        LUIObject.__init__(self, 100, 100)
 
     def test(self):
         
@@ -22,7 +22,7 @@ class TestCase(LUINode):
 
 
         start = time.time()
-        iterations = 10
+        iterations = 100
         for i in xrange(iterations):
             sprite = self.attach_sprite("Res/btn_left.png", i * 10, 0)
             # sprite.set_right(50)

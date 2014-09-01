@@ -137,6 +137,8 @@ void LUISprite::update_vertex_pool() {
       cout << "Got vertex pool write pointer at " << write_pointer << endl;
     }
 
+    //memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
+
   }
 }
 

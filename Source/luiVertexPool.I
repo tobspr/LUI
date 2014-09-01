@@ -12,6 +12,7 @@ INLINE int LUIVertexPool::allocate_slot() {
     if (lui_cat.is_spam()) {
       cout << "Slot " << _highest_index << " is the new highest index" << endl;
     }
+    _vertex_data->set_num_rows( (_highest_index + 1) * 4 );
   }
 
   _sprite_count ++;
@@ -33,6 +34,7 @@ INLINE void LUIVertexPool::release_slot(int slot) {
     if (lui_cat.is_spam()) {
       cout << "Slot " << slot << " got detached, highest index is now " << _highest_index << endl;
     }
+    //_vertex_data->set_num_rows( (_highest_index + 1) * 4 );
   }
 
   _sprite_count --;

@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, "../")
 
-from LUI import LUINode, LUIAtlasPool, LUIRoot
+from LUI import LUIObject, LUIAtlasPool, LUIRoot
 
 from panda3d.core import loadPrcFileData
 loadPrcFileData("", "notify-level-lui spam")
@@ -13,21 +13,21 @@ def vec_equal(a, x, y):
     return a.get_x() == float(x) and a.get_y() == float(y)
 
 
-class Children(LUINode):
+class Children(LUIObject):
 
     def __init__(self):
-        LUINode.__init__(self, 200, 200)
+        LUIObject.__init__(self, 200, 200)
 
         self.attach_sprite("Res/btn_left.png")
         self.get_sprite(0).set_right(0)
 
 
-class Parent_Test(LUINode):
+class Parent_Test(LUIObject):
 
-    """ Tests the positioning of the LUINode / LUISprite classes """
+    """ Tests the positioning of the LUIObject / LUISprite classes """
 
     def __init__(self):
-        LUINode.__init__(self, 500, 500)
+        LUIObject.__init__(self, 500, 500)
 
         self.do_tests()
 

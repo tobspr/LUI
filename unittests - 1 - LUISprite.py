@@ -11,7 +11,7 @@ import LUI
 class TestLUISprite(unittest.TestCase):
 
     def setUp(self):
-        self.node = LUI.LUINode(32, 32)
+        self.node = LUI.LUIObject(32, 32)
         self.sprite = self.node.attachSprite("test")
         self.sprite.set_size(5, 5)
 

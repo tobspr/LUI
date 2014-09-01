@@ -3,17 +3,17 @@ import sys
 
 sys.path.insert(0, "../")
 
-from LUI import LUINode, LUIRoot, LUIAtlasPool
+from LUI import LUIObject, LUIRoot, LUIAtlasPool
 
 from panda3d.core import loadPrcFileData, TexturePool, LVector2, LTexCoord
 
 loadPrcFileData("", "notify-level-lui spam")
 
 
-class BasicButton(LUINode):
+class BasicButton(LUIObject):
 
     def __init__(self, text):
-        LUINode.__init__(self, 50, 30)
+        LUIObject.__init__(self, 50, 30)
 
         print "\nTest case 1: Setting & Getting size"
         print self.get_size()
