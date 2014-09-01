@@ -4,15 +4,6 @@ INLINE int LUIObject::get_sprite_count() {
   return _sprites.size();
 }
 
-INLINE PT(LUISprite) LUIObject::get_sprite(int n) {
-  if (n < get_sprite_count()) {
-    return _sprites[n];
-  }
-
-  lui_cat.error() << "Invalid sprite index" << endl;
-  return NULL;
-}
-
 
 INLINE PT(LUISprite) LUIObject::construct_and_attach_sprite(float x, float y) {
   PT(LUISprite) sprite = new LUISprite(this);
@@ -83,8 +74,7 @@ INLINE void LUIObject::remove_sprite(PT(LUISprite) sprite) {
     lui_cat.spam() << "Removing sprite .." << endl;
   }
 
-  _sprites.erase(remove(_sprites.begin(), _sprites.end(),sprite ), _sprites.end());
-
+  _sprites.erase(sprite);
   sprite->on_detached();
 
   if (lui_cat.is_spam()) {
@@ -102,7 +92,7 @@ INLINE void LUIObject::remove_child(PT(LUIObject) node) {
     lui_cat.spam() << "Removing node .." << endl;
   }
 
-  _nodes.erase(remove(_nodes.begin(), _nodes.end(),node ), _nodes.end());
+  _nodes.erase(node);
   node->on_detached();
   
   if (lui_cat.is_spam()) {
@@ -117,15 +107,14 @@ INLINE void LUIObject::refresh_child_positions() {
   }
 
   // Update sprites
-  for (int i = 0; i < _sprites.size(); i++) {
-    _sprites[i]->recompute_position();
-  }  
-
-  // Updates nodes
-  for (int i = 0; i < _nodes.size(); i ++) {
-    _nodes[i]->recompute_position();
+  for (lui_sprite_iterator it = _sprites.begin(); it!= _sprites.end(); ++it) {
+    (*it)->recompute_position();
   }
 
+  // Updates nodes
+  for (lui_object_iterator it = _nodes.begin(); it!= _nodes.end(); ++it) {
+    (*it)->recompute_position();
+  }
 }
 
 INLINE void LUIObject::refresh_child_visibility() {
@@ -142,7 +131,7 @@ INLINE PT(LUIObject) LUIObject::add_child(PT(LUIObject) node) {
 
   node->set_parent(this);
   node->recompute_position();
-  _nodes.push_back(node);
+  _nodes.insert(node);
 
   // This has to be last. Otherwise we're attaching to the VertexPool with outdated positions
   lui_cat.spam() << "Setting root on children" << endl;

@@ -15,12 +15,12 @@
 #include "luiSprite.h"
 #include "luiAtlasPool.h"
 #include "luiAtlasDescriptor.h"
+#include "luiIterators.h"
 
 #include "config_lui.h"
 
 class LUISprite;
 class LUIRoot;
-
 
 class EXPCL_PANDASKEL LUIObject : public ReferenceCount, public LUIBaseElement {
 
@@ -43,7 +43,8 @@ PUBLISHED:
 
   INLINE void remove_sprite(PT(LUISprite) sprite);
   INLINE int get_sprite_count();
-  INLINE PT(LUISprite) get_sprite(int n);
+  LUISpriteIterator sprites();
+
   INLINE PT(LUIObject) add_child(PT(LUIObject) node);
   INLINE void remove_child(PT(LUIObject) node);
 

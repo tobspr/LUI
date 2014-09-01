@@ -2,7 +2,6 @@
 
 #include "luiObject.h"
 
-
 int LUIObject::_instance_count = 0;
 
 LUIObject::LUIObject(float w, float h) : LUIBaseElement() {
@@ -23,6 +22,10 @@ LUIObject::~LUIObject() {
 
   _sprites.clear();
   _nodes.clear();
+}
+
+LUISpriteIterator LUIObject::sprites() {
+  return LUISpriteIterator(_sprites.begin(), _sprites.end());
 }
 
 
@@ -54,13 +57,13 @@ void LUIObject::set_root(LUIRoot* root) {
     }
 
     // Update sprites
-    for (int i = 0; i < _sprites.size(); i++) {
-      _sprites[i]->set_root(root);
-    }  
+    for (lui_sprite_iterator it = _sprites.begin(); it!= _sprites.end(); ++it) {
+      (*it)->set_root(root);
+    }
 
     // Updates nodes
-    for (int i = 0; i < _nodes.size(); i ++) {
-      _nodes[i]->set_root(root);
+    for (lui_object_iterator it = _nodes.begin(); it!= _nodes.end(); ++it) {
+      (*it)->set_root(root);
     }
   }
 }
@@ -73,26 +76,27 @@ void LUIObject::on_detached() {
   _parent = NULL;
 
   // Update sprites
-  for (int i = 0; i < _sprites.size(); i++) {
-    _sprites[i]->on_detached();
-  }  
+  for (lui_sprite_iterator it = _sprites.begin(); it!= _sprites.end(); ++it) {
+    (*it)->on_detached();
+  }
 
   // Updates nodes
-  for (int i = 0; i < _nodes.size(); i ++) {
-    _nodes[i]->on_detached();
+  for (lui_object_iterator it = _nodes.begin(); it!= _nodes.end(); ++it) {
+    (*it)->on_detached();
   }
+
 }
 
 void LUIObject::ls(int indent) {
   cout << string(indent, ' ')  << "[LUIObject] pos = " << _pos_x << ", " << _pos_y << "; size = " << _size.get_x() << " x " << _size.get_y() << endl;
 
-  // List sprites
-  for (int i = 0; i < _sprites.size(); i++) {
-    _sprites[i]->ls(indent + 1);
-  }  
+  // Update sprites
+  for (lui_sprite_iterator it = _sprites.begin(); it!= _sprites.end(); ++it) {
+    (*it)->ls(indent + 1);
+  }
 
-  // List nodes
-  for (int i = 0; i < _nodes.size(); i ++) {
-    _nodes[i]->ls(indent + 1);
+  // Updates nodes
+  for (lui_object_iterator it = _nodes.begin(); it!= _nodes.end(); ++it) {
+    (*it)->ls(indent + 1);
   }
 } 

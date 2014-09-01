@@ -17,9 +17,8 @@ class TestCase(LUIObject):
         LUIObject.__init__(self, 100, 100)
 
     def test(self):
-        
-        print "\n\nAllocating a lot of children"
 
+        print "\n\nAllocating a lot of children"
 
         start = time.time()
         iterations = 10
@@ -27,32 +26,35 @@ class TestCase(LUIObject):
             sprite = self.attach_sprite("Res/btn_left.png", i * 10, 0)
             # sprite.set_right(50)
         dur = (time.time() - start) * 1000.0
-        print iterations,"Sprites created in",round(dur,2),"ms, that is",round(dur/iterations,8),"ms per sprite"
+        print iterations, "Sprites created in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per sprite"
 
         print "\n\nMoving a lot of children"
         start = time.time()
         iterations = self.get_sprite_count()
-        for i in xrange(self.get_sprite_count()):
-            self.get_sprite(i).set_left(10)
+
+        print "iterating .."
+        print self.sprites()
+        for sprite in self.sprites():
+            sprite.set_left(10)
         dur = (time.time() - start) * 1000.0
-        print iterations,"Sprites moved in",round(dur,2),"ms, that is",round(dur/iterations,8),"ms per sprite"
+        print iterations, "Sprites moved in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per sprite"
 
         print "\n\nRemoving the first childrens"
         start = time.time()
         iterations = self.get_sprite_count() / 2
-        for i in xrange(iterations):
-            self.remove_sprite(self.get_sprite(0))
+        for sprite in self.sprites():
+            self.remove_sprite(sprite)
         dur = (time.time() - start) * 1000.0
-        print iterations,"Sprites removed in",round(dur,2),"ms, that is",round(dur/iterations,8),"ms per sprite"
+        print iterations, "Sprites removed in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per sprite"
 
         print "\n\nChanging a lot of images"
         start = time.time()
         iterations = self.get_sprite_count()
-        for i in xrange(self.get_sprite_count()):
-            self.get_sprite(i).set_texture("Res/btn_right.png")
+        for sprite in self.sprites():
+            sprite.set_texture("Res/btn_right.png")
 
         dur = (time.time() - start) * 1000.0
-        print iterations,"Sprites changed in",round(dur,2),"ms, that is",round(dur/iterations,8),"ms per iteration"
+        print iterations, "Sprites changed in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per iteration"
 
         print "\n\nDone"
 
