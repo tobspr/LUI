@@ -1,10 +1,10 @@
 
 
-INLINE int LUINode::get_sprite_count() {
+INLINE int LUIObject::get_sprite_count() {
   return _sprites.size();
 }
 
-INLINE PT(LUISprite) LUINode::get_sprite(int n) {
+INLINE PT(LUISprite) LUIObject::get_sprite(int n) {
   if (n < get_sprite_count()) {
     return _sprites[n];
   }
@@ -13,7 +13,7 @@ INLINE PT(LUISprite) LUINode::get_sprite(int n) {
   return NULL;
 }
 
-INLINE LUISprite *LUINode::attach_sprite(const string &source, const string &atlas_id, float x, float y) {
+INLINE LUISprite *LUIObject::attach_sprite(const string &source, const string &atlas_id, float x, float y) {
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Attach sprite from atlas descriptor" << endl;
@@ -31,7 +31,7 @@ INLINE LUISprite *LUINode::attach_sprite(const string &source, const string &atl
   return sprite;
 }
 
-INLINE LUISprite *LUINode::attach_sprite(const string &source, float x, float y) {
+INLINE LUISprite *LUIObject::attach_sprite(const string &source, float x, float y) {
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Attach sprite from string: '" << source << "'" << endl;
@@ -41,7 +41,7 @@ INLINE LUISprite *LUINode::attach_sprite(const string &source, float x, float y)
   return sprite;
 }
 
-INLINE LUISprite *LUINode::attach_sprite(PT(Texture) tex, float x, float y) {
+INLINE LUISprite *LUIObject::attach_sprite(PT(Texture) tex, float x, float y) {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Attach sprite from texture handle" << endl;
   }
@@ -50,19 +50,19 @@ INLINE LUISprite *LUINode::attach_sprite(PT(Texture) tex, float x, float y) {
   return sprite;
 }
 
-INLINE LUISprite *LUINode::attach_sprite(const string &source) {
+INLINE LUISprite *LUIObject::attach_sprite(const string &source) {
   return attach_sprite(source, 0, 0);
 }
 
-INLINE LUISprite *LUINode::attach_sprite(const string &source, const string &atlas_id) {
+INLINE LUISprite *LUIObject::attach_sprite(const string &source, const string &atlas_id) {
   return attach_sprite(source, atlas_id, 0, 0);
 }
 
-INLINE LUISprite *LUINode::attach_sprite(PT(Texture) tex) {
+INLINE LUISprite *LUIObject::attach_sprite(PT(Texture) tex) {
   return attach_sprite(tex, 0, 0);
 }
 
-INLINE PT(LUISprite) LUINode::construct_and_attach_sprite(float x, float y) {
+INLINE PT(LUISprite) LUIObject::construct_and_attach_sprite(float x, float y) {
   PT(LUISprite) sprite = new LUISprite(this);
   sprite->set_top_left(x, y);
   sprite->set_root(_root);
@@ -71,7 +71,7 @@ INLINE PT(LUISprite) LUINode::construct_and_attach_sprite(float x, float y) {
   return sprite;
 }
 
-INLINE void LUINode::remove_sprite(PT(LUISprite) sprite) {
+INLINE void LUIObject::remove_sprite(PT(LUISprite) sprite) {
   if (find(_sprites.begin(), _sprites.end(), sprite) == _sprites.end()) {
     lui_cat.warning() << "Attempted to remove sprite, but sprite is not attached to this node" << endl;
     return;
@@ -90,7 +90,7 @@ INLINE void LUINode::remove_sprite(PT(LUISprite) sprite) {
   }
 }
 
-INLINE void LUINode::remove_child(PT(LUINode) node) {
+INLINE void LUIObject::remove_child(PT(LUIObject) node) {
   if (find(_nodes.begin(), _nodes.end(), node) == _nodes.end()) {
     lui_cat.warning() << "Attempted to remove node, but node is not attached to this node" << endl;
     return;
@@ -108,7 +108,7 @@ INLINE void LUINode::remove_child(PT(LUINode) node) {
   }
 }
 
-INLINE void LUINode::refresh_child_positions() {
+INLINE void LUIObject::refresh_child_positions() {
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Refreshing child positions .. " << endl;
@@ -126,11 +126,11 @@ INLINE void LUINode::refresh_child_positions() {
 
 }
 
-INLINE void LUINode::refresh_child_visibility() {
+INLINE void LUIObject::refresh_child_visibility() {
   // todo
 }
 
-INLINE PT(LUINode) LUINode::add_child(PT(LUINode) node) {
+INLINE PT(LUIObject) LUIObject::add_child(PT(LUIObject) node) {
   lui_cat.info() << "Addding widget .." << endl;
 
   if (node->get_parent() != NULL) {

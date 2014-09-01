@@ -62,11 +62,19 @@ void LUISprite::assign_vertex_pool() {
 
 }
 
-
 void LUISprite::update_vertex_pool() {
-
   if (_vertex_pool != NULL && _root != NULL) {
-    cout << "Updating vertex pool , pool slot is " << _pool_slot << endl;
+    
+    if (lui_cat.is_spam()) {
+      cout << "Updating vertex pool , pool slot is " << _pool_slot << endl;
+    }
+
+    void* write_pointer = _vertex_pool->get_sprite_pointer(_pool_slot);
+    
+    if (lui_cat.is_spam()) {
+      cout << "Got vertex pool write pointer at " << write_pointer << endl;
+    }
+
   }
 }
 
@@ -78,6 +86,7 @@ void LUISprite::unassign_vertex_pool() {
 
   if (_vertex_pool != NULL) {
     _vertex_pool->release_slot(_pool_slot);
+    _vertex_pool = NULL;
     _pool_slot = 0;
   }
 }

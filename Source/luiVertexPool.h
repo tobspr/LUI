@@ -10,6 +10,7 @@
 #include "luse.h"
 #include "texture.h"
 #include "luiSprite.h"
+#include "luiVertexData.h"
 #include "geomVertexFormat.h"
 #include "geomVertexData.h"
 #include "geomVertexWriter.h"
@@ -32,6 +33,9 @@ private:
   PT(Texture) _tex;
   PT(GeomVertexData) _vertex_data;
   BitArray _slots;
+  
+  int _sprite_count;
+  int _highest_index;
 
 };
 

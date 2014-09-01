@@ -42,21 +42,24 @@ INLINE void LUISprite::set_color(const LColor &color) {
 }
 
 INLINE void LUISprite::set_color(float r, float g, float b, float a) {
+  if (lui_cat.is_spam()) {
+    cout << "Setting color to RGBA(" << r << ", " << g << ", " << b << ", " << a << ")" << endl;
+  }
   for (int i = 0; i < 4; i++) {
-    _data[i].color[0] = r;
-    _data[i].color[1] = g;
-    _data[i].color[2] = b;
-    _data[i].color[3] = a;
+    _data[i].color[0] = r * 255;
+    _data[i].color[1] = g * 255;
+    _data[i].color[2] = b * 255;
+    _data[i].color[3] = a * 255;
   }
   update_vertex_pool();
 }
 
 INLINE LColor LUISprite::get_color() {
   return LColor(
-    _data[0].color[0], 
-    _data[0].color[1], 
-    _data[0].color[2],
-    _data[0].color[3]);
+    _data[0].color[0] / 255.0, 
+    _data[0].color[1] / 255.0, 
+    _data[0].color[2] / 255.0,
+    _data[0].color[3] / 255.0);
 }
 
 INLINE void LUISprite::set_texture(Texture* tex) {

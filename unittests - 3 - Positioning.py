@@ -72,6 +72,9 @@ class Positioning_Test(LUINode):
         sprite.set_top_left(10,10)
 
         sprite.print_vertices()
+
+        self.ls()
+
         print "Test passed"
 
 LUIAtlasPool.get_global_ptr().load_atlas(

@@ -64,6 +64,9 @@ class BasicButton(LUINode):
 
         print "Test passed."
 
+
+
+
 LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "Res/atlas.txt", "Res/atlas.png")
 
@@ -78,3 +81,7 @@ print "\n\nAttaching button:"
 root.node().add_child(button)
 # button.bind("click", myClickHandler)
 # root += button
+
+print "\n\nListing scene graph .."
+
+root.node().ls()

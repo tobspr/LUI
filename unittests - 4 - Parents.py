@@ -6,7 +6,7 @@ sys.path.insert(0, "../")
 from LUI import LUINode, LUIAtlasPool, LUIRoot
 
 from panda3d.core import loadPrcFileData
-# loadPrcFileData("", "notify-level-lui spam")
+loadPrcFileData("", "notify-level-lui spam")
 
 
 def vec_equal(a, x, y):
@@ -66,6 +66,11 @@ ui.node().remove_child(test)
 print "\n\nAttaching to new root"
 ui2.node().add_child(test)
 
+
+print "\n\nUI Root #1:"
+ui.node().ls()
+print "\n\nUI Root #2:"
+ui2.node().ls()
 
 print "\n\nRemoving sprite"
 # test.test_child.remove_sprite(test.test_child.get_sprite(0))

@@ -18,13 +18,13 @@ LUISprite::LUISprite(LUIBaseElement* parent) :
     cout << "Constructed new LUISprite, (active: " << _instance_count << ")" << endl;  
   }
 
-
+  set_color(1.0, 1.0, 1.0, 1.0);
   set_parent(parent);
   set_top_left(0, 0);
   set_z_index(0);
-  set_uv_range(LVector2(0), LVector2(0));
+ 
+  set_uv_range(LVector2(0), LVector2(1));
   set_size(10, 10);
-  set_color(1.0, 1.0, 1.0, 1.0);   
 }
 
 LUISprite::~LUISprite() {
@@ -53,3 +53,12 @@ void LUISprite::on_detached() {
   _root = NULL;
   _parent = NULL;
 }
+
+
+void LUISprite::ls(int indent) {
+  cout << string(indent, ' ')  << "[LUISprite] pos = " 
+      << _pos_x << ", " << _pos_y 
+      << "; size = " << _size.get_x() << " x " << _size.get_y() 
+      << "; tex = " << (_tex != NULL ? _tex->get_name() : "none") << endl;
+
+} 

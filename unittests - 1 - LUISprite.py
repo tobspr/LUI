@@ -68,11 +68,12 @@ class TestLUISprite(unittest.TestCase):
 
         self.sprite.set_color(LColor(0.23, 0.54, 0.4, 0.7))
         col = self.sprite.get_color()
-        self.assertAlmostEqual(col.get_x(), 0.23)
-        self.assertAlmostEqual(col.get_y(), 0.54)
-        self.assertAlmostEqual(col.get_z(), 0.4)
-        self.assertAlmostEqual(col.get_w(), 0.7)
+        self.assertAlmostEqual(col.get_x(), 0.23, 3)
+        self.assertAlmostEqual(col.get_y(), 0.54, 3)
+        self.assertAlmostEqual(col.get_z(), 0.4, 3)
+        self.assertAlmostEqual(col.get_w(), 0.7, 3)
 
+        self.node.ls()
 
 if __name__ == '__main__':
     unittest.main()

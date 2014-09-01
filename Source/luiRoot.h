@@ -11,11 +11,11 @@
 #include "referenceCount.h"
 #include "luiVertexPool.h"
 #include "luiAtlas.h"
-#include "luiNode.h"
+#include "luiObject.h"
 
 #include "config_lui.h"
 
-class LUINode;
+class LUIObject;
 
 typedef pmap<Texture*, LUIVertexPool*> LUIVertexPoolMap;
 
@@ -26,7 +26,7 @@ PUBLISHED:
   LUIRoot(float width, float height);
   ~LUIRoot();
 
-  INLINE PT(LUINode) node();
+  INLINE PT(LUIObject) node();
 
 public:
 
@@ -39,10 +39,10 @@ private:
   LUIVertexPoolMap _pools;
 
   // We store a private root node.
-  // With this, we don't have to inherit from LUINode, but
+  // With this, we don't have to inherit from LUIObject, but
   // can maintain the ability to attach nodes directly to the
   // root
-  PT(LUINode) _root;
+  PT(LUIObject) _root;
 
 };
 

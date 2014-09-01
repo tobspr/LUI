@@ -22,14 +22,16 @@ class LUISprite;
 class LUIRoot;
 
 
-class EXPCL_PANDASKEL LUINode : public ReferenceCount, public LUIBaseElement {
+class EXPCL_PANDASKEL LUIObject : public ReferenceCount, public LUIBaseElement {
 
   friend class LUIRoot;
 
 PUBLISHED:
 
-  LUINode(float w, float h);
-  ~LUINode();
+  LUIObject(float w, float h);
+
+
+  ~LUIObject();
 
   INLINE LUISprite *attach_sprite(const string &source, float x, float y);
   INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id, float x, float y);
@@ -42,9 +44,10 @@ PUBLISHED:
   INLINE void remove_sprite(PT(LUISprite) sprite);
   INLINE int get_sprite_count();
   INLINE PT(LUISprite) get_sprite(int n);
-  INLINE PT(LUINode) add_child(PT(LUINode) node);
-  INLINE void remove_child(PT(LUINode) node);
-  // TODO: Add remove_child
+  INLINE PT(LUIObject) add_child(PT(LUIObject) node);
+  INLINE void remove_child(PT(LUIObject) node);
+
+  void ls(int indent = 0);
 
 protected:
 
@@ -61,13 +64,13 @@ protected:
   INLINE void refresh_child_visibility();
 
 
-  pvector<PT(LUINode)> _nodes;
+  pvector<PT(LUIObject)> _nodes;
   pvector<PT(LUISprite)> _sprites;
 
   static int _instance_count;
 
 };
 
-#include "luiNode.I"
+#include "luiObject.I"
 
 #endif

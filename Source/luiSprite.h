@@ -15,12 +15,12 @@
 #include "luiAtlasDescriptor.h"
 #include "luiAtlasPool.h"
 #include "luiVertexPool.h"
+#include "luiVertexData.h"
 #include "texturePool.h"
-
 #include <iostream>
 
 class LUIVertexPool;
-class LUINode;
+class LUIObject;
 
 
 ////////////////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@ class LUINode;
 ////////////////////////////////////////////////////////////////////
 class EXPCL_PANDASKEL LUISprite : public ReferenceCount, public LUIBaseElement  {
 
-  friend class LUINode;
+  friend class LUIObject;
 
 PUBLISHED:
 
@@ -56,6 +56,8 @@ PUBLISHED:
 
   INLINE void print_vertices();
 
+  void ls(int indent = 0);
+
 public:
 
   LUISprite(LUIBaseElement* parent);
@@ -63,11 +65,6 @@ public:
 
   INLINE int get_pool_slot();
 
-  struct LUIVertexData {
-    PN_stdfloat x, y, z;
-    PN_stdfloat color[4];
-    PN_stdfloat u, v;
-  };
 
 protected:
 

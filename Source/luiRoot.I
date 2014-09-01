@@ -1,6 +1,6 @@
 
 
-INLINE PT(LUINode) LUIRoot::node() {
+INLINE PT(LUIObject) LUIRoot::node() {
   return _root;
 }
 
