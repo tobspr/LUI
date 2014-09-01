@@ -64,8 +64,8 @@ protected:
   INLINE void refresh_child_visibility();
 
 
-  pvector<PT(LUIObject)> _nodes;
-  pvector<PT(LUISprite)> _sprites;
+  pset<PT(LUIObject)> _nodes;
+  pset<PT(LUISprite)> _sprites;
 
   static int _instance_count;
 

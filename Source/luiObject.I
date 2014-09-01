@@ -13,6 +13,16 @@ INLINE PT(LUISprite) LUIObject::get_sprite(int n) {
   return NULL;
 }
 
+
+INLINE PT(LUISprite) LUIObject::construct_and_attach_sprite(float x, float y) {
+  PT(LUISprite) sprite = new LUISprite(this);
+  sprite->set_top_left(x, y);
+  sprite->set_root(_root);
+  sprite->set_parent(this);
+  _sprites.insert(sprite);
+  return sprite;
+}
+
 INLINE LUISprite *LUIObject::attach_sprite(const string &source, const string &atlas_id, float x, float y) {
 
   if (lui_cat.is_spam()) {
@@ -62,14 +72,6 @@ INLINE LUISprite *LUIObject::attach_sprite(PT(Texture) tex) {
   return attach_sprite(tex, 0, 0);
 }
 
-INLINE PT(LUISprite) LUIObject::construct_and_attach_sprite(float x, float y) {
-  PT(LUISprite) sprite = new LUISprite(this);
-  sprite->set_top_left(x, y);
-  sprite->set_root(_root);
-  sprite->set_parent(this);
-  _sprites.push_back(sprite);
-  return sprite;
-}
 
 INLINE void LUIObject::remove_sprite(PT(LUISprite) sprite) {
   if (find(_sprites.begin(), _sprites.end(), sprite) == _sprites.end()) {

@@ -42,7 +42,7 @@ INLINE void LUISprite::set_color(const LColor &color) {
 }
 
 INLINE void LUISprite::set_color(float r, float g, float b, float a) {
-  if (lui_cat.is_spam()) {
+  if (lui_cat.is_spam() && lui_cat.is_spam() ) {
     cout << "Setting color to RGBA(" << r << ", " << g << ", " << b << ", " << a << ")" << endl;
   }
   for (int i = 0; i < 4; i++) {

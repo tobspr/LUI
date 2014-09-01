@@ -15,6 +15,10 @@ INLINE int LUIVertexPool::allocate_slot() {
     _vertex_data->set_num_rows( (_highest_index + 1) * 4 );
   }
 
+  if (_highest_index > _sprite_count + 100) {
+    lui_cat.warning() << "Memory warning: Over 100 unused vertices in LUIVertexPool" << endl;
+  }
+
   _sprite_count ++;
   _slots.set_bit(next);
   return next;
@@ -30,7 +34,7 @@ INLINE void LUIVertexPool::release_slot(int slot) {
   }
 
   if (slot > _highest_index) {
-    _highest_index = _slots.get_highest_on_bit();
+    //_highest_index = _slots.get_highest_on_bit();
     if (lui_cat.is_spam()) {
       cout << "Slot " << slot << " got detached, highest index is now " << _highest_index << endl;
     }

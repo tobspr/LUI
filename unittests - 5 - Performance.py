@@ -18,28 +18,43 @@ class TestCase(LUIObject):
 
     def test(self):
         
-        print "\nAllocating a lot of children"
+        print "\n\nAllocating a lot of children"
 
 
         start = time.time()
-        iterations = 100
+        iterations = 10
         for i in xrange(iterations):
             sprite = self.attach_sprite("Res/btn_left.png", i * 10, 0)
             # sprite.set_right(50)
         dur = (time.time() - start) * 1000.0
-        print iterations,"Iterations in",round(dur,2),"ms, that is",round(dur/iterations,8),"ms per iteration"
+        print iterations,"Sprites created in",round(dur,2),"ms, that is",round(dur/iterations,8),"ms per sprite"
 
-        print "\nMoving a lot of children"
-        for i in xrange(self.get_sprite_count()):
-            self.get_sprite(i).set_left(10)
-
+        print "\n\nMoving a lot of children"
         start = time.time()
         iterations = self.get_sprite_count()
         for i in xrange(self.get_sprite_count()):
-            self.get_sprite(i).set_texture("Res/btn_left.png")
+            self.get_sprite(i).set_left(10)
+        dur = (time.time() - start) * 1000.0
+        print iterations,"Sprites moved in",round(dur,2),"ms, that is",round(dur/iterations,8),"ms per sprite"
+
+        print "\n\nRemoving the first childrens"
+        start = time.time()
+        iterations = self.get_sprite_count() / 2
+        for i in xrange(iterations):
+            self.remove_sprite(self.get_sprite(0))
+        dur = (time.time() - start) * 1000.0
+        print iterations,"Sprites removed in",round(dur,2),"ms, that is",round(dur/iterations,8),"ms per sprite"
+
+        print "\n\nChanging a lot of images"
+        start = time.time()
+        iterations = self.get_sprite_count()
+        for i in xrange(self.get_sprite_count()):
+            self.get_sprite(i).set_texture("Res/btn_right.png")
 
         dur = (time.time() - start) * 1000.0
-        print iterations,"Iterations in",round(dur,2),"ms, that is",round(dur/iterations,8),"ms per iteration"
+        print iterations,"Sprites changed in",round(dur,2),"ms, that is",round(dur/iterations,8),"ms per iteration"
+
+        print "\n\nDone"
 
 LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "Res/atlas.txt", "Res/atlas.png")

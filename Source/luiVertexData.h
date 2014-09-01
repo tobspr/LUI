@@ -11,7 +11,7 @@
 
 struct LUIVertexData {
   PN_stdfloat x, y, z;
-  PN_stdfloat color[4];
+  unsigned char color[4];
   PN_stdfloat u, v;
 };
 

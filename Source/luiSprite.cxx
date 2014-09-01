@@ -142,13 +142,13 @@ void LUISprite::update_vertex_pool() {
       return;
     }
 
-    //memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
+    memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
 
   }
 }
 
 void LUISprite::unassign_vertex_pool() {
-
+  return;
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "LUISprite:: Unassign vertex pool" << endl;
   }
