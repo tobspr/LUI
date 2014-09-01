@@ -8,38 +8,37 @@
 #include "pandabase.h"
 #include "pandasymbols.h"
 
-class LUISprite;
-class LUIObject;
-
-typedef pset<PT(LUIObject)>::iterator lui_object_iterator;
-typedef pset<PT(LUISprite)>::iterator lui_sprite_iterator;
-
-class EXPCL_PANDASKEL LUISpriteIterator {
+template <class iterator_type, class object_type>
+class EXPCL_PANDASKEL LUIIterator {
 
 PUBLISHED:
 
-  INLINE LUISprite *__next__() {
+  INLINE object_type *__next__() {
     if (_iter != _end) {
       return *_iter++;
     }
     return NULL;
   }
 
-  INLINE LUISpriteIterator &__iter__() {
+  INLINE LUIIterator &__iter__() {
     return *this;
   }
 
 public:
 
   // Inline constructor for now
-  LUISpriteIterator(lui_sprite_iterator begin, lui_sprite_iterator end) 
+  LUIIterator(const iterator_type &begin, 
+    const iterator_type &end) 
     : _iter(begin), _end(end) {
   }
 
-protected:
-  lui_sprite_iterator _iter;
-  lui_sprite_iterator _end;
+  ~LUIIterator() {
+    cout << "Destructed lui iterator " << endl;
+  }
 
+protected:
+  iterator_type _iter;
+  iterator_type _end;
 };
 
 

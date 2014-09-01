@@ -8,7 +8,7 @@ from LUI import LUIObject, LUIAtlasPool, LUIRoot
 from panda3d.core import loadPrcFileData
 import time
 
-loadPrcFileData("", "notify-level-lui spam")
+# loadPrcFileData("", "notify-level-lui spam")
 
 
 class TestCase(LUIObject):
@@ -18,36 +18,25 @@ class TestCase(LUIObject):
 
     def test(self):
 
-        print "\n\nAllocating a lot of children"
+        print "\n\nAdding children with attach_sprite"
 
         start = time.time()
-        iterations = 10
+        iterations = 100000
         for i in xrange(iterations):
             sprite = self.attach_sprite("Res/btn_left.png", i * 10, 0)
             # sprite.set_right(50)
         dur = (time.time() - start) * 1000.0
         print iterations, "Sprites created in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per sprite"
 
-        print "\n\nMoving a lot of children"
+        print "\n\nMoving children with set_left"
         start = time.time()
         iterations = self.get_sprite_count()
-
-        print "iterating .."
-        print self.sprites()
         for sprite in self.sprites():
             sprite.set_left(10)
         dur = (time.time() - start) * 1000.0
         print iterations, "Sprites moved in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per sprite"
 
-        print "\n\nRemoving the first childrens"
-        start = time.time()
-        iterations = self.get_sprite_count() / 2
-        for sprite in self.sprites():
-            self.remove_sprite(sprite)
-        dur = (time.time() - start) * 1000.0
-        print iterations, "Sprites removed in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per sprite"
-
-        print "\n\nChanging a lot of images"
+        print "\n\nChanging sprite images with set_texture"
         start = time.time()
         iterations = self.get_sprite_count()
         for sprite in self.sprites():
@@ -55,6 +44,16 @@ class TestCase(LUIObject):
 
         dur = (time.time() - start) * 1000.0
         print iterations, "Sprites changed in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per iteration"
+
+        print "\n\nRemoving all childrens (child by child, with remove_sprite)"
+        start = time.time()
+        iterations = self.get_sprite_count()
+        for sprite in self.sprites():
+            self.remove_sprite(sprite)
+        dur = (time.time() - start) * 1000.0
+        print iterations, "Sprites removed in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per sprite"
+
+        print "Sprites left: ", self.get_sprite_count()
 
         print "\n\nDone"
 

@@ -22,6 +22,10 @@
 class LUISprite;
 class LUIRoot;
 
+typedef pset<PT(LUIObject)>::iterator lui_object_iterator;
+typedef pset<PT(LUISprite)>::iterator lui_sprite_iterator;
+
+
 class EXPCL_PANDASKEL LUIObject : public ReferenceCount, public LUIBaseElement {
 
   friend class LUIRoot;
@@ -43,7 +47,7 @@ PUBLISHED:
 
   INLINE void remove_sprite(PT(LUISprite) sprite);
   INLINE int get_sprite_count();
-  LUISpriteIterator sprites();
+  LUIIterator<lui_sprite_iterator, LUISprite> *sprites();
 
   INLINE PT(LUIObject) add_child(PT(LUIObject) node);
   INLINE void remove_child(PT(LUIObject) node);
