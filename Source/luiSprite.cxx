@@ -137,6 +137,11 @@ void LUISprite::update_vertex_pool() {
       cout << "Got vertex pool write pointer at " << write_pointer << endl;
     }
 
+    if (write_pointer == NULL) {
+      lui_cat.error() << "Got invalid vertex pool pointer. Ignoring .." << endl;
+      return;
+    }
+
     //memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
 
   }

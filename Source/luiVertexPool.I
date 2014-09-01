@@ -43,5 +43,6 @@ INLINE void LUIVertexPool::release_slot(int slot) {
 
 
 INLINE void *LUIVertexPool::get_sprite_pointer(int slot) {
+  nassertr(slot < _highest_index, NULL);
   return _vertex_data->modify_array(0)->modify_handle()->get_write_pointer() + sizeof(LUIVertexData) * 4 * slot;
 }
