@@ -86,13 +86,11 @@ set(LIBRARIES ${LIBRARIES} "libp3direct.lib")
 
 # Optimizations
 IF(MSVC)
-   # ADD_DEFINITIONS("/Ot")
-   # ADD_DEFINITIONS("/O2")
-   # ADD_DEFINITIONS("/Ob2")
-   # ADD_DEFINITIONS("/MP")
-   #ADD_DEFINITIONS("/Yc")
-   ADD_DEFINITIONS("/Yc")
-   # ADD_DEFINITIONS("/fp:fast")
+   ADD_DEFINITIONS("/Ot")
+   ADD_DEFINITIONS("/O2")
+   ADD_DEFINITIONS("/Ob2")
+   ADD_DEFINITIONS("/MP")
+   ADD_DEFINITIONS("/fp:fast")
 
 ELSE()
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -mtune=native -march=native")

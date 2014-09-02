@@ -15,6 +15,11 @@
 #include "pStatTimer.h"
 #include "luse.h"
 #include "graphicsOutput.h"
+#include "luiRoot.h"
+#include "luiObject.h"
+#include "cullableObject.h"
+#include "cullTraverser.h"
+#include "cullHandler.h"
 #include "orthographicLens.h"
 
 class EXPCL_PANDASKEL LUIRegion : public DisplayRegion {
@@ -34,6 +39,7 @@ PUBLISHED:
   INLINE static LUIRegion* make(const string &context_name,
                                    GraphicsOutput *window,
                                    const LVecBase4 &dimensions);
+  INLINE LUIObject *root();
 
   //INLINE void set_input_handler(LUIRegion *handler);
   //INLINE LUIRegion *get_input_handler() const;
@@ -41,12 +47,10 @@ PUBLISHED:
 private:
 
   PT(OrthographicLens) _lens;
+  PT(LUIRoot) _lui_root;
   //PT(LUIInputHandler) _input_handler;
-  int width, height;
-
-  PT(Camera) _cam;
-
-
+  int _width, _height;
+  
 public:
   static TypeHandle get_class_type() {
     return _type_handle;

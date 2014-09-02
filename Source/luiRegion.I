@@ -11,3 +11,7 @@ INLINE LUIRegion *LUIRegion::
     cout << "Constructing new LUI Region .." << endl;
     return new LUIRegion(window, dimensions, context_name);
 }
+
+INLINE LUIObject *LUIRegion::root() {
+  return _lui_root->node();
+}

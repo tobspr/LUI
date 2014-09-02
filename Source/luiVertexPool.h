@@ -32,12 +32,18 @@ public:
   ~LUIVertexPool();
 
   LUIChunkDescriptor *allocate_slot(LUISprite *child);
+  
+  INLINE int get_num_chunks();
+  INLINE LUIVertexChunk* get_chunk(int n);
 
 private:
 
   void allocate_chunk();
+
+  
   PT(Texture) _tex;
   vector<LUIVertexChunk*> _chunks;
+
 
 };
 

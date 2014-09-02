@@ -19,7 +19,9 @@ class LUIObject;
 
 typedef pmap<Texture*, LUIVertexPool*> LUIVertexPoolMap;
 
-class EXPCL_PANDASKEL LUIRoot {
+class EXPCL_PANDASKEL LUIRoot : public ReferenceCount {
+
+  friend class LUIRegion;
 
 PUBLISHED:
 
@@ -37,6 +39,11 @@ private:
   // Vertex pools are stored as single pointers, to avoid circular
   // references. The destructor of LUIRoot takes care of deleting them.
   LUIVertexPoolMap _pools;
+
+  // We expose this to LUIRegion only, so it can iterate over all pools
+  // in a fast way.
+  INLINE LUIVertexPoolMap::iterator get_iter_pool_begin();
+  INLINE LUIVertexPoolMap::iterator get_iter_pool_end();
 
   // We store a private root node.
   // With this, we don't have to inherit from LUIObject, but

@@ -17,14 +17,16 @@ DisplayRegion(window, dr_dimensions) {
   cout << "Constructor called for context '" << context_name << "' .." << endl;
   int pl, pr, pb, pt;
   get_pixels(pl, pr, pb, pt);
-  width = pr - pl;
-  height = pt - pb;
+  _width = pr - pl;
+  _height = pt - pb;
 
   _lens = new OrthographicLens();
-  _lens->set_film_size(width, -height);
-  _lens->set_film_offset(width * 0.5, height * 0.5);
+  _lens->set_film_size(_width, -_height);
+  _lens->set_film_offset(_width * 0.5, _height * 0.5);
   _lens->set_near_far(-1, 1);
 
+
+  _lui_root = new LUIRoot(_width, _height);
   //_cam = new Camera(context_name, _lens);
 
   //NodePath _cam_np(_cam);
@@ -40,41 +42,67 @@ LUIRegion::~LUIRegion() {
 void LUIRegion::
   do_cull(CullHandler *cull_handler, SceneSetup *scene_setup,
   GraphicsStateGuardian *gsg, Thread *current_thread) {
-     
-    cout << "do_cull called" << endl;
-    return GraphicsEngine::do_cull(cull_handler, scene_setup, gsg, current_thread);
 
-    /*
+    cout << "do_cull called" << endl;
+
     //PStatTimer timer(get_cull_region_pcollector(), current_thread);
 
     int pl, pr, pb, pt;
     get_pixels(pl, pr, pb, pt);
-    LVecBase2i dimensions = LVecBase2i(pr - pl, pt - pb);
+    int width = pr - pl;
+    int height = pt - pb;
 
-    cout << "DO_CULL, with dimensions " << dimensions.get_x() << " x " << dimensions.get_y() << endl;
+    cout << "DO_CULL, with dimensions " << width << "x" << height << endl;
 
-    if (_size != dimensions) {
-      _size = dimensions;
-      cout << "On resized!" << endl;
-      _lens->set_film_size(_size.get_x(), -_size.get_y());
-      _lens->set_film_offset(_size.get_x() * 0.5, _size.get_y() * 0.5);
+    if (width != _width || height != height) {
+      cout << "On resized" << endl;
+      _width = width;
+      _height = height;
+      _lui_root->node()->set_size(_width, _height);
+      _lens->set_film_size(_width, -_height);
+      _lens->set_film_offset(_width * 0.5, _height * 0.5);
     }
 
-    if (_input_handler != NULL) {
-      _input_handler->update_context(_context, pl, pb);
-    } else {
-      _context->Update();
-    }
+    //if (_input_handler != NULL) {
+    //  _input_handler->update_context(_context, pl, pb);
+    //} else {
+    //  _context->Update();
+    //}
 
     CullTraverser *trav = get_cull_traverser();
     trav->set_cull_handler(cull_handler);
     trav->set_scene(scene_setup, gsg, get_incomplete_render());
     trav->set_view_frustum(NULL);
 
-    //_interface.render(_context, trav);
+    CPT(RenderState) state = RenderState::make_empty();
+    CPT(TransformState) net_transform = TransformState::make_identity();
+    CPT(TransformState) modelview_transform = TransformState::make_identity();
+    CPT(TransformState) internal_transform = trav->get_scene()->get_cs_transform()->compose(modelview_transform);
 
+    //CPT(TransformState) net_transform = data.get_net_transform(trav);
+    //CPT(TransformState) modelview_transform = data.get_modelview_transform(trav);
+    //CPT(TransformState) internal_transform = trav->get_scene()->get_cs_transform()->compose(modelview_transform);
 
+    // Iterate all vertex pools
+    LUIVertexPoolMap::iterator iter = _lui_root->get_iter_pool_begin();
+    LUIVertexPoolMap::iterator end = _lui_root->get_iter_pool_end();
+    for (;iter != end; ++iter) {
+
+      LUIVertexPool *current = iter->second;
+      Texture *currentTex = iter->first;
+
+      CPT(RenderState) texture_state = state->set_attrib(TextureAttrib::make(currentTex));
+
+      for (int i = 0; i < current->get_num_chunks(); i++) {
+        Geom* geom = current->get_chunk(i)->get_geom();
+
+        CullableObject *object = 
+          new CullableObject(geom, texture_state, net_transform, 
+          modelview_transform, internal_transform);
+        trav->get_cull_handler()->record_object(object, trav);
+
+      }
+    }
     trav->end_traverse();
-    */
 }
 

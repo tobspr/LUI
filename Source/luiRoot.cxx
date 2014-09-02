@@ -28,3 +28,10 @@ LUIRoot::~LUIRoot() {
 
 }
 
+INLINE LUIVertexPoolMap::iterator LUIRoot::get_iter_pool_begin() {
+  return _pools.begin();
+}
+
+INLINE LUIVertexPoolMap::iterator LUIRoot::get_iter_pool_end() {
+  return _pools.end();
+}
