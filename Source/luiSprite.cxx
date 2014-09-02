@@ -161,7 +161,7 @@ void LUISprite::update_vertex_pool() {
       lui_cat.error() << "Got invalid vertex pool pointer. Ignoring .." << endl;
       return;
     }
-    memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
+    //memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
     cout << "Memcopied " << &_data << " to " << write_pointer << endl;
     cout << "Our vertices are: " << endl;
     print_vertices();

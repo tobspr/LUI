@@ -13,6 +13,31 @@ LUIVertexChunk::LUIVertexChunk(int chunk_size)
   _vertex_data = new GeomVertexData("VertexPool", format, Geom::UH_dynamic);
   _vertex_data->set_num_rows(chunk_size * 4);
 
+  GeomVertexWriter write_vertex(_vertex_data, "vertex");
+  GeomVertexWriter write_texcoord(_vertex_data, "texcoord");
+  GeomVertexWriter write_color(_vertex_data, "color");
+
+  for (int i = 0; i < chunk_size; i++) {
+    
+    write_vertex.add_data3f(0, 0, 0);
+    write_color.add_data4f(1000,1000,1000,1000);
+    write_texcoord.add_data2f(0, 0);
+
+    write_vertex.add_data3f(1, 0, 0);
+    write_color.add_data4f(1000,1000,1000,1000);
+    write_texcoord.add_data2f(1, 0);
+
+    write_vertex.add_data3f(1, 0, 1);
+    write_color.add_data4f(1000,1000,1000,1000);
+    write_texcoord.add_data2f(1, 1);
+
+    write_vertex.add_data3f(0, 0, 1);
+    write_color.add_data4f(1000,1000,1000,1000);
+    write_texcoord.add_data2f(0, 1);
+
+  }
+
+
   _triangles = new GeomTriangles(Geom::UH_dynamic);
   _triangles->reserve_num_vertices(chunk_size * 2);
 

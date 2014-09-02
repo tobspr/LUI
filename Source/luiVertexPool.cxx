@@ -61,6 +61,6 @@ LUIChunkDescriptor *LUIVertexPool::allocate_slot(LUISprite* child) {
 }
 
 void LUIVertexPool::allocate_chunk() {
-  LUIVertexChunk* chunk = new LUIVertexChunk(5);
+  LUIVertexChunk* chunk = new LUIVertexChunk(1000);
   _chunks.push_back(chunk);
 }

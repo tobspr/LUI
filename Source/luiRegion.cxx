@@ -30,7 +30,7 @@ DisplayRegion(window, dr_dimensions) {
   //_cam = new Camera(context_name, _lens);
 
   //NodePath _cam_np(_cam);
-  set_camera(new Camera(context_name, _lens));
+  //set_camera(new Camera(context_name, _lens));
 
   cout << "Constructor done!" << endl;
 }
@@ -76,11 +76,11 @@ void LUIRegion::
 
     CPT(RenderState) state = RenderState::make_empty();
     CPT(TransformState) net_transform = TransformState::make_identity();
-    CPT(TransformState) modelview_transform = TransformState::make_identity();
+    CPT(TransformState) modelview_transform = TransformState::make_pos_hpr_scale(LVecBase3(0), LVecBase3(0), LVecBase3(0.01));
     CPT(TransformState) internal_transform = trav->get_scene()->get_cs_transform()->compose(modelview_transform);
 
     //CPT(TransformState) net_transform = data.get_net_transform(trav);
-    //CPT(TransformState) modelview_transform = data.get_modelview_transform(trav);
+    //CPT(TransformState) modelview_transform = trav->get_world_transform()->compose(_net_transform);
     //CPT(TransformState) internal_transform = trav->get_scene()->get_cs_transform()->compose(modelview_transform);
 
     // Iterate all vertex pools
