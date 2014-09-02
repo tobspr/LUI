@@ -1,16 +1,15 @@
 
 import sys
+import time
 
 sys.path.insert(0, "../")
 
-from LUI import LUIObject, LUIAtlasPool, LUIRoot
-
 from panda3d.core import loadPrcFileData, TexturePool
-import time
 
-loadPrcFileData("", "notify-level-lui fatal")
+print "Setting level to ERROR"
+loadPrcFileData("", "notify-level-lui error")
 
-
+from LUI import LUIObject, LUIAtlasPool, LUIRoot
 
 
 class TestCase(LUIObject):
@@ -26,12 +25,15 @@ class TestCase(LUIObject):
         src2 = TexturePool.loadTexture("Res/btn_right.png")
 
         start = time.time()
-        iterations = 100000
+        iterations = 11
         for i in xrange(iterations):
             sprite = self.attach_sprite(src1, i * 10, 0)
             # sprite.set_right(50)
         dur = (time.time() - start) * 1000.0
         print iterations, "Sprites created in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per sprite"
+
+
+        self.ls()
 
         print "\n\nMoving children with set_left"
         start = time.time()
@@ -59,6 +61,8 @@ class TestCase(LUIObject):
         print iterations, "Sprites removed in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per sprite"
 
         print "Sprites left: ", self.get_sprite_count()
+
+
 
         print "\n\nDone"
 

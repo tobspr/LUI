@@ -33,7 +33,7 @@ LUISprite::~LUISprite() {
   }
 
   if (_chunk_descriptor != NULL) {
-    lui_cat.warning() << "Released chunk descriptor, this should not have happened" << endl;
+    lui_cat.spam() << "Released chunk descriptor, as sprite did not get detached" << endl;
     _chunk_descriptor->release();
     delete _chunk_descriptor;
     _chunk_descriptor = NULL;
@@ -72,6 +72,7 @@ void LUISprite::ls(int indent) {
   } else {
     cout << "; assigned to chunk " << _chunk_descriptor->get_chunk() << " at slot " << _chunk_descriptor ->get_slot();
   }
+  cout << endl;
 } 
 
 
@@ -132,7 +133,7 @@ void LUISprite::assign_vertex_pool() {
 
   _chunk_descriptor = pool->allocate_slot(this);
   if (lui_cat.is_spam()) {
-    cout << "Got vertex pool in chunk " << _chunk_descriptor->get_chunk() << " at position " << _chunk_descriptor->get_slot() << endl;
+    cout << "Got chunk pool " << _chunk_descriptor->get_chunk() << " with slot " << _chunk_descriptor->get_slot() << endl;
   }
 
   update_vertex_pool();

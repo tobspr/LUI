@@ -7,4 +7,4 @@
 #include "dconfig.h"
 
 //ConfigureDef(config_lui);
-NotifyCategoryDef(lui, "");
+NotifyCategoryDef(lui, "lui");

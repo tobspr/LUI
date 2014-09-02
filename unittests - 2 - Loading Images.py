@@ -49,9 +49,7 @@ class BasicButton(LUIObject):
         print "\nTesting if all pointers are still valid"
         print "Num attached sprites: ", self.get_sprite_count()
 
-        for n in xrange(self.get_sprite_count()):
-            sprite = self.get_sprite(n)
-
+        for sprite in self.sprites():
             start = LTexCoord()
             end = LTexCoord()
             sprite.get_uv_range(start, end)

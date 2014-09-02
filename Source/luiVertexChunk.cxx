@@ -3,7 +3,7 @@
 
 
 LUIVertexChunk::LUIVertexChunk(int chunk_size) 
-  : _chunk_size(chunk_size) {
+  : _chunk_size(chunk_size), _sprite_count(0) {
   
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Constructed new chunk" << endl;

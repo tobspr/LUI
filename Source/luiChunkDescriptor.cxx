@@ -10,8 +10,6 @@ void* LUIChunkDescriptor::get_write_ptr() {
   return _chunk->get_slot_ptr(_slot);
 }
 
-
-
 LUIChunkDescriptor::LUIChunkDescriptor() {
   cout << "Constructed new chunk descriptor" << endl;
 }

@@ -27,7 +27,6 @@ public:
   LUIVertexChunk(int chunk_size);
   ~LUIVertexChunk();
 
-  INLINE int allocate_slot();
   INLINE bool is_empty();
   INLINE bool has_space();
   INLINE Geom* get_geom();

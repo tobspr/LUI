@@ -22,6 +22,7 @@
 #include "geom.h"
 
 class LUISprite;
+class LUIVertexChunk;
 
 class LUIVertexPool {
 
@@ -30,10 +31,11 @@ public:
   LUIVertexPool(Texture *tex);
   ~LUIVertexPool();
 
-  INLINE LUIChunkDescriptor *allocate_slot(LUISprite *child);
+  LUIChunkDescriptor *allocate_slot(LUISprite *child);
 
 private:
 
+  void allocate_chunk();
   PT(Texture) _tex;
   vector<LUIVertexChunk*> _chunks;
 

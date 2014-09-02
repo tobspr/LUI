@@ -12,16 +12,41 @@ INLINE Geom* LUIVertexChunk::get_geom() {
 }
 
 INLINE int LUIVertexChunk::reserve_slot(LUISprite *sprite) {
+  nassertr(has_space(), 0);
+
   cout << "Reserving slot .. " <<  endl;
+  
+  int slot = -1;
+  for (int i = 0; i < _chunk_size; i++) {
+    if (_children[i] == NULL) {
+      // found slot
+      slot = i;
+      break;
+    }
+  }
 
-  nassertr(has_space(), 0); 
-
-  return 0;
+  // As we checked for has_space above, this should never happen
+  nassertr(slot >= 0 && slot < _chunk_size, 0);
+  
+  _children[slot] = sprite;
+  _sprite_count ++;
+  
+  return slot;
 }
 
 INLINE void LUIVertexChunk::free_slot(int slot) {
 
   nassertv(slot < _chunk_size);
+  nassertv(!is_empty());
+
+  if (_children[slot] == NULL) {
+    lui_cat.error() << "Cannot free slot, as it is not used" << endl;
+    return;
+  }
+
+  _children[slot] = NULL;
+  _sprite_count --;
+
   cout << "Free slot " << slot << endl;
 }
 
