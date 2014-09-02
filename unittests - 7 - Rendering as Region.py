@@ -7,6 +7,7 @@ from panda3d.core import *
 from LUI import *
 
 loadPrcFileData("", "notify-level-lui spam")
+loadPrcFileData("", "frame-rate-meter #f")
 
 
 LUIAtlasPool.get_global_ptr().load_atlas(

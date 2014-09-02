@@ -6,7 +6,7 @@ project (LUI)
 
 
 # Configure this variables to match your system
-# NO TRAILING SLASH!!
+# No trailing slash
 if (WIN32)
   
   # Default settings for windows. Usually you only have to adjust WIN_PANDA_PATH
@@ -91,6 +91,7 @@ IF(MSVC)
    # ADD_DEFINITIONS("/Ob2")
    # ADD_DEFINITIONS("/MP")
    #ADD_DEFINITIONS("/Yc")
+   ADD_DEFINITIONS("/Yc")
    # ADD_DEFINITIONS("/fp:fast")
 
 ELSE()
@@ -114,7 +115,7 @@ add_library(LUI MODULE ${SOURCES})
 
 
 IF(MSVC)
-   # SET_TARGET_PROPERTIES(LUI PROPERTIES LINK_FLAGS "/DEBUG /INCREMENTAL /ASSEMBLYDEBUG /MAP /MAPINFO:EXPORTS")
+   SET_TARGET_PROPERTIES(LUI PROPERTIES LINK_FLAGS "/DEBUG /INCREMENTAL /ASSEMBLYDEBUG ")
 ENDIF()
 
 

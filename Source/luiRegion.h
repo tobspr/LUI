@@ -53,7 +53,7 @@ public:
   }
   static void init_type() {
     DisplayRegion::init_type();
-    register_type(_type_handle, "RocketRegion",
+    register_type(_type_handle, "LUIRegion",
                   DisplayRegion::get_class_type());
   }
   virtual TypeHandle get_type() const {
