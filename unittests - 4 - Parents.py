@@ -19,7 +19,9 @@ class Children(LUIObject):
         LUIObject.__init__(self, 200, 200)
 
         self.attach_sprite("Res/btn_left.png")
-        self.get_sprite(0).set_right(0)
+        
+        for sprite in self.sprites():
+            sprite.set_left(0)
 
 
 class Parent_Test(LUIObject):
@@ -40,8 +42,10 @@ class Parent_Test(LUIObject):
         self.test_child.set_right(0)
         self.test_child.set_bottom(0)
         assert(vec_equal(self.test_child.get_abs_pos(), 310, 310))
-        assert(
-            vec_equal(self.test_child.get_sprite(0).get_abs_pos(), 500, 310))
+
+        for sprite in self.test_child.sprites():
+            print sprite.get_abs_pos()
+            assert(vec_equal(sprite.get_abs_pos(), 500, 310))
 
         print "Test passed."
 

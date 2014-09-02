@@ -24,7 +24,7 @@ LUIObject::~LUIObject() {
   _nodes.clear();
 }
 
-LUISpriteIterator *LUIObject::sprites() {
+PT(LUISpriteIterator) LUIObject::sprites() {
   return new LUISpriteIterator(_sprites.begin(), _sprites.end());
 }
 

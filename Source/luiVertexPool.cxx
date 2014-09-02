@@ -3,22 +3,22 @@
 #include "luiVertexPool.h"
 
 LUIVertexPool::LUIVertexPool(Texture *tex) : 
-  _tex(tex), 
-  _slots(0),
-  _highest_index(-1), 
-  _sprite_count(0)
+  _tex(tex)
 {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Constructed new LUIVertex pool" << endl;
   }
 
-  CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3c4t2();
-  _vertex_data = new GeomVertexData("VertexPool", format, Geom::UH_dynamic);
-  _vertex_data->set_num_rows(1);
 }
 
 LUIVertexPool::~LUIVertexPool() {
   if (lui_cat.is_spam()) {
-    lui_cat.spam() << "Destructed LUIVertex pool" << endl;
+    lui_cat.spam() << "Destructing LUIVertex pool" << endl;
   }
+
+  for (int i = 0; i < _chunks.size(); i++) {
+    delete _chunks[i];
+  }
+  _chunks.clear();
+
 }

@@ -90,7 +90,6 @@ IF(MSVC)
    ADD_DEFINITIONS("/O2")
    ADD_DEFINITIONS("/Ob2")
    ADD_DEFINITIONS("/MP")
-   ADD_DEFINITIONS("/DEBUG")
    #ADD_DEFINITIONS("/Yc")
    ADD_DEFINITIONS("/fp:fast")
 
@@ -105,6 +104,9 @@ add_definitions( -D_CRT_SECURE_NO_WARNINGS )
 
 # Ignore some warnings
 add_definitions( /wd4267 /wd4101 )
+
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "")
 
 # Build library
 add_library(LUI MODULE ${SOURCES})
@@ -133,4 +135,3 @@ add_custom_command(
     COMMAND "${PYTHON_BIN}/python" "finalize.py" "$<TARGET_FILE:LUI>"
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 
-set(CMAKE_BUILD_TYPE "Release")

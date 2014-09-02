@@ -8,8 +8,7 @@ int LUISprite::_instance_count = 0;
 
 LUISprite::LUISprite(LUIBaseElement* parent) : 
   LUIBaseElement(),
-  _pool_slot(-1), 
-  _vertex_pool(NULL)
+  _chunk_descriptor(NULL)
 {  
 
   _instance_count ++;
@@ -31,6 +30,13 @@ LUISprite::~LUISprite() {
   if (lui_cat.is_spam()) {
     _instance_count --;
     cout << "Destructing LUISprite, instances left: " << _instance_count << endl;
+  }
+
+  if (_chunk_descriptor != NULL) {
+    lui_cat.warning() << "Released chunk descriptor, this should not have happened" << endl;
+    _chunk_descriptor->release();
+    delete _chunk_descriptor;
+    _chunk_descriptor = NULL;
   }
 }
 
@@ -59,8 +65,13 @@ void LUISprite::ls(int indent) {
   cout << string(indent, ' ')  << "[LUISprite] pos = " 
       << _pos_x << ", " << _pos_y 
       << "; size = " << _size.get_x() << " x " << _size.get_y() 
-      << "; tex = " << (_tex != NULL ? _tex->get_name() : "none") << endl;
+      << "; tex = " << (_tex != NULL ? _tex->get_name() : "none");
 
+  if (_chunk_descriptor == NULL) {
+    cout << "; assigned to no chunk ";
+  } else {
+    cout << "; assigned to chunk " << _chunk_descriptor->get_chunk() << " at slot " << _chunk_descriptor ->get_slot();
+  }
 } 
 
 
@@ -106,18 +117,22 @@ void LUISprite::assign_vertex_pool() {
   LUIVertexPool* pool = _root->get_vpool_by_texture(_tex);
   
   if (lui_cat.is_spam()) {
-    cout << "Got vertex pool handle: " << pool << endl;
+    cout << "Vertex pool is at: " << pool << endl;
   }
 
   // This might occur sometimes (hopefully not), and means that get_vpool_by_texture
   // could not allocate a vertex pool for some reason. VERY BAD.
   nassertv(pool != NULL);
 
-  _vertex_pool = pool;
-  _pool_slot = pool->allocate_slot();
+  // Delete old descriptor first
+  if (_chunk_descriptor != NULL) {
+    delete _chunk_descriptor;
+    _chunk_descriptor = NULL;
+  }
 
+  _chunk_descriptor = pool->allocate_slot(this);
   if (lui_cat.is_spam()) {
-    cout << "Got vertex pool slot: " << _pool_slot << endl;
+    cout << "Got vertex pool in chunk " << _chunk_descriptor->get_chunk() << " at position " << _chunk_descriptor->get_slot() << endl;
   }
 
   update_vertex_pool();
@@ -125,13 +140,16 @@ void LUISprite::assign_vertex_pool() {
 }
 
 void LUISprite::update_vertex_pool() {
-  if (_vertex_pool != NULL && _root != NULL) {
+  if (_chunk_descriptor != NULL && _root != NULL) {
     
+    // This should never happen, but it's good to check
+    nassertv(_chunk_descriptor->get_chunk() != NULL);
+
     if (lui_cat.is_spam()) {
-      cout << "Updating vertex pool , pool slot is " << _pool_slot << endl;
+      cout << "Updating vertex pool , pool slot is " << _chunk_descriptor->get_slot() << " in pool " << _chunk_descriptor->get_chunk() << endl;
     }
 
-    void* write_pointer = _vertex_pool->get_sprite_pointer(_pool_slot);
+    void* write_pointer = _chunk_descriptor->get_write_ptr();
     
     if (lui_cat.is_spam()) {
       cout << "Got vertex pool write pointer at " << write_pointer << endl;
@@ -141,9 +159,7 @@ void LUISprite::update_vertex_pool() {
       lui_cat.error() << "Got invalid vertex pool pointer. Ignoring .." << endl;
       return;
     }
-
     memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
-
   }
 }
 
@@ -153,9 +169,9 @@ void LUISprite::unassign_vertex_pool() {
     lui_cat.spam() << "LUISprite:: Unassign vertex pool" << endl;
   }
 
-  if (_vertex_pool != NULL) {
-    _vertex_pool->release_slot(_pool_slot);
-    _vertex_pool = NULL;
-    _pool_slot = 0;
+  if (_chunk_descriptor != NULL) {
+    _chunk_descriptor->release();
+    delete _chunk_descriptor;
+    _chunk_descriptor = NULL;
   }
 }

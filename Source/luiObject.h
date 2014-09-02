@@ -44,7 +44,7 @@ PUBLISHED:
   INLINE void remove_sprite(PT(LUISprite) sprite);
   INLINE int get_sprite_count();
 
-  LUISpriteIterator *sprites();
+  PT(LUISpriteIterator) sprites();
 
   INLINE PT(LUIObject) add_child(PT(LUIObject) node);
   INLINE void remove_child(PT(LUIObject) node);

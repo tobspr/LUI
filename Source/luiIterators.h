@@ -7,6 +7,7 @@
 
 #include "pandabase.h"
 #include "pandasymbols.h"
+#include "referenceCount.h"
 
 class LUIObject;
 class LUISprite;
@@ -16,16 +17,28 @@ class LUISprite;
 typedef pset<PT(LUIObject)>::iterator lui_object_iterator;
 typedef pset<PT(LUISprite)>::iterator lui_sprite_iterator;
 
-
-#define ITER_CLASS_NAME LUISpriteIterator
-#define ITER_VALUE_TYPE LUISprite
-#define ITER_ITERATOR_TYPE lui_sprite_iterator
-
-#include "luiIteratorTempl.h"
-
-#undef ITER_CLASS_NAME
-#undef ITER_VALLUE_TYPE
-#undef ITER_ITERATOR_TYPE
-
+class EXPCL_PANDASKEL LUISpriteIterator : public ReferenceCount {
+PUBLISHED:
+  INLINE LUISprite * __next__() {
+    if (_iter != _end) {
+      return *_iter++;
+    }
+    return NULL;
+  }
+  INLINE LUISpriteIterator &__iter__() {
+    return *this;
+  }
+public:
+  LUISpriteIterator(lui_sprite_iterator begin, lui_sprite_iterator end) 
+    : _iter(begin), _end(end) {
+    cout << "Construct lui iterator" << endl;  
+  }
+  ~LUISpriteIterator() {
+    cout << "Destructed lui iterator " << endl;
+  }
+private:
+  lui_sprite_iterator _iter;
+  lui_sprite_iterator _end;
+};
 
 #endif

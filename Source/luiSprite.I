@@ -42,16 +42,17 @@ INLINE void LUISprite::set_color(const LColor &color) {
 }
 
 INLINE void LUISprite::set_color(float r, float g, float b, float a) {
-  if (lui_cat.is_spam() && lui_cat.is_spam() ) {
+  if (lui_cat.is_spam()) {
     cout << "Setting color to RGBA(" << r << ", " << g << ", " << b << ", " << a << ")" << endl;
   }
   for (int i = 0; i < 4; i++) {
-    _data[i].color[0] = r * 255;
-    _data[i].color[1] = g * 255;
-    _data[i].color[2] = b * 255;
-    _data[i].color[3] = a * 255;
+    _data[i].color[0] = (unsigned char) (r * 255.0);
+    _data[i].color[1] = (unsigned char) (g * 255.0);
+    _data[i].color[2] = (unsigned char) (b * 255.0);
+    _data[i].color[3] = (unsigned char) (a * 255.0);
   }
   update_vertex_pool();
+
 }
 
 INLINE LColor LUISprite::get_color() {
@@ -70,7 +71,7 @@ INLINE void LUISprite::set_texture(Texture* tex) {
   }
 
   // Unassign old texture
-  if (_tex != NULL && _vertex_pool != NULL) {
+  if (_tex != NULL && _chunk_descriptor != NULL) {
     unassign_vertex_pool();
     _tex = tex;
   }
@@ -138,9 +139,6 @@ INLINE float LUISprite::get_z_index() {
   return _data[0].y;
 }
 
-INLINE int LUISprite::get_pool_slot() {
-  return _pool_slot;
-}
 
 INLINE void LUISprite::print_vertices() {
   cout << "LUISprite, 4 Vertices:" << endl;
@@ -148,7 +146,7 @@ INLINE void LUISprite::print_vertices() {
   for (int i = 0; i < 4; i++) {
     cout << "  [Vertex] POS = " << _data[i].x << "," << _data[i].y << "," << _data[i].z 
       << "; UV = " << _data[i].u << "," << _data[i].v 
-      << " COL = " << _data[i].color[0] << "," << _data[i].color[1] << "," << _data[i].color[2] << "," << _data[i].color[3] << endl;
+      << " COL = " << (float)_data[i].color[0] << "," << (float)_data[i].color[1] << "," << (float)_data[i].color[2] << "," << (float)_data[i].color[3] << endl;
   }
 
 }

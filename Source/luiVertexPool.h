@@ -11,11 +11,17 @@
 #include "texture.h"
 #include "luiSprite.h"
 #include "luiVertexData.h"
+#include "luiVertexChunk.h"
+#include "luiChunkDescriptor.h"
+
 #include "geomVertexFormat.h"
 #include "geomVertexData.h"
 #include "geomVertexWriter.h"
+#include "geomTriangles.h"
 #include "bitArray.h"
 #include "geom.h"
+
+class LUISprite;
 
 class LUIVertexPool {
 
@@ -24,18 +30,12 @@ public:
   LUIVertexPool(Texture *tex);
   ~LUIVertexPool();
 
-  INLINE int allocate_slot();
-  INLINE void release_slot(int slot);
-  INLINE void* get_sprite_pointer(int slot);
+  INLINE LUIChunkDescriptor *allocate_slot(LUISprite *child);
 
 private:
 
   PT(Texture) _tex;
-  PT(GeomVertexData) _vertex_data;
-  BitArray _slots;
-  
-  int _sprite_count;
-  int _highest_index;
+  vector<LUIVertexChunk*> _chunks;
 
 };
 

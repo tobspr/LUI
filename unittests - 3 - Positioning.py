@@ -8,7 +8,7 @@ from LUI import LUIObject, LUIAtlasPool
 from panda3d.core import loadPrcFileData, LVector2
 
 import unittest
-loadPrcFileData("", "notify-level-lui info")
+loadPrcFileData("", "notify-level-lui spam")
 
 
 def vec_equal(a, x, y):

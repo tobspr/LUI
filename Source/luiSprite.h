@@ -16,11 +16,15 @@
 #include "luiAtlasPool.h"
 #include "luiVertexPool.h"
 #include "luiVertexData.h"
+#include "luiVertexChunk.h"
+#include "luiChunkDescriptor.h"
 #include "texturePool.h"
 #include <iostream>
 
+
 class LUIVertexPool;
 class LUIObject;
+class LUIChunkDescriptor;
 
 
 ////////////////////////////////////////////////////////////////////
@@ -63,9 +67,6 @@ public:
   LUISprite(LUIBaseElement* parent);
   ~LUISprite();
 
-  INLINE int get_pool_slot();
-
-
 protected:
 
   INLINE void recompute_vertices();
@@ -86,11 +87,8 @@ protected:
   // 3 - Lower Left
   LUIVertexData _data[4];
 
-  // Index in the LUIVertexPool
-  int _pool_slot;
-
   // Handle to the LUIVertexPool
-  LUIVertexPool* _vertex_pool;
+  LUIChunkDescriptor *_chunk_descriptor;
 
   PT(Texture) _tex;
 

@@ -5,10 +5,12 @@ sys.path.insert(0, "../")
 
 from LUI import LUIObject, LUIAtlasPool, LUIRoot
 
-from panda3d.core import loadPrcFileData
+from panda3d.core import loadPrcFileData, TexturePool
 import time
 
-# loadPrcFileData("", "notify-level-lui spam")
+loadPrcFileData("", "notify-level-lui fatal")
+
+
 
 
 class TestCase(LUIObject):
@@ -20,10 +22,13 @@ class TestCase(LUIObject):
 
         print "\n\nAdding children with attach_sprite"
 
+        src1 = TexturePool.loadTexture("Res/btn_left.png")
+        src2 = TexturePool.loadTexture("Res/btn_right.png")
+
         start = time.time()
         iterations = 100000
         for i in xrange(iterations):
-            sprite = self.attach_sprite("Res/btn_left.png", i * 10, 0)
+            sprite = self.attach_sprite(src1, i * 10, 0)
             # sprite.set_right(50)
         dur = (time.time() - start) * 1000.0
         print iterations, "Sprites created in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per sprite"
@@ -40,7 +45,7 @@ class TestCase(LUIObject):
         start = time.time()
         iterations = self.get_sprite_count()
         for sprite in self.sprites():
-            sprite.set_texture("Res/btn_right.png")
+            sprite.set_texture(src2)
 
         dur = (time.time() - start) * 1000.0
         print iterations, "Sprites changed in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per iteration"
