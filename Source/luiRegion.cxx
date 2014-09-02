@@ -70,6 +70,12 @@ void LUIRegion::
     //}
 
     CullTraverser *trav = get_cull_traverser();
+
+    // References!
+    for (int i = 0; i < 100; i++) {
+      trav->ref();
+    }
+
     trav->set_cull_handler(cull_handler);
     trav->set_scene(scene_setup, gsg, get_incomplete_render());
     trav->set_view_frustum(NULL);
@@ -108,6 +114,7 @@ void LUIRegion::
           new CullableObject(geom, texture_state, net_transform, 
           modelview_transform, _trav->get_scene());
         trav->get_cull_handler()->record_object(object, trav);
+        cout << "Adding geom .." << endl;
 
       }
     }
