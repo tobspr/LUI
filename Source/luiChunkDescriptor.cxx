@@ -4,6 +4,7 @@
 
 void LUIChunkDescriptor::release() {
   cout << "LuiChunkDescriptor: Releasing slot .. " << endl;
+  _chunk->free_slot(_slot);
 }  
 
 void* LUIChunkDescriptor::get_write_ptr() {

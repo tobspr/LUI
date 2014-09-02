@@ -13,4 +13,6 @@
 NotifyCategoryDecl(lui, EXPCL_PANDASKEL, EXPTP_PANDASKEL);
 
 
+extern EXPCL_PANDASKEL void init_lui();
+
 #endif

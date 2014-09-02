@@ -52,6 +52,8 @@ class TestCase(LUIObject):
         dur = (time.time() - start) * 1000.0
         print iterations, "Sprites changed in", round(dur, 2), "ms, that is", round(dur / iterations, 8), "ms per iteration"
 
+        self.ls()
+
         print "\n\nRemoving all childrens (child by child, with remove_sprite)"
         start = time.time()
         iterations = self.get_sprite_count()

@@ -127,6 +127,7 @@ void LUISprite::assign_vertex_pool() {
 
   // Delete old descriptor first
   if (_chunk_descriptor != NULL) {
+    _chunk_descriptor->release();
     delete _chunk_descriptor;
     _chunk_descriptor = NULL;
   }

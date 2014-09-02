@@ -48,6 +48,14 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
   _sprite_count --;
 
   cout << "Free slot " << slot << endl;
+
+
+  if (_sprite_count < 1) {
+    if (lui_cat.is_spam()) {
+      // TODO: Unregister from vertex pool
+      cout << "Empty vertex chunk, should be garbarge collected" << endl;
+    }
+  }
 }
 
 INLINE void *LUIVertexChunk::get_slot_ptr(int slot) {
