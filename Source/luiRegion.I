@@ -8,5 +8,6 @@ INLINE LUIRegion *LUIRegion::
 INLINE LUIRegion *LUIRegion::
   make(const string &context_name, GraphicsOutput *window,
   const LVecBase4 &dimensions) {
+    cout << "Constructing new LUI Region .." << endl;
     return new LUIRegion(window, dimensions, context_name);
 }

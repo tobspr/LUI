@@ -5,9 +5,16 @@
 #ifndef LUI_REGION_H
 #define LUI_REGION_H
 
+
+#include "pandabase.h"
+#include "pandasymbols.h"
 #include "config_lui.h"
+#include "camera.h"
 #include "displayRegion.h"
+#include "nodePath.h"
 #include "pStatTimer.h"
+#include "luse.h"
+#include "graphicsOutput.h"
 #include "orthographicLens.h"
 
 class EXPCL_PANDASKEL LUIRegion : public DisplayRegion {
@@ -35,7 +42,10 @@ private:
 
   PT(OrthographicLens) _lens;
   //PT(LUIInputHandler) _input_handler;
-  LVecBase2i _size;
+  int width, height;
+
+  PT(Camera) _cam;
+
 
 public:
   static TypeHandle get_class_type() {
@@ -43,7 +53,7 @@ public:
   }
   static void init_type() {
     DisplayRegion::init_type();
-    register_type(_type_handle, "LUIRegion",
+    register_type(_type_handle, "RocketRegion",
                   DisplayRegion::get_class_type());
   }
   virtual TypeHandle get_type() const {
