@@ -30,7 +30,7 @@ DisplayRegion(window, dr_dimensions) {
   //_cam = new Camera(context_name, _lens);
 
   //NodePath _cam_np(_cam);
-  //set_camera(new Camera(context_name, _lens));
+  set_camera(new Camera(context_name, _lens));
 
   cout << "Constructor done!" << endl;
 }
@@ -74,9 +74,17 @@ void LUIRegion::
     trav->set_scene(scene_setup, gsg, get_incomplete_render());
     trav->set_view_frustum(NULL);
 
-    CPT(RenderState) state = RenderState::make_empty();
-    CPT(TransformState) net_transform = TransformState::make_identity();
-    CPT(TransformState) modelview_transform = TransformState::make_pos_hpr_scale(LVecBase3(0), LVecBase3(0), LVecBase3(0.01));
+    CPT(RenderState) state = RenderState::make(
+      CullBinAttrib::make("unsorted", 0),
+      DepthTestAttrib::make(RenderAttrib::M_none),
+      DepthWriteAttrib::make(DepthWriteAttrib::M_off)
+    );
+    CPT(TransformState) net_transform = trav->get_world_transform();
+
+
+    //CPT(TransformState) modelview_transform = TransformState::make_pos_hpr_scale(LVecBase3(0), LVecBase3(0), LVecBase3(0.01));
+    
+    CPT(TransformState) modelview_transform = trav->get_world_transform()->compose(net_transform);
     CPT(TransformState) internal_transform = trav->get_scene()->get_cs_transform()->compose(modelview_transform);
 
     //CPT(TransformState) net_transform = data.get_net_transform(trav);
@@ -98,7 +106,7 @@ void LUIRegion::
 
         CullableObject *object = 
           new CullableObject(geom, texture_state, net_transform, 
-          modelview_transform, internal_transform);
+          modelview_transform, _trav->get_scene());
         trav->get_cull_handler()->record_object(object, trav);
 
       }

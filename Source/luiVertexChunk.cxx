@@ -6,7 +6,7 @@ LUIVertexChunk::LUIVertexChunk(int chunk_size)
   : _chunk_size(chunk_size), _sprite_count(0) {
   
   if (lui_cat.is_spam()) {
-    lui_cat.spam() << "Constructed new chunk" << endl;
+    cout << "Constructed new chunk of size " << chunk_size << endl;
   }
 
   CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3c4t2();
@@ -36,7 +36,6 @@ LUIVertexChunk::LUIVertexChunk(int chunk_size)
     write_texcoord.add_data2f(0, 1);
 
   }
-
 
   _triangles = new GeomTriangles(Geom::UH_dynamic);
   _triangles->reserve_num_vertices(chunk_size * 2);

@@ -21,6 +21,9 @@
 #include "cullTraverser.h"
 #include "cullHandler.h"
 #include "orthographicLens.h"
+#include "cullBinAttrib.h"
+#include "depthTestAttrib.h"
+#include "depthWriteAttrib.h"
 
 class EXPCL_PANDASKEL LUIRegion : public DisplayRegion {
 

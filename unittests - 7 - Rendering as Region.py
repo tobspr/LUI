@@ -6,9 +6,9 @@ sys.path.insert(0, "../")
 from panda3d.core import *
 from LUI import *
 
-loadPrcFileData("", "notify-level-lui fatal")
-loadPrcFileData("", "notify-level-glgsg spam")
-loadPrcFileData("", "show-frame-rate-meter #t")
+loadPrcFileData("", "notify-level-lui spam")
+# loadPrcFileData("", "notify-level spam")
+loadPrcFileData("", "show-frame-rate-meter #f")
 
 
 LUIAtlasPool.get_global_ptr().load_atlas(
@@ -25,7 +25,5 @@ for i in xrange(1):
     yoffs = int(i / 8) / 8.0
     sprite.set_size(100, 100)
     sprite.set_pos(-0.5 + xoffs, -0.5 + yoffs)
-
-
 
 base.run()
