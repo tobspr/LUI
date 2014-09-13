@@ -16,19 +16,19 @@ LUIAtlasPacker::LUIAtlasPacker(int size) : _size(size) {
 
 }
 
-LVector2 LUIAtlasPacker::find_position(int w, int h) {
+LVector2f LUIAtlasPacker::find_position(int w, int h) {
   int search_w = _size - w;
   int search_h = _size - h;
 
   int step_size = 1;
-
+  
   // Less accuracy when the atlas gets bigger
   if (_size >= 4096) step_size = 2;
   if (_size >= 8192) step_size = 4;
 
 
-  for (int search_y = 0; search_y < search_h; search_y += step_size) {
-    for (int search_x = 0; search_x < search_w; search_x += step_size) {
+  for (int search_y = 0; search_y <= search_h; search_y += step_size) {
+    for (int search_x = 0; search_x <= search_w; search_x += step_size) {
       if (!values_bitmask[search_x][search_y]) {
         // Possible match
         bool any_found = false;
@@ -48,13 +48,13 @@ LVector2 LUIAtlasPacker::find_position(int w, int h) {
               values_bitmask[search_x + mark_x][search_y + mark_y] = true;
             }
           }
-          return LVector2(search_x, search_y);
+          return LVector2f(search_x, search_y);
         }
       }
     }
   }
 
-  return LVector2(-1, -1);
+  return LVector2f(-1, -1);
 
 }
 

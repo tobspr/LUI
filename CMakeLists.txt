@@ -46,10 +46,6 @@ link_directories("${PANDA_LIBS}")
 include_directories("${PYTHON_INCLUDE}")
 link_directories("${PYTHON_LIBS}")
 
-# Thirdparty includes
-include_directories("${PANDA_THIRDPARTY}/eigen/include")
-include_directories("${PANDA_THIRDPARTY}/bullet/include")
-
 # Run interrogate over the files
 message("Running interrogate ..")
 
@@ -72,11 +68,11 @@ set(SOURCES ${SOURCES_H} ${SOURCES_I} ${SOURCES})
 IF (WIN32)
     set(LIBRARIES "python27.dll")
 ELSE()
-    set(LIBRARIES "libpython27.so")
+    set(LIBRARIES "libpython2.7.so")
 ENDIF()
 
 # Link panda libraries
-set(LIBRARIES ${LIBRARIES} "libpandabullet.lib")
+# set(LIBRARIES ${LIBRARIES} "libpandabullet.lib")
 set(LIBRARIES ${LIBRARIES} "libp3framework.lib")
 set(LIBRARIES ${LIBRARIES} "libpanda.lib")
 set(LIBRARIES ${LIBRARIES} "libpandaexpress.lib")
@@ -84,13 +80,32 @@ set(LIBRARIES ${LIBRARIES} "libp3dtool.lib")
 set(LIBRARIES ${LIBRARIES} "libp3dtoolconfig.lib")
 set(LIBRARIES ${LIBRARIES} "libp3direct.lib")
 
+
+# cl /favor:blend /wd4996 /wd4275 /wd4267 /wd4101 /wd4273 /Fobuilt_x64_buffered/tm
+# p/p3lui_composite1.obj /nologo /c /Ipanda/src/lui /Ibuilt_x64_buffered/tmp /Ibui
+# lt_x64_buffered/include /Ithirdparty/win-python-x64/include /Ithirdparty/win-lib
+# s-vc10-x64/lui/include /Ithirdparty/win-libs-vc10-x64/extras/include /MD /Zi /O2
+#  /Ob2 /Oi /Ot /fp:fast /DFORCE_INLINING /Fdbuilt_x64_buffered/tmp/p3lui_composit
+# e1.pdb /DBUILDING_PANDASKEL /bigobj /EHa /Zm300 /DWIN32_VC /DWIN32 /DWIN64_VC /D
+# WIN64 /W3 panda/src/lui/p3lui_composite1.cxx
+
 # Optimizations
 IF(MSVC)
-   ADD_DEFINITIONS("/Ot")
-   ADD_DEFINITIONS("/O2")
-   ADD_DEFINITIONS("/Ob2")
-   ADD_DEFINITIONS("/MP")
-   ADD_DEFINITIONS("/fp:fast")
+   # ADD_DEFINITIONS("/Ot")
+   # ADD_DEFINITIONS("/O2")
+   # ADD_DEFINITIONS("/Oi")
+   # ADD_DEFINITIONS("/MD")
+   # ADD_DEFINITIONS("/Zi")
+   # ADD_DEFINITIONS("/Ob2")
+   # ADD_DEFINITIONS("/fp:fast")
+   # ADD_DEFINITIONS("/DFORCE_INLINING")
+   # ADD_DEFINITIONS("/bigobj")
+   # ADD_DEFINITIONS("/EHa")
+   # ADD_DEFINITIONS("/Zm300")
+   # ADD_DEFINITIONS("/DWIN32_VC")
+   # ADD_DEFINITIONS("/DWIN64_VC")
+   # ADD_DEFINITIONS("/DWIN64")
+   # ADD_DEFINITIONS("/MP")
 
 ELSE()
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -mtune=native -march=native")
@@ -99,10 +114,12 @@ ENDIF()
 
 # Add defines
 add_definitions( -DBUILDING_PANDASKEL )
-add_definitions( -D_CRT_SECURE_NO_WARNINGS )
+# add_definitions( -D_CRT_SECURE_NO_WARNINGS )
 
 # Ignore some warnings
-add_definitions( /wd4267 /wd4101 )
+IF(MSVC)
+  add_definitions( /wd4267 /wd4101 )
+ENDIF()
 
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "")
@@ -110,12 +127,9 @@ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "")
 # Build library
 add_library(LUI MODULE ${SOURCES})
 
-
-
 IF(MSVC)
-   SET_TARGET_PROPERTIES(LUI PROPERTIES LINK_FLAGS "/DEBUG /INCREMENTAL /ASSEMBLYDEBUG ")
+   # SET_TARGET_PROPERTIES(LUI PROPERTIES LINK_FLAGS "/DEBUG /INCREMENTAL /ASSEMBLYDEBUG ")
 ENDIF()
-
 
 # Python wants .pyd on windows
 IF (WIN32)
@@ -123,7 +137,6 @@ IF (WIN32)
     PROPERTIES 
     SUFFIX ".pyd")
 ENDIF()
-
 
 target_link_libraries(LUI ${LIBRARIES})
 

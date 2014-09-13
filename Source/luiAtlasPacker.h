@@ -7,10 +7,9 @@
 
 #include "pandabase.h"
 #include "pandasymbols.h"
-#include "referenceCount.h"
-#include "internalName.h"
-#include "luse.h"
+#include "lvector2.h"
 #include "config_lui.h"
+#include "referenceCount.h"
 
 class EXPCL_PANDASKEL LUIAtlasPacker : public ReferenceCount {
 
@@ -19,7 +18,7 @@ PUBLISHED:
   LUIAtlasPacker(int size);
   ~LUIAtlasPacker();
 
-  LVector2 find_position(int w, int h);
+  LVector2f find_position(int w, int h);
 
 private:
 

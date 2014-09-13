@@ -49,6 +49,10 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
 
   cout << "Free slot " << slot << endl;
 
+  for (int i = 0; i < 4; i++) {
+    memset(get_slot_ptr(slot), 0, sizeof(LUIVertexData) * 4);
+  }
+
 
   if (_sprite_count < 1) {
     if (lui_cat.is_spam()) {

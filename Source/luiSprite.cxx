@@ -48,7 +48,7 @@ void LUISprite::on_bounds_changed() {
 }
 
 void LUISprite::on_visibility_changed() {
-
+  lui_cat.error() << "Todo: Implement hide() / show()" << endl;
 }
 
 
@@ -161,7 +161,7 @@ void LUISprite::update_vertex_pool() {
       lui_cat.error() << "Got invalid vertex pool pointer. Ignoring .." << endl;
       return;
     }
-    //memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
+    memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
     cout << "Memcopied " << &_data << " to " << write_pointer << endl;
     cout << "Our vertices are: " << endl;
     print_vertices();
@@ -169,7 +169,6 @@ void LUISprite::update_vertex_pool() {
 }
 
 void LUISprite::unassign_vertex_pool() {
-  return;
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "LUISprite:: Unassign vertex pool" << endl;
   }

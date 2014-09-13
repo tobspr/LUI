@@ -52,7 +52,7 @@ PUBLISHED:
 public:
 
   INLINE void set_parent(LUIBaseElement* parent);
-  INLINE void recompute_position();
+  void recompute_position();
 
 protected:
 

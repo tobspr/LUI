@@ -84,6 +84,10 @@ bool LUIAtlas::load_texture(const string &texture_path) {
     return false;
   }
 
+  _tex->set_minfilter(Texture::FT_nearest);
+  _tex->set_magfilter(Texture::FT_nearest);
+  _tex->set_anisotropic_degree(0);
+
   _size = _tex->get_x_size();
 
   return true;

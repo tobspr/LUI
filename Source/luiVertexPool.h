@@ -39,11 +39,9 @@ public:
 private:
 
   void allocate_chunk();
-
   
   PT(Texture) _tex;
   vector<LUIVertexChunk*> _chunks;
-
 
 };
 

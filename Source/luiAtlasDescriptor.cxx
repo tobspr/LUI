@@ -20,4 +20,3 @@ LUIAtlasDescriptor::~LUIAtlasDescriptor() {
   }
 }
 
-

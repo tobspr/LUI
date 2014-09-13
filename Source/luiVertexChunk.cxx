@@ -17,24 +17,10 @@ LUIVertexChunk::LUIVertexChunk(int chunk_size)
   GeomVertexWriter write_texcoord(_vertex_data, "texcoord");
   GeomVertexWriter write_color(_vertex_data, "color");
 
-  for (int i = 0; i < chunk_size; i++) {
-    
+  for (int i = 0; i < chunk_size*4; i++) {
     write_vertex.add_data3f(0, 0, 0);
-    write_color.add_data4f(1000,1000,1000,1000);
+    write_color.add_data4f(1,1,1,1);
     write_texcoord.add_data2f(0, 0);
-
-    write_vertex.add_data3f(1, 0, 0);
-    write_color.add_data4f(1000,1000,1000,1000);
-    write_texcoord.add_data2f(1, 0);
-
-    write_vertex.add_data3f(1, 0, 1);
-    write_color.add_data4f(1000,1000,1000,1000);
-    write_texcoord.add_data2f(1, 1);
-
-    write_vertex.add_data3f(0, 0, 1);
-    write_color.add_data4f(1000,1000,1000,1000);
-    write_texcoord.add_data2f(0, 1);
-
   }
 
   _triangles = new GeomTriangles(Geom::UH_dynamic);
@@ -43,8 +29,11 @@ LUIVertexChunk::LUIVertexChunk(int chunk_size)
   // Initialize triangles, each sprite emits 4, we use indexing to create 2 tris from that
   for (int i = 0; i < chunk_size; i++) {
     int vtx_index = i * 4;
-    _triangles->add_vertices(vtx_index + 0, vtx_index + 1, vtx_index + 2);
-    _triangles->add_vertices(vtx_index + 0, vtx_index + 2, vtx_index + 3);
+    // _triangles->add_vertices(vtx_index + 0, vtx_index + 1, vtx_index + 2);
+    // _triangles->add_vertices(vtx_index + 0, vtx_index + 2, vtx_index + 3);
+
+    _triangles->add_vertices(vtx_index + 2, vtx_index + 1, vtx_index + 0);
+    _triangles->add_vertices(vtx_index + 3, vtx_index + 2, vtx_index + 0);
   }
 
   _geom = new Geom(_vertex_data);

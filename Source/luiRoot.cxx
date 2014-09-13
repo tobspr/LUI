@@ -11,6 +11,7 @@ LUIRoot::LUIRoot(float width, float height) {
   _root->set_root(this);
 
 }
+
 LUIRoot::~LUIRoot() {
 
   if (lui_cat.is_spam()) {

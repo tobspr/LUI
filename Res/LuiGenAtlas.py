@@ -14,7 +14,7 @@ from panda3d.core import TexturePool, loadPrcFileData, PNMImage
 import sys
 sys.path.insert(0, "../")
 
-from LUI import LUIAtlasPacker
+from panda3d.lui import LUIAtlasPacker
 
 
 # Supress PNMImage warnings about incorrect sRGB profile
@@ -57,6 +57,8 @@ def generate_atlas(files, dest_dat, dest_png):
 
         for entry in entries:
             uv = packer.find_position(entry.w, entry.h)
+            print uv, "for", entry.w, entry.h
+
             if uv.get_x() < 0:
                 print "  Not all images matched, trying next power of 2"
                 all_entries_matched = False
@@ -91,6 +93,9 @@ if __name__ == "__main__":
     root_dir = "."
 
     def recursively_collect_files(source_dir):
+
+        if "ignore" in source_dir:
+            return []
         files = listdir(source_dir)
         result = []
         for f in files:

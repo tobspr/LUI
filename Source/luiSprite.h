@@ -41,6 +41,7 @@ PUBLISHED:
 
   // Texcoord
   INLINE void set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end);
+  INLINE void set_uv_range(float u0, float v0, float u1, float v1);
   INLINE void get_uv_range(LTexCoord &uv_begin, LTexCoord &uv_end);
 
   // Color

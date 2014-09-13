@@ -25,11 +25,7 @@ DisplayRegion(window, dr_dimensions) {
   _lens->set_film_offset(_width * 0.5, _height * 0.5);
   _lens->set_near_far(-1, 1);
 
-
   _lui_root = new LUIRoot(_width, _height);
-  //_cam = new Camera(context_name, _lens);
-
-  //NodePath _cam_np(_cam);
   set_camera(new Camera(context_name, _lens));
 
   cout << "Constructor done!" << endl;
@@ -42,19 +38,14 @@ LUIRegion::~LUIRegion() {
 void LUIRegion::
   do_cull(CullHandler *cull_handler, SceneSetup *scene_setup,
   GraphicsStateGuardian *gsg, Thread *current_thread) {
-
-    cout << "do_cull called" << endl;
-
-    //PStatTimer timer(get_cull_region_pcollector(), current_thread);
+    PStatTimer timer(get_cull_region_pcollector(), current_thread);
 
     int pl, pr, pb, pt;
     get_pixels(pl, pr, pb, pt);
     int width = pr - pl;
     int height = pt - pb;
 
-    cout << "DO_CULL, with dimensions " << width << "x" << height << endl;
-
-    if (width != _width || height != height) {
+    if (width != _width || height != _height) {
       cout << "On resized" << endl;
       _width = width;
       _height = height;
@@ -71,11 +62,6 @@ void LUIRegion::
 
     CullTraverser *trav = get_cull_traverser();
 
-    // References!
-    for (int i = 0; i < 100; i++) {
-      trav->ref();
-    }
-
     trav->set_cull_handler(cull_handler);
     trav->set_scene(scene_setup, gsg, get_incomplete_render());
     trav->set_view_frustum(NULL);
@@ -83,19 +69,12 @@ void LUIRegion::
     CPT(RenderState) state = RenderState::make(
       CullBinAttrib::make("unsorted", 0),
       DepthTestAttrib::make(RenderAttrib::M_none),
-      DepthWriteAttrib::make(DepthWriteAttrib::M_off)
+      DepthWriteAttrib::make(DepthWriteAttrib::M_off),
+      TransparencyAttrib::make(TransparencyAttrib::M_alpha)
     );
     CPT(TransformState) net_transform = trav->get_world_transform();
-
-
-    //CPT(TransformState) modelview_transform = TransformState::make_pos_hpr_scale(LVecBase3(0), LVecBase3(0), LVecBase3(0.01));
-    
     CPT(TransformState) modelview_transform = trav->get_world_transform()->compose(net_transform);
     CPT(TransformState) internal_transform = trav->get_scene()->get_cs_transform()->compose(modelview_transform);
-
-    //CPT(TransformState) net_transform = data.get_net_transform(trav);
-    //CPT(TransformState) modelview_transform = trav->get_world_transform()->compose(_net_transform);
-    //CPT(TransformState) internal_transform = trav->get_scene()->get_cs_transform()->compose(modelview_transform);
 
     // Iterate all vertex pools
     LUIVertexPoolMap::iterator iter = _lui_root->get_iter_pool_begin();
@@ -114,8 +93,6 @@ void LUIRegion::
           new CullableObject(geom, texture_state, net_transform, 
           modelview_transform, _trav->get_scene());
         trav->get_cull_handler()->record_object(object, trav);
-        cout << "Adding geom .." << endl;
-
       }
     }
     trav->end_traverse();

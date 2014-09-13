@@ -15,26 +15,30 @@ INLINE void LUISprite::recompute_vertices() {
 }
 
 INLINE void LUISprite::set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end) {
-  _data[0].u = uv_begin.get_x();
-  _data[0].v = uv_begin.get_y();
+  set_uv_range(uv_begin.get_x(), uv_begin.get_y(), uv_end.get_x(), uv_end.get_y());
+}
 
-  _data[1].u = uv_end.get_x();
-  _data[1].v = uv_begin.get_y();
+INLINE void LUISprite::set_uv_range(float u0, float v0, float u1, float v1) {
+  _data[0].u = u0;
+  _data[0].v = 1-v0;
 
-  _data[2].u = uv_end.get_x();
-  _data[2].v = uv_end.get_y();
+  _data[1].u = u1;
+  _data[1].v = 1-v0;
 
-  _data[3].u = uv_begin.get_x();
-  _data[3].v = uv_end.get_y();
+  _data[2].u = u1;
+  _data[2].v = 1-v1;
+
+  _data[3].u = u0;
+  _data[3].v = 1-v1;
   update_vertex_pool();
 }
 
 
 INLINE void LUISprite::get_uv_range(LTexCoord &uv_begin, LTexCoord &uv_end) {
   uv_begin.set_x(_data[0].u);
-  uv_begin.set_y(_data[0].v);
+  uv_begin.set_y(1-_data[0].v);
   uv_end.set_x(_data[2].u);
-  uv_end.set_y(_data[2].v);
+  uv_end.set_y(1-_data[2].v);
 }
 
 INLINE void LUISprite::set_color(const LColor &color) {
