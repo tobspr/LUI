@@ -54,25 +54,22 @@ void LUIText::update_text() {
   // Pixels per unit, used to convert betweeen coordinate spaces
   float ppu = _font_size;
 
+  // Unreference all current glyphs
   for (int i = 0; i < _glyphs.size(); i++) {
     _glyphs[i]->_geom_count --;
   }
   _glyphs.clear();
 
-  float effective_line_height = ppu * _font->get_line_height();
-
-  // Now iterate over the sprites
+  // Iterate over the sprites
   pset<PT(LUISprite)>::iterator it;
   int i = 0;
   float current_x_pos = 0.0;
 
   for (it = _sprites.begin(); it != _sprites.end(); ++it, i++)
   {
-    //cout << "Iteration #" << i << " .." << endl;
     LUISprite* sprite = *it;
     int char_code = (int)_text.at(i);
 
-    
     const TextGlyph *const_glyph;
     if (!_font->get_glyph(char_code, const_glyph)) {
       sprite->set_texture((Texture*)NULL);
@@ -90,24 +87,32 @@ void LUIText::update_text() {
     _glyphs.push_back(dynamic_glyph);
     dynamic_glyph->_geom_count ++;
 
-    //cout << "Render character " << char_code << ", top = " << dynamic_glyph->get_top() << ", bottom = " << dynamic_glyph->get_bottom() << ", l_h = " << _font->get_line_height() << endl;
-
+    // LUISprite has a check if the texture is the same, so if the atlas didn't
+    // change, this is quite efficient.
     sprite->set_texture(dynamic_glyph->get_page());
+
+    // Position the glyph. 
     sprite->set_pos(
       current_x_pos + dynamic_glyph->get_left() * ppu, 
-      (-dynamic_glyph->get_top()) * ppu + _font->get_line_height() * ppu * 0.8);
+      (_font->get_line_height() * 0.8 - dynamic_glyph->get_top()) * ppu);
+
+    // The V coordinate is inverted, as panda stores the textures flipped
     sprite->set_uv_range(
       dynamic_glyph->get_uv_left(), 
       1-dynamic_glyph->get_uv_top(),
       dynamic_glyph->get_uv_right(), 
       1-dynamic_glyph->get_uv_bottom());
+
+    // Determine size frm coordinates
     sprite->set_size( 
        (dynamic_glyph->get_right() - dynamic_glyph->get_left()) * ppu,
        (dynamic_glyph->get_top() - dynamic_glyph->get_bottom()) * ppu);
     
+    // Move *cursor* by glyph length
     current_x_pos += dynamic_glyph->get_advance() * ppu;
   }
 
-  set_size(current_x_pos, effective_line_height);
+  // Finally, set the size
+  set_size(current_x_pos, _font_size);
 
 }
