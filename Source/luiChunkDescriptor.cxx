@@ -3,7 +3,9 @@
 #include "luiVertexChunk.h"
 
 void LUIChunkDescriptor::release() {
-  cout << "LuiChunkDescriptor: Releasing slot .. " << endl;
+  if (lui_cat.is_spam()) {
+    cout << "LuiChunkDescriptor: Releasing slot .. " << endl;
+  }
   _chunk->free_slot(_slot);
 }  
 
@@ -12,9 +14,13 @@ void* LUIChunkDescriptor::get_write_ptr() {
 }
 
 LUIChunkDescriptor::LUIChunkDescriptor() {
-  cout << "Constructed new chunk descriptor" << endl;
+  if (lui_cat.is_spam()) {
+    cout << "Constructed new chunk descriptor" << endl;
+  }
 }
 
 LUIChunkDescriptor::~LUIChunkDescriptor() {
-  cout << "Destructed chunk descriptor" << endl;
+  if (lui_cat.is_spam()) {
+    cout << "Destructed chunk descriptor" << endl;
+  }
 }

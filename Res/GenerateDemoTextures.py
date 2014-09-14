@@ -9,7 +9,7 @@ for i in xrange(1024):
     # p = PNMImage(66,64)
     p.addAlpha()
     p.alphaFill(1.0)
-    # p.fill(random(), random(), random())
-    p.fill(1,1,1)
+    p.fill(random(), random(), random())
+    # p.fill(1,1,1)
 
     p.write("demo_textures/" + str(i) + ".png")

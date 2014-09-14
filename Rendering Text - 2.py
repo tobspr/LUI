@@ -9,31 +9,22 @@ loadPrcFileData("", "show-frame-rate-meter #t")
 #     "default", "Res/atlas.txt", "Res/atlas.png")
 import direct.directbase.DirectStart
 
-testStr = "Hello World - abcdefghijklmnopqrstuvwxyz 1^"
+font = TextProperties.get_default_font()
 
-textMaker = PNMTextMaker("Res/font/SourceSansPro-Semibold.ttf", 0)
+ps = 100
+font.set_pixel_size(ps)
+font.set_pixels_per_unit(100)
+font.set_native_antialias(True)
 
-ps = 30
-textMaker.set_pixel_size(ps)
-textMaker.set_native_antialias(True)
-
-w = textMaker.calc_width(testStr)
-h = int(textMaker.get_line_height() * ps)
+g = font.get_glyph(ord('W'))
 
 c = CardMaker("a")
-c.set_frame(0, w, 0, h)
+c.set_frame(0, 100, 0, 100)
+c.set_uv_range(Point2(g.get_uv_left(), g.get_uv_bottom()), Point2(g.get_uv_right(), g.get_uv_top()))
 cn = pixel2d.attach_new_node(c.generate())
 cn.set_pos(10, 0, -300)
 
-s = PNMImage(w, h)
-s.fill(0.2, 0.6, 1.0)
-textMaker.generate_into(testStr, s, 0, ps)
-
-t = Texture()
-t.load(s)
-cn.set_texture(t)
+cn.set_texture(g.get_page())
 cn.set_transparency(TransparencyAttrib.MAlpha)
-
-# t.load(s)
 
 base.run()

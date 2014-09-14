@@ -11,3 +11,5 @@
 #include "luiVertexChunk.cxx"
 #include "luiRoot.cxx"
 #include "luiRegion.cxx"
+#include "luiFontPool.cxx"
+#include "luiText.cxx"

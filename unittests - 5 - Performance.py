@@ -7,9 +7,9 @@ sys.path.insert(0, "../")
 from panda3d.core import loadPrcFileData, TexturePool
 
 print "Setting level to ERROR"
-loadPrcFileData("", "notify-level-lui error")
+# loadPrcFileData("", "notify-level-lui error")
 
-from LUI import LUIObject, LUIAtlasPool, LUIRoot
+from panda3d.lui import *
 
 
 class TestCase(LUIObject):

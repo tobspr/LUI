@@ -14,7 +14,6 @@ LUIRegion::
   const string &context_name) :
 DisplayRegion(window, dr_dimensions) {
 
-  cout << "Constructor called for context '" << context_name << "' .." << endl;
   int pl, pr, pb, pt;
   get_pixels(pl, pr, pb, pt);
   _width = pr - pl;
@@ -23,16 +22,18 @@ DisplayRegion(window, dr_dimensions) {
   _lens = new OrthographicLens();
   _lens->set_film_size(_width, -_height);
   _lens->set_film_offset(_width * 0.5, _height * 0.5);
-  _lens->set_near_far(-1, 1);
+  _lens->set_near_far(-10000.0, 10000.0);
 
   _lui_root = new LUIRoot(_width, _height);
   set_camera(new Camera(context_name, _lens));
 
-  cout << "Constructor done!" << endl;
+  set_clear_depth_active(true);
+
+
 }
 
 LUIRegion::~LUIRegion() {
-  cout << "Destructor called" << endl;
+  lui_cat.warning() << "Todo: Make destructor of LUIRegion" << endl;
 }
 
 void LUIRegion::
@@ -66,11 +67,12 @@ void LUIRegion::
     trav->set_scene(scene_setup, gsg, get_incomplete_render());
     trav->set_view_frustum(NULL);
 
+    // Todo: Create a render state per chunk
     CPT(RenderState) state = RenderState::make(
       CullBinAttrib::make("unsorted", 0),
-      DepthTestAttrib::make(RenderAttrib::M_none),
-      DepthWriteAttrib::make(DepthWriteAttrib::M_off),
-      TransparencyAttrib::make(TransparencyAttrib::M_alpha)
+      DepthTestAttrib::make(RenderAttrib::M_less),
+      DepthWriteAttrib::make(DepthWriteAttrib::M_on),
+      TransparencyAttrib::make(TransparencyAttrib::M_multisample)
     );
     CPT(TransformState) net_transform = trav->get_world_transform();
     CPT(TransformState) modelview_transform = trav->get_world_transform()->compose(net_transform);

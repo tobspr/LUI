@@ -8,7 +8,7 @@
 #include "pandaSystem.h"
 #include "dconfig.h"
 
-// #include "luiRegion.h"
+#include "luiRegion.h"
 
 
 Configure(config_lui);
@@ -26,6 +26,6 @@ void init_lui() {
   initialized = true;
 
   //LUIInputHandler::init_type();
-  // LUIRegion::init_type();
+  LUIRegion::init_type();
 
 }

@@ -14,8 +14,10 @@ INLINE Geom* LUIVertexChunk::get_geom() {
 INLINE int LUIVertexChunk::reserve_slot(LUISprite *sprite) {
   nassertr(has_space(), 0);
 
-  cout << "Reserving slot .. " <<  endl;
-  
+  if (lui_cat.is_spam()) {
+    cout << "Reserving slot .. " <<  endl;
+  }
+
   int slot = -1;
   for (int i = 0; i < _chunk_size; i++) {
     if (_children[i] == NULL) {
@@ -47,8 +49,11 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
   _children[slot] = NULL;
   _sprite_count --;
 
-  cout << "Free slot " << slot << endl;
 
+  if (lui_cat.is_spam()) {
+    cout << "Free slot " << slot << endl;
+  }
+ 
   for (int i = 0; i < 4; i++) {
     memset(get_slot_ptr(slot), 0, sizeof(LUIVertexData) * 4);
   }

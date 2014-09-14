@@ -7,7 +7,7 @@ LUIRoot::LUIRoot(float width, float height) {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Initialized new LUIRoot\n";
   }
-  _root = new LUIObject(width, height);
+  _root = new LUIObject(0.0, 0.0, width, height);
   _root->set_root(this);
 
 }

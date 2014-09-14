@@ -4,13 +4,18 @@
 
 int LUIObject::_instance_count = 0;
 
-LUIObject::LUIObject(float w, float h) : LUIBaseElement() {
-  set_size(w, h);
 
-  _instance_count ++;
-  if (lui_cat.is_spam()) {
-    cout << "Created a new LUIObject (active instances: " << _instance_count << ")" << endl;
-  }
+LUIObject::LUIObject(float x, float y, float w, float h) : LUIBaseElement() {
+  init();
+  set_size(w, h);
+  set_pos(x, y);
+}
+
+LUIObject::LUIObject(LUIObject *parent, float x, float y, float w, float h)  : LUIBaseElement() {
+  init();
+  set_size(w, h);
+  set_pos(x, y);
+  parent->add_child(this);
 }
 
 LUIObject::~LUIObject() {
@@ -24,10 +29,16 @@ LUIObject::~LUIObject() {
   _nodes.clear();
 }
 
+void LUIObject::init() {
+  _instance_count ++;
+  if (lui_cat.is_spam()) {
+    cout << "Created a new LUIObject (active instances: " << _instance_count << ")" << endl;
+  }
+}
+
 PT(LUISpriteIterator) LUIObject::sprites() {
   return new LUISpriteIterator(_sprites.begin(), _sprites.end());
 }
-
 
 void LUIObject::on_bounds_changed() {
   refresh_child_positions();

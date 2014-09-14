@@ -27,9 +27,9 @@ class EXPCL_PANDASKEL LUIObject : public ReferenceCount, public LUIBaseElement {
   friend class LUIRoot;
 
 PUBLISHED:
-
-  LUIObject(float w, float h);
-
+  
+  LUIObject(float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
+  LUIObject(LUIObject *parent, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
 
   ~LUIObject();
 
@@ -53,6 +53,7 @@ PUBLISHED:
 
 protected:
 
+  void init();
 
   // Interface to LUIBaseElement
   void on_bounds_changed();
