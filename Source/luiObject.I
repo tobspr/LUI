@@ -5,16 +5,17 @@ INLINE int LUIObject::get_sprite_count() {
 }
 
 
-INLINE PT(LUISprite) LUIObject::construct_and_attach_sprite(float x, float y) {
+INLINE PT(LUISprite) LUIObject::construct_and_attach_sprite(float x, float y, float w, float h) {
   PT(LUISprite) sprite = new LUISprite(this);
   sprite->set_top_left(x, y);
   sprite->set_root(_root);
   sprite->set_parent(this);
+  sprite->recompute_z_index();
   _sprites.insert(sprite);
   return sprite;
 }
 
-INLINE LUISprite *LUIObject::attach_sprite(const string &source, const string &atlas_id, float x, float y) {
+INLINE LUISprite *LUIObject::attach_sprite(const string &source, const string &atlas_id, float x, float y, float w, float h) {
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Attach sprite from atlas descriptor" << endl;
@@ -27,27 +28,45 @@ INLINE LUISprite *LUIObject::attach_sprite(const string &source, const string &a
     return NULL;
   }
 
-  PT(LUISprite) sprite = construct_and_attach_sprite(x, y);
+  PT(LUISprite) sprite = construct_and_attach_sprite(x, y, w, h);
   sprite->set_texture(descriptor);
+
+  // Only set a size if it's valid, otherwise let the sprite auto-detect the size
+  if (w > 0.0 && h > 0.0) {
+    sprite->set_size(w, h);
+  }
+
   return sprite;
 }
 
-INLINE LUISprite *LUIObject::attach_sprite(const string &source, float x, float y) {
+INLINE LUISprite *LUIObject::attach_sprite(const string &source, float x, float y, float w, float h) {
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Attach sprite from string: '" << source << "'" << endl;
   }
-  PT(LUISprite) sprite = construct_and_attach_sprite(x, y);
+  PT(LUISprite) sprite = construct_and_attach_sprite(x, y, w, h);
   sprite->set_texture(source);
+
+  // Only set a size if it's valid, otherwise let the sprite auto-detect the size
+  if (w > 0.0 && h > 0.0) {
+    sprite->set_size(w, h);
+  }
+
   return sprite;
 }
 
-INLINE LUISprite *LUIObject::attach_sprite(PT(Texture) tex, float x, float y) {
+INLINE LUISprite *LUIObject::attach_sprite(PT(Texture) tex, float x, float y, float w, float h) {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Attach sprite from texture handle" << endl;
   }
-  PT(LUISprite) sprite = construct_and_attach_sprite(x, y);
+  PT(LUISprite) sprite = construct_and_attach_sprite(x, y, w, h);
   sprite->set_texture(tex);
+
+  // Only set a size if it's valid, otherwise let the sprite auto-detect the size
+  if (w > 0.0 && h > 0.0) {
+    sprite->set_size(w, h);
+  }
+  
   return sprite;
 }
 
@@ -131,10 +150,10 @@ INLINE PT(LUIObject) LUIObject::add_child(PT(LUIObject) node) {
 
   node->set_parent(this);
   node->recompute_position();
+  node->recompute_z_index();
   _nodes.insert(node);
 
   // This has to be last. Otherwise we're attaching to the VertexPool with outdated positions
-  lui_cat.spam() << "Setting root on children" << endl;
   node->set_root(_root);
 
   return node;

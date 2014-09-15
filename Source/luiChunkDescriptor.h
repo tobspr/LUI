@@ -17,8 +17,6 @@ class LUIChunkDescriptor {
   friend class LUIVertexPool;
 
   
-  
-
 private:
 
   LUIChunkDescriptor();

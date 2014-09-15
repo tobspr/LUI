@@ -16,6 +16,7 @@ LUIObject::LUIObject(LUIObject *parent, float x, float y, float w, float h)  : L
   set_size(w, h);
   set_pos(x, y);
   parent->add_child(this);
+  
 }
 
 LUIObject::~LUIObject() {
@@ -47,6 +48,18 @@ void LUIObject::on_bounds_changed() {
 
 void LUIObject::on_visibility_changed() {
   refresh_child_visibility();
+}
+
+void LUIObject::on_z_index_changed() {
+  // Update sprites
+  for (lui_sprite_iterator it = _sprites.begin(); it!= _sprites.end(); ++it) {
+    (*it)->recompute_z_index();
+  }
+
+  // Updates nodes
+  for (lui_object_iterator it = _nodes.begin(); it!= _nodes.end(); ++it) {
+    (*it)->recompute_z_index();
+  }
 }
 
 void LUIObject::set_root(LUIRoot* root) {
@@ -99,7 +112,7 @@ void LUIObject::on_detached() {
 }
 
 void LUIObject::ls(int indent) {
-  cout << string(indent, ' ')  << "[LUIObject] pos = " << _pos_x << ", " << _pos_y << "; size = " << _size.get_x() << " x " << _size.get_y() << endl;
+  cout << string(indent, ' ')  << "[LUIObject] pos = " << _pos_x << ", " << _pos_y << "; size = " << _size.get_x() << " x " << _size.get_y() << "; z-index = " << _z_index << " (+ "<< _local_z_index << ")" << endl;
 
   // Update sprites
   for (lui_sprite_iterator it = _sprites.begin(); it!= _sprites.end(); ++it) {

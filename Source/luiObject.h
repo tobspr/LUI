@@ -33,9 +33,9 @@ PUBLISHED:
 
   ~LUIObject();
 
-  INLINE LUISprite *attach_sprite(const string &source, float x, float y);
-  INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id, float x, float y);
-  INLINE LUISprite *attach_sprite(PT(Texture) tex, float x, float y);
+  INLINE LUISprite *attach_sprite(const string &source, float x, float y, float w = 0.0, float h = 0.0);
+  INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id, float x, float y, float w = 0.0, float h = 0.0);
+  INLINE LUISprite *attach_sprite(PT(Texture) tex, float x, float y, float w = 0.0, float h = 0.0);
 
   INLINE LUISprite *attach_sprite(const string &source);
   INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id);
@@ -60,9 +60,10 @@ protected:
   void on_visibility_changed();
   void on_detached();
   void set_root(LUIRoot* root);
+  void on_z_index_changed();
   
 
-  PT(LUISprite) construct_and_attach_sprite(float x, float y);
+  PT(LUISprite) construct_and_attach_sprite(float x, float y, float w, float h);
   INLINE void refresh_child_positions();
   INLINE void refresh_child_visibility();
 

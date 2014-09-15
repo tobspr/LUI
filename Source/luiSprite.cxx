@@ -19,11 +19,10 @@ LUISprite::LUISprite(LUIBaseElement* parent) :
 
   set_color(1.0, 1.0, 1.0, 1.0);
   set_parent(parent);
-  set_top_left(0, 0);
-  set_z_index(0);
- 
+  set_top_left(0, 0); 
   set_uv_range(LVector2(0), LVector2(1));
   set_size(10, 10);
+  recompute_z_index();
 }
 
 LUISprite::~LUISprite() {
@@ -60,17 +59,25 @@ void LUISprite::on_detached() {
   _parent = NULL;
 }
 
+void LUISprite::on_z_index_changed() {
+  for (int i = 0; i < 4; i++) {
+    _data[i].y = -_z_index;
+  }
+  update_vertex_pool();
+}
 
 void LUISprite::ls(int indent) {
   cout << string(indent, ' ')  << "[LUISprite] pos = " 
       << _pos_x << ", " << _pos_y 
       << "; size = " << _size.get_x() << " x " << _size.get_y() 
-      << "; tex = " << (_tex != NULL ? _tex->get_name() : "none");
+      << "; tex = " << (_tex != NULL ? _tex->get_name() : "none")
+      << "; z_index = " << _z_index << " (+ " << _local_z_index << ")";
+
 
   if (_chunk_descriptor == NULL) {
-    cout << "; assigned to no chunk ";
+    cout << "; no chunk ";
   } else {
-    cout << "; assigned to chunk " << _chunk_descriptor->get_chunk() << " at slot " << _chunk_descriptor ->get_slot();
+    cout << "; chunk = " << _chunk_descriptor ->get_slot();
   }
   cout << endl;
 } 

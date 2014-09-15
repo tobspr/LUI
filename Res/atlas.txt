@@ -1,3 +1,4 @@
 btn_left 0 0 8 39
 btn_right 8 0 8 39
 btn_mid 16 0 5 39
+blank 21 0 1 1

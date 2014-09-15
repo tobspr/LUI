@@ -132,16 +132,6 @@ INLINE Texture *LUISprite::get_texture() const {
   return _tex;
 }
 
-INLINE void LUISprite::set_z_index(float z_index) {
-  for (int i = 0; i < 4; i++) {
-    _data[i].y = -z_index;
-  }
-  update_vertex_pool();
-}
-
-INLINE float LUISprite::get_z_index() {
-  return _data[0].y;
-}
 
 
 INLINE void LUISprite::print_vertices() {

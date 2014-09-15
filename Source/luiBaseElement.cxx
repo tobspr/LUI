@@ -13,7 +13,9 @@ LUIBaseElement::LUIBaseElement() :
   _stick_left(true),
   _size(0),
   _parent(NULL),
-  _root(NULL)
+  _root(NULL),
+  _local_z_index(0.5),
+  _z_index(0.0)
 {
 }
 

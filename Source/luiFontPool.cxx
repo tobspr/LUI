@@ -28,6 +28,6 @@ LUIFontPool* LUIFontPool::get_global_ptr() {
 }
 
 void LUIFontPool::register_font(const string &name, PT(DynamicTextFont) font) {
-  cout << "Registering font " << name << endl;
+  lui_cat.debug() << "Registering font " << name << endl;
   _fonts[name] = font;
 }

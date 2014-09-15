@@ -46,7 +46,7 @@ PUBLISHED:
 
   // Color
   INLINE void set_color(const LColor &color);
-  INLINE void set_color(float r, float g, float b, float a);
+  INLINE void set_color(float r, float g, float b, float a = 1.0);
   INLINE LColor get_color();
 
   // Texture
@@ -54,10 +54,6 @@ PUBLISHED:
   INLINE void set_texture(LUIAtlasDescriptor *descriptor);
   INLINE void set_texture(const string &source);
   INLINE Texture *get_texture() const;
-
-  // Z-Index
-  INLINE void set_z_index(float z_index);
-  INLINE float get_z_index();
 
   INLINE void print_vertices();
 
@@ -80,6 +76,7 @@ protected:
   void on_visibility_changed();
   void on_detached();
   void set_root(LUIRoot* root);
+  void on_z_index_changed();
 
   // Stores data for 4 corner vertices
   // 0 - Upper Left
