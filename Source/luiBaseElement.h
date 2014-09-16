@@ -5,11 +5,13 @@
 #ifndef LUI_BASE_ELEMENT_H
 #define LUI_BASE_ELEMENT_H
 
+#include "config_lui.h"
 #include "pandabase.h"
 #include "pandasymbols.h"
 #include "luse.h"
 #include "referenceCount.h"
-#include "config_lui.h"
+#include "callbackObject.h"
+#include "pythonCallbackObject.h"
 
 class LUIRoot;
 
@@ -29,9 +31,13 @@ PUBLISHED:
     EVT_mouseclick,
   };
 
-
   LUIBaseElement();
   virtual ~LUIBaseElement();
+
+  // Events
+  INLINE void bind(const string &event_name, PyObject* callback);
+  INLINE void bind(const string &event_name, CallbackObject* callback);
+
 
   // Position
   INLINE void set_top_left(float top, float left);
@@ -68,6 +74,8 @@ PUBLISHED:
   INLINE float get_absolute_z_index();
 
   INLINE LUIBaseElement* get_parent();
+
+
 
 public:
 

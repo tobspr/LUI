@@ -212,3 +212,12 @@ INLINE void LUIBaseElement::end_update_section() {
     luiBaseElement_cat.spam() << "Finally left update section .." << endl;
   }
 }
+
+
+INLINE void LUIBaseElement::bind(const string &event_name, PyObject* callback) {
+  bind(event_name, new PythonCallbackObject(callback));
+}
+
+INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callback) {
+  lui_cat.spam() << "Bind to event " << event_name << endl;
+}

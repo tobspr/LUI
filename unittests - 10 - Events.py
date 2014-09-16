@@ -48,12 +48,16 @@ class Testing:
         sprite2.set_relative_z_index(4)
         sprite3.set_relative_z_index(3)
 
+        sprite1.bind(self.on_mouse_over)
+
         print "\nListing .."
         parent.ls()
 
         print "\nRemoving sprite"
         parent.remove_child(sprite1)
 
+    def on_mouse_over(self):
+        print "on mouse over"
 
 def create():
     Testing()
