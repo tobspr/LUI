@@ -18,30 +18,43 @@ import direct.directbase.DirectStart
 
 region = LUIRegion.make("LUI", base.win)
 
-# parent = LUIObject(parent=region.root())
+parent = LUIObject(parent=region.root(), x=0, y=0, w=600, h=600)
 
-for x in xrange(128):
-    for y in xrange(128):
-        sprite = region.root().attach_sprite("Res/demo_textures/" + str(x)+ ".png")
-        sprite.set_size(1,1)
+a = time.time()
+
+
+print "Creating sprites .."
+for x in xrange(512):
+    for y in xrange(512):
+        sprite = parent.attach_sprite("Res/demo_textures/0.png")
+        sprite.set_size(1, 1)
         sprite.set_top(y)
         sprite.set_right(x)
+
+d = (time.time() - a) * 1000.0
+
+print "Took", d, "ms to create", 512 * 512, "sprites\n -> that's", d / (512.0 * 512.0), "ms per sprite"
 
 
 def test():
 
+    print "Moving all sprites 20 times"
     start = time.time()
-    # for i in xrange(20):
-        # parent.set_top(parent.get_top() + 5)
+    for i in xrange(20):
+        parent.set_top(parent.get_top() + 5)
 
     dur = time.time() - start
     durMs = dur * 1000.0
     durIter = durMs / 20.0
-    durSprite = durIter / (512.0*512.0)
-    print durMs, "ms, that's", durIter,"per iteration"
-    print "that is ",durSprite,"per sprite"
+    durSprite = durIter / (512.0 * 512.0)
+    print durMs, "ms, that's", durIter, "per move"
+    print " -> that is ", durSprite, "per sprite"
 
 
+t = LUIText(parent=region.root(), text="Press 'p' to run a benchmark",
+            font_name="default", x=10, y=10)
+t.set_font_size(20)
+t.set_relative_z_index(100)
 
 base.accept("p", test)
 

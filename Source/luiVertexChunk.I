@@ -15,7 +15,7 @@ INLINE int LUIVertexChunk::reserve_slot(LUISprite *sprite) {
   nassertr(has_space(), 0);
 
   if (lui_cat.is_spam()) {
-    cout << "Reserving slot .. " <<  endl;
+    lui_cat.spam() << "Reserving slot .. " <<  endl;
   }
 
   int slot = -1;
@@ -51,7 +51,7 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
 
 
   if (lui_cat.is_spam()) {
-    cout << "Free slot " << slot << endl;
+    lui_cat.spam() << "Free slot " << slot << endl;
   }
  
   for (int i = 0; i < 4; i++) {
@@ -62,7 +62,7 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
   if (_sprite_count < 1) {
     if (lui_cat.is_spam()) {
       // TODO: Unregister from vertex pool
-      cout << "Empty vertex chunk, should be garbarge collected" << endl;
+      lui_cat.spam() << "Empty vertex chunk, should be garbarge collected" << endl;
     }
   }
 }

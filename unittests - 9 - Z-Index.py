@@ -28,9 +28,9 @@ sprite1 = parent.attach_sprite("blank", "default", x=100, y=100, w=100, h=100)
 sprite2 = parent.attach_sprite("blank", "default", x=150, y=120, w=100, h=100)
 sprite3 = parent.attach_sprite("blank", "default", x=125, y=150, w=100, h=100)
 
-sprite1.set_color(0.2,0.6,1.0, 0.5)
-sprite2.set_color(0.4,0.6,1.0, 0.5)
-sprite3.set_color(0.6,0.6,1.0, 0.5)
+sprite1.set_color(0.2, 0.6, 1.0, 0.5)
+sprite2.set_color(0.4, 0.6, 1.0, 0.5)
+sprite3.set_color(0.6, 0.6, 1.0, 0.5)
 
 sprite1.set_relative_z_index(1)
 sprite2.set_relative_z_index(4)

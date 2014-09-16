@@ -7,15 +7,16 @@ from panda3d.core import *
 # loadPrcFileData("", "notify-level-lui spam")
 # loadPrcFileData("", "notify-level spam")
 
-loadPrcFileData("", "text-pixels-per-unit 50")
+loadPrcFileData("", "text-pixels-per-unit 100")
 loadPrcFileData("", "show-frame-rate-meter #t")
 loadPrcFileData("", "text-minfilter linear")
 loadPrcFileData("", "text-magfilter linear")
+loadPrcFileData("", "depth-bits 32")
 loadPrcFileData("", "sync-video #f")
 # loadPrcFileData("", "text-scale-factor 1.0")
 loadPrcFileData("", "text-page-size 256 256")
-loadPrcFileData("", "framebuffer-multisample #t")
-loadPrcFileData("", "multisamples 16")
+# loadPrcFileData("", "framebuffer-multisample #t")
+# loadPrcFileData("", "multisamples 16")
 # LUIAtlasPool.get_global_ptr().load_atlas(
 #     "default", "Res/atlas.txt", "Res/atlas.png")
 import direct.directbase.DirectStart
@@ -32,21 +33,31 @@ LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "Res/atlas.txt", "Res/atlas.png")
 
 
-node = LUIObject(parent=luiTop, x=10.0, y=10.0, w=500, h=50)
+node2 = LUIObject(parent=luiTop, x=10.0, y=10.0, w=500, h=50)
 
 texts = []
 
+node2.set_pos(100, 100)
+sprite2 = node2.attach_sprite("Res/demo_textures/1.png", x=0, y=100)
+sprite2.set_size(500, 250)
+sprite2.set_relative_z_index(0)
+# luiTop.ls()
+
+
 for i in xrange(10):
-    texts.append(LUIText(parent=node, text="|^?,.'"))
+    texts.append(LUIText(parent=node2))
     texts[-1].set_font_size(50)
     texts[-1].set_top(60*i)
     texts[-1].set_right(0)
+    texts[-1].set_relative_z_index(1)
 
+node = LUIObject(parent=luiTop, x=10.0, y=10.0, w=500, h=250)
 node.set_pos(100, 100)
 sprite = node.attach_sprite("Res/demo_textures/0.png")
 sprite.set_size(500, 50)
-sprite.set_relative_z_index(-0.5)
+sprite.set_relative_z_index(0)
 luiTop.ls()
+
 
 def update(task):
     rn = random.random()

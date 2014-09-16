@@ -24,8 +24,9 @@
 #include "cullBinAttrib.h"
 #include "depthTestAttrib.h"
 #include "depthWriteAttrib.h"
+#include "luiInputHandler.h"
 
-class EXPCL_PANDASKEL LUIRegion : public DisplayRegion {
+class EXPCL_LUI LUIRegion : public DisplayRegion {
 
 protected:
   LUIRegion(GraphicsOutput *window, const LVecBase4 &dimensions,
@@ -44,16 +45,18 @@ PUBLISHED:
                                    const LVecBase4 &dimensions);
   INLINE LUIObject *root();
 
-  //INLINE void set_input_handler(LUIRegion *handler);
-  //INLINE LUIRegion *get_input_handler() const;
+  INLINE void set_input_handler(LUIInputHandler *handler);
+  INLINE LUIInputHandler *get_input_handler() const;
 
 private:
 
   PT(OrthographicLens) _lens;
   PT(LUIRoot) _lui_root;
-  //PT(LUIInputHandler) _input_handler;
+  PT(LUIInputHandler) _input_handler;
   int _width, _height;
   
+  void process_inputs();
+
 public:
   static TypeHandle get_class_type() {
     return _type_handle;

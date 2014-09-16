@@ -15,7 +15,7 @@
 #include "dcast.h"
 #include "config_lui.h"
 
-class EXPCL_PANDASKEL LUIFontPool {
+class EXPCL_LUI LUIFontPool {
 
 PUBLISHED:
 

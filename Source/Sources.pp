@@ -2,7 +2,7 @@
                    p3dtoolutil:c p3dtoolbase:c p3dtool:m p3prc:c
 
 #define USE_PACKAGES 
-#define BUILDING_DLL BUILDING_PANDASKEL
+#define BUILDING_DLL BUILDING_LUI
 
 #begin lib_target
   #define TARGET p3lui

@@ -11,7 +11,7 @@
 #include "texture.h"
 #include "config_lui.h"
 
-class EXPCL_PANDASKEL LUIAtlasDescriptor : public ReferenceCount {
+class EXPCL_LUI LUIAtlasDescriptor : public ReferenceCount {
 
 PUBLISHED:
   LUIAtlasDescriptor();

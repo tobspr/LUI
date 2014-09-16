@@ -9,36 +9,33 @@
 #include "pandasymbols.h"
 #include "referenceCount.h"
 
-class LUIObject;
-class LUISprite;
-
+class LUIBaseElement;
 
 // Iterators
-typedef pset<PT(LUIObject)>::iterator lui_object_iterator;
-typedef pset<PT(LUISprite)>::iterator lui_sprite_iterator;
+typedef pset<PT(LUIBaseElement)>::iterator lui_element_iterator;
 
-class EXPCL_PANDASKEL LUISpriteIterator : public ReferenceCount {
+class EXPCL_LUI LUIElementIterator : public ReferenceCount {
 PUBLISHED:
-  INLINE LUISprite * __next__() {
+  INLINE LUIBaseElement * __next__() {
     if (_iter != _end) {
       return *_iter++;
     }
     return NULL;
   }
-  INLINE LUISpriteIterator &__iter__() {
+  INLINE LUIElementIterator &__iter__() {
     return *this;
   }
 public:
-  LUISpriteIterator(lui_sprite_iterator begin, lui_sprite_iterator end) 
+  LUIElementIterator(lui_element_iterator begin, lui_element_iterator end) 
     : _iter(begin), _end(end) {
-    cout << "Construct lui iterator" << endl;  
+    lui_cat.spam() << "Construct lui iterator" << endl;  
   }
-  ~LUISpriteIterator() {
-    cout << "Destructed lui iterator " << endl;
+  ~LUIElementIterator() {
+    lui_cat.spam() << "Destruct lui iterator " << endl;
   }
 private:
-  lui_sprite_iterator _iter;
-  lui_sprite_iterator _end;
+  lui_element_iterator _iter;
+  lui_element_iterator _end;
 };
 
 #endif

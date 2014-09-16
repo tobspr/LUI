@@ -8,7 +8,7 @@ INLINE PT(LUIObject) LUIRoot::node() {
 INLINE LUIVertexPool* LUIRoot::get_vpool_by_texture(Texture* tex) {
 
   if (lui_cat.is_spam()) {
-    cout << "Finding vertex pool for texture " << tex << endl;
+    lui_cat.spam() << "Finding vertex pool for texture " << tex << endl;
   }
 
   if (_pools.count(tex) != 0) {

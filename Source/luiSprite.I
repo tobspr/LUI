@@ -46,8 +46,8 @@ INLINE void LUISprite::set_color(const LColor &color) {
 }
 
 INLINE void LUISprite::set_color(float r, float g, float b, float a) {
-  if (lui_cat.is_spam()) {
-    cout << "Setting color to RGBA(" << r << ", " << g << ", " << b << ", " << a << ")" << endl;
+  if (luiSprite_cat.is_spam()) {
+    luiSprite_cat.spam() << "Setting color to RGBA(" << r << ", " << g << ", " << b << ", " << a << ")" << endl;
   }
   for (int i = 0; i < 4; i++) {
     _data[i].color[0] = (unsigned char) (r * 255.0);
@@ -82,18 +82,14 @@ INLINE void LUISprite::set_texture(Texture* tex) {
 
   if (tex != NULL) {
 
-    if (lui_cat.is_spam()) {
-      cout << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
+    if (luiSprite_cat.is_spam()) {
+      luiSprite_cat.spam() << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
     }
     _tex = tex;
     set_uv_range(LTexCoord(0), LTexCoord(1));
     
-    // Assign new texture
+    // Assign new pool
     if (_root != NULL) {
-
-      if (lui_cat.is_spam()) {
-        cout << "Assigning vertex pool from set_texture, as _tex is not NULL" << endl;
-      }
       assign_vertex_pool();
     }
   }
@@ -101,14 +97,11 @@ INLINE void LUISprite::set_texture(Texture* tex) {
 
 INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
 
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "LUISprite -> set texture from descriptor" << endl;
+  if (luiSprite_cat.is_spam()) {
+    luiSprite_cat.spam() << "Load texture data from descriptor" << endl;
   }
 
-  if (descriptor == NULL) {
-    lui_cat.warning() << "Ignoring null descriptor" << endl;
-    return;
-  }
+  nassertv(descriptor != NULL);
 
   set_texture(descriptor->get_texture());
   set_size(descriptor->get_size());
@@ -121,7 +114,7 @@ INLINE void LUISprite::set_texture(const string &source) {
   PT(Texture) tex = TexturePool::load_texture(source);
 
   if (tex == NULL) {
-    lui_cat.error() << "Could not load " << source << endl;
+    luiSprite_cat.error() << "Could not load texture from '" << source << "'" << endl;
     return;
   }
 
@@ -143,4 +136,11 @@ INLINE void LUISprite::print_vertices() {
       << " COL = " << (float)_data[i].color[0] << "," << (float)_data[i].color[1] << "," << (float)_data[i].color[2] << "," << (float)_data[i].color[3] << endl;
   }
 
+}
+
+
+INLINE void LUISprite::end_update_section() {
+  LUIBaseElement::end_update_section();
+
+  // Sprite specific update stuff comes here
 }

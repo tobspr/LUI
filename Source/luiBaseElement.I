@@ -2,9 +2,6 @@
 
 
 INLINE void LUIBaseElement::set_top_left(float x, float y) {
-  if (lui_cat.is_spam()) {
-    cout << "Set Top Left Pos: " << x << "/" << y << endl;
-  }
   _stick_top = true;
   _stick_left = true;
   _offset_x = x;
@@ -25,9 +22,9 @@ INLINE void LUIBaseElement::set_top(float top) {
 
 INLINE void LUIBaseElement::set_bottom(float bottom) {
   if (_parent == NULL) {
-    lui_cat.warning() << "Attempting to do set_bottom, but no parent is set yet. " << endl;
+    luiBaseElement_cat.warning() << "Attempting to do set_bottom, but no parent is set yet. " << endl;
   } else if (!_parent->has_size()) {
-    lui_cat.warning() << "Attempting to do set_bottom, but parent has no size set!" << endl;
+    luiBaseElement_cat.warning() << "Attempting to do set_bottom, but parent has no size set!" << endl;
   }
 
   _stick_top = false;
@@ -43,9 +40,9 @@ INLINE void LUIBaseElement::set_left(float left) {
 
 INLINE void LUIBaseElement::set_right(float right) {
   if (_parent == NULL) {
-    lui_cat.warning() << "Attempting to do set_right, but no parent is set yet. " << endl;
+    luiBaseElement_cat.warning() << "Attempting to do set_right, but no parent is set yet. " << endl;
   } else if (!_parent->has_size()) {
-    lui_cat.warning() << "Attempting to do set_right, but parent has no size set!" << endl;
+    luiBaseElement_cat.warning() << "Attempting to do set_right, but parent has no size set!" << endl;
   }
 
   _stick_left = false;
@@ -148,4 +145,70 @@ INLINE void LUIBaseElement::recompute_z_index() {
     _z_index = _local_z_index;
   }
   on_z_index_changed();
+}
+
+
+INLINE bool LUIBaseElement::has_event(LUIEvent name) {
+  return true;
+}
+
+INLINE void LUIBaseElement::trigger_event(LUIEvent name) {
+  luiBaseElement_cat.spam() << "Triggering event .." << endl; 
+}
+
+INLINE void LUIBaseElement::register_events() {
+
+
+
+  if (_root != NULL && _parent != NULL && !_events_registered) {
+    // _root->register_event_object(this);
+    _events_registered = true;
+
+    if (luiBaseElement_cat.is_spam()) {
+      luiBaseElement_cat.spam() << "Registering events for object .." << endl;
+    }
+  } else {
+    if (luiBaseElement_cat.is_spam()) {
+      luiBaseElement_cat.spam() << "Did not register events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << ", parent = " << (_parent==NULL?"NULL" : "valid") << " .." << endl;
+    }
+  }
+}
+
+INLINE void LUIBaseElement::unregister_events() {
+
+  if (_root != NULL && _events_registered) {
+    // _root->unregister_event_object(this);
+    _events_registered = false;
+  
+    if (luiBaseElement_cat.is_spam()) {
+      luiBaseElement_cat.spam() << "Un-registering events for object .." << endl;
+    }
+  } else {
+      if (luiBaseElement_cat.is_spam()) {
+        luiBaseElement_cat.spam() << "Did not unregister events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << " .." << endl;
+      }
+  }
+}
+
+INLINE void LUIBaseElement::begin_update_section() {
+  nassertv(_in_update_section == false);
+  _in_update_section = true;
+
+  if (lui_cat.spam()) {
+    lui_cat.spam() << "Begin of update section .." << endl;
+  }
+}
+
+INLINE void LUIBaseElement::end_update_section() {
+  nassertv(_in_update_section == true);
+  _in_update_section = false;  
+
+  if (luiBaseElement_cat.is_spam()) {
+    luiBaseElement_cat.spam() << "End of update section .." << endl;
+  }
+  recompute_position();
+
+  if (luiBaseElement_cat.is_spam()) {
+    luiBaseElement_cat.spam() << "Finally left update section .." << endl;
+  }
 }

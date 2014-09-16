@@ -11,7 +11,7 @@
 #include "config_lui.h"
 #include "referenceCount.h"
 
-class EXPCL_PANDASKEL LUIAtlasPacker : public ReferenceCount {
+class EXPCL_LUI LUIAtlasPacker : public ReferenceCount {
 
 PUBLISHED:
 

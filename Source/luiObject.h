@@ -22,7 +22,9 @@
 class LUISprite;
 class LUIRoot;
 
-class EXPCL_PANDASKEL LUIObject : public ReferenceCount, public LUIBaseElement {
+NotifyCategoryDecl(luiObject, EXPCL_LUI, EXPTP_LUI);
+
+class EXPCL_LUI LUIObject : public LUIBaseElement {
 
   friend class LUIRoot;
 
@@ -31,7 +33,7 @@ PUBLISHED:
   LUIObject(float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
   LUIObject(LUIObject *parent, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
 
-  ~LUIObject();
+  virtual ~LUIObject();
 
   INLINE LUISprite *attach_sprite(const string &source, float x, float y, float w = 0.0, float h = 0.0);
   INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id, float x, float y, float w = 0.0, float h = 0.0);
@@ -41,13 +43,11 @@ PUBLISHED:
   INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id);
   INLINE LUISprite *attach_sprite(PT(Texture) tex);
 
-  INLINE void remove_sprite(PT(LUISprite) sprite);
-  INLINE int get_sprite_count();
+  PT(LUIElementIterator) children();
 
-  PT(LUISpriteIterator) sprites();
-
-  INLINE PT(LUIObject) add_child(PT(LUIObject) node);
-  INLINE void remove_child(PT(LUIObject) node);
+  INLINE PT(LUIBaseElement) add_child(PT(LUIBaseElement) child);
+  INLINE void remove_child(PT(LUIBaseElement) child);
+  INLINE void remove_all_children();
 
   void ls(int indent = 0);
 
@@ -67,11 +67,26 @@ protected:
   INLINE void refresh_child_positions();
   INLINE void refresh_child_visibility();
 
-
-  pset<PT(LUIObject)> _nodes;
-  pset<PT(LUISprite)> _sprites;
+  pset<PT(LUIBaseElement)> _children;
 
   static int _instance_count;
+
+public:
+  static TypeHandle get_class_type() {
+    return _type_handle;
+  }
+  static void init_type() {
+    LUIBaseElement::init_type();
+    register_type(_type_handle, "LUIObject", LUIBaseElement::get_class_type());
+  }
+  virtual TypeHandle get_type() const {
+    return get_class_type();
+  }
+  virtual TypeHandle force_init_type() {init_type(); return get_class_type();}
+
+private:
+  static TypeHandle _type_handle;
+
 
 };
 

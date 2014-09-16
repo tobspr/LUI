@@ -37,13 +37,13 @@ LUIChunkDescriptor *LUIVertexPool::allocate_slot(LUISprite* child) {
 
   if (chunk == NULL) {
     if (lui_cat.is_spam()) {
-      cout << "Allocating new lui vertex chunk .." << endl;
+      lui_cat.spam() << "Allocating new lui vertex chunk .." << endl;
     }
     allocate_chunk();
     chunk = _chunks.back();
   } else {
     if (lui_cat.is_spam()) {
-      cout << "Found chunk at " << chunk << endl;
+      lui_cat.spam() << "Found chunk at " << chunk << endl;
     }
   }
 

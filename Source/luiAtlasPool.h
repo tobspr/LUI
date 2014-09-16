@@ -16,7 +16,7 @@
 
 #include "config_lui.h"
 
-class EXPCL_PANDASKEL LUIAtlasPool {
+class EXPCL_LUI LUIAtlasPool {
 
 PUBLISHED:
 

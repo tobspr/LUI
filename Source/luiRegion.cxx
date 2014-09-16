@@ -12,7 +12,12 @@ TypeHandle LUIRegion::_type_handle;
 LUIRegion::
   LUIRegion(GraphicsOutput *window, const LVecBase4 &dr_dimensions,
   const string &context_name) :
-DisplayRegion(window, dr_dimensions) {
+  DisplayRegion(window, dr_dimensions),
+  _input_handler(NULL) {
+
+  if (lui_cat.is_spam()) {  
+    lui_cat.spam() << "Constructing new LUIRegion .." << endl;
+  }
 
   int pl, pr, pb, pt;
   get_pixels(pl, pr, pb, pt);
@@ -29,11 +34,18 @@ DisplayRegion(window, dr_dimensions) {
 
   set_clear_depth_active(true);
 
-
 }
 
 LUIRegion::~LUIRegion() {
   lui_cat.warning() << "Todo: Make destructor of LUIRegion" << endl;
+}
+
+void LUIRegion::process_inputs() {
+  if (_input_handler->has_mouse()) {
+    LVecBase2 mouse_pos = _input_handler->get_mouse_pos();
+    
+  }
+
 }
 
 void LUIRegion::
@@ -47,7 +59,6 @@ void LUIRegion::
     int height = pt - pb;
 
     if (width != _width || height != _height) {
-      cout << "On resized" << endl;
       _width = width;
       _height = height;
       _lui_root->node()->set_size(_width, _height);
@@ -55,11 +66,9 @@ void LUIRegion::
       _lens->set_film_offset(_width * 0.5, _height * 0.5);
     }
 
-    //if (_input_handler != NULL) {
-    //  _input_handler->update_context(_context, pl, pb);
-    //} else {
-    //  _context->Update();
-    //}
+    if (_input_handler != NULL) {
+      process_inputs();
+    }
 
     CullTraverser *trav = get_cull_traverser();
 
@@ -72,7 +81,7 @@ void LUIRegion::
       CullBinAttrib::make("unsorted", 0),
       DepthTestAttrib::make(RenderAttrib::M_less),
       DepthWriteAttrib::make(DepthWriteAttrib::M_on),
-      TransparencyAttrib::make(TransparencyAttrib::M_multisample)
+      TransparencyAttrib::make(TransparencyAttrib::M_multisample_mask)
     );
     CPT(TransformState) net_transform = trav->get_world_transform();
     CPT(TransformState) modelview_transform = trav->get_world_transform()->compose(net_transform);

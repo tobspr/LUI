@@ -2,110 +2,113 @@
 
 #include "luiObject.h"
 
+
+TypeHandle LUIObject::_type_handle;
+
+NotifyCategoryDef(luiObject, ":lui");
+
 int LUIObject::_instance_count = 0;
 
 
 LUIObject::LUIObject(float x, float y, float w, float h) : LUIBaseElement() {
   init();
+
+   // Prevent recomputation of the position while we initialize the object
+  begin_update_section();
+  
   set_size(w, h);
   set_pos(x, y);
+
+  end_update_section();
+
 }
 
 LUIObject::LUIObject(LUIObject *parent, float x, float y, float w, float h)  : LUIBaseElement() {
   init();
+
+  // Prevent recomputation of the position while we initialize the object
+  begin_update_section();
   set_size(w, h);
   set_pos(x, y);
+
   parent->add_child(this);
   
+  end_update_section();
+
 }
 
 LUIObject::~LUIObject() {
 
   _instance_count --;
-  if (lui_cat.is_spam()) {
-    cout << "Destructing LUIObject, instances left: " << _instance_count << endl;
+  if (luiObject_cat.is_spam()) {
+    luiObject_cat.spam() << "Destructing LUIObject, instances left: " << _instance_count << endl;
   }
 
-  _sprites.clear();
-  _nodes.clear();
+  _children.clear();
 }
 
 void LUIObject::init() {
   _instance_count ++;
-  if (lui_cat.is_spam()) {
-    cout << "Created a new LUIObject (active instances: " << _instance_count << ")" << endl;
+  if (luiObject_cat.is_spam()) {
+    luiObject_cat.spam() << "Constructing new LUIObject (active: " << _instance_count << ")" << endl;
   }
 }
 
-PT(LUISpriteIterator) LUIObject::sprites() {
-  return new LUISpriteIterator(_sprites.begin(), _sprites.end());
+PT(LUIElementIterator) LUIObject::children() {
+  return new LUIElementIterator(_children.begin(), _children.end());
 }
 
 void LUIObject::on_bounds_changed() {
   refresh_child_positions();
 }
 
-
 void LUIObject::on_visibility_changed() {
   refresh_child_visibility();
 }
 
 void LUIObject::on_z_index_changed() {
-  // Update sprites
-  for (lui_sprite_iterator it = _sprites.begin(); it!= _sprites.end(); ++it) {
-    (*it)->recompute_z_index();
-  }
-
-  // Updates nodes
-  for (lui_object_iterator it = _nodes.begin(); it!= _nodes.end(); ++it) {
+  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->recompute_z_index();
   }
 }
 
 void LUIObject::set_root(LUIRoot* root) {
 
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "LUIObject - root changed" << endl;
+  if (luiObject_cat.is_spam()) {
+    luiObject_cat.spam() << "Root changed" << endl;
   }
 
   if (_root != NULL && root != _root) {
-    lui_cat.error() << "Node already has a root!" << endl;
+    luiObject_cat.error() << "Object is already attached to another root!" << endl;
     return;
   }
 
   if (root != _root) {
+
+    // Unregister from old root
+    unregister_events();
     _root = root;
 
-    if (lui_cat.is_spam()) {
-      lui_cat.spam() << "Refreshing child root .. " << endl;
+    // Register to new root
+    register_events();
+
+    for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+      (*it)->set_root(_root);
     }
 
-    // Update sprites
-    for (lui_sprite_iterator it = _sprites.begin(); it!= _sprites.end(); ++it) {
-      (*it)->set_root(root);
-    }
-
-    // Updates nodes
-    for (lui_object_iterator it = _nodes.begin(); it!= _nodes.end(); ++it) {
-      (*it)->set_root(root);
-    }
   }
 }
 
 void LUIObject::on_detached() {
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "LUIObject got detached" << endl;
+  if (luiObject_cat.is_spam()) {
+    luiObject_cat.spam() << "Got detached .." << endl;
   }
+
+  unregister_events();
   _root = NULL;
   _parent = NULL;
 
-  // Update sprites
-  for (lui_sprite_iterator it = _sprites.begin(); it!= _sprites.end(); ++it) {
-    (*it)->on_detached();
-  }
-
-  // Updates nodes
-  for (lui_object_iterator it = _nodes.begin(); it!= _nodes.end(); ++it) {
+  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->on_detached();
   }
 
@@ -114,13 +117,8 @@ void LUIObject::on_detached() {
 void LUIObject::ls(int indent) {
   cout << string(indent, ' ')  << "[LUIObject] pos = " << _pos_x << ", " << _pos_y << "; size = " << _size.get_x() << " x " << _size.get_y() << "; z-index = " << _z_index << " (+ "<< _local_z_index << ")" << endl;
 
-  // Update sprites
-  for (lui_sprite_iterator it = _sprites.begin(); it!= _sprites.end(); ++it) {
-    (*it)->ls(indent + 1);
+  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+   (*it)->ls(indent + 1);
   }
 
-  // Updates nodes
-  for (lui_object_iterator it = _nodes.begin(); it!= _nodes.end(); ++it) {
-    (*it)->ls(indent + 1);
-  }
 } 

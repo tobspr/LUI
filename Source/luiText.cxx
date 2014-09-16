@@ -1,6 +1,7 @@
 
 #include "luiText.h"
 
+TypeHandle LUIText::_type_handle;
 
 LUIText::LUIText(float x, float y) : LUIObject(x, y) {
   _text = "";
@@ -33,20 +34,20 @@ void LUIText::update_text() {
   nassertv(_font != NULL);
 
   if (lui_cat.is_spam()) {
-    cout << "Current text is '" << _text.c_str() << "'" << endl; 
+    lui_cat.spam() << "Current text is '" << _text.c_str() << "'" << endl; 
   }
 
   // Remove all sprites which aren't required
-  while (_sprites.size() > len) {
+  while (_children.size() > len) {
     if (lui_cat.is_spam()) {
-      cout << "Removing sprite .. " << endl;
+      lui_cat.spam() << "Removing sprite .. " << endl;
     }
-    remove_sprite(*_sprites.begin());
+    remove_child(*_children.begin());
   }
 
   // Allocate as many sprites as required
-  int to_allocate  = len - _sprites.size();
-  //cout << "Allocating " << to_allocate << " Sprites" << endl;
+  int to_allocate  = len - _children.size();
+  //lui_cat.spam() << "Allocating " << to_allocate << " Sprites" << endl;
   for (int i = 0; i < to_allocate; i++) {
     attach_sprite((Texture*)NULL);
   }
@@ -61,13 +62,18 @@ void LUIText::update_text() {
   _glyphs.clear();
 
   // Iterate over the sprites
-  pset<PT(LUISprite)>::iterator it;
   int i = 0;
   float current_x_pos = 0.0;
 
-  for (it = _sprites.begin(); it != _sprites.end(); ++it, i++)
+  for (lui_element_iterator it = _children.begin(); it != _children.end(); ++it, i++)
   {
-    LUISprite* sprite = *it;
+    LUIBaseElement* child = *it;
+
+    LUISprite* sprite = DCAST(LUISprite, child);
+
+    // A lui text should have only sprites contained
+    nassertv(sprite != NULL);
+
     int char_code = (int)_text.at(i);
 
     const TextGlyph *const_glyph;
@@ -86,6 +92,8 @@ void LUIText::update_text() {
 
     _glyphs.push_back(dynamic_glyph);
     dynamic_glyph->_geom_count ++;
+
+    sprite->begin_update_section();
 
     // LUISprite has a check if the texture is the same, so if the atlas didn't
     // change, this is quite efficient.
@@ -108,6 +116,8 @@ void LUIText::update_text() {
        (dynamic_glyph->get_right() - dynamic_glyph->get_left()) * ppu,
        (dynamic_glyph->get_top() - dynamic_glyph->get_bottom()) * ppu);
     
+    sprite->end_update_section();
+
     // Move *cursor* by glyph length
     current_x_pos += dynamic_glyph->get_advance() * ppu;
   }

@@ -27,13 +27,15 @@ class LUIObject;
 class LUIChunkDescriptor;
 
 
+NotifyCategoryDecl(luiSprite, EXPCL_LUI, EXPTP_LUI);
+
 ////////////////////////////////////////////////////////////////////
 //       Class : LUISprite
 // Description : A LUISprite stores a single card, including position,
 //               scale, and uv coordinates. It also notifies the
 //               LUIVertexPool when any scalar or texture got changed.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_PANDASKEL LUISprite : public ReferenceCount, public LUIBaseElement  {
+class EXPCL_LUI LUISprite : public LUIBaseElement  {
 
   friend class LUIObject;
 
@@ -64,6 +66,9 @@ public:
   LUISprite(LUIBaseElement* parent);
   ~LUISprite();
 
+  // Inherited from LUIBaseElement
+  INLINE virtual void end_update_section();
+
 protected:
 
   INLINE void recompute_vertices();
@@ -93,6 +98,24 @@ protected:
   // Keep track of the amount of instances created, for 
   // tracking memory leaks
   static int _instance_count;
+
+
+public:
+  static TypeHandle get_class_type() {
+    return _type_handle;
+  }
+  static void init_type() {
+    LUIBaseElement::init_type();
+    register_type(_type_handle, "LUISprite", LUIBaseElement::get_class_type());
+  }
+  virtual TypeHandle get_type() const {
+    return get_class_type();
+  }
+  virtual TypeHandle force_init_type() {init_type(); return get_class_type();}
+
+private:
+  static TypeHandle _type_handle;
+
 
 };
 

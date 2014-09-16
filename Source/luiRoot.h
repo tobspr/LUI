@@ -19,7 +19,7 @@ class LUIObject;
 
 typedef pmap<Texture*, LUIVertexPool*> LUIVertexPoolMap;
 
-class EXPCL_PANDASKEL LUIRoot : public ReferenceCount {
+class EXPCL_LUI LUIRoot : public ReferenceCount {
 
   friend class LUIRegion;
 

@@ -9,10 +9,15 @@
 #include "dconfig.h"
 
 #include "luiRegion.h"
+#include "luiInputHandler.h"
+#include "luiSprite.h"
+#include "luiBaseElement.h"
+#include "luiObject.h"
+#include "luiText.h"
 
 
 Configure(config_lui);
-NotifyCategoryDef(lui, "lui");
+NotifyCategoryDef(lui, "");
 
 ConfigureFn(config_lui) {
   init_lui();
@@ -25,7 +30,10 @@ void init_lui() {
   }
   initialized = true;
 
-  //LUIInputHandler::init_type();
   LUIRegion::init_type();
-
+  LUIInputHandler::init_type();
+  LUIBaseElement::init_type();
+  LUISprite::init_type();
+  LUIObject::init_type();
+  LUIText::init_type();
 }

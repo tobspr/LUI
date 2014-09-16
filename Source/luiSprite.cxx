@@ -4,7 +4,10 @@
 #include "luiRoot.h"
 
 int LUISprite::_instance_count = 0;
+TypeHandle LUISprite::_type_handle;
 
+
+NotifyCategoryDef(luiSprite, ":lui");
 
 LUISprite::LUISprite(LUIBaseElement* parent) : 
   LUIBaseElement(),
@@ -13,26 +16,34 @@ LUISprite::LUISprite(LUIBaseElement* parent) :
 
   _instance_count ++;
 
-  if (lui_cat.is_spam()) {
-    cout << "Constructed new LUISprite, (active: " << _instance_count << ")" << endl;  
+  if (luiSprite_cat.is_spam()) {
+    luiSprite_cat.spam() << "Constructed new LUISprite, (active: " << _instance_count << ")" << endl;  
   }
 
+  // Prevent recomputation of the position while we initialize the sprite
+  begin_update_section();
+
   set_color(1.0, 1.0, 1.0, 1.0);
-  set_parent(parent);
-  set_top_left(0, 0); 
   set_uv_range(LVector2(0), LVector2(1));
   set_size(10, 10);
-  recompute_z_index();
+  set_top_left(0, 0); 
+  set_parent(parent);
+  set_relative_z_index(0);
+
+  // A sprite cannot be created directly, so we don't have to call end_update_section()
+  // Instead, the LUIObject constructs the sprite, and calls end_update_section() after
+  // it's done modifying it
+
 }
 
 LUISprite::~LUISprite() {
-  if (lui_cat.is_spam()) {
+  if (luiSprite_cat.is_spam()) {
     _instance_count --;
-    cout << "Destructing LUISprite, instances left: " << _instance_count << endl;
+    luiSprite_cat.spam() << "Destructing LUISprite, instances left: " << _instance_count << endl;
   }
 
   if (_chunk_descriptor != NULL) {
-    lui_cat.spam() << "Released chunk descriptor, as sprite did not get detached" << endl;
+    luiSprite_cat.spam() << "Released chunk descriptor, as sprite did not get detached" << endl;
     _chunk_descriptor->release();
     delete _chunk_descriptor;
     _chunk_descriptor = NULL;
@@ -47,11 +58,12 @@ void LUISprite::on_bounds_changed() {
 }
 
 void LUISprite::on_visibility_changed() {
-  lui_cat.error() << "Todo: Implement hide() / show()" << endl;
+  luiSprite_cat.error() << "Todo: Implement hide() / show()" << endl;
 }
 
 
 void LUISprite::on_detached() {
+  unregister_events();
   if (_tex != NULL) {
     unassign_vertex_pool();
   }
@@ -85,37 +97,31 @@ void LUISprite::ls(int indent) {
 
 void LUISprite::set_root(LUIRoot* root) {
 
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "LUISprite - root changed" << endl;
+  if (luiSprite_cat.is_spam()) {
+    luiSprite_cat.spam() << "Root changed .." << endl;
   }
 
   if (_root != NULL && _root != root) {
-    lui_cat.warning() << "Unregistering from old LUIRoot" << endl;
+    luiSprite_cat.warning() << "Unregistering from old LUIRoot .. you should detach the sprite from the old root first .." << endl;
     unassign_vertex_pool();
   }
 
   if (_root != root) {
+
+    // Unregister from old root
+    unregister_events();
     _root = root;
 
+    // Register to new root
+    register_events();
+
     if (_tex != NULL) {
-      if (lui_cat.is_spam()) {
-        cout << "Assigning vertex pool from set_root" << endl;
-      }
       assign_vertex_pool();
     }
-
-    if (lui_cat.is_spam()) {
-      cout << "Root size is: " << _root->node()->get_size().get_x() << endl;
-    }
-  }
+  }  
 }
 
-
 void LUISprite::assign_vertex_pool() {
-
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "LUISprite:: Assign vertex pool" << endl;
-  }
 
   // This should never happen, as all methods which call this method
   // should check if the root is already set. Otherwise something
@@ -124,12 +130,12 @@ void LUISprite::assign_vertex_pool() {
 
   LUIVertexPool* pool = _root->get_vpool_by_texture(_tex);
   
-  if (lui_cat.is_spam()) {
-    cout << "Vertex pool is at: " << pool << endl;
+  if (luiSprite_cat.is_spam()) {
+    luiSprite_cat.spam() << "Got vertex pool location: " << pool << endl;
   }
 
   // This might occur sometimes (hopefully not), and means that get_vpool_by_texture
-  // could not allocate a vertex pool for some reason. VERY BAD.
+  // could not allocate a vertex pool for some reason. 
   nassertv(pool != NULL);
 
   // Delete old descriptor first
@@ -140,8 +146,8 @@ void LUISprite::assign_vertex_pool() {
   }
 
   _chunk_descriptor = pool->allocate_slot(this);
-  if (lui_cat.is_spam()) {
-    cout << "Got chunk pool " << _chunk_descriptor->get_chunk() << " with slot " << _chunk_descriptor->get_slot() << endl;
+  if (luiSprite_cat.is_spam()) {
+    luiSprite_cat.spam() << "Got chunk " << _chunk_descriptor->get_chunk() << ", slot = " << _chunk_descriptor->get_slot() << endl;
   }
 
   update_vertex_pool();
@@ -149,32 +155,27 @@ void LUISprite::assign_vertex_pool() {
 }
 
 void LUISprite::update_vertex_pool() {
-  if (_chunk_descriptor != NULL && _root != NULL) {
+  if (_chunk_descriptor != NULL && _root != NULL && !_in_update_section) {
     
     // This should never happen, but it's good to check
     nassertv(_chunk_descriptor->get_chunk() != NULL);
 
-    if (lui_cat.is_spam()) {
-      cout << "Updating vertex pool , pool slot is " << _chunk_descriptor->get_slot() << " in pool " << _chunk_descriptor->get_chunk() << endl;
+    if (luiSprite_cat.is_spam()) {
+      luiSprite_cat.spam() << "Updating vertex pool slot " << _chunk_descriptor->get_slot() << " in pool " << _chunk_descriptor->get_chunk() << endl;
     }
 
     void* write_pointer = _chunk_descriptor->get_write_ptr();
-    
-    if (lui_cat.is_spam()) {
-      cout << "Got vertex pool write pointer at " << write_pointer << endl;
-    }
 
-    if (write_pointer == NULL) {
-      lui_cat.error() << "Got invalid vertex pool pointer. Ignoring .." << endl;
-      return;
-    }
+    // This also should never happen
+    nassertv(write_pointer != NULL);
+
     memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
   }
 }
 
 void LUISprite::unassign_vertex_pool() {
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "LUISprite:: Unassign vertex pool" << endl;
+  if (luiSprite_cat.is_spam()) {
+    luiSprite_cat.spam() << "Unassign vertex pool" << endl;
   }
 
   if (_chunk_descriptor != NULL) {

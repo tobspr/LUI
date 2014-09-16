@@ -6,7 +6,7 @@ LUIVertexChunk::LUIVertexChunk(int chunk_size)
   : _chunk_size(chunk_size), _sprite_count(0) {
   
   if (lui_cat.is_spam()) {
-    cout << "Constructed new chunk of size " << chunk_size << endl;
+    lui_cat.spam() << "Constructed new chunk of size " << chunk_size << endl;
   }
 
   CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3c4t2();
@@ -53,7 +53,7 @@ LUIVertexChunk::LUIVertexChunk(int chunk_size)
 LUIVertexChunk::~LUIVertexChunk() {
   // TODO: I probably missed something here
   if (lui_cat.is_spam()) {
-    cout << "Destructed vertex chunk" << endl;
+    lui_cat.spam() << "Destructed vertex chunk" << endl;
   }
   delete [] _children;
 }

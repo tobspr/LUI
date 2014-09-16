@@ -40,10 +40,10 @@ bool LUIAtlas::load_descriptor_file(const string &descriptor_path) {
   //    return false;
   //  }
   //  string content = file->read_file(true);
-  //  //cout << "Content is: '" << content << "'";
+  //  //lui_cat.spam() << "Content is: '" << content << "'";
   //}
 
-  //cout << "Returning .. " << endl;
+  //lui_cat.spam() << "Returning .. " << endl;
 
   // This works perfectly
   // Doesn't support VirtualFileSystem though :(
@@ -63,7 +63,7 @@ bool LUIAtlas::load_descriptor_file(const string &descriptor_path) {
 void LUIAtlas::add_entry(const string &name, int x, int y, int w, int h) {
 
   if(lui_cat.is_spam()) {
-    cout << "Registering entry " << name << " at position " << x << " / " << y << " and size " << w << "x" << h << endl;
+    lui_cat.spam() << "Registering entry " << name << " at position " << x << " / " << y << " and size " << w << "x" << h << endl;
   }
 
   LUIAtlasEntry* entry = new LUIAtlasEntry();

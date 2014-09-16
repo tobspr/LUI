@@ -9,10 +9,9 @@
 #include "notifyCategoryProxy.h"
 #include "dconfig.h"
 
-ConfigureDecl(config_lui, EXPCL_PANDASKEL, EXPTP_PANDASKEL);
-NotifyCategoryDecl(lui, EXPCL_PANDASKEL, EXPTP_PANDASKEL);
+ConfigureDecl(config_lui, EXPCL_LUI, EXPTP_LUI);
+NotifyCategoryDecl(lui, EXPCL_LUI, EXPTP_LUI);
 
-
-extern EXPCL_PANDASKEL void init_lui();
+extern EXPCL_LUI void init_lui();
 
 #endif

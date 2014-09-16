@@ -10,6 +10,7 @@
 #include "luiChunkDescriptor.cxx"
 #include "luiVertexChunk.cxx"
 #include "luiRoot.cxx"
+#include "luiInputHandler.cxx"
 #include "luiRegion.cxx"
 #include "luiFontPool.cxx"
 #include "luiText.cxx"

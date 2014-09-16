@@ -21,7 +21,7 @@ struct LUIAtlasEntry {
   LTexCoord pos;
 };
 
-class EXPCL_PANDASKEL LUIAtlas : public ReferenceCount {
+class EXPCL_LUI LUIAtlas : public ReferenceCount {
 
 PUBLISHED:
 
