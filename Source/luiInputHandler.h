@@ -8,12 +8,14 @@
 #include "config_lui.h"
 #include "dataNode.h"
 #include "buttonHandle.h"
+#include "luiRoot.h"
+#include "luiBaseElement.h"
 
 class EXPCL_LUI LUIInputHandler : public DataNode {
 
 PUBLISHED:
 
-  LUIInputHandler(const string &name = "lui_input_handler");
+  LUIInputHandler(const string &name = string());
   virtual ~LUIInputHandler();
 
 public:
@@ -22,16 +24,23 @@ public:
   virtual void do_transmit_data(DataGraphTraverser *trav,
                                 const DataNodeTransmit &input,
                                 DataNodeTransmit &output);
-
-
-  INLINE bool has_mouse();
-  INLINE LVecBase2 get_mouse_pos();
+  void process(LUIRoot *root); 
 
 protected:
 
+  struct LUIInputState {
+    LVecBase2 mouse_pos;
+    bool has_mouse_pos;
+    bool mouse_buttons[5];
+  };
+
+  LUIBaseElement *_hover_element;
+  
   int _mouse_pos_input;
-  bool _has_mouse;
-  LVecBase2 _mouse_pos;
+  int _buttons_input;
+
+  LUIInputState _last_state;
+  LUIInputState _current_state;
 
 public:
   static TypeHandle get_class_type() {

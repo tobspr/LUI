@@ -3,8 +3,9 @@
 
 LUI Atlas Generator
 
-"""
+TODO: Command line interface
 
+"""
 
 from os import listdir
 from os.path import join, isfile, isdir
@@ -15,7 +16,6 @@ import sys
 sys.path.insert(0, "../")
 
 from panda3d.lui import LUIAtlasPacker
-
 
 # Supress PNMImage warnings about incorrect sRGB profile
 loadPrcFileData("", "notify-level-pnmimage error")
@@ -35,6 +35,7 @@ class AtlasEntry:
 
     def __repr__(self):
         return self.name
+
 
 
 def generate_atlas(files, dest_dat, dest_png):
@@ -57,7 +58,6 @@ def generate_atlas(files, dest_dat, dest_png):
 
         for entry in entries:
             uv = packer.find_position(entry.w, entry.h)
-            print uv, "for", entry.w, entry.h
 
             if uv.get_x() < 0:
                 print "  Not all images matched, trying next power of 2"
@@ -66,12 +66,19 @@ def generate_atlas(files, dest_dat, dest_png):
                 break
             entry.assigned_pos = uv
 
+    print "Matched entries, writing atlas .."
+
     atlas_description_content = ""
     dest = PNMImage(virtual_atlas_size, virtual_atlas_size, 4)
 
     for entry in entries:
         src = PNMImage(entry.w, entry.h, 4)
         entry.tex.store(src)
+
+        if not src.has_alpha():
+            src.add_alpha()
+            src.alpha_fill(1.0)
+
         dest.copy_sub_image(
             src, int(entry.assigned_pos.get_x()), int(entry.assigned_pos.get_y()))
 
@@ -93,9 +100,6 @@ if __name__ == "__main__":
     root_dir = "."
 
     def recursively_collect_files(source_dir):
-
-        if "ignore" in source_dir:
-            return []
         files = listdir(source_dir)
         result = []
         for f in files:

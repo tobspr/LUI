@@ -1,5 +1,35 @@
 
+INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callback) {
+  if (luiBaseElement_cat.is_spam()) {
+    luiBaseElement_cat.spam() << "Binding event '" << event_name << "'" << endl;
+  }
+  if (_events.count(event_name) != 0) {
+    lui_cat.warning() << "Overriding event handler for '" << event_name << "'" << endl;
+  }
 
+  _events[event_name] = callback;
+
+  register_events();
+}
+
+INLINE void LUIBaseElement::bind(const string &event_name, PyObject* callback) {
+  bind(event_name, new PythonCallbackObject(callback));
+}
+
+INLINE void LUIBaseElement::unbind(const string &event_name) {
+  if (luiBaseElement_cat.is_spam()) {
+    luiBaseElement_cat.spam() << "Unbinding event '" << event_name << "'" << endl;
+  }
+
+  if (has_event(event_name)) {
+    _events.erase(event_name);
+  }
+
+  if (_events.size() < 1) {
+    unregister_events();
+  }
+
+}
 
 INLINE void LUIBaseElement::set_top_left(float x, float y) {
   _stick_top = true;
@@ -147,46 +177,19 @@ INLINE void LUIBaseElement::recompute_z_index() {
   on_z_index_changed();
 }
 
-
-INLINE bool LUIBaseElement::has_event(LUIEvent name) {
-  return true;
+INLINE bool LUIBaseElement::has_event(const string &event_name) {
+  return _events.count(event_name) > 0;
 }
 
-INLINE void LUIBaseElement::trigger_event(LUIEvent name) {
-  luiBaseElement_cat.spam() << "Triggering event .." << endl; 
-}
-
-INLINE void LUIBaseElement::register_events() {
-
-
-
-  if (_root != NULL && _parent != NULL && !_events_registered) {
-    // _root->register_event_object(this);
-    _events_registered = true;
-
-    if (luiBaseElement_cat.is_spam()) {
-      luiBaseElement_cat.spam() << "Registering events for object .." << endl;
-    }
-  } else {
-    if (luiBaseElement_cat.is_spam()) {
-      luiBaseElement_cat.spam() << "Did not register events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << ", parent = " << (_parent==NULL?"NULL" : "valid") << " .." << endl;
-    }
+INLINE void LUIBaseElement::trigger_event(const string &event_name, const string &message, const LPoint2 &coords) {
+  if (luiBaseElement_cat.is_spam()) {
+    luiBaseElement_cat.spam() << "Triggering event '" << event_name << "' with coordinates " 
+    << coords.get_x() << ", " << coords.get_y() << " and message '" << message << "'.." << endl;
   }
-}
 
-INLINE void LUIBaseElement::unregister_events() {
-
-  if (_root != NULL && _events_registered) {
-    // _root->unregister_event_object(this);
-    _events_registered = false;
-  
-    if (luiBaseElement_cat.is_spam()) {
-      luiBaseElement_cat.spam() << "Un-registering events for object .." << endl;
-    }
-  } else {
-      if (luiBaseElement_cat.is_spam()) {
-        luiBaseElement_cat.spam() << "Did not unregister events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << " .." << endl;
-      }
+  if (has_event(event_name)) {
+      PT(LUIEventData) data = new LUIEventData(this, event_name, message, coords);
+      _events[event_name]->do_callback(data);
   }
 }
 
@@ -213,11 +216,9 @@ INLINE void LUIBaseElement::end_update_section() {
   }
 }
 
-
-INLINE void LUIBaseElement::bind(const string &event_name, PyObject* callback) {
-  bind(event_name, new PythonCallbackObject(callback));
-}
-
-INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callback) {
-  lui_cat.spam() << "Bind to event " << event_name << endl;
+INLINE bool LUIBaseElement::intersects(float x, float y) {
+  return (
+      x >= _pos_x && y >= _pos_y &&
+      x <= _pos_x + _size.get_x() && y <= _pos_y + _size.get_y()
+    );
 }

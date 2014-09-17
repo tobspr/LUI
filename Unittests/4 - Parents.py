@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, "../")
 
-from LUI import LUIObject, LUIAtlasPool, LUIRoot
+from panda3d.lui import *
 
 from panda3d.core import loadPrcFileData
 loadPrcFileData("", "notify-level-lui spam")
@@ -16,7 +16,7 @@ def vec_equal(a, x, y):
 class Children(LUIObject):
 
     def __init__(self):
-        LUIObject.__init__(self, 200, 200)
+        LUIObject.__init__(self, x=0, y=0, w=200, h=200)
 
         self.attach_sprite("Res/btn_left.png")
         

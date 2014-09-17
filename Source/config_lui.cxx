@@ -14,6 +14,7 @@
 #include "luiBaseElement.h"
 #include "luiObject.h"
 #include "luiText.h"
+#include "luiEventData.h"
 
 
 Configure(config_lui);
@@ -36,4 +37,5 @@ void init_lui() {
   LUISprite::init_type();
   LUIObject::init_type();
   LUIText::init_type();
+  LUIEventData::init_type();
 }

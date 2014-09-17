@@ -18,6 +18,9 @@ LUIRoot::~LUIRoot() {
     lui_cat.spam() << "Destructed LUIRoot\n";
   }
 
+  // Remove all children first
+  _root->remove_all_children();
+
   // Destruct all LUIVertexPools stored in _pools, as they are not
   // reference counted ..
   for(LUIVertexPoolMap::iterator iter = _pools.begin(); iter != _pools.end(); ++iter)
@@ -27,12 +30,4 @@ LUIRoot::~LUIRoot() {
   }
   _pools.clear();
 
-}
-
-INLINE LUIVertexPoolMap::iterator LUIRoot::get_iter_pool_begin() {
-  return _pools.begin();
-}
-
-INLINE LUIVertexPoolMap::iterator LUIRoot::get_iter_pool_end() {
-  return _pools.end();
 }

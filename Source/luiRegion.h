@@ -48,14 +48,21 @@ PUBLISHED:
   INLINE void set_input_handler(LUIInputHandler *handler);
   INLINE LUIInputHandler *get_input_handler() const;
 
+  INLINE void set_render_wireframe(bool wireframe);
+  INLINE void toggle_render_wireframe();
+
+
 private:
 
   PT(OrthographicLens) _lens;
   PT(LUIRoot) _lui_root;
   PT(LUIInputHandler) _input_handler;
   int _width, _height;
+
+  bool _wireframe;
   
-  void process_inputs();
+  // void process_inputs();
+
 
 public:
   static TypeHandle get_class_type() {

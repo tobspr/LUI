@@ -15,10 +15,10 @@ LUIText::LUIText(LUIObject *parent, float x, float y) : LUIObject(parent, x, y) 
   set_font("default");
 }
 
-LUIText::LUIText(LUIObject *parent, const string &text, const string &font_name, float x, float y) 
+LUIText::LUIText(LUIObject *parent, const string &text, const string &font_name, float font_size, float x, float y) 
   : LUIObject(parent, x, y)  {
   _text = text;
-  _font_size = 100.0;
+  _font_size = font_size;
   set_font(font_name);
 }
 

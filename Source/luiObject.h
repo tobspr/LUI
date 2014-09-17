@@ -49,7 +49,11 @@ PUBLISHED:
   INLINE void remove_child(PT(LUIBaseElement) child);
   INLINE void remove_all_children();
 
+  INLINE int get_child_count();
+
   void ls(int indent = 0);
+
+
 
 protected:
 

@@ -27,7 +27,7 @@ LUIRegion::
   _lens = new OrthographicLens();
   _lens->set_film_size(_width, -_height);
   _lens->set_film_offset(_width * 0.5, _height * 0.5);
-  _lens->set_near_far(-10000.0, 10000.0);
+  _lens->set_near_far(-1000, 10.0);
 
   _lui_root = new LUIRoot(_width, _height);
   set_camera(new Camera(context_name, _lens));
@@ -37,16 +37,9 @@ LUIRegion::
 }
 
 LUIRegion::~LUIRegion() {
-  lui_cat.warning() << "Todo: Make destructor of LUIRegion" << endl;
+  lui_cat.error() << "Todo: Make destructor of LUIRegion" << endl;
 }
 
-void LUIRegion::process_inputs() {
-  if (_input_handler->has_mouse()) {
-    LVecBase2 mouse_pos = _input_handler->get_mouse_pos();
-    
-  }
-
-}
 
 void LUIRegion::
   do_cull(CullHandler *cull_handler, SceneSetup *scene_setup,
@@ -67,7 +60,7 @@ void LUIRegion::
     }
 
     if (_input_handler != NULL) {
-      process_inputs();
+      _input_handler->process(_lui_root);
     }
 
     CullTraverser *trav = get_cull_traverser();
@@ -81,8 +74,13 @@ void LUIRegion::
       CullBinAttrib::make("unsorted", 0),
       DepthTestAttrib::make(RenderAttrib::M_less),
       DepthWriteAttrib::make(DepthWriteAttrib::M_on),
-      TransparencyAttrib::make(TransparencyAttrib::M_multisample_mask)
+      TransparencyAttrib::make(TransparencyAttrib::M_dual)
     );
+
+    if (_wireframe) {
+      state = state->set_attrib(RenderModeAttrib::make(RenderModeAttrib::M_wireframe));
+    }
+
     CPT(TransformState) net_transform = trav->get_world_transform();
     CPT(TransformState) modelview_transform = trav->get_world_transform()->compose(net_transform);
     CPT(TransformState) internal_transform = trav->get_scene()->get_cs_transform()->compose(modelview_transform);

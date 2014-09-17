@@ -2,6 +2,7 @@
 
 
 #include "luiBaseElement.h"
+#include "luiRoot.h"
 
 TypeHandle LUIBaseElement::_type_handle;
 
@@ -27,6 +28,7 @@ LUIBaseElement::LUIBaseElement() :
 }
 
 LUIBaseElement::~LUIBaseElement() {
+  _events.clear();
 }
 
 void LUIBaseElement::recompute_position() {
@@ -65,3 +67,34 @@ void LUIBaseElement::recompute_position() {
   on_bounds_changed();
 }
 
+void LUIBaseElement::register_events() {
+
+  if (_root != NULL && _parent != NULL && !_events_registered && _events.size() > 0) {
+      _root->register_event_object(this);
+      _events_registered = true;
+
+      if (luiBaseElement_cat.is_spam()) {
+        luiBaseElement_cat.spam() << "Registering events for object .." << endl;
+      }
+  } else {
+    if (luiBaseElement_cat.is_spam()) {
+      luiBaseElement_cat.spam() << "Did not register events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << ", parent = " << (_parent==NULL?"NULL" : "valid") << " .." << endl;
+    }
+  }
+}
+
+void LUIBaseElement::unregister_events() {
+
+  if (_root != NULL && _events_registered) {
+    _root->unregister_event_object(this);
+    _events_registered = false;
+  
+    if (luiBaseElement_cat.is_spam()) {
+      luiBaseElement_cat.spam() << "Un-registering events for object .." << endl;
+    }
+  } else {
+      if (luiBaseElement_cat.is_spam()) {
+        luiBaseElement_cat.spam() << "Did not unregister events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << " .." << endl;
+      }
+  }
+}

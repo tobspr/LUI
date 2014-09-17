@@ -125,8 +125,6 @@ INLINE Texture *LUISprite::get_texture() const {
   return _tex;
 }
 
-
-
 INLINE void LUISprite::print_vertices() {
   cout << "LUISprite, 4 Vertices:" << endl;
 
@@ -138,9 +136,53 @@ INLINE void LUISprite::print_vertices() {
 
 }
 
-
 INLINE void LUISprite::end_update_section() {
   LUIBaseElement::end_update_section();
 
   // Sprite specific update stuff comes here
 }
+
+INLINE void LUISprite::set_red(float r) {
+  for (int i = 0; i < 4; i++) {
+    _data[i].color[0] = (unsigned char) (r * 255.0);
+  }
+  update_vertex_pool();
+}
+
+INLINE void LUISprite::set_green(float g) {
+  for (int i = 0; i < 4; i++) {
+    _data[i].color[1] = (unsigned char) (g * 255.0);
+  }
+  update_vertex_pool();
+}
+
+INLINE void LUISprite::set_blue(float b) {
+  for (int i = 0; i < 4; i++) {
+    _data[i].color[2] = (unsigned char) (b * 255.0);
+  }
+  update_vertex_pool();
+}
+
+INLINE void LUISprite::set_alpha(float a) {
+  for (int i = 0; i < 4; i++) {
+    _data[i].color[3] = (unsigned char) (a * 255.0);
+  }
+  update_vertex_pool();
+}
+
+INLINE float LUISprite::get_red() {
+  return _data[0].color[0] / 255.0;
+}
+
+INLINE float LUISprite::get_green() {
+  return _data[0].color[1] / 255.0;
+}
+
+INLINE float LUISprite::get_blue() {
+  return _data[0].color[2] / 255.0;
+}
+
+INLINE float LUISprite::get_alpha() {
+  return _data[0].color[3] / 255.0;
+}
+

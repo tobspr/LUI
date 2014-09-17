@@ -12,7 +12,7 @@ loadPrcFileData("", "show-frame-rate-meter #f")
 
 
 LUIAtlasPool.get_global_ptr().load_atlas(
-    "default", "Res/atlas.txt", "Res/atlas.png")
+    "default", "../Res/atlas.txt", "../Res/atlas.png")
 
 import direct.directbase.DirectStart
 

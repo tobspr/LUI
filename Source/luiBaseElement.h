@@ -12,6 +12,7 @@
 #include "referenceCount.h"
 #include "callbackObject.h"
 #include "pythonCallbackObject.h"
+#include "luiEventData.h"
 
 class LUIRoot;
 
@@ -23,20 +24,15 @@ class EXPCL_LUI LUIBaseElement : public TypedReferenceCount {
 
 PUBLISHED:
 
-  enum LUIEvent {
-    EVT_mousedown = 0,
-    EVT_mouseup,
-    EVT_mouseover,
-    EVT_mouseout,
-    EVT_mouseclick,
-  };
-
   LUIBaseElement();
   virtual ~LUIBaseElement();
 
   // Events
   INLINE void bind(const string &event_name, PyObject* callback);
   INLINE void bind(const string &event_name, CallbackObject* callback);
+  INLINE void unbind(const string &event_name);
+  INLINE bool has_event(const string &event_name);
+  INLINE void trigger_event(const string &event_name, const string &message = string(), const LPoint2 &coords = LPoint2(0));
 
 
   // Position
@@ -75,15 +71,13 @@ PUBLISHED:
 
   INLINE LUIBaseElement* get_parent();
 
-
+  INLINE virtual bool intersects(float x, float y);
 
 public:
 
   INLINE void set_parent(LUIBaseElement* parent);
   void recompute_position();
 
-  INLINE bool has_event(LUIEvent name);
-  INLINE void trigger_event(LUIEvent name);
 
   INLINE void begin_update_section();
   INLINE virtual void end_update_section();
@@ -100,8 +94,8 @@ protected:
   virtual void on_z_index_changed() = 0;
 
   INLINE void recompute_z_index();
-  INLINE void register_events();
-  INLINE void unregister_events();
+  void register_events();
+  void unregister_events();
 
   PN_stdfloat _offset_x, _offset_y;
   bool _stick_top, _stick_left;
@@ -120,17 +114,19 @@ protected:
 
   bool _in_update_section;
 
+
+  pmap<string, PT(CallbackObject)> _events;
+
   LUIBaseElement *_parent;
   LUIRoot *_root;
-
-
 
 public:
   static TypeHandle get_class_type() {
     return _type_handle;
   }
   static void init_type() {
-    register_type(_type_handle, "LUIBaseElement");
+    TypedReferenceCount::init_type();
+    register_type(_type_handle, "LUIBaseElement", TypedReferenceCount::get_class_type());
   }
   virtual TypeHandle get_type() const {
     return get_class_type();

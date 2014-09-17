@@ -150,3 +150,6 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
   return child;
 }
 
+INLINE int LUIObject::get_child_count() {
+  return _children.size();
+}

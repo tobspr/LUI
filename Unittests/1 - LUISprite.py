@@ -5,14 +5,14 @@ notify-level-lui info
 """)
 
 import unittest
-import LUI
+from panda3d.lui import *
 
 
 class TestLUISprite(unittest.TestCase):
 
     def setUp(self):
-        self.node = LUI.LUIObject(32, 32)
-        self.sprite = self.node.attachSprite("test")
+        self.node = LUIObject(x=0, y=0, w=32, h=32)
+        self.sprite = self.node.attachSprite("../Res/blank.png")
         self.sprite.set_size(5, 5)
 
     def test_LUISprite(self):
@@ -61,19 +61,18 @@ class TestLUISprite(unittest.TestCase):
         # Test color setters and getters
         self.sprite.set_color(0.2, 0.5, 1.0, 0.5)
         col = self.sprite.get_color()
-        self.assertAlmostEqual(col.get_x(), 0.2)
-        self.assertAlmostEqual(col.get_y(), 0.5)
-        self.assertAlmostEqual(col.get_z(), 1.0)
-        self.assertAlmostEqual(col.get_w(), 0.5)
+        self.assertAlmostEqual(col.get_x(), 0.2, 2)
+        self.assertAlmostEqual(col.get_y(), 0.5, 2)
+        self.assertAlmostEqual(col.get_z(), 1.0 ,2)
+        self.assertAlmostEqual(col.get_w(), 0.5, 2)
 
         self.sprite.set_color(LColor(0.23, 0.54, 0.4, 0.7))
         col = self.sprite.get_color()
-        self.assertAlmostEqual(col.get_x(), 0.23, 3)
-        self.assertAlmostEqual(col.get_y(), 0.54, 3)
-        self.assertAlmostEqual(col.get_z(), 0.4, 3)
-        self.assertAlmostEqual(col.get_w(), 0.7, 3)
+        self.assertAlmostEqual(col.get_x(), 0.23, 2)
+        self.assertAlmostEqual(col.get_y(), 0.54, 2)
+        self.assertAlmostEqual(col.get_z(), 0.4, 2)
+        self.assertAlmostEqual(col.get_w(), 0.7, 2)
 
-        self.node.ls()
 
 if __name__ == '__main__':
     unittest.main()

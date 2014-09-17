@@ -13,7 +13,7 @@ loadPrcFileData("", "sync-video #f")
 loadPrcFileData("", "show-frame-rate-meter #t")
 
 LUIAtlasPool.get_global_ptr().load_atlas(
-    "default", "Res/atlas.txt", "Res/atlas.png")
+    "default", "../Res/atlas.txt", "../Res/atlas.png")
 
 import direct.directbase.DirectStart
 
@@ -27,11 +27,13 @@ a = time.time()
 print "Creating Text .."
 
 t = LUIText(parent=region.root(), text="Press 'p' to run a benchmark",
-            font_name="default", x=10, y=10)
+            font_name="default", font_size=30, x=10, y=10)
 
 
 t.set_font_size(20)
 t.set_relative_z_index(100)
+
+
 
 def test():
 

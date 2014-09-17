@@ -49,6 +49,17 @@ PUBLISHED:
   // Color
   INLINE void set_color(const LColor &color);
   INLINE void set_color(float r, float g, float b, float a = 1.0);
+
+  INLINE void set_red(float r);
+  INLINE void set_green(float g);
+  INLINE void set_blue(float b);
+  INLINE void set_alpha(float a);
+
+  INLINE float get_red();
+  INLINE float get_green();
+  INLINE float get_blue();
+  INLINE float get_alpha();
+
   INLINE LColor get_color();
 
   // Texture

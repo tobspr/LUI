@@ -3,8 +3,7 @@ import sys
 
 sys.path.insert(0, "../")
 
-from LUI import LUIObject, LUIAtlasPool
-
+from panda3d.lui import *
 from panda3d.core import loadPrcFileData, LVector2
 
 import unittest
@@ -19,7 +18,7 @@ class Positioning_Test(LUIObject):
     """ Tests the positioning of the LUIObject / LUISprite classes """
 
     def __init__(self):
-        LUIObject.__init__(self, 500, 500)
+        LUIObject.__init__(self, x=0, y=0, w=500, h=500)
         self.do_tests()
 
 

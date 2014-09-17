@@ -1,6 +1,6 @@
 #include "config_lui.cxx"
-#include "luiAtlasPacker.cxx"
 #include "luiBaseElement.cxx"
+#include "luiAtlasPacker.cxx"
 #include "luiAtlas.cxx"
 #include "luiAtlasDescriptor.cxx"
 #include "luiAtlasPool.cxx"
@@ -14,3 +14,4 @@
 #include "luiRegion.cxx"
 #include "luiFontPool.cxx"
 #include "luiText.cxx"
+#include "luiEventData.cxx"

@@ -1,4 +1,5 @@
-btn_left 0 0 8 39
-btn_right 8 0 8 39
-btn_mid 16 0 5 39
-blank 21 0 1 1
+Logo 0 0 219 220
+btn_left 219 0 8 39
+btn_right 227 0 8 39
+btn_mid 235 0 5 39
+blank 240 0 1 1

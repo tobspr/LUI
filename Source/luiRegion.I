@@ -22,3 +22,12 @@ INLINE void LUIRegion::set_input_handler(LUIInputHandler *handler) {
 INLINE LUIInputHandler *LUIRegion::get_input_handler() const {
   return _input_handler;
 }
+
+
+INLINE void LUIRegion::set_render_wireframe(bool wireframe) {
+  _wireframe = wireframe;
+}
+
+INLINE void LUIRegion::toggle_render_wireframe() {
+  set_render_wireframe(!_wireframe);
+}

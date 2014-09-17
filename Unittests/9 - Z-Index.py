@@ -16,7 +16,7 @@ loadPrcFileData("", "framebuffer-multisample #t")
 loadPrcFileData("", "multisamples 16")
 
 LUIAtlasPool.get_global_ptr().load_atlas(
-    "default", "Res/atlas.txt", "Res/atlas.png")
+    "default", "../Res/atlas.txt", "../Res/atlas.png")
 
 import direct.directbase.DirectStart
 
