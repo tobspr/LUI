@@ -32,12 +32,30 @@ INLINE void LUIBaseElement::unbind(const string &event_name) {
 }
 
 INLINE void LUIBaseElement::set_top_left(float x, float y) {
-  _stick_top = true;
-  _stick_left = true;
+  _placement_x = M_default;
+  _placement_y = M_default;
   _offset_x = x;
   _offset_y = y;
   recompute_position();
 
+}
+
+INLINE void LUIBaseElement::set_centered() {
+  _placement_x = M_center;
+  _placement_y = M_center;
+  _offset_x = 0;
+  _offset_y = 0;
+  recompute_position();
+}
+INLINE void LUIBaseElement::set_centered_vertical() {
+  _placement_y = M_center;
+  _offset_y = 0;
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_centered_horizontal() {
+  _placement_x = M_center;
+  _offset_x = 0;
 }
 
 INLINE void LUIBaseElement::set_pos(float top, float left) {
@@ -45,7 +63,7 @@ INLINE void LUIBaseElement::set_pos(float top, float left) {
 }
 
 INLINE void LUIBaseElement::set_top(float top) {
-  _stick_top = true;
+  _placement_y = M_default;
   _offset_y = top;
   recompute_position();
 }
@@ -57,13 +75,13 @@ INLINE void LUIBaseElement::set_bottom(float bottom) {
     luiBaseElement_cat.warning() << "Attempting to do set_bottom, but parent has no size set!" << endl;
   }
 
-  _stick_top = false;
+  _placement_y = M_inverse;
   _offset_y = bottom;
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_left(float left) {
-  _stick_left = true;
+  _placement_x = M_default;
   _offset_x = left;
   recompute_position();
 }
@@ -75,7 +93,7 @@ INLINE void LUIBaseElement::set_right(float right) {
     luiBaseElement_cat.warning() << "Attempting to do set_right, but parent has no size set!" << endl;
   }
 
-  _stick_left = false;
+  _placement_x = M_inverse;
   _offset_x = right;
   recompute_position();
 }

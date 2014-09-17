@@ -15,8 +15,8 @@ LUIBaseElement::LUIBaseElement() :
   _offset_y(0),
   _pos_x(0),
   _pos_y(0),
-  _stick_top(true),
-  _stick_left(true),
+  _placement_x(M_default),
+  _placement_y(M_default),
   _size(0),
   _parent(NULL),
   _root(NULL),
@@ -49,16 +49,21 @@ void LUIBaseElement::recompute_position() {
       << ", " << parent_pos.get_y() << endl;
   }
 
-  if (_stick_top) {
+  if (_placement_y == M_default) {
     _pos_y = _offset_y;
-  } else {
+  } else if (_placement_y == M_inverse) {
     _pos_y = parent_size.get_y() - _offset_y - _size.get_y();
+  } else {
+    _pos_y = (parent_size.get_y() - _size.get_y()) / 2.0;
   }
 
-  if (_stick_left) {
+
+  if (_placement_x == M_default) {
     _pos_x = _offset_x;
-  } else {
+  } else if (_placement_x == M_inverse){
     _pos_x = parent_size.get_x() - _offset_x - _size.get_x();
+  } else {
+    _pos_x = (parent_size.get_x() - _size.get_x()) / 2.0;
   }
 
   _pos_x += parent_pos.get_x();

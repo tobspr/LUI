@@ -50,13 +50,13 @@ INLINE LUIVertexPool* LUIRoot::get_vpool_by_texture(Texture* tex) {
 INLINE void LUIRoot::register_event_object(LUIBaseElement *event_object) {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Registering event object .." << endl;
-    _event_objects.insert(event_object);
   }
+  _event_objects.insert(event_object);
 }
 
 INLINE void LUIRoot::unregister_event_object(LUIBaseElement *event_object) {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Unregistering event object .." << endl;
-    _event_objects.erase(event_object);
   }
+  _event_objects.erase(event_object);
 }

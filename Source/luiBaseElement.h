@@ -47,6 +47,11 @@ PUBLISHED:
   INLINE float get_top();
   INLINE float get_left();
 
+  INLINE void set_centered();
+  INLINE void set_centered_vertical();
+  INLINE void set_centered_horizontal();
+
+
   // Size
   INLINE void set_size(const LVector2 &size);
   INLINE void set_size(float w, float h);
@@ -86,6 +91,18 @@ public:
 
 protected:
 
+  enum LUIPlacementMode {
+
+    // E.g. stick to left
+    M_default,
+
+    // E.g. stick to right
+    M_inverse,
+
+    // E.g. center horizontally
+    M_center
+  };
+
   // Interface
   virtual void set_root(LUIRoot* root) = 0;
   virtual void on_detached() = 0;
@@ -98,7 +115,7 @@ protected:
   void unregister_events();
 
   PN_stdfloat _offset_x, _offset_y;
-  bool _stick_top, _stick_left;
+  LUIPlacementMode _placement_x, _placement_y;
   PN_stdfloat _pos_x, _pos_y;
   LVector2 _size;
   bool _visible;

@@ -13,7 +13,8 @@ LUIRegion::
   LUIRegion(GraphicsOutput *window, const LVecBase4 &dr_dimensions,
   const string &context_name) :
   DisplayRegion(window, dr_dimensions),
-  _input_handler(NULL) {
+  _input_handler(NULL),
+  _wireframe(false) {
 
   if (lui_cat.is_spam()) {  
     lui_cat.spam() << "Constructing new LUIRegion .." << endl;

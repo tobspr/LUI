@@ -9,7 +9,7 @@ from panda3d.lui import *
 
 loadPrcFileData("", "sync-video #f")
 loadPrcFileData("", "show-frame-rate-meter #t")
-loadPrcFileData("", "notify-level-lui spam")
+# loadPrcFileData("", "notify-level-lui spam")
 
 LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "../Res/atlas.txt", "../Res/atlas.png")
@@ -23,6 +23,47 @@ print "\nCreating input handler .."
 handler = LUIInputHandler()
 base.mouseWatcher.attach_new_node(handler)
 region.set_input_handler(handler)
+
+
+class CounterFrame(LUIObject):
+
+    def __init__(self):
+        LUIObject.__init__(self, x=0,y=0,w=100, h=100)
+
+        self.bg = self.attach_sprite("blank", "default")
+        self.bg.set_color(0.2,0.6,1.0)
+        self.bg.set_size(100, 100)
+
+        self.header = LUIText(
+            parent=self, 
+            text="Click me!",
+            font_name="default",
+            font_size=16,
+            x=10, y=15)
+
+        self.txt = LUIText(
+            parent=self, 
+            text="1",
+            font_name="default",
+            font_size=30,
+            x=10, y=35)
+
+        self.count = 1
+        self.bind("click", self.inc_count)
+        self.bind("mouseover", self.mouseover)
+        self.bind("mouseout", self.mouseout)
+
+    def mouseover(self, event):
+        self.bg.set_blue(0.6)
+
+    def mouseout(self, event):
+        self.bg.set_blue(1.0)
+
+
+    def inc_count(self, event):
+        self.count += 1
+        print "Set text:",self.count
+        self.txt.set_text(str(self.count))
 
 
 class Testing:
@@ -57,6 +98,10 @@ class Testing:
             sprite.bind("mouseover", self.handle_event)
             sprite.bind("mouseout", self.handle_event)
 
+
+        p = CounterFrame()
+        p.set_pos(500, 100)
+        parent.add_child(p)
         # print "\nThrowing event .."
         # sprite1.trigger_event("mouseover", "My Message", LPoint2(123,456))
 

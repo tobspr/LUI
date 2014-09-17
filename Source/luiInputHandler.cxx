@@ -9,9 +9,23 @@
 TypeHandle LUIInputHandler::_type_handle;
 
 LUIInputHandler::LUIInputHandler(const string &name) : 
-  DataNode(name) {
+  DataNode(name),
+  _hover_element(NULL),
+  _mouse_down_element(NULL)
+   {
   _mouse_pos_input =  define_input("pixel_xy", EventStoreVec2::get_class_type());
   _buttons_input = define_input("button_events", ButtonEventList::get_class_type());
+
+  // Init states
+  for (int i = 0; i < 5; i++) {
+    _current_state.mouse_buttons[0] = 0;
+    _last_state.mouse_buttons[0] = 0;
+  }
+
+  _current_state.has_mouse_pos = false;
+  _last_state.has_mouse_pos = false;
+
+
 }
 
 LUIInputHandler::~LUIInputHandler() {
@@ -88,8 +102,6 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
         } else if (be._button == MouseButton::five()) {
           _current_state.mouse_buttons[4] = false;
         }
-
-
       }
     }
   }
@@ -118,8 +130,6 @@ void LUIInputHandler::process(LUIRoot *root) {
     }
   }
 
-
-
   // Check for mouse over / out events
   if (current_hover != _hover_element) {
     if (_hover_element != NULL) {
@@ -133,24 +143,24 @@ void LUIInputHandler::process(LUIRoot *root) {
   }
 
   // Check for click events
+  int click_mouse_button = 0;
 
-  // if (_last_state.mouse_buttons[0] == false && _current_state.mouse_buttons[0] == true) {
-  //   cout << "Mouse down (0)!!" << endl;
-  // }
+  if (mouse_key_pressed(click_mouse_button)) {
+    if (_hover_element != NULL) {
+      _mouse_down_element = _hover_element;
+      _hover_element->trigger_event("mousedown", "", _current_state.mouse_pos);
+    }
 
-  // if (_last_state.mouse_buttons[1] == false && _current_state.mouse_buttons[1] == true) {
-  //   cout << "Mouse down (1)!!" << endl;
-  // }
-
-
-  if (_last_state.mouse_buttons[2] == false && _current_state.mouse_buttons[2] == true) {
-    cout << "Mouse down (2)!" << endl;
   }
-  if (_last_state.mouse_buttons[2] == true && _current_state.mouse_buttons[2] == false) {
-    cout << "Mouse up (2)!" << endl;
+  if (mouse_key_released(click_mouse_button)) {
+    if (_mouse_down_element != NULL) {
+      _mouse_down_element->trigger_event("mouseup", "", _current_state.mouse_pos);
+    }
+
+    if (_mouse_down_element != NULL && _mouse_down_element == _hover_element) {
+      _mouse_down_element->trigger_event("click", "", _current_state.mouse_pos);
+    }
   }
-
-
 
   _last_state = _current_state;
 

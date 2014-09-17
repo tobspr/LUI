@@ -11,6 +11,8 @@
 #include "luiRoot.h"
 #include "luiBaseElement.h"
 
+class LUIBaseElement;
+
 class EXPCL_LUI LUIInputHandler : public DataNode {
 
 PUBLISHED:
@@ -35,9 +37,13 @@ protected:
   };
 
   LUIBaseElement *_hover_element;
+  LUIBaseElement *_mouse_down_element;
   
   int _mouse_pos_input;
   int _buttons_input;
+
+  INLINE bool mouse_key_pressed(int index);
+  INLINE bool mouse_key_released(int index);
 
   LUIInputState _last_state;
   LUIInputState _current_state;

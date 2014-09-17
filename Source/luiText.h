@@ -33,7 +33,9 @@ PUBLISHED:
   INLINE void set_font(const string &font_name);
   INLINE void set_text(const string &text);
   INLINE void set_font_size(float size);
+  
 
+  
 protected:
 
   void update_text();
