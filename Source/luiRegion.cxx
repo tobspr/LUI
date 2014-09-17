@@ -75,7 +75,7 @@ void LUIRegion::
       CullBinAttrib::make("unsorted", 0),
       DepthTestAttrib::make(RenderAttrib::M_less),
       DepthWriteAttrib::make(DepthWriteAttrib::M_on),
-      TransparencyAttrib::make(TransparencyAttrib::M_dual)
+      TransparencyAttrib::make(TransparencyAttrib::M_alpha)
     );
 
     if (_wireframe) {

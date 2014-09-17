@@ -51,7 +51,7 @@ PUBLISHED:
 
   INLINE int get_child_count();
 
-  void ls(int indent = 0);
+  virtual void ls(int indent = 0);
 
 
 

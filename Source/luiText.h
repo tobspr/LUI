@@ -34,7 +34,7 @@ PUBLISHED:
   INLINE void set_text(const string &text);
   INLINE void set_font_size(float size);
   
-
+  virtual void ls(int indent = 0);
   
 protected:
 

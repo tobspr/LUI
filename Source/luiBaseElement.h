@@ -87,6 +87,8 @@ public:
   INLINE void begin_update_section();
   INLINE virtual void end_update_section();
 
+  INLINE void set_snap_position(bool snap);
+
   virtual void ls(int ident = 0) = 0;
 
 protected:
@@ -131,6 +133,8 @@ protected:
 
   bool _in_update_section;
 
+
+  bool _snap_position;
 
   pmap<string, PT(CallbackObject)> _events;
 

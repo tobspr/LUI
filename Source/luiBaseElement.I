@@ -240,3 +240,7 @@ INLINE bool LUIBaseElement::intersects(float x, float y) {
       x <= _pos_x + _size.get_x() && y <= _pos_y + _size.get_y()
     );
 }
+
+INLINE void LUIBaseElement::set_snap_position(bool snap) {
+  _snap_position = snap;
+}

@@ -65,7 +65,7 @@ def update(task):
     rn = random.random()
 
     for i, text in enumerate(texts):
-        text.set_text(str(rn) + "Hello!")
+        text.set_text(str(rn) + "...")
     return task.cont
 
 

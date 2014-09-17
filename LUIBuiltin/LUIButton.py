@@ -45,9 +45,15 @@ class LUIButton(LUIObject):
 if __name__ == "__main__":
 
     # Test script for LUIButton
-
-    import direct.directbase.DirectStart
     from panda3d.core import *
+
+    load_prc_file_data("", """
+
+        text-minfilter linear
+        text-magfilter linear
+
+    """)
+    import direct.directbase.DirectStart
 
     LUIAtlasPool.get_global_ptr().load_atlas(
         "default", "../Res/atlas.txt", "../Res/atlas.png")
@@ -60,9 +66,10 @@ if __name__ == "__main__":
     region.set_input_handler(handler)
 
     button = LUIButton("Click Me")
-    button.set_pos(100, 100)
+    button.set_centered()
     region.root().add_child(button)
 
-    region.root().ls()
+
+    base.accept("f3", region.root().ls)
 
     run()

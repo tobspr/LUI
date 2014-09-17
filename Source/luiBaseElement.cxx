@@ -23,7 +23,8 @@ LUIBaseElement::LUIBaseElement() :
   _local_z_index(0.5),
   _z_index(0.0),
   _events_registered(false),
-  _in_update_section(false)
+  _in_update_section(false),
+  _snap_position(true)
 {
 }
 
@@ -68,6 +69,11 @@ void LUIBaseElement::recompute_position() {
 
   _pos_x += parent_pos.get_x();
   _pos_y += parent_pos.get_y();
+
+  if (_snap_position) {
+    _pos_x = ceil(_pos_x);
+    _pos_y = ceil(_pos_y);
+  }
 
   on_bounds_changed();
 }

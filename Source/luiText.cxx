@@ -3,22 +3,28 @@
 
 TypeHandle LUIText::_type_handle;
 
-LUIText::LUIText(float x, float y) : LUIObject(x, y) {
-  _text = "";
-  _font_size = 100.0;
+LUIText::LUIText(float x, float y) : 
+  LUIObject(x, y),
+  _text(""),
+  _font_size(100.0) {
+  _snap_position = false;
   set_font("default");
 }
 
-LUIText::LUIText(LUIObject *parent, float x, float y) : LUIObject(parent, x, y) {
-  _text = "";
-  _font_size = 100.0;
+LUIText::LUIText(LUIObject *parent, float x, float y) : 
+  LUIObject(parent, x, y),
+  _text(""),
+  _font_size(100.0) {
+  _snap_position = false;
   set_font("default");
 }
 
 LUIText::LUIText(LUIObject *parent, const string &text, const string &font_name, float font_size, float x, float y) 
-  : LUIObject(parent, x, y)  {
-  _text = text;
-  _font_size = font_size;
+  : 
+  LUIObject(parent, x, y),
+  _text(text),
+  _font_size(font_size) {
+  _snap_position = false;
   set_font(font_name);
 }
 
@@ -49,7 +55,10 @@ void LUIText::update_text() {
   int to_allocate  = len - _children.size();
   //lui_cat.spam() << "Allocating " << to_allocate << " Sprites" << endl;
   for (int i = 0; i < to_allocate; i++) {
-    attach_sprite((Texture*)NULL);
+    LUISprite* sprite = attach_sprite((Texture*)NULL);
+
+    // Required for text rendering
+    sprite->set_snap_position(false);
   }
 
   // Pixels per unit, used to convert betweeen coordinate spaces
@@ -124,5 +133,10 @@ void LUIText::update_text() {
 
   // Finally, set the size
   set_size(current_x_pos, _font_size);
+
+}
+
+void LUIText::ls(int indent) {
+  cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; text = '" << _text << "'; z-index = " << _z_index << " (+ "<< _local_z_index << ")" << endl;
 
 }
