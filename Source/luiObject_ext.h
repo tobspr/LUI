@@ -1,9 +1,9 @@
-// Filename: luiSprite_ext.h
+// Filename: luiObject_ext.h
 // Created by:  tobspr (18Sep14)
 //
 
-#ifndef LUI_SPRITE_EXT_H
-#define LUI_SPRITE_EXT_H
+#ifndef LUI_OBJECT_EXT_H
+#define LUI_OBJECT_EXT_H
 
 #include "dtoolbase.h"
 
@@ -12,11 +12,11 @@
 #include "extension.h"
 #include "luiSprite.h"
 #include "luiBaseElement_ext.h"
-#include "luiBaseElement.h"
+#include "luiObject.h"
 #include "py_panda.h"
 
 template<>
-class Extension<LUISprite> : public Extension<LUIBaseElement>  {
+class Extension<LUIObject> : public Extension<LUIBaseElement>  {
 
 };
 

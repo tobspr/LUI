@@ -51,8 +51,7 @@ PUBLISHED:
   // Initialize with a atlas entry
   LUISprite(LUIObject* parent, const string &entry_id, const string &atlas_id, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
 
-
-  ~LUISprite();
+  virtual ~LUISprite();
 
   // Texcoord
   INLINE void set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end);
@@ -85,8 +84,10 @@ PUBLISHED:
   INLINE void print_vertices();
 
   void ls(int indent = 0);
+  
+  EXTENSION(int __setattr__(PyObject *self, PyObject* name, PyObject *value));
+  EXTENSION(PyObject *__getattr__(PyObject *self, PyObject *name));
 
-  EXTENSION(virtual int __setattr__(PyObject *self, const string &name, PyObject *value));
 
 public:
 

@@ -12,22 +12,16 @@ class LUIButton(LUIObject):
         self.sprite_mid = LUISprite(self, "btn_mid", "default")
         self.sprite_right = LUISprite(self, "btn_right", "default")
 
-        print "Set left"
-        self.sprite_left.left = 10.0
+        self.sprite_mid.width = width - self.sprite_left.width - self.sprite_right.width
+        self.sprite_mid.left = self.sprite_left.width
 
-        self.sprite_mid.set_width(
-            width - self.sprite_left.get_width() - self.sprite_right.get_width())
-        self.sprite_mid.set_left(self.sprite_left.get_width())
+        self.sprite_right.left = self.sprite_mid.left + self.sprite_mid.width
 
-        self.sprite_right.set_left(
-            self.sprite_mid.get_left() + self.sprite_mid.get_width())
-
-        self.set_height(self.sprite_mid.get_height())
+        self.height = self.sprite_mid.height
 
         self.text = LUIText(self, text, "default", 16.0)
         self.text.set_centered()
         self.text.set_relative_z_index(100)
-
 
         self.bind("mouseover", self.handle_event)
         self.bind("mouseout", self.handle_event)
@@ -42,20 +36,21 @@ class LUIButton(LUIObject):
 
         if event.get_name() == "mouseover":
             for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
-                child.set_alpha(0.99)
+                child.alpha = 0.5
         elif event.get_name() == "mouseout":
             for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
-                child.set_alpha(1.0)
+                child.alpha = 1.0
         elif event.get_name() == "mousedown":
             self.sprite_left.set_texture("btn_active_left", "default", resize=False)
             self.sprite_right.set_texture("btn_active_right", "default", resize=False)
             self.sprite_mid.set_texture("btn_active_mid", "default", resize=False)
-            self.text.set_margin_top(1.0)
+            self.text.margin_top = 1.0
+
         elif event.get_name() == "mouseup":
             self.sprite_left.set_texture("btn_left", "default", resize=False)
             self.sprite_right.set_texture("btn_right", "default", resize=False)
             self.sprite_mid.set_texture("btn_mid", "default", resize=False)
-            self.text.set_margin_top(0.0)
+            self.text.margin_top = 0.0
 
 
 if __name__ == "__main__":

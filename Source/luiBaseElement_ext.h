@@ -9,6 +9,7 @@
 
 #ifdef HAVE_PYTHON
 
+
 #include "extension.h"
 #include "luiBaseElement.h"
 #include "py_panda.h"
@@ -16,7 +17,8 @@
 template<>
 class Extension<LUIBaseElement> : public ExtensionBase<LUIBaseElement> {
 public:
-  virtual int __setattr__(PyObject *self, const string &name, PyObject *value);
+  int __setattr__(PyObject *self, PyObject *name, PyObject *value);
+  PyObject *__getattr__(PyObject *self, PyObject *name);
 };
 
 #endif

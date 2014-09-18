@@ -89,7 +89,8 @@ PUBLISHED:
   INLINE virtual bool intersects(float x, float y);
 
 
-  EXTENSION(virtual int __setattr__(PyObject *self, const string &name, PyObject *value));
+  EXTENSION(int __setattr__(PyObject *self, PyObject* name, PyObject *value));
+  EXTENSION(PyObject *__getattr__(PyObject *self, PyObject *name));
 
 
 public:
