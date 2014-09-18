@@ -30,8 +30,9 @@ class EXPCL_LUI LUIObject : public LUIBaseElement {
 
 PUBLISHED:
   
-  LUIObject(float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
-  LUIObject(LUIObject *parent, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
+  LUIObject(PyObject *self, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
+  LUIObject(PyObject *self, LUIObject *parent, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
+
 
   virtual ~LUIObject();
 
@@ -40,7 +41,7 @@ PUBLISHED:
   // INLINE LUISprite *attach_sprite(PT(Texture) tex, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
 
 
-  PT(LUIElementIterator) children();
+  PT(LUIElementIterator) get_children();
 
   INLINE PT(LUIBaseElement) add_child(PT(LUIBaseElement) child);
   INLINE void remove_child(PT(LUIBaseElement) child);
@@ -52,8 +53,6 @@ PUBLISHED:
 
   EXTENSION(int __setattr__(PyObject *self, PyObject* name, PyObject *value));
   EXTENSION(PyObject *__getattr__(PyObject *self, PyObject *name));
-
-
 
 protected:
 

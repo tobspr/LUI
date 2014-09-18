@@ -5,60 +5,44 @@ from panda3d.lui import *
 
 class LUIButton(LUIObject):
 
-    def __init__(self, text="Hello", width=100):
+    def __init__(self, text="Button", width=100):
         LUIObject.__init__(self, x=0, y=0, w=width, h=50)
 
-        print "Setting test:"
-        self.test = 1
-
-        print "Deleting test:"
-        # del self.test
-
-        print "Done!"
-
-        self.sprite_left = LUISprite(self, "btn_left", "default")
-        self.sprite_mid = LUISprite(self, "btn_mid", "default")
+        self.sprite_left  = LUISprite(self, "btn_left", "default")
+        self.sprite_mid   = LUISprite(self, "btn_mid", "default")
         self.sprite_right = LUISprite(self, "btn_right", "default")
 
         self.sprite_mid.width = width - self.sprite_left.width - self.sprite_right.width
-        self.sprite_mid.left = self.sprite_left.width
-
+        self.sprite_mid.left  = self.sprite_left.width
         self.sprite_right.left = self.sprite_mid.left + self.sprite_mid.width
-
         self.height = self.sprite_mid.height
 
         self.text = LUIText(self, text, "default", 16.0)
         self.text.set_centered()
-        self.text.set_relative_z_index(100)
-
-        self.bind("mouseover", self.handle_event)
-        self.bind("mouseout", self.handle_event)
-        self.bind("mousedown", self.handle_event)
-        self.bind("mouseup", self.handle_event)
-        self.bind("click", self.on_click)
+        self.text.z_offset = 10
 
     def on_click(self, event):
         print "on click!"
 
-    def handle_event(self, event):
+    def on_mouseover(self, event):
+        for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
+            child.alpha = 0.9
 
-        if event.get_name() == "mouseover":
-            for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
-                child.alpha = 0.5
-        elif event.get_name() == "mouseout":
-            for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
-                child.alpha = 1.0
-        elif event.get_name() == "mousedown":
-            self.sprite_left.set_texture("btn_active_left", "default", resize=False)
-            self.sprite_right.set_texture("btn_active_right", "default", resize=False)
-            self.sprite_mid.set_texture("btn_active_mid", "default", resize=False)
-            self.text.margin_top = 1.0
+    def on_mouseout(self, event):
+        for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
+            child.alpha = 1.0
+    
+    def on_mousedown(self, event):
+        self.sprite_left.texture = ("btn_active_left", "default", False)
+        self.sprite_right.texture = ("btn_active_right", "default", False)
+        self.sprite_mid.texture = ("btn_active_mid", "default", False)
+        self.text.margin_top = 1.0
 
-        elif event.get_name() == "mouseup":
-            self.sprite_left.set_texture("btn_left", "default", resize=False)
-            self.sprite_right.set_texture("btn_right", "default", resize=False)
-            self.sprite_mid.set_texture("btn_mid", "default", resize=False)
-            self.text.margin_top = 0.0
+    def on_mouseup(self, event):
+        self.sprite_left.texture = ("btn_left", "default", False)
+        self.sprite_right.texture = ("btn_right", "default", False)
+        self.sprite_mid.texture = ("btn_mid", "default", False)
+        self.text.margin_top = 0.0
 
 
 if __name__ == "__main__":

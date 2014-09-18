@@ -10,7 +10,7 @@ NotifyCategoryDef(luiObject, ":lui");
 int LUIObject::_instance_count = 0;
 
 
-LUIObject::LUIObject(float x, float y, float w, float h) : LUIBaseElement() {
+LUIObject::LUIObject(PyObject *self, float x, float y, float w, float h) : LUIBaseElement(self) {
   init();
 
    // Prevent recomputation of the position while we initialize the object
@@ -23,7 +23,7 @@ LUIObject::LUIObject(float x, float y, float w, float h) : LUIBaseElement() {
 
 }
 
-LUIObject::LUIObject(LUIObject *parent, float x, float y, float w, float h)  : LUIBaseElement() {
+LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float w, float h)  : LUIBaseElement(self) {
   init();
 
   // Prevent recomputation of the position while we initialize the object
@@ -54,7 +54,7 @@ void LUIObject::init() {
   }
 }
 
-PT(LUIElementIterator) LUIObject::children() {
+PT(LUIElementIterator) LUIObject::get_children() {
   return new LUIElementIterator(_children.begin(), _children.end());
 }
 

@@ -9,7 +9,7 @@ TypeHandle LUIBaseElement::_type_handle;
 
 NotifyCategoryDef(luiBaseElement, ":lui");
 
-LUIBaseElement::LUIBaseElement() :   
+LUIBaseElement::LUIBaseElement(PyObject *self) :   
   _visible(true), 
   _offset_x(0),
   _offset_y(0),
@@ -30,6 +30,46 @@ LUIBaseElement::LUIBaseElement() :
   // We could do _margin() but that gives a warning
   for (int i = 0; i < 4; ++i) {
     _margin[i] = 0.0;
+  }
+
+  if (self != NULL) {
+    cout << "Got self instance:" << self << endl;
+
+    PyObject *class_dict = Py_TYPE(self)->tp_dict;
+
+    PyObject *key, *value;
+    Py_ssize_t pos = 0;
+
+    string event_func_prefix = "on_";
+
+    // Get all attributes
+    while (PyDict_Next(class_dict, &pos, &key, &value)) {
+
+      // Check if the attribute / method is a method
+      if (PyFunction_Check(value)) {
+
+        // Get method name
+        char *str;
+        Py_ssize_t len;
+
+        if (PyString_AsStringAndSize(key, &str, &len) == 0) {
+          string method_name(str, len);
+
+          if (method_name.substr(0, event_func_prefix.size()) == event_func_prefix) {
+            cout << "Handler: " << method_name << endl;
+
+            // Bind to event
+            string event_name = method_name.substr(event_func_prefix.size());
+            cout << "binding to: '" << event_name << "'" << endl; 
+
+            PyObject *bound_method = PyMethod_New(value, self, (PyObject *)Py_TYPE(self));
+            bind(event_name, bound_method);
+            Py_DECREF(bound_method); 
+
+          }
+        }
+      }          
+    }
   }
 }
 

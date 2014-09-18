@@ -30,7 +30,16 @@ int Extension<LUIBaseElement>::__setattr__(PyObject *self, PyObject *name, PyObj
     Py_DECREF(setter_name);
     
     // Call the method
-    Py_XDECREF(PyObject_CallObject(setter, value));
+
+    // If the user passed a tuple, we assume the tuple contained the arguments
+    if (PyTuple_Check(value)) {
+      Py_XDECREF(PyObject_CallObject(setter, value));
+
+    // Otherwise just pass the value
+    } else {
+      Py_XDECREF(PyObject_CallFunctionObjArgs(setter, value, NULL));
+    }
+
     Py_DECREF(setter);
 
     // Return success
@@ -63,7 +72,7 @@ PyObject *Extension<LUIBaseElement>::__getattr__(PyObject *self, PyObject *name)
   cout << "__getattr__ (LUIBaseElement) called for '" << name_as_str << "'" << endl;
 
   // Check if there is any attribute / method called <name>
-   PyObject *getter = PyObject_GenericGetAttr(self, name);
+  PyObject *getter = PyObject_GenericGetAttr(self, name);
 
   if (getter != NULL) {
     cout << "Direct property found" << endl;
@@ -97,10 +106,16 @@ PyObject *Extension<LUIBaseElement>::__getattr__(PyObject *self, PyObject *name)
   // will call getattr (not sure why)
   PyErr_Clear();
 
+
   Py_DECREF(getter_name);
 
   // Otherwise there was no property found
   cout << "Attribute not found. Returning .." << endl;
+
+  // Simulate an attribute error
+  Py_XDECREF(PyObject_GenericGetAttr(self, name));
+
+
   return NULL;
 
 }

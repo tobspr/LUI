@@ -24,7 +24,7 @@ class EXPCL_LUI LUIText : public LUIObject {
 
 PUBLISHED:
 
-  LUIText(LUIObject *parent, const string &text, const string &font_name = "default", float font_size = 16.0, float x = 0.0, float y = 0.0);
+  LUIText(PyObject *self, LUIObject *parent, const string &text, const string &font_name = "default", float font_size = 16.0, float x = 0.0, float y = 0.0);
   ~LUIText();
 
   INLINE void set_font(const string &font_name);

@@ -21,23 +21,23 @@ class BasicButton(LUIObject):
         print self.get_size()
 
         print "\nTest case 2: Using 'default:image'"
-        self.imgMid = self.attach_sprite("btn_mid", "default")
+        self.imgMid = LUISprite(self, "btn_mid", "default")
 
         print "\nTest case 3: Attaching an arbitrary image"
-        self.imgRight3 = self.attach_sprite("../Res/btn_mid.png", 32, 32)
+        self.imgRight3 = LUISprite(self, "../Res/btn_mid.png", 32, 32)
 
         print "\nTest case 4: Attaching a texture object"
-        self.imgRight4 = self.attach_sprite(
+        self.imgRight4 = LUISprite(self, 
             TexturePool.loadTexture("../Res/btn_right.png"))
 
         print "\nTest case 5: Attaching a non-existing image"
-        self.imgRight5 = self.attach_sprite("Res/DoesNotExist.png")
+        self.imgRight5 = LUISprite(self, "Res/DoesNotExist.png")
 
         print "\nTest case 6: Attaching a sprite, but not storing a reference"
-        self.attach_sprite("btn_right", "default")
+        LUISprite(self, "btn_right", "default")
 
         print "\nTest case 7: Attaching and instantly removing a sprite"
-        tmp = self.attach_sprite("btn_right", "default")
+        tmp = LUISprite(self, "btn_right", "default")
         self.remove_child(tmp)
 
         print "\nTest case 8: Resizing widget"
@@ -48,7 +48,7 @@ class BasicButton(LUIObject):
 
         print "\nTesting if all pointers are still valid"
 
-        for sprite in self.children():
+        for sprite in self.children:
             start = LTexCoord()
             end = LTexCoord()
             sprite.get_uv_range(start, end)

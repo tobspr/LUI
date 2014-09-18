@@ -22,5 +22,4 @@ public:
 };
 
 #endif
-
 #endif

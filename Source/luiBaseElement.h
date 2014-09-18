@@ -24,7 +24,7 @@ class EXPCL_LUI LUIBaseElement : public TypedReferenceCount {
 
 PUBLISHED:
 
-  LUIBaseElement();
+  LUIBaseElement(PyObject *self);
   virtual ~LUIBaseElement();
 
   // Events
@@ -34,16 +34,15 @@ PUBLISHED:
   INLINE bool has_event(const string &event_name);
   INLINE void trigger_event(const string &event_name, const string &message = string(), const LPoint2 &coords = LPoint2(0));
 
-
   // Position
   INLINE void set_top_left(float top, float left);
   INLINE void set_pos(float top, float left);
-
   INLINE void set_top(float top);
   INLINE void set_bottom(float bottom);
   INLINE void set_left(float left);
   INLINE void set_right(float right);
   INLINE LVector2 get_abs_pos();
+  INLINE LVector2 get_pos();
   INLINE float get_top();
   INLINE float get_left();
 
@@ -80,24 +79,21 @@ PUBLISHED:
   INLINE void show();
 
   // Z-Index
-  INLINE void set_relative_z_index(int z_index);
-  INLINE float get_relative_z_index();
-  INLINE float get_absolute_z_index();
+  INLINE void set_z_offset(int z_offset);
+  INLINE float get_z_offset();
+  INLINE float get_absolute_z_offset();
 
   INLINE LUIBaseElement* get_parent();
 
   INLINE virtual bool intersects(float x, float y);
 
-
   EXTENSION(int __setattr__(PyObject *self, PyObject* name, PyObject *value));
   EXTENSION(PyObject *__getattr__(PyObject *self, PyObject *name));
-
 
 public:
 
   INLINE void set_parent(LUIBaseElement* parent);
   void recompute_position();
-
 
   INLINE void begin_update_section();
   INLINE virtual void end_update_section();

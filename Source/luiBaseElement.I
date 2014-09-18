@@ -102,6 +102,13 @@ INLINE LVector2 LUIBaseElement::get_abs_pos() {
   return LVector2(_pos_x, _pos_y);
 }
 
+INLINE LVector2 LUIBaseElement::get_pos() {
+  if (_parent == NULL) {
+    return LVector2(_pos_x, _pos_y);
+  }
+  return  LVector2(_pos_x, _pos_y) - _parent->get_abs_pos();  
+}
+
 INLINE float LUIBaseElement::get_top() {
   return _pos_y;
 }
@@ -212,23 +219,23 @@ INLINE LUIBaseElement* LUIBaseElement::get_parent() {
   return _parent;
 }
 
-INLINE void LUIBaseElement::set_relative_z_index(int z_index) {
-  _local_z_index = (float)z_index;
+INLINE void LUIBaseElement::set_z_offset(int z_offset) {
+  _local_z_index = (float)z_offset;
   recompute_z_index();
 }
 
-INLINE float LUIBaseElement::get_relative_z_index() {
+INLINE float LUIBaseElement::get_z_offset() {
   return _local_z_index;
 }
 
-INLINE float LUIBaseElement::get_absolute_z_index() {
+INLINE float LUIBaseElement::get_absolute_z_offset() {
   return _z_index;
 }
 
 
 INLINE void LUIBaseElement::recompute_z_index() {
   if (_parent != NULL) {
-    _z_index = _parent->get_absolute_z_index() + _local_z_index;
+    _z_index = _parent->get_absolute_z_offset() + _local_z_index;
     nassertv(_z_index > -10000.0 && _z_index < 10000.0);
   } else {
     _z_index = _local_z_index;

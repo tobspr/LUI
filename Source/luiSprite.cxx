@@ -10,21 +10,21 @@ TypeHandle LUISprite::_type_handle;
 NotifyCategoryDef(luiSprite, ":lui");
 
 // Initialize with a path to an image  
-LUISprite::LUISprite(LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color) : LUIBaseElement() {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
   cout << "Constructor 1" << endl;
   init(parent, x, y, w, h, color);
   set_texture(image, true);
 }
 
 // Initialize with a texture handle
-LUISprite::LUISprite(LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color) : LUIBaseElement() {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
   cout << "Constructor 2" << endl;
   init(parent, x, y, w, h, color);
   set_texture(texture, true);
 }
 
 // Initialize with a atlas entry
-LUISprite::LUISprite(LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color) : LUIBaseElement() {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
   cout << "Constructor 3" << endl;
   init(parent, x, y, w, h, color);
   set_texture(entry_id, atlas_id, true);
@@ -52,7 +52,7 @@ void LUISprite::init(LUIObject *parent, float x, float y, float w, float h, cons
   set_uv_range(LVector2(0), LVector2(1));
   set_size(10, 10);
   set_top_left(0, 0); 
-  set_relative_z_index(0);
+  set_z_offset(0);
   end_update_section();
 
   parent->add_child(this);

@@ -3,9 +3,9 @@
 
 TypeHandle LUIText::_type_handle;
 
-LUIText::LUIText(LUIObject *parent, const string &text, const string &font_name, float font_size, float x, float y) 
+LUIText::LUIText(PyObject *self, LUIObject *parent, const string &text, const string &font_name, float font_size, float x, float y) 
   : 
-  LUIObject(parent, x, y),
+  LUIObject(self, parent, x, y),
   _text(text),
   _font_size(font_size) {
   _snap_position = false;
@@ -42,7 +42,7 @@ void LUIText::update_text() {
     if (lui_cat.is_spam()) {
       lui_cat.spam() << "Allocating sprite .. " << endl;
     }
-    PT(LUISprite) sprite = new LUISprite(this, (Texture*)NULL);
+    PT(LUISprite) sprite = new LUISprite(NULL, this, (Texture*)NULL);
 
     // Required for text rendering
     sprite->set_snap_position(false);
