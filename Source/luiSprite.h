@@ -41,6 +41,19 @@ class EXPCL_LUI LUISprite : public LUIBaseElement  {
 
 PUBLISHED:
 
+  
+  // Initialize with a path to an image  
+  LUISprite(LUIObject* parent, const string &image, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
+  
+  // Initialize with a texture handle
+  LUISprite(LUIObject* parent, Texture *texture, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
+  
+  // Initialize with a atlas entry
+  LUISprite(LUIObject* parent, const string &entry_id, const string &atlas_id, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
+
+
+  ~LUISprite();
+
   // Texcoord
   INLINE void set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end);
   INLINE void set_uv_range(float u0, float v0, float u1, float v1);
@@ -63,9 +76,10 @@ PUBLISHED:
   INLINE LColor get_color();
 
   // Texture
-  INLINE void set_texture(Texture* tex);
-  INLINE void set_texture(LUIAtlasDescriptor *descriptor);
-  INLINE void set_texture(const string &source);
+  INLINE void set_texture(Texture* tex, bool resize=true);
+  INLINE void set_texture(LUIAtlasDescriptor *descriptor, bool resize=true);
+  INLINE void set_texture(const string &source, bool resize=true);
+  INLINE void set_texture(const string &entry_name, const string &atlas_id, bool resize=true);
   INLINE Texture *get_texture() const;
 
   INLINE void print_vertices();
@@ -74,13 +88,13 @@ PUBLISHED:
 
 public:
 
-  LUISprite(LUIBaseElement* parent);
-  ~LUISprite();
-
   // Inherited from LUIBaseElement
   INLINE virtual void end_update_section();
 
 protected:
+
+  void init(LUIObject *parent, float x, float y, float w, float h, const LColor &color);
+
 
   INLINE void recompute_vertices();
   void update_vertex_pool();

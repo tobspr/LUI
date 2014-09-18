@@ -9,11 +9,36 @@ TypeHandle LUISprite::_type_handle;
 
 NotifyCategoryDef(luiSprite, ":lui");
 
-LUISprite::LUISprite(LUIBaseElement* parent) : 
-  LUIBaseElement(),
-  _chunk_descriptor(NULL)
-{  
+// Initialize with a path to an image  
+LUISprite::LUISprite(LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color) : LUIBaseElement() {
+  cout << "Constructor 1" << endl;
+  init(parent, x, y, w, h, color);
+  set_texture(image, true);
+}
 
+// Initialize with a texture handle
+LUISprite::LUISprite(LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color) : LUIBaseElement() {
+  cout << "Constructor 2" << endl;
+  init(parent, x, y, w, h, color);
+  set_texture(texture, true);
+}
+
+// Initialize with a atlas entry
+LUISprite::LUISprite(LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color) : LUIBaseElement() {
+  cout << "Constructor 3" << endl;
+  init(parent, x, y, w, h, color);
+  set_texture(entry_id, atlas_id, true);
+}
+
+
+
+
+void LUISprite::init(LUIObject *parent, float x, float y, float w, float h, const LColor &color) {
+
+  // A lui sprite always needs a parent
+  nassertv(parent != NULL);
+
+  _chunk_descriptor = NULL;
   _instance_count ++;
 
   if (luiSprite_cat.is_spam()) {
@@ -23,16 +48,14 @@ LUISprite::LUISprite(LUIBaseElement* parent) :
   // Prevent recomputation of the position while we initialize the sprite
   begin_update_section();
 
-  set_color(1.0, 1.0, 1.0, 1.0);
+  set_color(color);
   set_uv_range(LVector2(0), LVector2(1));
   set_size(10, 10);
   set_top_left(0, 0); 
-  set_parent(parent);
   set_relative_z_index(0);
+  end_update_section();
 
-  // A sprite cannot be created directly, so we don't have to call end_update_section()
-  // Instead, the LUIObject constructs the sprite, and calls end_update_section() after
-  // it's done modifying it
+  parent->add_child(this);
 
 }
 

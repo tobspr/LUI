@@ -26,6 +26,11 @@ LUIBaseElement::LUIBaseElement() :
   _in_update_section(false),
   _snap_position(true)
 {
+
+  // We could do _margin() but that gives a warning
+  for (int i = 0; i < 4; ++i) {
+    _margin[i] = 0.0;
+  }
 }
 
 LUIBaseElement::~LUIBaseElement() {
@@ -50,21 +55,34 @@ void LUIBaseElement::recompute_position() {
       << ", " << parent_pos.get_y() << endl;
   }
 
+  // Vertical Placement
+
+  // Stick top
   if (_placement_y == M_default) {
-    _pos_y = _offset_y;
+    _pos_y = _offset_y + get_margin_top();
+
+  // Stick bottom
   } else if (_placement_y == M_inverse) {
-    _pos_y = parent_size.get_y() - _offset_y - _size.get_y();
+    _pos_y = parent_size.get_y() - _offset_y - _size.get_y() - get_margin_bottom();
+
+  // Center Element
   } else {
-    _pos_y = (parent_size.get_y() - _size.get_y()) / 2.0;
+    _pos_y = (parent_size.get_y() - _size.get_y()) / 2.0 + (get_margin_top() - get_margin_bottom());
   }
 
+  // Horizontal placement
 
+  // Stick left
   if (_placement_x == M_default) {
-    _pos_x = _offset_x;
-  } else if (_placement_x == M_inverse){
-    _pos_x = parent_size.get_x() - _offset_x - _size.get_x();
+    _pos_x = _offset_x + get_margin_left();
+
+  // Stick right
+  } else if (_placement_x == M_inverse) {
+    _pos_x = parent_size.get_x() - _offset_x - _size.get_x() - get_margin_right();
+  
+  // Center Element
   } else {
-    _pos_x = (parent_size.get_x() - _size.get_x()) / 2.0;
+    _pos_x = (parent_size.get_x() - _size.get_x()) / 2.0 + (get_margin_left() - get_margin_right());
   }
 
   _pos_x += parent_pos.get_x();

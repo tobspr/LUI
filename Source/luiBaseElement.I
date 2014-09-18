@@ -110,6 +110,47 @@ INLINE float LUIBaseElement::get_left() {
   return _pos_x;
 }
 
+INLINE void LUIBaseElement::set_margin(float top, float right, float bottom, float left) {
+  _margin[0] = top;
+  _margin[1] = right;
+  _margin[2] = bottom;
+  _margin[3] = left;
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_margin_top(float top) {
+  _margin[0] = top;
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_margin_right(float right) {
+  _margin[1] = right;
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_margin_bottom(float bottom) {
+  _margin[2] = bottom;
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_margin_left(float left) {
+  _margin[3] = left;
+  recompute_position();
+}
+
+INLINE float LUIBaseElement::get_margin_top() {
+  return _margin[0];
+}
+INLINE float LUIBaseElement::get_margin_right() {
+  return _margin[1];
+}
+INLINE float LUIBaseElement::get_margin_bottom() {
+  return _margin[2];
+}
+INLINE float LUIBaseElement::get_margin_left() {
+  return _margin[3];
+}
+
 INLINE void LUIBaseElement::set_visible(bool visible) {
   _visible = visible;
   on_visibility_changed();

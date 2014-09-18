@@ -1,5 +1,8 @@
 Logo 0 0 219 220
-btn_left 219 0 8 39
-btn_right 227 0 8 39
-btn_mid 235 0 5 39
-blank 240 0 1 1
+btn_active_left 219 0 5 39
+btn_active_right 224 0 5 39
+btn_left 229 0 5 39
+btn_right 234 0 5 39
+btn_active_mid 239 0 1 39
+btn_mid 240 0 1 39
+blank 241 0 1 1

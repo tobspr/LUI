@@ -35,13 +35,10 @@ PUBLISHED:
 
   virtual ~LUIObject();
 
-  INLINE LUISprite *attach_sprite(const string &source, float x, float y, float w = 0.0, float h = 0.0);
-  INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id, float x, float y, float w = 0.0, float h = 0.0);
-  INLINE LUISprite *attach_sprite(PT(Texture) tex, float x, float y, float w = 0.0, float h = 0.0);
+  // INLINE LUISprite *attach_sprite(const string &source, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
+  // INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
+  // INLINE LUISprite *attach_sprite(PT(Texture) tex, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
 
-  INLINE LUISprite *attach_sprite(const string &source);
-  INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id);
-  INLINE LUISprite *attach_sprite(PT(Texture) tex);
 
   PT(LUIElementIterator) children();
 
@@ -67,7 +64,7 @@ protected:
   void on_z_index_changed();
   
 
-  PT(LUISprite) construct_and_attach_sprite(float x, float y, float w, float h);
+  // PT(LUISprite) construct_and_attach_sprite(float x, float y, float w, float h);
   INLINE void refresh_child_positions();
   INLINE void refresh_child_visibility();
 

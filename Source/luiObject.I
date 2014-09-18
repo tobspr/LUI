@@ -1,4 +1,5 @@
 
+/*
 
 INLINE PT(LUISprite) LUIObject::construct_and_attach_sprite(float x, float y, float w, float h) {
   PT(LUISprite) sprite = new LUISprite(this);
@@ -71,18 +72,7 @@ INLINE LUISprite *LUIObject::attach_sprite(PT(Texture) tex, float x, float y, fl
   return sprite;
 }
 
-INLINE LUISprite *LUIObject::attach_sprite(const string &source) {
-  return attach_sprite(source, 0, 0);
-}
-
-INLINE LUISprite *LUIObject::attach_sprite(const string &source, const string &atlas_id) {
-  return attach_sprite(source, atlas_id, 0, 0);
-}
-
-INLINE LUISprite *LUIObject::attach_sprite(PT(Texture) tex) {
-  return attach_sprite(tex, 0, 0);
-}
-
+*/
 
 INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
   if (find(_children.begin(), _children.end(), child) == _children.end()) {

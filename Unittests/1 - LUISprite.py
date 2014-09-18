@@ -12,7 +12,7 @@ class TestLUISprite(unittest.TestCase):
 
     def setUp(self):
         self.node = LUIObject(x=0, y=0, w=32, h=32)
-        self.sprite = self.node.attachSprite("../Res/blank.png")
+        self.sprite = LUISprite(self.node, "../Res/blank.png")
         self.sprite.set_size(5, 5)
 
     def test_LUISprite(self):

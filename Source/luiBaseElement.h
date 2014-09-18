@@ -51,6 +51,17 @@ PUBLISHED:
   INLINE void set_centered_vertical();
   INLINE void set_centered_horizontal();
 
+  // Margin
+  INLINE void set_margin(float top, float right, float bottom, float left);
+  INLINE void set_margin_top(float top);
+  INLINE void set_margin_right(float right);
+  INLINE void set_margin_bottom(float bottom);
+  INLINE void set_margin_left(float left);
+
+  INLINE float get_margin_top();
+  INLINE float get_margin_right();
+  INLINE float get_margin_bottom();
+  INLINE float get_margin_left();
 
   // Size
   INLINE void set_size(const LVector2 &size);
@@ -68,7 +79,6 @@ PUBLISHED:
   INLINE void hide();
   INLINE void show();
 
-
   // Z-Index
   INLINE void set_relative_z_index(int z_index);
   INLINE float get_relative_z_index();
@@ -77,6 +87,10 @@ PUBLISHED:
   INLINE LUIBaseElement* get_parent();
 
   INLINE virtual bool intersects(float x, float y);
+
+
+  EXTENSION(int __setattr__(PyObject *self, const string &name, PyObject *value));
+
 
 public:
 
@@ -132,9 +146,10 @@ protected:
   bool _events_registered;
 
   bool _in_update_section;
-
-
   bool _snap_position;
+
+  // Top, right, bottom, left
+  float _margin[4];
 
   pmap<string, PT(CallbackObject)> _events;
 

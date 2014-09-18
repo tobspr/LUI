@@ -67,7 +67,7 @@ INLINE LColor LUISprite::get_color() {
     _data[0].color[3] / 255.0);
 }
 
-INLINE void LUISprite::set_texture(Texture* tex) {
+INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
 
   if (tex == _tex) {
     // No change
@@ -88,14 +88,20 @@ INLINE void LUISprite::set_texture(Texture* tex) {
     _tex = tex;
     set_uv_range(LTexCoord(0), LTexCoord(1));
     
+    if (resize) {
+      set_size(_tex->get_x_size(), _tex->get_y_size());
+    }
+
     // Assign new pool
     if (_root != NULL) {
       assign_vertex_pool();
     }
   }
+
+
 }
 
-INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
+INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor, bool resize) {
 
   if (luiSprite_cat.is_spam()) {
     luiSprite_cat.spam() << "Load texture data from descriptor" << endl;
@@ -103,12 +109,15 @@ INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor) {
 
   nassertv(descriptor != NULL);
 
-  set_texture(descriptor->get_texture());
-  set_size(descriptor->get_size());
+  set_texture(descriptor->get_texture(), false);
   set_uv_range(descriptor->get_uv_begin(), descriptor->get_uv_end());
+
+  if (resize) {
+    set_size(descriptor->get_size());
+  }
 }
 
-INLINE void LUISprite::set_texture(const string &source) {
+INLINE void LUISprite::set_texture(const string &source, bool resize) {
 
   // load texture from file
   PT(Texture) tex = TexturePool::load_texture(source);
@@ -118,8 +127,19 @@ INLINE void LUISprite::set_texture(const string &source) {
     return;
   }
 
-  set_texture(tex);
+  set_texture(tex, resize);
 }
+
+INLINE void LUISprite::set_texture(const string &entry_name, const string &atlas_id, bool resize) {
+
+  if (luiSprite_cat.is_spam()) {
+    luiSprite_cat.spam() << "Load texture from atlas" << endl;
+  }
+  PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, entry_name);
+  set_texture(descriptor, resize);
+}
+
+
 
 INLINE Texture *LUISprite::get_texture() const {
   return _tex;

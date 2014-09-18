@@ -3,22 +3,6 @@
 
 TypeHandle LUIText::_type_handle;
 
-LUIText::LUIText(float x, float y) : 
-  LUIObject(x, y),
-  _text(""),
-  _font_size(100.0) {
-  _snap_position = false;
-  set_font("default");
-}
-
-LUIText::LUIText(LUIObject *parent, float x, float y) : 
-  LUIObject(parent, x, y),
-  _text(""),
-  _font_size(100.0) {
-  _snap_position = false;
-  set_font("default");
-}
-
 LUIText::LUIText(LUIObject *parent, const string &text, const string &font_name, float font_size, float x, float y) 
   : 
   LUIObject(parent, x, y),
@@ -55,11 +39,16 @@ void LUIText::update_text() {
   int to_allocate  = len - _children.size();
   //lui_cat.spam() << "Allocating " << to_allocate << " Sprites" << endl;
   for (int i = 0; i < to_allocate; i++) {
-    LUISprite* sprite = attach_sprite((Texture*)NULL);
+    if (lui_cat.is_spam()) {
+      lui_cat.spam() << "Allocating sprite .. " << endl;
+    }
+    PT(LUISprite) sprite = new LUISprite(this, (Texture*)NULL);
 
     // Required for text rendering
     sprite->set_snap_position(false);
   }
+
+
 
   // Pixels per unit, used to convert betweeen coordinate spaces
   float ppu = _font_size;
