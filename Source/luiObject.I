@@ -122,7 +122,6 @@ INLINE void LUIObject::refresh_child_visibility() {
 }
 
 INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
-  luiObject_cat.info() << "Addding child .." << endl;
 
   if (child->get_parent() != NULL) {
     luiObject_cat.error() << "You cannot reattach a child, unattach the child from it's current parent first" << endl;

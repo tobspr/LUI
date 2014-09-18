@@ -16,13 +16,13 @@ int Extension<LUIBaseElement>::__setattr__(PyObject *self, PyObject *name, PyObj
     name_as_str = PyString_AS_STRING(str);
     Py_DECREF(str);
   }
-  cout << "__setattr__ (LUIBaseElement) called for '" << name_as_str << "'" << endl;
+  // cout << "__setattr__ (LUIBaseElement) called for '" << name_as_str << "'" << endl;
 
   // Try to find a method called "set_<name>"
   PyObject *setter_name = PyString_FromString("set_");
   PyString_Concat(&setter_name, name);
 
-  cout << "Check if method exists .." << endl;
+  // cout << "Check if method exists .." << endl;
   PyObject *setter = PyObject_GenericGetAttr(self, setter_name);
   
   // If such a method exists
@@ -54,7 +54,7 @@ int Extension<LUIBaseElement>::__setattr__(PyObject *self, PyObject *name, PyObj
   PyErr_Clear();
 
   // In this case, no method was found, so return to default implementation
-  cout << "No such attribute/method found, returning to default implementation" << endl;
+  // cout << "No such attribute/method found, returning to default implementation" << endl;
   return PyObject_GenericSetAttr(self, name, value);
 
 }
@@ -69,13 +69,13 @@ PyObject *Extension<LUIBaseElement>::__getattr__(PyObject *self, PyObject *name)
     name_as_str = PyString_AS_STRING(str);
     Py_DECREF(str);
   }
-  cout << "__getattr__ (LUIBaseElement) called for '" << name_as_str << "'" << endl;
+  // cout << "__getattr__ (LUIBaseElement) called for '" << name_as_str << "'" << endl;
 
   // Check if there is any attribute / method called <name>
   PyObject *getter = PyObject_GenericGetAttr(self, name);
 
   if (getter != NULL) {
-    cout << "Direct property found" << endl;
+    // cout << "Direct property found" << endl;
     return getter;
   }
 
@@ -92,7 +92,7 @@ PyObject *Extension<LUIBaseElement>::__getattr__(PyObject *self, PyObject *name)
 
   if (get_getter != NULL) {
 
-    cout << "Attribute function found" << endl;
+    // cout << "Attribute function found" << endl;
     Py_DECREF(getter_name);
 
     PyObject *call_result = PyObject_CallObject(get_getter, NULL);
@@ -110,7 +110,7 @@ PyObject *Extension<LUIBaseElement>::__getattr__(PyObject *self, PyObject *name)
   Py_DECREF(getter_name);
 
   // Otherwise there was no property found
-  cout << "Attribute not found. Returning .." << endl;
+  // cout << "Attribute not found. Returning .." << endl;
 
   // Simulate an attribute error
   Py_XDECREF(PyObject_GenericGetAttr(self, name));

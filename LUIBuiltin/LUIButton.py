@@ -54,7 +54,8 @@ if __name__ == "__main__":
 
         text-minfilter linear
         text-magfilter linear
-        notify-level-lui debug
+        notify-level-lui info
+        sync-video #f
 
     """)
     import direct.directbase.DirectStart
@@ -62,16 +63,19 @@ if __name__ == "__main__":
     LUIAtlasPool.get_global_ptr().load_atlas(
         "default", "../Res/atlas.txt", "../Res/atlas.png")
 
-    base.win.set_clear_color(Vec4(0.5,0.5,0.5,1))
+    base.win.set_clear_color(Vec4(1,1,1,1))
 
     region = LUIRegion.make("LUI", base.win)
     handler = LUIInputHandler()
     base.mouseWatcher.attach_new_node(handler)
     region.set_input_handler(handler)
 
-    button = LUIButton("Click Me")
-    button.set_centered()
-    region.root().add_child(button)
+    for x in xrange(20):
+        for y in xrange(20):
+            button = LUIButton("Click", width=60)
+            button.top = 10 + y*(button.height)
+            button.left = 10 + x*(button.width)
+            region.root().add_child(button)
 
 
     base.accept("f3", region.root().ls)

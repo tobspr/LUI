@@ -90,13 +90,15 @@ PUBLISHED:
   EXTENSION(int __setattr__(PyObject *self, PyObject* name, PyObject *value));
   EXTENSION(PyObject *__getattr__(PyObject *self, PyObject *name));
 
+
+  INLINE void begin_update_section();
+  INLINE virtual void end_update_section();
+
+
 public:
 
   INLINE void set_parent(LUIBaseElement* parent);
   void recompute_position();
-
-  INLINE void begin_update_section();
-  INLINE virtual void end_update_section();
 
   INLINE void set_snap_position(bool snap);
 

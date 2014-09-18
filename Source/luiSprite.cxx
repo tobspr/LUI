@@ -11,21 +11,18 @@ NotifyCategoryDef(luiSprite, ":lui");
 
 // Initialize with a path to an image  
 LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
-  cout << "Constructor 1" << endl;
   init(parent, x, y, w, h, color);
   set_texture(image, true);
 }
 
 // Initialize with a texture handle
 LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
-  cout << "Constructor 2" << endl;
   init(parent, x, y, w, h, color);
   set_texture(texture, true);
 }
 
 // Initialize with a atlas entry
 LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
-  cout << "Constructor 3" << endl;
   init(parent, x, y, w, h, color);
   set_texture(entry_id, atlas_id, true);
 }

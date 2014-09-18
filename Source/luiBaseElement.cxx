@@ -33,7 +33,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   }
 
   if (self != NULL) {
-    cout << "Got self instance:" << self << endl;
+    // cout << "Got self instance:" << self << endl;
 
     PyObject *class_dict = Py_TYPE(self)->tp_dict;
 
@@ -56,11 +56,11 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
           string method_name(str, len);
 
           if (method_name.substr(0, event_func_prefix.size()) == event_func_prefix) {
-            cout << "Handler: " << method_name << endl;
+            // cout << "Handler: " << method_name << endl;
 
             // Bind to event
             string event_name = method_name.substr(event_func_prefix.size());
-            cout << "binding to: '" << event_name << "'" << endl; 
+            // cout << "binding to: '" << event_name << "'" << endl; 
 
             PyObject *bound_method = PyMethod_New(value, self, (PyObject *)Py_TYPE(self));
             bind(event_name, bound_method);
