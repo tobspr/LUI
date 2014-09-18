@@ -32,7 +32,7 @@ int Extension<LUIBaseElement>::__setattr__(PyObject *self, PyObject *name, PyObj
 
     // Write to class dictionary
     cout << "Could not find element, saving in class dict" << endl; 
-    PyObject* __dict__ = PyObject_GenericGetAttr(self, (char *)string("__dict__").c_str()); 
+    PyObject* __dict__ = PyObject_GetAttrString(self, (char *)string("__dict__").c_str()); 
     PyDict_SetItem(__dict__, name, value); 
 
     Py_DECREF(__dict__);
