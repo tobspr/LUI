@@ -8,6 +8,14 @@ class LUIButton(LUIObject):
     def __init__(self, text="Hello", width=100):
         LUIObject.__init__(self, x=0, y=0, w=width, h=50)
 
+        print "Setting test:"
+        self.test = 1
+
+        print "Deleting test:"
+        # del self.test
+
+        print "Done!"
+
         self.sprite_left = LUISprite(self, "btn_left", "default")
         self.sprite_mid = LUISprite(self, "btn_mid", "default")
         self.sprite_right = LUISprite(self, "btn_right", "default")
