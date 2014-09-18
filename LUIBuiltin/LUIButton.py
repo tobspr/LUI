@@ -12,6 +12,9 @@ class LUIButton(LUIObject):
         self.sprite_mid = LUISprite(self, "btn_mid", "default")
         self.sprite_right = LUISprite(self, "btn_right", "default")
 
+        print "Set left"
+        self.sprite_left.left = 10.0
+
         self.sprite_mid.set_width(
             width - self.sprite_left.get_width() - self.sprite_right.get_width())
         self.sprite_mid.set_left(self.sprite_left.get_width())
@@ -24,8 +27,6 @@ class LUIButton(LUIObject):
         self.text = LUIText(self, text, "default", 16.0)
         self.text.set_centered()
         self.text.set_relative_z_index(100)
-
-        self.sprite_left.left = 10.0
 
 
         self.bind("mouseover", self.handle_event)

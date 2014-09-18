@@ -86,6 +86,8 @@ PUBLISHED:
 
   void ls(int indent = 0);
 
+  EXTENSION(virtual int __setattr__(PyObject *self, const string &name, PyObject *value));
+
 public:
 
   // Inherited from LUIBaseElement
