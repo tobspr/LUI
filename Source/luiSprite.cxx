@@ -48,7 +48,7 @@ void LUISprite::init(LUIObject *parent, float x, float y, float w, float h, cons
   set_color(color);
   set_uv_range(LVector2(0), LVector2(1));
   set_size(10, 10);
-  set_top_left(0, 0); 
+  set_pos(0, 0); 
   set_z_offset(0);
   end_update_section();
 

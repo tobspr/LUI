@@ -14,7 +14,9 @@
 #include "pythonCallbackObject.h"
 #include "luiEventData.h"
 
+
 class LUIRoot;
+class LUIObject;
 
 NotifyCategoryDecl(luiBaseElement, EXPCL_LUI, EXPTP_LUI);
 
@@ -36,12 +38,18 @@ PUBLISHED:
   INLINE void trigger_event(const string &event_name, const string &message = string(), const LPoint2 &coords = LPoint2(0));
 
   // Position
-  INLINE void set_top_left(float top, float left);
-  INLINE void set_top_right(float top, float right);
-  INLINE void set_bottom_left(float bottom, float left);
-  INLINE void set_bottom_right(float bottom, float right);
+  INLINE void set_left_top(const LVector2 &pos);
+  INLINE void set_right_top(const LVector2 &pos);
+  INLINE void set_left_bottom(const LVector2 &pos);
+  INLINE void set_right_bottom(const LVector2 &pos);
 
-  INLINE void set_pos(float top, float left);
+  INLINE LVector2 get_left_top();
+  INLINE LVector2 get_right_top();
+  INLINE LVector2 get_left_bottom();
+  INLINE LVector2 get_right_bottom();
+
+  INLINE void set_pos(const LVector2 &pos);
+  INLINE void set_pos(float x, float y);
   INLINE LVector2 get_pos();
 
   INLINE LVector2 get_abs_pos();
@@ -65,6 +73,7 @@ PUBLISHED:
   INLINE bool is_horizontal_centered();
 
   // Margin
+  INLINE void set_margin(const LVector4 &margin);
   INLINE void set_margin(float top, float right, float bottom, float left);
   INLINE void set_margin_top(float top);
   INLINE void set_margin_right(float right);
@@ -75,7 +84,7 @@ PUBLISHED:
   INLINE float get_margin_right();
   INLINE float get_margin_bottom();
   INLINE float get_margin_left();
-  INLINE LVecBase4 get_margin();
+  INLINE LVector4 get_margin();
 
   // Size
   INLINE void set_size(const LVector2 &size);
@@ -96,9 +105,9 @@ PUBLISHED:
   // Z-Index
   INLINE void set_z_offset(int z_offset);
   INLINE float get_z_offset();
-  INLINE float get_absolute_z_offset();
+  INLINE float get_abs_z_offset();
 
-  INLINE void reparent_to(LUIBaseElement *parent);
+  void reparent_to(LUIBaseElement *parent);
   INLINE LUIBaseElement* get_parent();
 
   INLINE virtual bool intersects(float x, float y);
@@ -109,30 +118,39 @@ PUBLISHED:
 
   // Properties for python
   
-  // MAKE_PROPERTY(pos, get_pos, set_pos);
+  MAKE_PROPERTY(left_top, get_left_top, set_left_top);
+  MAKE_PROPERTY(right_top, get_right_top, set_right_top);
+  MAKE_PROPERTY(left_bottom, get_left_bottom, set_left_bottom);
+  MAKE_PROPERTY(right_bottom, get_right_bottom, set_right_bottom);
   
-  // MAKE_PROPERTY(top, get_top, set_top);
-  // MAKE_PROPERTY(bottom, get_bottom, set_bottom);
-  // MAKE_PROPERTY(left, get_left, set_left);
-  // MAKE_PROPERTY(right, get_right, set_right);
+  MAKE_PROPERTY(pos, get_pos, set_pos);
+  MAKE_PROPERTY(abs_pos, get_abs_pos);
 
-  // MAKE_PROPERTY(abs_pos, get_abs_pos);
-  // MAKE_PROPERTY(abs_pos, get_abs_pos);
-  // MAKE_PROPERTY(margin, get_margin, set_margin);
-  
-  // MAKE_PROPERTY(margin_top, get_margin_top, set_margin_top);
-  // MAKE_PROPERTY(margin_right, get_margin_right, set_margin_right);
-  // MAKE_PROPERTY(margin_bottom, get_margin_bottom, set_margin_bottom);
-  // MAKE_PROPERTY(margin_left, get_margin_left, set_margin_left);
+  MAKE_PROPERTY(top, get_top, set_top);
+  MAKE_PROPERTY(bottom, get_bottom, set_bottom);
+  MAKE_PROPERTY(left, get_left, set_left);
+  MAKE_PROPERTY(right, get_right, set_right);
 
-  // MAKE_PROPERTY(size, get_size, set_size);
-  // MAKE_PROPERTY(width, get_width, set_width);
-  // MAKE_PROPERTY(height, get_height, set_height);
+
+  MAKE_PROPERTY(centered, is_centered, set_centered);
+  MAKE_PROPERTY(center_vertical, is_vertical_centered, set_center_vertical);
+  MAKE_PROPERTY(center_horizontal, is_horizontal_centered, set_center_horizontal);
+
+  MAKE_PROPERTY(margin, get_margin, set_margin);
   
-  // MAKE_PROPERTY(visible, is_visible, set_visible);
-  // MAKE_PROPERTY(z_offset, get_z_offset, set_z_offset);
-  // MAKE_PROPERTY(absolute_z_offset, get_absolute_z_offset);
-  // MAKE_PROPERTY(parent, get_parent);
+  MAKE_PROPERTY(margin_top, get_margin_top, set_margin_top);
+  MAKE_PROPERTY(margin_right, get_margin_right, set_margin_right);
+  MAKE_PROPERTY(margin_bottom, get_margin_bottom, set_margin_bottom);
+  MAKE_PROPERTY(margin_left, get_margin_left, set_margin_left);
+
+  MAKE_PROPERTY(size, get_size, set_size);
+  MAKE_PROPERTY(width, get_width, set_width);
+  MAKE_PROPERTY(height, get_height, set_height);
+  
+  MAKE_PROPERTY(visible, is_visible, set_visible);
+  MAKE_PROPERTY(z_offset, get_z_offset, set_z_offset);
+  MAKE_PROPERTY(absolute_z_offset, get_abs_pos);
+  MAKE_PROPERTY(parent, get_parent, reparent_to);
 
 public:
 

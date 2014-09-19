@@ -20,31 +20,32 @@ class LUIButton(LUIObject):
 
         self.text = LUIText(self, text, "default", 16.0)
         self.text.set_centered()
-        self.text.color = (random(),random(),random())
+        self.text.set_color(random(),random(),random())
         self.text.margin_top = -2
         self.text.z_offset = 10
 
     def on_click(self, event):
-        self.hide()
+        # self.hide()
+        pass
 
     def on_mouseover(self, event):
         for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
-            child.alpha = 0.9
+            child.set_alpha(0.9)
 
     def on_mouseout(self, event):
         for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
-            child.alpha = 1.0
+            child.set_alpha(1.0)
     
     def on_mousedown(self, event):
-        self.sprite_left.texture = ("btn_active_left", "default", False)
-        self.sprite_right.texture = ("btn_active_right", "default", False)
-        self.sprite_mid.texture = ("btn_active_mid", "default", False)
+        self.sprite_left.set_texture("btn_active_left", "default", False)
+        self.sprite_right.set_texture("btn_active_right", "default", False)
+        self.sprite_mid.set_texture("btn_active_mid", "default", False)
         self.text.margin_top += 1.0
 
     def on_mouseup(self, event):
-        self.sprite_left.texture = ("btn_left", "default", False)
-        self.sprite_right.texture = ("btn_right", "default", False)
-        self.sprite_mid.texture = ("btn_mid", "default", False)
+        self.sprite_left.set_texture("btn_left", "default", False)
+        self.sprite_right.set_texture("btn_right", "default", False)
+        self.sprite_mid.set_texture("btn_mid", "default", False)
         self.text.margin_top -= 1.0
 
 
@@ -75,12 +76,12 @@ if __name__ == "__main__":
     base.mouseWatcher.attach_new_node(handler)
     region.set_input_handler(handler)
 
-    for x in xrange(20):
-        for y in xrange(20):
-            button = LUIButton("Click", width=60)
-            button.top = 10 + y*(button.height)
-            button.left = 10 + x*(button.width)
-            region.root().add_child(button)
+
+    button = LUIButton("Click", width=60)
+    button.centered = (True, True)
+    # button.top = 10 + y*(button.height)
+    # button.left = 10 + x*(button.width)
+    region.root().add_child(button)
 
     def show_all_buttons():
         for button in region.root().children:

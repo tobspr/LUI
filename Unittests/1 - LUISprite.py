@@ -20,7 +20,7 @@ class TestLUISprite(unittest.TestCase):
         # Test for uninitialized values
         pos = self.sprite.abs_pos
         size = self.sprite.size
-        color = self.sprite.color
+        color = self.sprite.get_color()
 
         self.assertAlmostEqual(pos.x, 0.0)
         self.assertAlmostEqual(pos.y, 0.0)
@@ -34,7 +34,7 @@ class TestLUISprite(unittest.TestCase):
         self.assertAlmostEqual(color.w, 1.0)
 
         # Test position getters & Setters
-        self.sprite.pos = (10.0, 20.0)
+        self.sprite.set_pos(10.0, 20.0)
         pos = self.sprite.abs_pos
         self.assertAlmostEqual(pos.x, 10.0)
         self.assertAlmostEqual(pos.y, 20.0)

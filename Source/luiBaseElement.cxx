@@ -3,6 +3,7 @@
 
 #include "luiBaseElement.h"
 #include "luiRoot.h"
+#include "luiObject.h"
 
 TypeHandle LUIBaseElement::_type_handle;
 
@@ -105,8 +106,8 @@ void LUIBaseElement::recompute_position() {
       << ", " << parent_pos.get_y() << endl;
   }
 
-  _rel_pos_x = compute_top();
-  _rel_pos_y = compute_left();
+  _rel_pos_x = compute_left();
+  _rel_pos_y = compute_top();
 
   if (_snap_position) {
     _rel_pos_x = ceil(_rel_pos_x);
@@ -149,4 +150,24 @@ void LUIBaseElement::unregister_events() {
         luiBaseElement_cat.spam() << "Did not unregister events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << " .." << endl;
       }
   }
+}
+
+void LUIBaseElement::reparent_to(LUIBaseElement *parent) {
+  if (_parent != NULL) {
+
+    LUIObject *parent_as_object = DCAST(LUIObject, _parent);
+
+    // If this throws, our current parent is not a LUIObject (How can this ever be possible?)
+    nassertv(parent_as_object != NULL);
+    parent_as_object->remove_child(this);
+  }
+
+  LUIObject *new_parent_as_object = DCAST(LUIObject, parent);
+
+  if (new_parent_as_object == NULL) {
+    luiBaseElement_cat.error() << "You can only attach elements to a LUIObject (or a subclass of it)" << endl;
+    return;
+  }
+  
+  new_parent_as_object->add_child(this);
 }

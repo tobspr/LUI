@@ -1,4 +1,6 @@
 
+
+
 INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callback) {
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "Binding event '" << event_name << "'" << endl;
@@ -40,6 +42,7 @@ INLINE bool LUIBaseElement::has_event(const string &event_name) {
   return _events.count(event_name) > 0;
 }
 
+
 INLINE void LUIBaseElement::trigger_event(const string &event_name, const string &message, const LPoint2 &coords) {
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "Triggering event '" << event_name << "' with coordinates " 
@@ -50,50 +53,70 @@ INLINE void LUIBaseElement::trigger_event(const string &event_name, const string
       PT(LUIEventData) data = new LUIEventData(this, event_name, message, coords);
       _events[event_name]->do_callback(data);
   }
-
+}
 
 INLINE void LUIBaseElement::set_snap_position(bool snap) {
   _snap_position = snap;
 }
 
-INLINE void LUIBaseElement::set_top_left(float top, float left) {
+INLINE void LUIBaseElement::set_left_top(const LVector2 &pos) {
   _placement_x = M_default;
   _placement_y = M_default;
-  _offset_x = left;
-  _offset_y = top;
+  _offset_x = pos.get_x();
+  _offset_y = pos.get_y();
   recompute_position();
 }
 
-INLINE void LUIBaseElement::set_top_right(float top, float right) {
+INLINE void LUIBaseElement::set_right_top(const LVector2 &pos) {
   _placement_x = M_inverse;
   _placement_y = M_default;
-  _offset_x = right;
-  _offset_y = top;
+  _offset_x = pos.get_x();
+  _offset_y = pos.get_y();
   recompute_position();
 }
 
-INLINE void LUIBaseElement::set_bottom_left(float bottom, float left) {
+INLINE void LUIBaseElement::set_left_bottom(const LVector2 &pos) {
   _placement_x = M_default;
   _placement_y = M_inverse;
-  _offset_x = left;
-  _offset_y = bottom;
+  _offset_x = pos.get_x();
+  _offset_y = pos.get_y();
   recompute_position();
 }
 
-INLINE void LUIBaseElement::set_bottom_right(float bottom, float right) {
+INLINE void LUIBaseElement::set_right_bottom(const LVector2 &pos) {
   _placement_x = M_inverse;
   _placement_y = M_default;
-  _offset_x = right;
-  _offset_y = bottom;
+  _offset_x = pos.get_x();
+  _offset_y = pos.get_y();
   recompute_position();
 }
 
-INLINE void LUIBaseElement::set_pos(float top, float left) {
-  set_top_left(top, left);
+INLINE LVector2 LUIBaseElement::get_left_top() {
+  return LVector2(get_left(), get_top());
+}
+
+INLINE LVector2 LUIBaseElement::get_right_top() {
+  return LVector2(get_right(), get_top());
+}
+
+INLINE LVector2 LUIBaseElement::get_left_bottom() {
+  return LVector2(get_left(), get_bottom());
+}
+
+INLINE LVector2 LUIBaseElement::get_right_bottom() {
+  return LVector2(get_right(), get_bottom());
+}
+
+INLINE void LUIBaseElement::set_pos(const LVector2 &pos) {
+  set_pos(pos.get_x(), pos.get_y());
+}
+
+INLINE void LUIBaseElement::set_pos(float x, float y) {
+  set_left_top(LVector2(x, y));
 }
 
 INLINE LVector2 LUIBaseElement::get_pos() {
-  return  LVector2(_rel_pos_x, _rel_pos_y);
+  return get_left_top();
 }
 
 INLINE LVector2 LUIBaseElement::get_abs_pos() {
@@ -170,16 +193,24 @@ INLINE void LUIBaseElement::set_center_horizontal(bool centered) {
   }
 }
 
-INLINE bool is_centered() {
+INLINE bool LUIBaseElement::is_centered() {
   return _placement_x == M_center && _placement_y == M_center;
 }
 
-INLINE bool is_vertical_centered() {
+INLINE bool LUIBaseElement::is_vertical_centered() {
   return _placement_y == M_center;
 }
 
-INLINE bool is_horizontal_centered() {
+INLINE bool LUIBaseElement::is_horizontal_centered() {
   return _placement_x == M_center;
+}
+
+INLINE void LUIBaseElement::set_margin(const LVector4 &margin) {
+  _margin[0] = margin.get_x();
+  _margin[1] = margin.get_y();
+  _margin[2] = margin.get_z();
+  _margin[3] = margin.get_w();
+  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin(float top, float right, float bottom, float left) {
@@ -226,8 +257,8 @@ INLINE float LUIBaseElement::get_margin_left() {
   return _margin[3];
 }
 
-INLINE LVecBase4 LUIBaseElement::get_margin() {
-  return LVecBase4(_margin[0], _margin[1], _margin[2], _margin[3]);
+INLINE LVector4 LUIBaseElement::get_margin() {
+  return LVector4(_margin[0], _margin[1], _margin[2], _margin[3]);
 }
 
 INLINE void LUIBaseElement::set_size(const LVector2 &size) {
@@ -293,16 +324,8 @@ INLINE float LUIBaseElement::get_z_offset() {
   return _local_z_index;
 }
 
-INLINE float LUIBaseElement::get_absolute_z_offset() {
+INLINE float LUIBaseElement::get_abs_z_offset() {
   return _z_index;
-}
-
-INLINE void reparent_to(LUIBaseElement *parent) {
-  if (_parent != NULL) {
-    _parent->remove_child(this);
-  }
-
-  parent->add_child(this);
 }
 
 INLINE LUIBaseElement* LUIBaseElement::get_parent() {
@@ -343,14 +366,14 @@ INLINE void LUIBaseElement::set_parent(LUIBaseElement* parent) {
   _parent = parent;
 }
 
-INLINE float get_parent_width() {
+INLINE float LUIBaseElement::get_parent_width() {
   if (_parent == NULL) {
     return 0.0;
   }
   return _parent->get_width();
 }
 
-INLINE float get_parent_height() {
+INLINE float LUIBaseElement::get_parent_height() {
   if (_parent == NULL) { 
     return 0.0;
   }
@@ -393,7 +416,7 @@ INLINE float LUIBaseElement::compute_left() {
 
 INLINE void LUIBaseElement::recompute_z_index() {
   if (_parent != NULL) {
-    _z_index = _parent->get_absolute_z_offset() + _local_z_index;
+    _z_index = _parent->get_abs_z_offset() + _local_z_index;
     nassertv(_z_index > -10000.0 && _z_index < 10000.0);
   } else {
     _z_index = _local_z_index;

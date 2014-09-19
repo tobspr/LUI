@@ -120,12 +120,12 @@ void LUIInputHandler::process(LUIRoot *root) {
       LUIEventObjectSet::iterator end = root->get_event_objects_end();
       for (;iter != end; ++iter) {
         LUIBaseElement *elem = *iter;
-        if (elem->get_absolute_z_offset() > current_hover_z_index &&
+        if (elem->get_abs_z_offset() > current_hover_z_index &&
             elem->intersects(
               _current_state.mouse_pos.get_x(), 
               _current_state.mouse_pos.get_y())) {
           current_hover = elem;
-          current_hover_z_index = elem->get_absolute_z_offset();
+          current_hover_z_index = elem->get_abs_z_offset();
       }
     }
   }
