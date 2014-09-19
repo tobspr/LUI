@@ -17,3 +17,15 @@ INLINE void LUIText::set_font_size(float size) {
     update_text();
   }
 }
+
+INLINE DynamicTextFont* LUIText::get_font() {
+    return _font;
+}
+
+INLINE const string& LUIText::get_text() {
+    return _text;
+}
+
+INLINE float LUIText::get_font_size() {
+    return _font_size;
+}

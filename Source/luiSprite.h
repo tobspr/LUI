@@ -18,6 +18,7 @@
 #include "luiVertexData.h"
 #include "luiVertexChunk.h"
 #include "luiChunkDescriptor.h"
+#include "luiColorable.h"
 #include "texturePool.h"
 #include <iostream>
 
@@ -35,7 +36,7 @@ NotifyCategoryDecl(luiSprite, EXPCL_LUI, EXPTP_LUI);
 //               scale, and uv coordinates. It also notifies the
 //               LUIVertexPool when any scalar or texture got changed.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_LUI LUISprite : public LUIBaseElement  {
+class EXPCL_LUI LUISprite : public LUIBaseElement, public LUIColorable  {
 
   friend class LUIObject;
 
@@ -57,22 +58,6 @@ PUBLISHED:
   INLINE void set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end);
   INLINE void set_uv_range(float u0, float v0, float u1, float v1);
   INLINE void get_uv_range(LTexCoord &uv_begin, LTexCoord &uv_end);
-
-  // Color
-  INLINE void set_color(const LColor &color);
-  INLINE void set_color(float r, float g, float b, float a = 1.0);
-
-  INLINE void set_red(float r);
-  INLINE void set_green(float g);
-  INLINE void set_blue(float b);
-  INLINE void set_alpha(float a);
-
-  INLINE float get_red();
-  INLINE float get_green();
-  INLINE float get_blue();
-  INLINE float get_alpha();
-
-  INLINE LColor get_color();
 
   // Texture
   INLINE void set_texture(Texture* tex, bool resize=true);
@@ -107,6 +92,9 @@ protected:
   void on_detached();
   void set_root(LUIRoot* root);
   void on_z_index_changed();
+
+  // Interface to LUIColorable
+  void on_color_changed();
 
   // Stores data for 4 corner vertices
   // 0 - Upper Left

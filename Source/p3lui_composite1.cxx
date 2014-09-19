@@ -15,3 +15,4 @@
 #include "luiFontPool.cxx"
 #include "luiText.cxx"
 #include "luiEventData.cxx"
+#include "luiColorable.cxx"

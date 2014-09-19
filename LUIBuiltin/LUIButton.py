@@ -19,34 +19,34 @@ class LUIButton(LUIObject):
         self.height = self.sprite_mid.height
 
         self.text = LUIText(self, text, "default", 16.0)
-        self.text.set_centered()
-        self.text.set_color(random(),random(),random())
+        self.text.centered = (True, True)
+        self.text.color = (random(),random(),random())
         self.text.margin_top = -2
         self.text.z_offset = 10
 
-    def on_click(self, event):
-        # self.hide()
-        pass
+    # def on_click(self, event):
+    #     # self.hide()
+    #     pass
 
     def on_mouseover(self, event):
         for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
-            child.set_alpha(0.9)
+            child.color = (0.5,0.5,0.5)
 
     def on_mouseout(self, event):
         for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
-            child.set_alpha(1.0)
+            child.color = (1.0,1.0,1.0)
     
     def on_mousedown(self, event):
         self.sprite_left.set_texture("btn_active_left", "default", False)
         self.sprite_right.set_texture("btn_active_right", "default", False)
         self.sprite_mid.set_texture("btn_active_mid", "default", False)
-        self.text.margin_top += 1.0
+        self.text.margin_top = -1.0
 
     def on_mouseup(self, event):
         self.sprite_left.set_texture("btn_left", "default", False)
         self.sprite_right.set_texture("btn_right", "default", False)
         self.sprite_mid.set_texture("btn_mid", "default", False)
-        self.text.margin_top -= 1.0
+        self.text.margin_top = -2.0
 
 
 if __name__ == "__main__":
@@ -79,6 +79,13 @@ if __name__ == "__main__":
 
     button = LUIButton("Click", width=60)
     button.centered = (True, True)
+
+    def test(event):
+        print event
+
+    button.bind("click", test)
+
+
     # button.top = 10 + y*(button.height)
     # button.left = 10 + x*(button.width)
     region.root().add_child(button)

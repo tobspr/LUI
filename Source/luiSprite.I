@@ -41,32 +41,6 @@ INLINE void LUISprite::get_uv_range(LTexCoord &uv_begin, LTexCoord &uv_end) {
   uv_end.set_y(1-_data[2].v);
 }
 
-INLINE void LUISprite::set_color(const LColor &color) {
-  set_color(color.get_x(), color.get_y(), color.get_z(), color.get_w());
-}
-
-INLINE void LUISprite::set_color(float r, float g, float b, float a) {
-  if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Setting color to RGBA(" << r << ", " << g << ", " << b << ", " << a << ")" << endl;
-  }
-  for (int i = 0; i < 4; i++) {
-    _data[i].color[0] = (unsigned char) (r * 255.0);
-    _data[i].color[1] = (unsigned char) (g * 255.0);
-    _data[i].color[2] = (unsigned char) (b * 255.0);
-    _data[i].color[3] = (unsigned char) (a * 255.0);
-  }
-  update_vertex_pool();
-
-}
-
-INLINE LColor LUISprite::get_color() {
-  return LColor(
-    _data[0].color[0] / 255.0, 
-    _data[0].color[1] / 255.0, 
-    _data[0].color[2] / 255.0,
-    _data[0].color[3] / 255.0);
-}
-
 INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
 
   if (tex == _tex) {
@@ -161,48 +135,3 @@ INLINE void LUISprite::end_update_section() {
 
   // Sprite specific update stuff comes here
 }
-
-INLINE void LUISprite::set_red(float r) {
-  for (int i = 0; i < 4; i++) {
-    _data[i].color[0] = (unsigned char) (r * 255.0);
-  }
-  update_vertex_pool();
-}
-
-INLINE void LUISprite::set_green(float g) {
-  for (int i = 0; i < 4; i++) {
-    _data[i].color[1] = (unsigned char) (g * 255.0);
-  }
-  update_vertex_pool();
-}
-
-INLINE void LUISprite::set_blue(float b) {
-  for (int i = 0; i < 4; i++) {
-    _data[i].color[2] = (unsigned char) (b * 255.0);
-  }
-  update_vertex_pool();
-}
-
-INLINE void LUISprite::set_alpha(float a) {
-  for (int i = 0; i < 4; i++) {
-    _data[i].color[3] = (unsigned char) (a * 255.0);
-  }
-  update_vertex_pool();
-}
-
-INLINE float LUISprite::get_red() {
-  return _data[0].color[0] / 255.0;
-}
-
-INLINE float LUISprite::get_green() {
-  return _data[0].color[1] / 255.0;
-}
-
-INLINE float LUISprite::get_blue() {
-  return _data[0].color[2] / 255.0;
-}
-
-INLINE float LUISprite::get_alpha() {
-  return _data[0].color[3] / 255.0;
-}
-

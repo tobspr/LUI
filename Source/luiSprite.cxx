@@ -10,19 +10,19 @@ TypeHandle LUISprite::_type_handle;
 NotifyCategoryDef(luiSprite, ":lui");
 
 // Initialize with a path to an image  
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self), LUIColorable() {
   init(parent, x, y, w, h, color);
   set_texture(image, true);
 }
 
 // Initialize with a texture handle
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self), LUIColorable() {
   init(parent, x, y, w, h, color);
   set_texture(texture, true);
 }
 
 // Initialize with a atlas entry
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self), LUIColorable() {
   init(parent, x, y, w, h, color);
   set_texture(entry_id, atlas_id, true);
 }
@@ -81,6 +81,16 @@ void LUISprite::on_visibility_changed() {
   luiSprite_cat.error() << "Todo: Implement hide() / show()" << endl;
 }
 
+
+void LUISprite::on_color_changed() {
+  for (int i = 0; i < 4; i++) {
+    _data[i].color[0] = (unsigned char) (get_red() * 255.0);
+    _data[i].color[1] = (unsigned char) (get_blue() * 255.0);
+    _data[i].color[2] = (unsigned char) (get_green() * 255.0);
+    _data[i].color[3] = (unsigned char) (get_alpha() * 255.0);
+  }
+  update_vertex_pool();
+}
 
 void LUISprite::on_detached() {
   unregister_events();

@@ -13,6 +13,7 @@
 #include "luiObject.h"
 #include "luiIterators.h"
 #include "luiFontPool.h"
+#include "luiColorable.h"
 #include "luiSprite.h"
 #include "dynamicTextFont.h"
 #include "dynamicTextGlyph.h"
@@ -20,50 +21,40 @@
 #include "texture.h"
 #include "dcast.h"
 
-class EXPCL_LUI LUIText : public LUIObject {
+class EXPCL_LUI LUIText : public LUIObject, public LUIColorable {
 
 PUBLISHED:
 
   LUIText(PyObject *self, LUIObject *parent, const string &text, const string &font_name = "default", float font_size = 16.0, float x = 0.0, float y = 0.0);
   ~LUIText();
 
-
   INLINE void set_font(const string &font_name);
+  INLINE DynamicTextFont* get_font();
+
   INLINE void set_text(const string &text);
+  INLINE const string& get_text();
+
   INLINE void set_font_size(float size);
-
-  // Color
-  INLINE void set_color(const LColor &color);
-  INLINE void set_color(float r, float g, float b, float a = 1.0);
-
-  INLINE void set_red(float r);
-  INLINE void set_green(float g);
-  INLINE void set_blue(float b);
-  INLINE void set_alpha(float a);
-
-  INLINE float get_red();
-  INLINE float get_green();
-  INLINE float get_blue();
-  INLINE float get_alpha();
-
-  INLINE const LColor &get_color();
-
-
+  INLINE float get_font_size();
 
   virtual void ls(int indent = 0);
+
+  MAKE_PROPERTY(font, get_font, set_font);
+  MAKE_PROPERTY(text, get_text, set_text);
+  MAKE_PROPERTY(font_size, get_font_size, set_font_size);
 
 
 protected:
 
   void update_text();
-  INLINE void update_color();
+
+  // Interface to LUIColorable
+  void on_color_changed();
 
   DynamicTextFont *_font;
   string _text;
   float _font_size;
   pvector<PT(DynamicTextGlyph)> _glyphs;
-
-  LColor _color;
 
 
 public:

@@ -6,9 +6,9 @@ TypeHandle LUIText::_type_handle;
 LUIText::LUIText(PyObject *self, LUIObject *parent, const string &text, const string &font_name, float font_size, float x, float y) 
   : 
   LUIObject(self, parent, x, y),
+  LUIColorable(),
   _text(text),
-  _font_size(font_size),
-  _color(1) {
+  _font_size(font_size) {
   _snap_position = false;
   set_font(font_name);
 }
@@ -18,6 +18,18 @@ LUIText::~LUIText() {
 
 }
 
+
+void LUIText::on_color_changed() {
+  for (lui_element_iterator it = _children.begin(); it != _children.end(); ++it) {
+    LUISprite* sprite = DCAST(LUISprite, *it);
+
+    // A lui text should have only sprites contained
+    nassertv(sprite != NULL);
+
+    sprite->set_color(_color);
+
+  }
+}
 
 void LUIText::update_text() {
   int len = _text.size();
@@ -134,61 +146,3 @@ void LUIText::ls(int indent) {
 }
 
 
-INLINE void LUIText::update_color() {
-  for (lui_element_iterator it = _children.begin(); it != _children.end(); ++it) {
-    LUISprite* sprite = DCAST(LUISprite, *it);
-
-    // A lui text should have only sprites contained
-    nassertv(sprite != NULL);
-
-    sprite->set_color(_color);
-
-  }
-}
-
-INLINE void LUIText::set_color(const LColor &color) {
-  _color = color;
-  update_color();
-}
-
-INLINE void LUIText::set_color(float r, float g, float b, float a) {
-  _color = LColor(r, g, b, a);
-  update_color();
-}
-
-INLINE void LUIText::set_red(float r) {
-  _color.set_x(r);
-  update_color();
-}
-
-INLINE void LUIText::set_green(float g) {
-  _color.set_y(g);
-  update_color();
-}
-
-INLINE void LUIText::set_blue(float b) {
-  _color.set_z(b);
-  update_color();
-}
-
-INLINE void LUIText::set_alpha(float a) {
-  _color.set_w(a);
-  update_color();
-}
-
-INLINE float LUIText::get_red() {
-  return _color.get_x();
-}
-INLINE float LUIText::get_green() {
-  return _color.get_y();
-}
-INLINE float LUIText::get_blue() {
-  return _color.get_z();
-}
-INLINE float LUIText::get_alpha() {
-  return _color.get_w();
-}
-
-INLINE const LColor &LUIText::get_color() {
-  return _color;
-}
