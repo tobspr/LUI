@@ -15,6 +15,8 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _offset_y(0),
   _pos_x(0),
   _pos_y(0),
+  _rel_pos_x(0),
+  _rel_pos_y(0),
   _placement_x(M_default),
   _placement_y(M_default),
   _size(0),
@@ -80,6 +82,14 @@ LUIBaseElement::~LUIBaseElement() {
 void LUIBaseElement::recompute_position() {
   if (_in_update_section) return;
 
+  if (!_visible) {
+    // Just move out of the view frustum. Should be enough
+    _pos_x = 999999.0;
+    _pos_y = 999999.0;
+    on_bounds_changed();
+    return;
+  } 
+
   // Recompute actual position from top/bottom and left/right offsets
   LVector2 parent_size(0);
   LVector2 parent_pos(0);
@@ -95,43 +105,16 @@ void LUIBaseElement::recompute_position() {
       << ", " << parent_pos.get_y() << endl;
   }
 
-  // Vertical Placement
-
-  // Stick top
-  if (_placement_y == M_default) {
-    _pos_y = _offset_y + get_margin_top();
-
-  // Stick bottom
-  } else if (_placement_y == M_inverse) {
-    _pos_y = parent_size.get_y() - _offset_y - _size.get_y() - get_margin_bottom();
-
-  // Center Element
-  } else {
-    _pos_y = (parent_size.get_y() - _size.get_y()) / 2.0 + (get_margin_top() - get_margin_bottom());
-  }
-
-  // Horizontal placement
-
-  // Stick left
-  if (_placement_x == M_default) {
-    _pos_x = _offset_x + get_margin_left();
-
-  // Stick right
-  } else if (_placement_x == M_inverse) {
-    _pos_x = parent_size.get_x() - _offset_x - _size.get_x() - get_margin_right();
-  
-  // Center Element
-  } else {
-    _pos_x = (parent_size.get_x() - _size.get_x()) / 2.0 + (get_margin_left() - get_margin_right());
-  }
-
-  _pos_x += parent_pos.get_x();
-  _pos_y += parent_pos.get_y();
+  _rel_pos_x = compute_top();
+  _rel_pos_y = compute_left();
 
   if (_snap_position) {
-    _pos_x = ceil(_pos_x);
-    _pos_y = ceil(_pos_y);
+    _rel_pos_x = ceil(_rel_pos_x);
+    _rel_pos_y = ceil(_rel_pos_y);
   }
+
+  _pos_x = _rel_pos_x + parent_pos.get_x();
+  _pos_y = _rel_pos_y + parent_pos.get_y();
 
   on_bounds_changed();
 }

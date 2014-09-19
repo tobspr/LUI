@@ -31,24 +31,38 @@ PUBLISHED:
   INLINE void bind(const string &event_name, PyObject* callback);
   INLINE void bind(const string &event_name, CallbackObject* callback);
   INLINE void unbind(const string &event_name);
+  INLINE void unbind_all();
   INLINE bool has_event(const string &event_name);
   INLINE void trigger_event(const string &event_name, const string &message = string(), const LPoint2 &coords = LPoint2(0));
 
   // Position
   INLINE void set_top_left(float top, float left);
+  INLINE void set_top_right(float top, float right);
+  INLINE void set_bottom_left(float bottom, float left);
+  INLINE void set_bottom_right(float bottom, float right);
+
   INLINE void set_pos(float top, float left);
+  INLINE LVector2 get_pos();
+
+  INLINE LVector2 get_abs_pos();
+
   INLINE void set_top(float top);
+  INLINE void set_right(float right);
   INLINE void set_bottom(float bottom);
   INLINE void set_left(float left);
-  INLINE void set_right(float right);
-  INLINE LVector2 get_abs_pos();
-  INLINE LVector2 get_pos();
+
   INLINE float get_top();
+  INLINE float get_right();
+  INLINE float get_bottom();
   INLINE float get_left();
 
-  INLINE void set_centered();
-  INLINE void set_centered_vertical();
-  INLINE void set_centered_horizontal();
+  INLINE void set_centered(bool center_vert = true, bool center_horiz = true);
+  INLINE void set_center_vertical(bool centered = true);
+  INLINE void set_center_horizontal(bool centered = true);
+
+  INLINE bool is_centered();
+  INLINE bool is_vertical_centered();
+  INLINE bool is_horizontal_centered();
 
   // Margin
   INLINE void set_margin(float top, float right, float bottom, float left);
@@ -61,6 +75,7 @@ PUBLISHED:
   INLINE float get_margin_right();
   INLINE float get_margin_bottom();
   INLINE float get_margin_left();
+  INLINE LVecBase4 get_margin();
 
   // Size
   INLINE void set_size(const LVector2 &size);
@@ -83,17 +98,41 @@ PUBLISHED:
   INLINE float get_z_offset();
   INLINE float get_absolute_z_offset();
 
+  INLINE void reparent_to(LUIBaseElement *parent);
   INLINE LUIBaseElement* get_parent();
 
   INLINE virtual bool intersects(float x, float y);
 
-  EXTENSION(int __setattr__(PyObject *self, PyObject* name, PyObject *value));
-  EXTENSION(PyObject *__getattr__(PyObject *self, PyObject *name));
-
-
   INLINE void begin_update_section();
   INLINE virtual void end_update_section();
 
+
+  // Properties for python
+  
+  // MAKE_PROPERTY(pos, get_pos, set_pos);
+  
+  // MAKE_PROPERTY(top, get_top, set_top);
+  // MAKE_PROPERTY(bottom, get_bottom, set_bottom);
+  // MAKE_PROPERTY(left, get_left, set_left);
+  // MAKE_PROPERTY(right, get_right, set_right);
+
+  // MAKE_PROPERTY(abs_pos, get_abs_pos);
+  // MAKE_PROPERTY(abs_pos, get_abs_pos);
+  // MAKE_PROPERTY(margin, get_margin, set_margin);
+  
+  // MAKE_PROPERTY(margin_top, get_margin_top, set_margin_top);
+  // MAKE_PROPERTY(margin_right, get_margin_right, set_margin_right);
+  // MAKE_PROPERTY(margin_bottom, get_margin_bottom, set_margin_bottom);
+  // MAKE_PROPERTY(margin_left, get_margin_left, set_margin_left);
+
+  // MAKE_PROPERTY(size, get_size, set_size);
+  // MAKE_PROPERTY(width, get_width, set_width);
+  // MAKE_PROPERTY(height, get_height, set_height);
+  
+  // MAKE_PROPERTY(visible, is_visible, set_visible);
+  // MAKE_PROPERTY(z_offset, get_z_offset, set_z_offset);
+  // MAKE_PROPERTY(absolute_z_offset, get_absolute_z_offset);
+  // MAKE_PROPERTY(parent, get_parent);
 
 public:
 
@@ -105,6 +144,12 @@ public:
   virtual void ls(int ident = 0) = 0;
 
 protected:
+
+  INLINE float get_parent_width();
+  INLINE float get_parent_height();
+
+  INLINE float compute_top();
+  INLINE float compute_left();
 
   enum LUIPlacementMode {
 
@@ -132,6 +177,7 @@ protected:
   PN_stdfloat _offset_x, _offset_y;
   LUIPlacementMode _placement_x, _placement_y;
   PN_stdfloat _pos_x, _pos_y;
+  PN_stdfloat _rel_pos_x, _rel_pos_y;
   LVector2 _size;
   bool _visible;
 

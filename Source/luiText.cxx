@@ -7,7 +7,8 @@ LUIText::LUIText(PyObject *self, LUIObject *parent, const string &text, const st
   : 
   LUIObject(self, parent, x, y),
   _text(text),
-  _font_size(font_size) {
+  _font_size(font_size),
+  _color(1) {
   _snap_position = false;
   set_font(font_name);
 }
@@ -114,6 +115,8 @@ void LUIText::update_text() {
        (dynamic_glyph->get_right() - dynamic_glyph->get_left()) * ppu,
        (dynamic_glyph->get_top() - dynamic_glyph->get_bottom()) * ppu);
     
+    sprite->set_color(_color);
+
     sprite->end_update_section();
 
     // Move *cursor* by glyph length
@@ -128,4 +131,64 @@ void LUIText::update_text() {
 void LUIText::ls(int indent) {
   cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; text = '" << _text << "'; z-index = " << _z_index << " (+ "<< _local_z_index << ")" << endl;
 
+}
+
+
+INLINE void LUIText::update_color() {
+  for (lui_element_iterator it = _children.begin(); it != _children.end(); ++it) {
+    LUISprite* sprite = DCAST(LUISprite, *it);
+
+    // A lui text should have only sprites contained
+    nassertv(sprite != NULL);
+
+    sprite->set_color(_color);
+
+  }
+}
+
+INLINE void LUIText::set_color(const LColor &color) {
+  _color = color;
+  update_color();
+}
+
+INLINE void LUIText::set_color(float r, float g, float b, float a) {
+  _color = LColor(r, g, b, a);
+  update_color();
+}
+
+INLINE void LUIText::set_red(float r) {
+  _color.set_x(r);
+  update_color();
+}
+
+INLINE void LUIText::set_green(float g) {
+  _color.set_y(g);
+  update_color();
+}
+
+INLINE void LUIText::set_blue(float b) {
+  _color.set_z(b);
+  update_color();
+}
+
+INLINE void LUIText::set_alpha(float a) {
+  _color.set_w(a);
+  update_color();
+}
+
+INLINE float LUIText::get_red() {
+  return _color.get_x();
+}
+INLINE float LUIText::get_green() {
+  return _color.get_y();
+}
+INLINE float LUIText::get_blue() {
+  return _color.get_z();
+}
+INLINE float LUIText::get_alpha() {
+  return _color.get_w();
+}
+
+INLINE const LColor &LUIText::get_color() {
+  return _color;
 }

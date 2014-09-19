@@ -1,6 +1,7 @@
 
 
 from panda3d.lui import *
+from random import random
 
 
 class LUIButton(LUIObject):
@@ -19,10 +20,12 @@ class LUIButton(LUIObject):
 
         self.text = LUIText(self, text, "default", 16.0)
         self.text.set_centered()
+        self.text.color = (random(),random(),random())
+        self.text.margin_top = -2
         self.text.z_offset = 10
 
     def on_click(self, event):
-        print "on click!"
+        self.hide()
 
     def on_mouseover(self, event):
         for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
@@ -36,13 +39,13 @@ class LUIButton(LUIObject):
         self.sprite_left.texture = ("btn_active_left", "default", False)
         self.sprite_right.texture = ("btn_active_right", "default", False)
         self.sprite_mid.texture = ("btn_active_mid", "default", False)
-        self.text.margin_top = 1.0
+        self.text.margin_top += 1.0
 
     def on_mouseup(self, event):
         self.sprite_left.texture = ("btn_left", "default", False)
         self.sprite_right.texture = ("btn_right", "default", False)
         self.sprite_mid.texture = ("btn_mid", "default", False)
-        self.text.margin_top = 0.0
+        self.text.margin_top -= 1.0
 
 
 if __name__ == "__main__":
@@ -55,15 +58,17 @@ if __name__ == "__main__":
         text-minfilter linear
         text-magfilter linear
         notify-level-lui info
+        text-pixels-per-unit 32
         sync-video #f
 
     """)
     import direct.directbase.DirectStart
 
+    LUIFontPool.get_global_ptr().register_font("default", loader.loadFont("../Res/font/SourceSansPro-Bold.ttf"))
     LUIAtlasPool.get_global_ptr().load_atlas(
         "default", "../Res/atlas.txt", "../Res/atlas.png")
 
-    base.win.set_clear_color(Vec4(1,1,1,1))
+    base.win.set_clear_color(Vec4(0.5,0.5,0.5,1))
 
     region = LUIRegion.make("LUI", base.win)
     handler = LUIInputHandler()
@@ -77,7 +82,11 @@ if __name__ == "__main__":
             button.left = 10 + x*(button.width)
             region.root().add_child(button)
 
+    def show_all_buttons():
+        for button in region.root().children:
+            button.show()
 
+    base.accept("f2", show_all_buttons)
     base.accept("f3", region.root().ls)
 
     run()

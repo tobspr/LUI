@@ -118,7 +118,7 @@ INLINE void LUIObject::refresh_child_positions() {
 }
 
 INLINE void LUIObject::refresh_child_visibility() {
-  luiObject_cat.error() << "TODO: refresh_child_visibility in LUIObject" << endl;
+  // luiObject_cat.error() << "TODO: refresh_child_visibility in LUIObject" << endl;
 }
 
 INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {

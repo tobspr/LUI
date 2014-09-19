@@ -27,24 +27,43 @@ PUBLISHED:
   LUIText(PyObject *self, LUIObject *parent, const string &text, const string &font_name = "default", float font_size = 16.0, float x = 0.0, float y = 0.0);
   ~LUIText();
 
+
   INLINE void set_font(const string &font_name);
   INLINE void set_text(const string &text);
   INLINE void set_font_size(float size);
-  
+
+  // Color
+  INLINE void set_color(const LColor &color);
+  INLINE void set_color(float r, float g, float b, float a = 1.0);
+
+  INLINE void set_red(float r);
+  INLINE void set_green(float g);
+  INLINE void set_blue(float b);
+  INLINE void set_alpha(float a);
+
+  INLINE float get_red();
+  INLINE float get_green();
+  INLINE float get_blue();
+  INLINE float get_alpha();
+
+  INLINE const LColor &get_color();
+
+
+
   virtual void ls(int indent = 0);
- 
-  EXTENSION(int __setattr__(PyObject *self, PyObject* name, PyObject *value));
-  EXTENSION(PyObject *__getattr__(PyObject *self, PyObject *name));
- 
+
 
 protected:
 
   void update_text();
+  INLINE void update_color();
 
   DynamicTextFont *_font;
   string _text;
   float _font_size;
   pvector<PT(DynamicTextGlyph)> _glyphs;
+
+  LColor _color;
 
 
 public:

@@ -85,8 +85,6 @@ PUBLISHED:
 
   void ls(int indent = 0);
   
-  EXTENSION(int __setattr__(PyObject *self, PyObject* name, PyObject *value));
-  EXTENSION(PyObject *__getattr__(PyObject *self, PyObject *name));
 
 public:
 

@@ -39,8 +39,8 @@ INLINE LUIVertexPool* LUIRoot::get_vpool_by_texture(Texture* tex) {
     return _pools[tex];
   }
 
-  if (lui_cat.is_info()) {
-    lui_cat.info() << "Allocating new vertex pool .." << endl;
+  if (lui_cat.is_debug()) {
+    lui_cat.debug() << "Allocating new vertex pool .." << endl;
   }
   LUIVertexPool* pool = new LUIVertexPool(tex);
   _pools[tex] = pool;
