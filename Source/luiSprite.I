@@ -71,8 +71,6 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
       assign_vertex_pool();
     }
   }
-
-
 }
 
 INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor, bool resize) {
@@ -130,8 +128,42 @@ INLINE void LUISprite::print_vertices() {
 
 }
 
-INLINE void LUISprite::end_update_section() {
-  LUIBaseElement::end_update_section();
-
-  // Sprite specific update stuff comes here
+INLINE void LUISprite::on_bounds_changed() {
+  _data[0].x = _pos_x;
+  _data[0].z = _pos_y;
+  recompute_vertices();
+  update_vertex_pool();
 }
+
+INLINE void LUISprite::on_visibility_changed() {
+  luiSprite_cat.error() << "Todo: Implement hide() / show()" << endl;
+}
+
+INLINE void LUISprite::on_detached() {
+  unregister_events();
+  if (_tex != NULL) {
+    unassign_vertex_pool();
+  }
+  _root = NULL;
+  _parent = NULL;
+}
+
+INLINE void LUISprite::on_z_index_changed() {
+  for (int i = 0; i < 4; i++) {
+    _data[i].y = -_z_index;
+  }
+  update_vertex_pool();
+}
+
+INLINE void LUISprite::on_color_changed() {
+  LUIBaseElement::on_color_changed();
+
+  for (int i = 0; i < 4; i++) {
+    _data[i].color[0] = (unsigned char) (_composed_color.get_x() * 255.0);
+    _data[i].color[1] = (unsigned char) (_composed_color.get_y() * 255.0);
+    _data[i].color[2] = (unsigned char) (_composed_color.get_z() * 255.0);
+    _data[i].color[3] = (unsigned char) (_composed_color.get_w() * 255.0);
+  }
+  update_vertex_pool();
+}
+

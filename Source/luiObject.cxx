@@ -1,14 +1,10 @@
 
-
 #include "luiObject.h"
-
-
-TypeHandle LUIObject::_type_handle;
 
 NotifyCategoryDef(luiObject, ":lui");
 
 int LUIObject::_instance_count = 0;
-
+TypeHandle LUIObject::_type_handle;
 
 LUIObject::LUIObject(PyObject *self, float x, float y, float w, float h) : LUIBaseElement(self) {
   init();
@@ -54,23 +50,6 @@ void LUIObject::init() {
   }
 }
 
-PT(LUIElementIterator) LUIObject::get_children() {
-  return new LUIElementIterator(_children.begin(), _children.end());
-}
-
-void LUIObject::on_bounds_changed() {
-  refresh_child_positions();
-}
-
-void LUIObject::on_visibility_changed() {
-  refresh_child_visibility();
-}
-
-void LUIObject::on_z_index_changed() {
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
-    (*it)->recompute_z_index();
-  }
-}
 
 void LUIObject::set_root(LUIRoot* root) {
 
@@ -97,21 +76,6 @@ void LUIObject::set_root(LUIRoot* root) {
     }
 
   }
-}
-
-void LUIObject::on_detached() {
-  if (luiObject_cat.is_spam()) {
-    luiObject_cat.spam() << "Got detached .." << endl;
-  }
-
-  unregister_events();
-  _root = NULL;
-  _parent = NULL;
-
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
-    (*it)->on_detached();
-  }
-
 }
 
 void LUIObject::ls(int indent) {

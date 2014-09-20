@@ -31,3 +31,8 @@ void LUIFontPool::register_font(const string &name, PT(DynamicTextFont) font) {
   lui_cat.debug() << "Registering font " << name << endl;
   _fonts[name] = font;
 }
+
+
+void LUIFontPool::load_font(const string &name, const string&font_file) {
+  lui_cat.error() << "Todo: LUIFontPool::load_font" << endl;
+}

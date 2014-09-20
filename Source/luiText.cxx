@@ -6,7 +6,6 @@ TypeHandle LUIText::_type_handle;
 LUIText::LUIText(PyObject *self, LUIObject *parent, const string &text, const string &font_name, float font_size, float x, float y) 
   : 
   LUIObject(self, parent, x, y),
-  LUIColorable(),
   _text(text),
   _font_size(font_size) {
   _snap_position = false;
@@ -16,19 +15,6 @@ LUIText::LUIText(PyObject *self, LUIObject *parent, const string &text, const st
 
 LUIText::~LUIText() {
 
-}
-
-
-void LUIText::on_color_changed() {
-  for (lui_element_iterator it = _children.begin(); it != _children.end(); ++it) {
-    LUISprite* sprite = DCAST(LUISprite, *it);
-
-    // A lui text should have only sprites contained
-    nassertv(sprite != NULL);
-
-    sprite->set_color(_color);
-
-  }
 }
 
 void LUIText::update_text() {

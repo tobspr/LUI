@@ -16,6 +16,7 @@
 #include "luiAtlasPool.h"
 #include "luiAtlasDescriptor.h"
 #include "luiIterators.h"
+#include "luiColorable.h"
 
 #include "config_lui.h"
 
@@ -33,16 +34,9 @@ PUBLISHED:
   LUIObject(PyObject *self, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
   LUIObject(PyObject *self, LUIObject *parent, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
 
-
   virtual ~LUIObject();
 
-  // INLINE LUISprite *attach_sprite(const string &source, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
-  // INLINE LUISprite *attach_sprite(const string &source, const string &atlas_id, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
-  // INLINE LUISprite *attach_sprite(PT(Texture) tex, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
-
-
-  PT(LUIElementIterator) get_children();
-
+  INLINE PT(LUIElementIterator) get_children();
   INLINE PT(LUIBaseElement) add_child(PT(LUIBaseElement) child);
   INLINE void remove_child(PT(LUIBaseElement) child);
   INLINE void remove_all_children();
@@ -51,22 +45,23 @@ PUBLISHED:
 
   virtual void ls(int indent = 0);
 
+  // Python properties
+  MAKE_PROPERTY(children, get_children);
+  MAKE_PROPERTY(child_count, get_child_count);
 
 protected:
 
   void init();
 
   // Interface to LUIBaseElement
-  void on_bounds_changed();
-  void on_visibility_changed();
-  void on_detached();
-  void set_root(LUIRoot* root);
-  void on_z_index_changed();
+  INLINE virtual void on_bounds_changed();
+  INLINE virtual void on_visibility_changed();
+  INLINE virtual void on_detached();
+  virtual void set_root(LUIRoot* root);
+  INLINE virtual void on_z_index_changed();
   
-
-  // PT(LUISprite) construct_and_attach_sprite(float x, float y, float w, float h);
-  INLINE void refresh_child_positions();
-  INLINE void refresh_child_visibility();
+  // Interface to LUIColorable
+  INLINE virtual void on_color_changed(); 
 
   pset<PT(LUIBaseElement)> _children;
 

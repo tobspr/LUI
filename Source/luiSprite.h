@@ -36,7 +36,7 @@ NotifyCategoryDecl(luiSprite, EXPCL_LUI, EXPTP_LUI);
 //               scale, and uv coordinates. It also notifies the
 //               LUIVertexPool when any scalar or texture got changed.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_LUI LUISprite : public LUIBaseElement, public LUIColorable  {
+class EXPCL_LUI LUISprite : public LUIBaseElement  {
 
   friend class LUIObject;
 
@@ -69,17 +69,13 @@ PUBLISHED:
   INLINE void print_vertices();
 
   void ls(int indent = 0);
+
+  // Python properties
+  MAKE_PROPERTY(texture, get_texture);
   
-
-public:
-
-  // Inherited from LUIBaseElement
-  INLINE virtual void end_update_section();
-
 protected:
 
   void init(LUIObject *parent, float x, float y, float w, float h, const LColor &color);
-
 
   INLINE void recompute_vertices();
   void update_vertex_pool();
@@ -87,11 +83,11 @@ protected:
   void unassign_vertex_pool();
 
   // Interface to LUIBaseElement
-  void on_bounds_changed();
-  void on_visibility_changed();
-  void on_detached();
+  INLINE void on_bounds_changed();
+  INLINE void on_visibility_changed();
+  INLINE void on_detached();
   void set_root(LUIRoot* root);
-  void on_z_index_changed();
+  INLINE void on_z_index_changed();
 
   // Interface to LUIColorable
   void on_color_changed();

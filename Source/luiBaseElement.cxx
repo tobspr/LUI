@@ -27,7 +27,8 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _z_index(0.0),
   _events_registered(false),
   _in_update_section(false),
-  _snap_position(true)
+  _snap_position(true),
+  LUIColorable()
 {
 
   // We could do _margin() but that gives a warning

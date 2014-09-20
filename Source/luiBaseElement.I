@@ -423,3 +423,11 @@ INLINE void LUIBaseElement::recompute_z_index() {
   }
   on_z_index_changed();
 }
+
+INLINE void LUIBaseElement::on_color_changed() {
+  if (_parent != NULL) {
+    compose_color(_parent->get_composed_color());
+  } else {
+    compose_color();
+  }
+}

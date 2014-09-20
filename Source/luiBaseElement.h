@@ -13,6 +13,7 @@
 #include "callbackObject.h"
 #include "pythonCallbackObject.h"
 #include "luiEventData.h"
+#include "luiColorable.h"
 
 
 class LUIRoot;
@@ -20,7 +21,7 @@ class LUIObject;
 
 NotifyCategoryDecl(luiBaseElement, EXPCL_LUI, EXPTP_LUI);
 
-class EXPCL_LUI LUIBaseElement : public TypedReferenceCount {
+class EXPCL_LUI LUIBaseElement : public TypedReferenceCount, public LUIColorable {
 
   friend class LUIObject;
 
@@ -187,6 +188,9 @@ protected:
   virtual void on_bounds_changed() = 0;
   virtual void on_visibility_changed() = 0;
   virtual void on_z_index_changed() = 0;
+
+  // Interface to LUIColorable
+  INLINE virtual void on_color_changed();
 
   INLINE void recompute_z_index();
   void register_events();

@@ -21,7 +21,7 @@
 #include "texture.h"
 #include "dcast.h"
 
-class EXPCL_LUI LUIText : public LUIObject, public LUIColorable {
+class EXPCL_LUI LUIText : public LUIObject {
 
 PUBLISHED:
 
@@ -49,7 +49,7 @@ protected:
   void update_text();
 
   // Interface to LUIColorable
-  void on_color_changed();
+  INLINE virtual void on_color_changed();
 
   DynamicTextFont *_font;
   string _text;

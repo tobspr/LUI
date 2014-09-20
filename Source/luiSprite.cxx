@@ -10,19 +10,19 @@ TypeHandle LUISprite::_type_handle;
 NotifyCategoryDef(luiSprite, ":lui");
 
 // Initialize with a path to an image  
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self), LUIColorable() {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
   init(parent, x, y, w, h, color);
   set_texture(image, true);
 }
 
 // Initialize with a texture handle
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self), LUIColorable() {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
   init(parent, x, y, w, h, color);
   set_texture(texture, true);
 }
 
 // Initialize with a atlas entry
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self), LUIColorable() {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
   init(parent, x, y, w, h, color);
   set_texture(entry_id, atlas_id, true);
 }
@@ -70,43 +70,6 @@ LUISprite::~LUISprite() {
   }
 }
 
-void LUISprite::on_bounds_changed() {
-  _data[0].x = _pos_x;
-  _data[0].z = _pos_y;
-  recompute_vertices();
-  update_vertex_pool();
-}
-
-void LUISprite::on_visibility_changed() {
-  luiSprite_cat.error() << "Todo: Implement hide() / show()" << endl;
-}
-
-
-void LUISprite::on_color_changed() {
-  for (int i = 0; i < 4; i++) {
-    _data[i].color[0] = (unsigned char) (get_red() * 255.0);
-    _data[i].color[1] = (unsigned char) (get_blue() * 255.0);
-    _data[i].color[2] = (unsigned char) (get_green() * 255.0);
-    _data[i].color[3] = (unsigned char) (get_alpha() * 255.0);
-  }
-  update_vertex_pool();
-}
-
-void LUISprite::on_detached() {
-  unregister_events();
-  if (_tex != NULL) {
-    unassign_vertex_pool();
-  }
-  _root = NULL;
-  _parent = NULL;
-}
-
-void LUISprite::on_z_index_changed() {
-  for (int i = 0; i < 4; i++) {
-    _data[i].y = -_z_index;
-  }
-  update_vertex_pool();
-}
 
 void LUISprite::ls(int indent) {
   cout << string(indent, ' ')  << "[LUISprite] pos = " 

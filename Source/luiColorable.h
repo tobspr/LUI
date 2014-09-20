@@ -30,21 +30,27 @@ PUBLISHED:
   INLINE float get_alpha();
 
   INLINE const LColor &get_color();
+  INLINE const LColor &get_composed_color();
 
   // Python properties
   MAKE_PROPERTY(color, get_color, set_color);
+  MAKE_PROPERTY(composed_color, get_composed_color);
   MAKE_PROPERTY(red, get_red, set_red);
   MAKE_PROPERTY(green, get_green, set_green);
   MAKE_PROPERTY(blue, get_blue, set_blue);
   MAKE_PROPERTY(alpha, get_alpha, set_alpha);
 
-public:
+protected:
 
   LUIColorable();
   virtual ~LUIColorable();
 
   virtual void on_color_changed() = 0;
+
+  INLINE void compose_color(const LColor &parent_color = LColor(1));
+
   LColor _color;
+  LColor _composed_color;
 
 };
 

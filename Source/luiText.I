@@ -29,3 +29,10 @@ INLINE const string& LUIText::get_text() {
 INLINE float LUIText::get_font_size() {
     return _font_size;
 }
+
+INLINE void LUIText::on_color_changed() {
+  LUIBaseElement::on_color_changed();
+  for (lui_element_iterator it = _children.begin(); it != _children.end(); ++it) {
+    (*it)->set_color(_color);
+  }
+}

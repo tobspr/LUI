@@ -59,3 +59,20 @@ INLINE float LUIColorable::get_alpha() {
 INLINE const LColor &LUIColorable::get_color() {
   return _color;
 }
+
+INLINE const LColor &LUIColorable::get_composed_color() {
+  return _composed_color;
+}
+
+INLINE void LUIColorable::compose_color(const LColor &parent_color) {
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Composing color with parent color (" << parent_color.get_x() << ", " << parent_color.get_y() << ", " << parent_color.get_z() << ", " << parent_color.get_w() << ")" << endl;
+  }
+
+  _composed_color = LColor(
+    parent_color.get_x() * _color.get_x(),
+    parent_color.get_y() * _color.get_y(),
+    parent_color.get_z() * _color.get_z(),
+    parent_color.get_w() * _color.get_w()
+  );
+}
