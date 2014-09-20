@@ -75,7 +75,8 @@ PUBLISHED:
   
 protected:
 
-  void init(LUIObject *parent, float x, float y, float w, float h, const LColor &color);
+  void init(LUIObject *parent, float x, float y, const LColor &color);
+  INLINE void init_size(float w, float h);
 
   INLINE void recompute_vertices();
   void update_vertex_pool();

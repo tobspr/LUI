@@ -2,7 +2,7 @@
 #include "luiRoot.h"
 
 
-LUIRoot::LUIRoot(float width, float height) {
+LUIRoot::LUIRoot(float width, float height) : _requested_focus(NULL) {
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Constructing new LUIRoot ..\n";

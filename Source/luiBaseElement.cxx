@@ -28,6 +28,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _events_registered(false),
   _in_update_section(false),
   _snap_position(true),
+  _focused(false),
   LUIColorable()
 {
 
@@ -202,7 +203,7 @@ void LUIBaseElement::reparent_to(LUIBaseElement *parent) {
 
     LUIObject *parent_as_object = DCAST(LUIObject, _parent);
 
-    // If this throws, our current parent is not a LUIObject (How can this ever be possible?)
+    // If this throws, our current parent is not a LUIObject, or a base class of it (How can this ever be possible?)
     nassertv(parent_as_object != NULL);
     parent_as_object->remove_child(this);
   }
@@ -217,3 +218,7 @@ void LUIBaseElement::reparent_to(LUIBaseElement *parent) {
   new_parent_as_object->add_child(this);
 }
 
+
+void LUIBaseElement::request_focus() {
+  _root->request_focus(this);
+}

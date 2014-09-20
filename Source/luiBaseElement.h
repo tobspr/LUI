@@ -105,6 +105,10 @@ PUBLISHED:
   INLINE float get_z_offset();
   INLINE float get_abs_z_offset();
 
+  // Focus
+  INLINE bool has_focus();
+  void request_focus();
+
   void reparent_to(LUIBaseElement *parent);
   INLINE LUIBaseElement* get_parent();
 
@@ -115,7 +119,6 @@ PUBLISHED:
 
 
   // Properties for python
-  
   MAKE_PROPERTY(left_top, get_left_top, set_left_top);
   MAKE_PROPERTY(right_top, get_right_top, set_right_top);
   MAKE_PROPERTY(left_bottom, get_left_bottom, set_left_bottom);
@@ -144,6 +147,7 @@ PUBLISHED:
   MAKE_PROPERTY(visible, is_visible, set_visible);
   MAKE_PROPERTY(z_offset, get_z_offset, set_z_offset);
   MAKE_PROPERTY(absolute_z_offset, get_abs_pos);
+  MAKE_PROPERTY(focus, has_focus, request_focus);
   MAKE_PROPERTY(parent, get_parent, reparent_to);
 
 public:
@@ -154,6 +158,8 @@ public:
   INLINE void set_snap_position(bool snap);
 
   virtual void ls(int ident = 0) = 0;
+
+  INLINE void set_focus(bool focus);
 
 protected:
 
@@ -205,6 +211,8 @@ protected:
 
   bool _in_update_section;
   bool _snap_position;
+
+  bool _focused;
 
   PT(LUIBounds) _margin;
   PT(LUIBounds) _padding;

@@ -167,3 +167,12 @@ INLINE void LUISprite::on_color_changed() {
   update_vertex_pool();
 }
 
+INLINE void LUISprite::init_size(float w, float h) {
+  if (w > 0.0 && h > 0.0) {
+    set_size(w, h);
+  } else if (w > 0.0) {
+    set_width(w);
+  } else if (h > 0.0) {
+    set_height(h);
+  }
+}

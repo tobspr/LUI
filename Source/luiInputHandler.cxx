@@ -11,7 +11,8 @@ TypeHandle LUIInputHandler::_type_handle;
 LUIInputHandler::LUIInputHandler(const string &name) : 
   DataNode(name),
   _hover_element(NULL),
-  _mouse_down_element(NULL)
+  _mouse_down_element(NULL),
+  _focused_element(NULL)
    {
   _mouse_pos_input =  define_input("pixel_xy", EventStoreVec2::get_class_type());
   _buttons_input = define_input("button_events", ButtonEventList::get_class_type());
@@ -24,7 +25,6 @@ LUIInputHandler::LUIInputHandler(const string &name) :
 
   _current_state.has_mouse_pos = false;
   _last_state.has_mouse_pos = false;
-
 
 }
 
@@ -162,6 +162,22 @@ void LUIInputHandler::process(LUIRoot *root) {
     }
   }
 
-  _last_state = _current_state;
+  // Manage focus requests
+  LUIBaseElement *requested_focus = root->get_requested_focus();
 
+  if (requested_focus != NULL) {
+
+    if (requested_focus != _focused_element) {
+      lui_cat.spam() << "Focus changed to " << requested_focus << " from " << _focused_element << endl;
+      requested_focus->trigger_event("focus" , "", _current_state.mouse_pos);
+
+      if (_focused_element != NULL) {
+        _focused_element->trigger_event("blur", "", _current_state.mouse_pos);
+      }
+
+      _focused_element = requested_focus;
+    }
+  }
+
+  _last_state = _current_state;
 }

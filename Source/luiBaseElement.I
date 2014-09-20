@@ -300,6 +300,10 @@ INLINE float LUIBaseElement::get_abs_z_offset() {
   return _z_index;
 }
 
+INLINE bool LUIBaseElement::has_focus() {
+  return _focused;
+}
+
 INLINE LUIBaseElement* LUIBaseElement::get_parent() {
   return _parent;
 }

@@ -60,3 +60,12 @@ INLINE void LUIRoot::unregister_event_object(LUIBaseElement *event_object) {
   }
   _event_objects.erase(event_object);
 }
+
+INLINE void LUIRoot::request_focus(LUIBaseElement *elem) {
+  nassertv(elem != NULL);
+  _requested_focus = elem;
+}
+
+INLINE LUIBaseElement *LUIRoot::get_requested_focus() {
+  return _requested_focus;
+}

@@ -39,6 +39,10 @@ public:
   INLINE void register_event_object(LUIBaseElement *event_object);
   INLINE void unregister_event_object(LUIBaseElement *event_object);
 
+
+  INLINE void request_focus(LUIBaseElement *elem);
+  INLINE LUIBaseElement *get_requested_focus();
+
   // We expose this to LUIRegion only, so it can iterate over all pools
   // in a fast way.
   INLINE LUIVertexPoolMap::iterator get_iter_pool_begin();
@@ -49,6 +53,8 @@ public:
 
 
 private:
+
+
 
   // Vertex pools are stored as single pointers, to avoid circular
   // references. The destructor of LUIRoot takes care of deleting them.
@@ -64,6 +70,9 @@ private:
   // Event objects are not stored reference counted, it is expected that the
   // LUIBaseElement unregisters before destruction.
   LUIEventObjectSet _event_objects;
+
+  // Store the focus requests
+  LUIBaseElement* _requested_focus;
 
 };
 

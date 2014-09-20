@@ -26,11 +26,12 @@ class LUIButton(LUIObject):
         self.text.z_offset = 10
 
     def on_click(self, event):
-        self.hide()
+        # self.hide()
+        pass
 
     def on_mouseover(self, event):
         for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
-            child.color = (0.5, 0.5, 0.5)
+            child.color = (0.9, 0.9, 0.9)
 
     def on_mouseout(self, event):
         for child in [self.sprite_left, self.sprite_mid, self.sprite_right]:
@@ -47,7 +48,6 @@ class LUIButton(LUIObject):
         self.sprite_right.set_texture("btn_right", "default", False)
         self.sprite_mid.set_texture("btn_mid", "default", False)
         self.text.margin.top = -2.0
-
 
 if __name__ == "__main__":
 
