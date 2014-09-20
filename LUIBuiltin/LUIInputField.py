@@ -24,10 +24,22 @@ class LUIInputField(LUIObject):
         self.cursor = LUISprite(
             self, "blank", "default", x=0, y=0, w=2, h=font_size)
         self.cursor.color = (0.2, 0.2, 0.2)
-        self.cursor.margin = (6, 0, 0, 8)
+        self.cursor.margin = (6, 0, 0, 2)
         self.cursor.z_offset = 20
 
+        self.background_border.hide()
+        self.cursor.hide()
+
+        self._current_text = "Placeholder"
         self._place_cursor()
+
+    def _render_text(self):
+        self.text.text = self._current_text
+        self._place_cursor()
+
+    def _add_text(self, text):
+        self._current_text += text
+        self._render_text()
 
     def on_click(self, event):
         print "Gain focus .."
@@ -35,9 +47,25 @@ class LUIInputField(LUIObject):
 
     def on_focus(self, event):
         print "Got focus .."
+        self.background_border.show()
+        self.cursor.show()
+
+    def on_keydown(self, event):
+        key_name = event.get_message()
+        if len(key_name) == 1:
+            self._add_text(key_name)
+        else:
+            if key_name == "backspace":
+                self._current_text = self._current_text[:-1]
+                self._render_text()
+            elif key_name == "space":
+                self._add_text(" ")
+
 
     def on_blur(self, event):
         print "Lost focus .."
+        self.background_border.hide()
+        self.cursor.show()
 
     def _place_cursor(self):
         self.cursor.left = self.text.left + self.text.width
@@ -63,7 +91,7 @@ if __name__ == "__main__":
     LUIAtlasPool.get_global_ptr().load_atlas(
         "default", "../Res/atlas.txt", "../Res/atlas.png")
 
-    base.win.set_clear_color(Vec4(0.5, 0.5, 0.5, 1))
+    base.win.set_clear_color(Vec4(1,1,1, 1))
 
     region = LUIRegion.make("LUI", base.win)
     handler = LUIInputHandler()

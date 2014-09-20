@@ -50,6 +50,9 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
   }
   
 
+  _key_events.clear();
+
+
   if (input.has_data(_buttons_input)) {
     const ButtonEventList *this_button_events;
     DCAST_INTO_V(this_button_events, input.get_data(_buttons_input).get_ptr());
@@ -59,7 +62,7 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
       const ButtonEvent &be = this_button_events->get_event(i);
 
       // Button Down
-      if (be._type == ButtonEvent::T_down) {
+      if (be._type == ButtonEvent::T_down || be._type == ButtonEvent::T_repeat) {
         // if (be._button == KeyboardButton::control()) {
         //   _modifiers |= KM_CTRL;
         // } else if (be._button == KeyboardButton::shift()) {
@@ -87,6 +90,9 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
           _current_state.mouse_buttons[3] = true;
         } else if (be._button == MouseButton::five()) {
           _current_state.mouse_buttons[4] = true;
+        } else {
+          LUIKeyEvent event = {be._button.get_name(), M_down};
+          _key_events.push_back(event);
         }
 
       } else if (be._type == ButtonEvent::T_up) {
@@ -101,7 +107,12 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
           _current_state.mouse_buttons[3] = false;
         } else if (be._button == MouseButton::five()) {
           _current_state.mouse_buttons[4] = false;
+        } else {
+
+        LUIKeyEvent event = {be._button.get_name(), M_up};
+        _key_events.push_back(event);
         }
+
       }
     }
   }
@@ -111,6 +122,8 @@ void LUIInputHandler::process(LUIRoot *root) {
 
   LUIBaseElement *current_hover = NULL;
   float current_hover_z_index = -1000000.0;
+
+
 
   if (_current_state.has_mouse_pos) {
     
@@ -169,15 +182,38 @@ void LUIInputHandler::process(LUIRoot *root) {
 
     if (requested_focus != _focused_element) {
       lui_cat.spam() << "Focus changed to " << requested_focus << " from " << _focused_element << endl;
+      requested_focus->set_focus(true);
       requested_focus->trigger_event("focus" , "", _current_state.mouse_pos);
 
       if (_focused_element != NULL) {
+        _focused_element->set_focus(false);
         _focused_element->trigger_event("blur", "", _current_state.mouse_pos);
       }
 
       _focused_element = requested_focus;
     }
   }
+
+  // Check key events
+
+  if (_focused_element != NULL) {
+    for(vector<LUIKeyEvent>::iterator it = _key_events.begin(); it != _key_events.end(); ++it) {
+      cout << "key event! code: " << (*it).btn_name << ", mode = " << (*it).mode << endl;
+      
+      switch((*it).mode) {
+        case M_down: {
+          _focused_element->trigger_event("keydown", (*it).btn_name, _current_state.mouse_pos);
+          break;
+        }
+        case M_up: {
+          _focused_element->trigger_event("keyup", (*it).btn_name, _current_state.mouse_pos);
+          break; 
+        }
+      }
+
+    }
+  }
+
 
   _last_state = _current_state;
 }

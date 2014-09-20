@@ -342,6 +342,10 @@ INLINE void LUIBaseElement::set_parent(LUIBaseElement* parent) {
   _parent = parent;
 }
 
+INLINE void LUIBaseElement::set_focus(bool focus) {
+  _focused = focus;
+}
+
 INLINE float LUIBaseElement::get_parent_width() {
   if (_parent == NULL) {
     return 0.0;

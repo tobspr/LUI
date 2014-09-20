@@ -13,6 +13,9 @@
 
 class LUIBaseElement;
 
+
+
+
 class EXPCL_LUI LUIInputHandler : public DataNode {
 
 PUBLISHED:
@@ -36,6 +39,21 @@ protected:
     bool mouse_buttons[5];
   };
 
+  enum LUIKeyEventMode {
+    M_up,
+    M_down,
+    M_repeat,
+    M_press
+  };    
+
+  struct LUIKeyEvent {
+    string btn_name;
+    LUIKeyEventMode mode;
+  };
+
+
+  INLINE string get_key_string(int key);
+
   LUIBaseElement *_hover_element;
   LUIBaseElement *_mouse_down_element;
   LUIBaseElement *_focused_element;
@@ -48,6 +66,10 @@ protected:
 
   LUIInputState _last_state;
   LUIInputState _current_state;
+
+
+  map<int, string> _keymap;
+  vector<LUIKeyEvent> _key_events;
 
 public:
   static TypeHandle get_class_type() {
