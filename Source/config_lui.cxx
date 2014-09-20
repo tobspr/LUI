@@ -16,7 +16,6 @@
 #include "luiText.h"
 #include "luiEventData.h"
 
-
 Configure(config_lui);
 NotifyCategoryDef(lui, "");
 

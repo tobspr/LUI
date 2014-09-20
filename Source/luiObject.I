@@ -79,7 +79,7 @@ INLINE void LUIObject::on_bounds_changed() {
 }
 
 INLINE void LUIObject::on_visibility_changed() {
-  luiObject_cat.error() << "Todo: On on_visibility_changed" << endl;
+  luiObject_cat.info() << "Todo: On on_visibility_changed" << endl;
 }
 
 INLINE void LUIObject::on_z_index_changed() {

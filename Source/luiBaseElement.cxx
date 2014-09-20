@@ -31,10 +31,8 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   LUIColorable()
 {
 
-  // We could do _margin() but that gives a warning
-  for (int i = 0; i < 4; ++i) {
-    _margin[i] = 0.0;
-  }
+  _margin = new LUIBounds(0,0,0,0);
+  _padding = new LUIBounds(0,0,0,0);
 
   if (self != NULL) {
     // cout << "Got self instance:" << self << endl;
@@ -85,38 +83,84 @@ void LUIBaseElement::recompute_position() {
   if (_in_update_section) return;
 
   if (!_visible) {
-    // Just move out of the view frustum. Should be enough
+    // Just move out of the view frustum. Hacky but works fine :)
     _pos_x = 999999.0;
     _pos_y = 999999.0;
     on_bounds_changed();
     return;
   } 
 
-  // Recompute actual position from top/bottom and left/right offsets
-  LVector2 parent_size(0);
-  LVector2 parent_pos(0);
+  LVector2 ppos(0);
 
-  if (_parent != (LUIBaseElement*)NULL) {
-    parent_size = _parent->get_size();
-    parent_pos = _parent->get_abs_pos();
-  };
+  // When there is no parent, there is no sense in computing an accurate position
+  if (_parent == NULL) {
+    _rel_pos_x = _offset_x;
+    _rel_pos_x = _offset_y;
 
-  if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << "Recomputing, bounds = " << parent_size.get_x() << ", " 
-      << parent_size.get_y() << ", pos = " << parent_pos.get_x() 
-      << ", " << parent_pos.get_y() << endl;
+
+  } else {
+
+    // Recompute actual position from top/bottom and left/right offsets
+    ppos = _parent->get_abs_pos();
+    LVector2 psize = _parent->get_size();
+    LUIBounds* ppadding = _parent->get_padding();
+
+    if (luiBaseElement_cat.is_spam()) {
+      luiBaseElement_cat.spam() << "Compute, bounds = " << psize.get_x() << ", " 
+        << psize.get_y() << ", pos = " << ppos.get_x() 
+        << ", " << ppos.get_y() << ", place = " << _placement_x << " / " << _placement_y 
+        << ", margin = " << _margin->get_top() << ", " << _margin->get_right() << ", " 
+        << _margin->get_bottom() << ", " << _margin->get_left() << ", p_padding = " 
+        << ppadding->get_top() << ", " << ppadding->get_right() << ", " << ppadding->get_bottom() << ", " << ppadding->get_left()
+        << ", size = " << _size.get_x() << " / " << _size.get_y()
+        << endl;
+    }
+
+    // Compute top
+    // Stick top
+    if (_placement_y == M_default) {
+      _rel_pos_y = _offset_y + _margin->get_top() + ppadding->get_top();
+
+    // Stick bottom
+    } else if (_placement_x == M_inverse) {
+      _rel_pos_y = psize.get_y() - _offset_y - _size.get_y() - _margin->get_bottom() - ppadding->get_bottom();
+    
+    // Stick center
+    } else {
+      _rel_pos_y = (psize.get_y() - _size.get_y()) / 2.0 + 
+                   (_margin->get_top() - _margin->get_bottom()) + 
+                   (ppadding->get_top() - ppadding->get_bottom());
+    }
+
+    // Compute left
+    // Stick left
+    if (_placement_x == M_default) {
+      _rel_pos_x = _offset_x + _margin->get_left() + ppadding->get_left();
+
+    // Stick right
+    } else if (_placement_x == M_inverse) {
+      _rel_pos_x = psize.get_x() - _offset_x - _size.get_x() - _margin->get_right() - ppadding->get_right();
+    
+    // Center Element
+    } else {
+      _rel_pos_x = (psize.get_x() - _size.get_x()) / 2.0 + 
+                   (_margin->get_left() - _margin->get_right()) + 
+                   (ppadding->get_left() - ppadding->get_right());
+    }
   }
-
-  _rel_pos_x = compute_left();
-  _rel_pos_y = compute_top();
 
   if (_snap_position) {
     _rel_pos_x = ceil(_rel_pos_x);
     _rel_pos_y = ceil(_rel_pos_y);
   }
 
-  _pos_x = _rel_pos_x + parent_pos.get_x();
-  _pos_y = _rel_pos_y + parent_pos.get_y();
+
+  _pos_x = _rel_pos_x + ppos.get_x();
+  _pos_y = _rel_pos_y + ppos.get_y();
+
+  if (luiBaseElement_cat.is_spam()) {
+    luiBaseElement_cat.spam() << "new position is " << _rel_pos_x << " / " << _rel_pos_y << " (abs: " << _pos_x << " / " << _pos_y << ")" << endl;
+  }
 
   on_bounds_changed();
 }
@@ -172,3 +216,4 @@ void LUIBaseElement::reparent_to(LUIBaseElement *parent) {
   
   new_parent_as_object->add_child(this);
 }
+

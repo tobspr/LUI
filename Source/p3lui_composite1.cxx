@@ -16,3 +16,4 @@
 #include "luiText.cxx"
 #include "luiEventData.cxx"
 #include "luiColorable.cxx"
+#include "luiBounds.cxx"

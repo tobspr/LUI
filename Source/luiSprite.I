@@ -136,7 +136,7 @@ INLINE void LUISprite::on_bounds_changed() {
 }
 
 INLINE void LUISprite::on_visibility_changed() {
-  luiSprite_cat.error() << "Todo: Implement hide() / show()" << endl;
+  luiSprite_cat.info() << "Todo: on_visibility_changed" << endl;
 }
 
 INLINE void LUISprite::on_detached() {
