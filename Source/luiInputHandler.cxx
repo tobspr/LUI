@@ -167,6 +167,24 @@ void LUIInputHandler::process(LUIRoot *root) {
     _hover_element = current_hover;
   }
 
+  // Check for mouse move
+  if (_current_state.mouse_pos != _last_state.mouse_pos) {
+    
+    // Send a event to the hovered element
+    if (_hover_element != NULL) {
+      _hover_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
+    }
+
+    // The focus element also recieves a mousemove element
+    if (_focused_element != NULL) {
+      _focused_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
+    }
+  }
+
+
+
+
+
   // Check for click events
   int click_mouse_button = 0;
 
@@ -234,7 +252,7 @@ void LUIInputHandler::process(LUIRoot *root) {
     }
 
     for (vector<int>::iterator it = _text_events.begin(); it != _text_events.end(); ++it) {
-      _focused_element->trigger_event("textinput", wstring(1, (char)(*it)), _current_state.mouse_pos);
+      _focused_element->trigger_event("textinput", wstring(1, (unsigned short)(*it)), _current_state.mouse_pos);
     }
 
   }

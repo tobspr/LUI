@@ -15,7 +15,7 @@ class LUIInputField(LUIObject):
         self.background_border = LUISprite(
             self, "blank", "default", -1, -1, width + 2, font_size + 12, (0.2, 0.6, 1.0, 1.0))
 
-        self.text = LUIText(self, "Placeholder", "default", font_size)
+        self.text = LUIText(self, u"Placeholder", "default", font_size)
         self.text.color = (0.5, 0.5, 0.5)
         self.text.margin.top = 3
         self.text.margin.left = 3
@@ -32,7 +32,7 @@ class LUIInputField(LUIObject):
 
         self.text.clip_bounds = (0, 0, 0, 0)
 
-        self._current_text = "Placeholder"
+        self._current_text = u"Placeholder"
         self._place_cursor()
 
     def _render_text(self):
@@ -64,7 +64,7 @@ class LUIInputField(LUIObject):
         self.on_keydown(event)
 
     def on_textinput(self, event):
-        print "On textinput"
+        print "On textinput: ", event.get_message()
         self._add_text(event.get_message())
 
     def on_blur(self, event):

@@ -36,7 +36,6 @@ void LUIText::update_text() {
 
   // Allocate as many sprites as required
   int to_allocate  = len - _children.size();
-  //lui_cat.spam() << "Allocating " << to_allocate << " Sprites" << endl;
   for (int i = 0; i < to_allocate; i++) {
     if (lui_cat.is_spam()) {
       lui_cat.spam() << "Allocating sprite .. " << endl;
@@ -76,7 +75,7 @@ void LUIText::update_text() {
     const TextGlyph *const_glyph;
     if (!_font->get_glyph(char_code, const_glyph)) {
       sprite->set_texture((Texture*)NULL);
-      lui_cat.error() << "Could not render character, skipping." << endl;
+      lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
       continue;
     }
 
@@ -108,7 +107,7 @@ void LUIText::update_text() {
       dynamic_glyph->get_uv_right(), 
       1-dynamic_glyph->get_uv_bottom());
 
-    // Determine size frm coordinates
+    // Determine size from coordinates
     sprite->set_size( 
        (dynamic_glyph->get_right() - dynamic_glyph->get_left()) * ppu,
        (dynamic_glyph->get_top() - dynamic_glyph->get_bottom()) * ppu);
