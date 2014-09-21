@@ -4,7 +4,7 @@ INLINE void LUIText::set_font(const string &font_name) {
     update_text();
 }
 
-INLINE void LUIText::set_text(const string &text) {
+INLINE void LUIText::set_text(const wstring &text) {
     if (_text.compare(text) != 0) {
         _text = text;
         update_text();
@@ -22,7 +22,7 @@ INLINE DynamicTextFont* LUIText::get_font() {
     return _font;
 }
 
-INLINE const string& LUIText::get_text() {
+INLINE const wstring& LUIText::get_text() {
     return _text;
 }
 

@@ -37,7 +37,7 @@ PUBLISHED:
   INLINE void unbind(const string &event_name);
   INLINE void unbind_all();
   INLINE bool has_event(const string &event_name);
-  INLINE void trigger_event(const string &event_name, const string &message = string(), const LPoint2 &coords = LPoint2(0));
+  INLINE void trigger_event(const string &event_name, const wstring &message = wstring(), const LPoint2 &coords = LPoint2(0));
 
   // Position
   INLINE void set_left_top(const LVector2 &pos);
@@ -117,6 +117,10 @@ PUBLISHED:
   INLINE void begin_update_section();
   INLINE virtual void end_update_section();
 
+  INLINE void set_clip_bounds(LUIBounds *bounds);
+  INLINE void set_clip_bounds(float top, float right, float bottom, float left);
+  INLINE LUIBounds *get_clip_bounds();
+
 
   // Properties for python
   MAKE_PROPERTY(left_top, get_left_top, set_left_top);
@@ -149,6 +153,8 @@ PUBLISHED:
   MAKE_PROPERTY(absolute_z_offset, get_abs_pos);
   MAKE_PROPERTY(focus, has_focus, request_focus);
   MAKE_PROPERTY(parent, get_parent, reparent_to);
+
+  MAKE_PROPERTY(clip_bounds, get_clip_bounds, set_clip_bounds);
 
 public:
 
@@ -216,6 +222,8 @@ protected:
 
   PT(LUIBounds) _margin;
   PT(LUIBounds) _padding;
+  PT(LUIBounds) _clip_bounds;
+
 
   pmap<string, PT(CallbackObject)> _events;
 

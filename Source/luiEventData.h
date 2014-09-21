@@ -22,17 +22,17 @@ PUBLISHED:
   INLINE string get_name();
   INLINE PT(LUIBaseElement) get_sender();
   INLINE LPoint2 get_coordinates();
-  INLINE string get_message();
+  INLINE wstring get_message();
 
 public:
 
-  LUIEventData(LUIBaseElement *sender, const string &event_name, const string &message, const LPoint2 &coordinates = LPoint2(0));
+  LUIEventData(LUIBaseElement *sender, const string &event_name, const wstring &message, const LPoint2 &coordinates = LPoint2(0));
   ~LUIEventData();
 
 protected:
 
   string _event_name;
-  string _message;
+  wstring _message;
   PT(LUIBaseElement) _sender;
   LPoint2 _coordinates;
 

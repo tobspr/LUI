@@ -13,7 +13,7 @@ INLINE LPoint2 LUIEventData::get_coordinates() {
 }
 
 
-INLINE string LUIEventData::get_message() {
+INLINE wstring LUIEventData::get_message() {
   return _message;
 }
 

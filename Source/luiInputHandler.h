@@ -70,6 +70,7 @@ protected:
 
   map<int, string> _keymap;
   vector<LUIKeyEvent> _key_events;
+  vector<int> _text_events;
 
 public:
   static TypeHandle get_class_type() {

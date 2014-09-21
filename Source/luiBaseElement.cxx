@@ -1,4 +1,4 @@
-﻿
+
 
 
 #include "luiBaseElement.h"
@@ -29,14 +29,19 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _in_update_section(false),
   _snap_position(true),
   _focused(false),
+  _clip_bounds(NULL),
   LUIColorable()
 {
 
   _margin = new LUIBounds(0,0,0,0);
   _padding = new LUIBounds(0,0,0,0);
 
+  // This code here should belong in a _ext file, but that's currently 
+  // not supported by interrogate.
+
+  // This code checks for function named "on_xxx" where xxx is an event
+  // name, and auto-registers them, which is equal to bind("on_xxx", handler).
   if (self != NULL) {
-    // cout << "Got self instance:" << self << endl;
 
     PyObject *class_dict = Py_TYPE(self)->tp_dict;
 
@@ -45,30 +50,28 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
 
     string event_func_prefix = "on_";
 
-    // Get all attributes
+    // Get all attributes of the python object
     while (PyDict_Next(class_dict, &pos, &key, &value)) {
 
-      // Check if the attribute / method is a method
+      // Check if the attribute is a method
       if (PyFunction_Check(value)) {
 
-        // Get method name
+        // Get the method name
         char *str;
         Py_ssize_t len;
 
         if (PyString_AsStringAndSize(key, &str, &len) == 0) {
           string method_name(str, len);
 
+          // Check if the method name starts with the required prefix
           if (method_name.substr(0, event_func_prefix.size()) == event_func_prefix) {
-            // cout << "Handler: " << method_name << endl;
-
             // Bind to event
             string event_name = method_name.substr(event_func_prefix.size());
-            // cout << "binding to: '" << event_name << "'" << endl; 
-
             PyObject *bound_method = PyMethod_New(value, self, (PyObject *)Py_TYPE(self));
             bind(event_name, bound_method);
+            // The PythonCallbackObject stores a reference, so we can decrease
+            // the reference count.
             Py_DECREF(bound_method); 
-
           }
         }
       }          

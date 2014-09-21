@@ -48,7 +48,7 @@ bool LUIAtlas::load_descriptor_file(const string &descriptor_path) {
   // This works perfectly
   // Doesn't support VirtualFileSystem though :(
 
-  std::ifstream infile(descriptor_path);
+  std::ifstream infile(descriptor_path.c_str());
 
   string name;
   int x, y, w, h;

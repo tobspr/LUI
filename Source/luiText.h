@@ -25,14 +25,14 @@ class EXPCL_LUI LUIText : public LUIObject {
 
 PUBLISHED:
 
-  LUIText(PyObject *self, LUIObject *parent, const string &text, const string &font_name = "default", float font_size = 16.0, float x = 0.0, float y = 0.0);
+  LUIText(PyObject *self, LUIObject *parent, const wstring &text, const string &font_name = "default", float font_size = 16.0, float x = 0.0, float y = 0.0);
   ~LUIText();
 
   INLINE void set_font(const string &font_name);
   INLINE DynamicTextFont* get_font();
 
-  INLINE void set_text(const string &text);
-  INLINE const string& get_text();
+  INLINE void set_text(const wstring &text);
+  INLINE const wstring& get_text();
 
   INLINE void set_font_size(float size);
   INLINE float get_font_size();
@@ -52,7 +52,7 @@ protected:
   INLINE virtual void on_color_changed();
 
   DynamicTextFont *_font;
-  string _text;
+  wstring _text;
   float _font_size;
   pvector<PT(DynamicTextGlyph)> _glyphs;
 

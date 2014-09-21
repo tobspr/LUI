@@ -43,7 +43,7 @@ INLINE bool LUIBaseElement::has_event(const string &event_name) {
 }
 
 
-INLINE void LUIBaseElement::trigger_event(const string &event_name, const string &message, const LPoint2 &coords) {
+INLINE void LUIBaseElement::trigger_event(const string &event_name, const wstring &message, const LPoint2 &coords) {
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "Triggering event '" << event_name << "' with coordinates " 
     << coords.get_x() << ", " << coords.get_y() << " and message '" << message << "'.." << endl;
@@ -336,6 +336,18 @@ INLINE void LUIBaseElement::end_update_section() {
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "Finally left update section .." << endl;
   }
+}
+
+INLINE void LUIBaseElement::set_clip_bounds(LUIBounds *bounds) {
+  _clip_bounds = new LUIBounds(bounds->get_bounds());
+}
+
+INLINE void LUIBaseElement::set_clip_bounds(float top, float right, float bottom, float left) {
+  _clip_bounds = new LUIBounds(top, right, bottom, left);
+}
+
+INLINE LUIBounds *LUIBaseElement::get_clip_bounds() {
+  return _clip_bounds;
 }
 
 INLINE void LUIBaseElement::set_parent(LUIBaseElement* parent) {

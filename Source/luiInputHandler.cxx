@@ -51,7 +51,7 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
   
 
   _key_events.clear();
-
+  _text_events.clear();
 
   if (input.has_data(_buttons_input)) {
     const ButtonEventList *this_button_events;
@@ -62,7 +62,7 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
       const ButtonEvent &be = this_button_events->get_event(i);
 
       // Button Down
-      if (be._type == ButtonEvent::T_down || be._type == ButtonEvent::T_repeat) {
+      if (be._type == ButtonEvent::T_down) {
         // if (be._button == KeyboardButton::control()) {
         //   _modifiers |= KM_CTRL;
         // } else if (be._button == KeyboardButton::shift()) {
@@ -95,6 +95,11 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
           _key_events.push_back(event);
         }
 
+      } else if (be._type == ButtonEvent::T_repeat) {
+        
+        LUIKeyEvent event = {be._button.get_name(), M_repeat};
+        _key_events.push_back(event);
+
       } else if (be._type == ButtonEvent::T_up) {
 
         if (be._button == MouseButton::one()) {
@@ -111,6 +116,13 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
 
         LUIKeyEvent event = {be._button.get_name(), M_up};
         _key_events.push_back(event);
+        }
+
+      } else if (be._type == ButtonEvent::T_keystroke) {
+
+        // Ignore control characters; otherwise, they actually get added to strings in the UI.
+        if (be._keycode > 0x1F && (be._keycode < 0x7F || be._keycode > 0x9F)) {
+          _text_events.push_back(be._keycode);
         }
 
       }
@@ -146,11 +158,11 @@ void LUIInputHandler::process(LUIRoot *root) {
   // Check for mouse over / out events
   if (current_hover != _hover_element) {
     if (_hover_element != NULL) {
-      _hover_element->trigger_event("mouseout", "", _current_state.mouse_pos);
+      _hover_element->trigger_event("mouseout", wstring(), _current_state.mouse_pos);
     }
 
     if (current_hover != NULL) {
-      current_hover->trigger_event("mouseover", "", _current_state.mouse_pos);
+      current_hover->trigger_event("mouseover", wstring(), _current_state.mouse_pos);
     }
     _hover_element = current_hover;
   }
@@ -161,17 +173,17 @@ void LUIInputHandler::process(LUIRoot *root) {
   if (mouse_key_pressed(click_mouse_button)) {
     if (_hover_element != NULL) {
       _mouse_down_element = _hover_element;
-      _hover_element->trigger_event("mousedown", "", _current_state.mouse_pos);
+      _hover_element->trigger_event("mousedown", wstring(), _current_state.mouse_pos);
     }
 
   }
   if (mouse_key_released(click_mouse_button)) {
     if (_mouse_down_element != NULL) {
-      _mouse_down_element->trigger_event("mouseup", "", _current_state.mouse_pos);
+      _mouse_down_element->trigger_event("mouseup", wstring(), _current_state.mouse_pos);
     }
 
     if (_mouse_down_element != NULL && _mouse_down_element == _hover_element) {
-      _mouse_down_element->trigger_event("click", "", _current_state.mouse_pos);
+      _mouse_down_element->trigger_event("click", wstring(), _current_state.mouse_pos);
     }
   }
 
@@ -183,11 +195,11 @@ void LUIInputHandler::process(LUIRoot *root) {
     if (requested_focus != _focused_element) {
       lui_cat.spam() << "Focus changed to " << requested_focus << " from " << _focused_element << endl;
       requested_focus->set_focus(true);
-      requested_focus->trigger_event("focus" , "", _current_state.mouse_pos);
+      requested_focus->trigger_event("focus" , wstring(), _current_state.mouse_pos);
 
       if (_focused_element != NULL) {
         _focused_element->set_focus(false);
-        _focused_element->trigger_event("blur", "", _current_state.mouse_pos);
+        _focused_element->trigger_event("blur", wstring(), _current_state.mouse_pos);
       }
 
       _focused_element = requested_focus;
@@ -200,18 +212,31 @@ void LUIInputHandler::process(LUIRoot *root) {
     for(vector<LUIKeyEvent>::iterator it = _key_events.begin(); it != _key_events.end(); ++it) {
       cout << "key event! code: " << (*it).btn_name << ", mode = " << (*it).mode << endl;
       
+      string btn_name((*it).btn_name);
+      wstring btn_name_w(btn_name.begin(), btn_name.end());
+
       switch((*it).mode) {
         case M_down: {
-          _focused_element->trigger_event("keydown", (*it).btn_name, _current_state.mouse_pos);
+          _focused_element->trigger_event("keydown", btn_name_w, _current_state.mouse_pos);
           break;
         }
         case M_up: {
-          _focused_element->trigger_event("keyup", (*it).btn_name, _current_state.mouse_pos);
+          _focused_element->trigger_event("keyup", btn_name_w, _current_state.mouse_pos);
           break; 
         }
+        case M_repeat: {
+          _focused_element->trigger_event("keyrepeat", btn_name_w, _current_state.mouse_pos);
+          break; 
+        }
+
       }
 
     }
+
+    for (vector<int>::iterator it = _text_events.begin(); it != _text_events.end(); ++it) {
+      _focused_element->trigger_event("textinput", wstring(1, (char)(*it)), _current_state.mouse_pos);
+    }
+
   }
 
 

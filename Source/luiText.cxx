@@ -3,7 +3,7 @@
 
 TypeHandle LUIText::_type_handle;
 
-LUIText::LUIText(PyObject *self, LUIObject *parent, const string &text, const string &font_name, float font_size, float x, float y) 
+LUIText::LUIText(PyObject *self, LUIObject *parent, const wstring &text, const string &font_name, float font_size, float x, float y) 
   : 
   LUIObject(self, parent, x, y),
   _text(text),
