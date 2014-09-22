@@ -62,7 +62,7 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
   if (_sprite_count < 1) {
     if (lui_cat.is_spam()) {
       // TODO: Unregister from vertex pool
-      lui_cat.spam() << "Empty vertex chunk, should be garbarge collected" << endl;
+      lui_cat.debug() << "Detected empty vertex chunk, should be garbarge collected" << endl;
     }
   }
 }

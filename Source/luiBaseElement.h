@@ -15,10 +15,11 @@
 #include "luiEventData.h"
 #include "luiColorable.h"
 #include "luiBounds.h"
-
+#include "luiRect.h"
 
 class LUIRoot;
 class LUIObject;
+class LUIRect;
 
 NotifyCategoryDecl(luiBaseElement, EXPCL_LUI, EXPTP_LUI);
 
@@ -120,7 +121,12 @@ PUBLISHED:
   INLINE void set_clip_bounds(LUIBounds *bounds);
   INLINE void set_clip_bounds(float top, float right, float bottom, float left);
   INLINE LUIBounds *get_clip_bounds();
+  INLINE LUIRect *get_abs_clip_bounds();
 
+  INLINE void set_debug_name(const string &debug_name) {
+  _debug_name = "\033[32m[" + debug_name + "]\033[0m ";
+  }
+  INLINE const string& get_debug_name() {return _debug_name;}
 
   // Properties for python
   MAKE_PROPERTY(left_top, get_left_top, set_left_top);
@@ -155,6 +161,8 @@ PUBLISHED:
   MAKE_PROPERTY(parent, get_parent, reparent_to);
 
   MAKE_PROPERTY(clip_bounds, get_clip_bounds, set_clip_bounds);
+
+  MAKE_PROPERTY(debug_name, get_debug_name, set_debug_name);
 
 public:
 
@@ -220,15 +228,23 @@ protected:
 
   bool _focused;
 
+  // Margin & Padding, relative to the element bounds
   PT(LUIBounds) _margin;
   PT(LUIBounds) _padding;
+
+  // Clip bounds, relative to the element bounds
   PT(LUIBounds) _clip_bounds;
 
+  // Clip bounds, in render space (absolute coordinates)
+  PT(LUIRect)   _abs_clip_bounds;
 
   pmap<string, PT(CallbackObject)> _events;
 
   LUIBaseElement *_parent;
   LUIRoot *_root;
+
+
+  string _debug_name;
 
 public:
   static TypeHandle get_class_type() {

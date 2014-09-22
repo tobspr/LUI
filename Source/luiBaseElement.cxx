@@ -30,11 +30,15 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _snap_position(true),
   _focused(false),
   _clip_bounds(NULL),
+  _abs_clip_bounds(NULL),
   LUIColorable()
 {
 
   _margin = new LUIBounds(0,0,0,0);
   _padding = new LUIBounds(0,0,0,0);
+  _abs_clip_bounds = new LUIRect(0,0,1e6,1e6);
+
+  set_debug_name("Element");
 
   // This code here should belong in a _ext file, but that's currently 
   // not supported by interrogate.
@@ -67,6 +71,9 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
           if (method_name.substr(0, event_func_prefix.size()) == event_func_prefix) {
             // Bind to event
             string event_name = method_name.substr(event_func_prefix.size());
+
+            // The method handle we get is unbound, create a bound method which we can
+            // call directly
             PyObject *bound_method = PyMethod_New(value, self, (PyObject *)Py_TYPE(self));
             bind(event_name, bound_method);
             // The PythonCallbackObject stores a reference, so we can decrease
@@ -86,21 +93,26 @@ LUIBaseElement::~LUIBaseElement() {
 void LUIBaseElement::recompute_position() {
   if (_in_update_section) return;
 
+  if (luiBaseElement_cat.is_spam()) {
+    luiBaseElement_cat.spam() << _debug_name << "Recompute position .." << endl;
+  }
+
   if (!_visible) {
     // Just move out of the view frustum. Hacky but works fine :)
-    _pos_x = 999999.0;
-    _pos_y = 999999.0;
+    _pos_x = 0.0;
+    _pos_y = 0.0;
+
+    _abs_clip_bounds->set_rect(0,0,0,0);
     on_bounds_changed();
     return;
   } 
 
-  LVector2 ppos(0);
+  LVector2 ppos(0);  
 
   // When there is no parent, there is no sense in computing an accurate position
   if (_parent == NULL) {
     _rel_pos_x = _offset_x;
     _rel_pos_x = _offset_y;
-
 
   } else {
 
@@ -110,7 +122,7 @@ void LUIBaseElement::recompute_position() {
     LUIBounds* ppadding = _parent->get_padding();
 
     if (luiBaseElement_cat.is_spam()) {
-      luiBaseElement_cat.spam() << "Compute, bounds = " << psize.get_x() << ", " 
+      luiBaseElement_cat.spam() << _debug_name << "Compute, bounds = " << psize.get_x() << ", " 
         << psize.get_y() << ", pos = " << ppos.get_x() 
         << ", " << ppos.get_y() << ", place = " << _placement_x << " / " << _placement_y 
         << ", margin = " << _margin->get_top() << ", " << _margin->get_right() << ", " 
@@ -118,6 +130,9 @@ void LUIBaseElement::recompute_position() {
         << ppadding->get_top() << ", " << ppadding->get_right() << ", " << ppadding->get_bottom() << ", " << ppadding->get_left()
         << ", size = " << _size.get_x() << " / " << _size.get_y()
         << endl;
+        if (_clip_bounds != NULL) {
+          luiBaseElement_cat.spam()  << "clip = " << _clip_bounds->get_top() << ", " << _clip_bounds->get_right() << ", " << _clip_bounds->get_bottom() << ", " << _clip_bounds->get_left() << endl;
+        }
     }
 
     // Compute top
@@ -162,8 +177,64 @@ void LUIBaseElement::recompute_position() {
   _pos_x = _rel_pos_x + ppos.get_x();
   _pos_y = _rel_pos_y + ppos.get_y();
 
+  // Compute clip rect
+
+  // Transform local clip bounds to absolute bounds
+  float bx1 = _pos_x;
+  float by1 = _pos_y;
+  float bx2 = bx1 + _size.get_x();
+  float by2 = by1 + _size.get_y();
+
+  if (_clip_bounds != NULL) {
+    bx1 += _clip_bounds->get_left();
+    by1 += _clip_bounds->get_top();
+    bx2 += -_clip_bounds->get_right();
+    by2 += -_clip_bounds->get_top();
+  }
+
+  if (_parent != NULL) {
+    LUIRect *parent_bounds = _parent->get_abs_clip_bounds();
+
+    // If we have no specific bounds, just take the parent bounds
+    if (_clip_bounds == NULL) {
+      if (luiBaseElement_cat.is_spam()) {
+        luiBaseElement_cat.spam() << _debug_name << "Using parent bounds (" << _parent->get_debug_name() << ") (no custom) (" << parent_bounds->get_x() << ", " 
+          << parent_bounds->get_y() << " / " << parent_bounds->get_w() << " x " << parent_bounds->get_h() << ") .." << endl;
+      }
+      _abs_clip_bounds->set_rect(parent_bounds->get_rect());
+    } else {
+
+      // Intersect parent bounds with local bounds
+      float nx = max(bx1, parent_bounds->get_x());
+      float ny = max(by1, parent_bounds->get_y());
+      float nw = max(0.0f, min(bx2, parent_bounds->get_x() + parent_bounds->get_w()) - nx);
+      float nh = max(0.0f, min(by2, parent_bounds->get_y() + parent_bounds->get_h()) - ny);
+
+      if (luiBaseElement_cat.is_spam()) {
+        luiBaseElement_cat.spam() << _debug_name << "Using merged bounds (parent+custom) " << endl;
+      }
+      _abs_clip_bounds->set_rect(nx, nx, nw, nh);
+    }
+
+  } else {
+
+    if (_clip_bounds == NULL) {
+      if (luiBaseElement_cat.is_spam()) {
+        luiBaseElement_cat.spam() << _debug_name << "Using no bounds .." << endl;
+      }
+      _abs_clip_bounds->set_rect(0,0,1000000,1000000);
+    } else {
+      if (luiBaseElement_cat.is_spam()) {
+        luiBaseElement_cat.spam() << _debug_name << "Using local bounds (custom) .." << endl;
+      }
+      _abs_clip_bounds->set_rect(bx1, by1, max(0.0f, bx2 - bx1), max(0.0f, by2 - by1));
+    }
+  }
+
   if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << "new position is " << _rel_pos_x << " / " << _rel_pos_y << " (abs: " << _pos_x << " / " << _pos_y << ")" << endl;
+    luiBaseElement_cat.spam() << _debug_name << "new position is " << _rel_pos_x << " / " << _rel_pos_y << " (abs: " << _pos_x << " / " << _pos_y << "), bounds=(" 
+      << _abs_clip_bounds->get_x() << ", " << _abs_clip_bounds->get_y() << ", " << _abs_clip_bounds->get_w() << " x " << _abs_clip_bounds->get_h() << ")" << endl;
+
   }
 
   on_bounds_changed();
@@ -176,11 +247,11 @@ void LUIBaseElement::register_events() {
       _events_registered = true;
 
       if (luiBaseElement_cat.is_spam()) {
-        luiBaseElement_cat.spam() << "Registering events for object .." << endl;
+        luiBaseElement_cat.spam() << _debug_name << "Registering events for object .." << endl;
       }
   } else {
     if (luiBaseElement_cat.is_spam()) {
-      luiBaseElement_cat.spam() << "Did not register events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << ", parent = " << (_parent==NULL?"NULL" : "valid") << " .." << endl;
+      luiBaseElement_cat.spam() << _debug_name << "Did not register events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << ", parent = " << (_parent==NULL?"NULL" : "valid") << " .." << endl;
     }
   }
 }
@@ -192,11 +263,11 @@ void LUIBaseElement::unregister_events() {
     _events_registered = false;
   
     if (luiBaseElement_cat.is_spam()) {
-      luiBaseElement_cat.spam() << "Un-registering events for object .." << endl;
+      luiBaseElement_cat.spam() << _debug_name << "Un-registering events for object .." << endl;
     }
   } else {
       if (luiBaseElement_cat.is_spam()) {
-        luiBaseElement_cat.spam() << "Did not unregister events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << " .." << endl;
+        luiBaseElement_cat.spam() << _debug_name << "Did not unregister events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << " .." << endl;
       }
   }
 }

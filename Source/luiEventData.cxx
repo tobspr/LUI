@@ -9,9 +9,7 @@ LUIEventData::LUIEventData(LUIBaseElement *sender, const string &event_name, con
   _sender(sender),
   _coordinates(coordinates),
   _message(message) {
-  lui_cat.spam() << "Constructed lui event data" << endl;
 }
 
 LUIEventData::~LUIEventData() {
-  lui_cat.spam() << "Destructed lui event data" << endl;
 }

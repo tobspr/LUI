@@ -6,7 +6,7 @@ from random import random
 
 class LUIButton(LUIObject):
 
-    def __init__(self, text="Button", width=100):
+    def __init__(self, text=u"Button", width=100):
         LUIObject.__init__(self, x=0, y=0, w=width, h=50)
 
         self.sprite_left = LUISprite(self, "btn_left", "default")
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
         text-minfilter linear
         text-magfilter linear
-        notify-level-lui debug
+        notify-level-lui spam
         text-pixels-per-unit 32
         sync-video #f
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     base.mouseWatcher.attach_new_node(handler)
     region.set_input_handler(handler)
 
-    button = LUIButton("Click", width=60)
+    button = LUIButton(u"Click", width=60)
     button.parent = region.root()
 
     print "\n\n\nSet centered .."

@@ -114,6 +114,8 @@ void LUIText::update_text() {
     
     sprite->set_color(_color);
 
+    sprite->set_debug_name("TextGlyph");
+
     sprite->end_update_section();
 
     // Move *cursor* by glyph length

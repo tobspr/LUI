@@ -42,7 +42,7 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
   _instance_count ++;
 
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Constructed new LUISprite, (active: " << _instance_count << ")" << endl;  
+    luiSprite_cat.spam() <<  _debug_name << "Constructed new LUISprite, (active: " << _instance_count << ")" << endl;  
   }
 
   // Prevent recomputation of the position while we initialize the sprite
@@ -62,11 +62,11 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
 LUISprite::~LUISprite() {
   if (luiSprite_cat.is_spam()) {
     _instance_count --;
-    luiSprite_cat.spam() << "Destructing LUISprite, instances left: " << _instance_count << endl;
+    luiSprite_cat.spam() <<  _debug_name << "Destructing LUISprite, instances left: " << _instance_count << endl;
   }
 
   if (_chunk_descriptor != NULL) {
-    luiSprite_cat.spam() << "Released chunk descriptor, as sprite did not get detached" << endl;
+    luiSprite_cat.spam() <<  _debug_name << "Released chunk descriptor, as sprite did not get detached" << endl;
     _chunk_descriptor->release();
     delete _chunk_descriptor;
     _chunk_descriptor = NULL;
@@ -94,7 +94,7 @@ void LUISprite::ls(int indent) {
 void LUISprite::set_root(LUIRoot* root) {
 
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Root changed .." << endl;
+    luiSprite_cat.spam() <<  _debug_name << "Root changed .." << endl;
   }
 
   if (_root != NULL && _root != root) {
@@ -127,7 +127,7 @@ void LUISprite::assign_vertex_pool() {
   LUIVertexPool* pool = _root->get_vpool_by_texture(_tex);
   
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Got vertex pool location: " << pool << endl;
+    luiSprite_cat.spam() <<  _debug_name << "Got vertex pool location: " << pool << endl;
   }
 
   // This might occur sometimes (hopefully not), and means that get_vpool_by_texture
@@ -143,7 +143,7 @@ void LUISprite::assign_vertex_pool() {
 
   _chunk_descriptor = pool->allocate_slot(this);
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Got chunk " << _chunk_descriptor->get_chunk() << ", slot = " << _chunk_descriptor->get_slot() << endl;
+    luiSprite_cat.spam() <<  _debug_name << "Got chunk " << _chunk_descriptor->get_chunk() << ", slot = " << _chunk_descriptor->get_slot() << endl;
   }
 
   update_vertex_pool();
@@ -157,7 +157,7 @@ void LUISprite::update_vertex_pool() {
     nassertv(_chunk_descriptor->get_chunk() != NULL);
 
     if (luiSprite_cat.is_spam()) {
-      luiSprite_cat.spam() << "Updating vertex pool slot " << _chunk_descriptor->get_slot() << " in pool " << _chunk_descriptor->get_chunk() << endl;
+      luiSprite_cat.spam() <<  _debug_name << "Updating vertex pool slot " << _chunk_descriptor->get_slot() << " in pool " << _chunk_descriptor->get_chunk() << endl;
     }
 
     void* write_pointer = _chunk_descriptor->get_write_ptr();
@@ -171,7 +171,7 @@ void LUISprite::update_vertex_pool() {
 
 void LUISprite::unassign_vertex_pool() {
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Unassign vertex pool" << endl;
+    luiSprite_cat.spam() <<  _debug_name << "Unassign vertex pool" << endl;
   }
 
   if (_chunk_descriptor != NULL) {

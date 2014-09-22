@@ -15,7 +15,10 @@ class LUIInputField(LUIObject):
         self.background_border = LUISprite(
             self, "blank", "default", -1, -1, width + 2, font_size + 12, (0.2, 0.6, 1.0, 1.0))
 
-        self.text = LUIText(self, u"Placeholder", "default", font_size)
+        self.text_clip = LUIObject(parent=self, x=0, y=0,w=width,h=font_size+10)
+        self.text_clip.clip_bounds = (5, 5, 5, 5)
+
+        self.text = LUIText(self.text_clip, u"", "default", font_size)
         self.text.color = (0.5, 0.5, 0.5)
         self.text.margin.top = 3
         self.text.margin.left = 3
@@ -30,10 +33,15 @@ class LUIInputField(LUIObject):
         self.background_border.hide()
         self.cursor.hide()
 
-        self.text.clip_bounds = (0, 0, 0, 0)
-
-        self._current_text = u"Placeholder"
+        self._current_text = u""
         self._place_cursor()
+
+        self.background.debug_name = "Background"
+        self.background_border.debug_name = "BG_border"
+        self.debug_name = "LUIInputField"
+        self.text.debug_name = "InputText"
+        self.cursor.debug_name = "Cursor"
+        self.text_clip.debug_name = "TextClip"
 
     def _render_text(self):
         self.text.text = self._current_text
@@ -44,7 +52,6 @@ class LUIInputField(LUIObject):
         self._render_text()
 
     def on_click(self, event):
-        print "Gain focus .."
         self.request_focus()
 
     def on_focus(self, event):
@@ -64,7 +71,7 @@ class LUIInputField(LUIObject):
         self.on_keydown(event)
 
     def on_textinput(self, event):
-        print "On textinput: ", event.get_message()
+        print "On textinput .."
         self._add_text(event.get_message())
 
     def on_blur(self, event):
@@ -96,7 +103,7 @@ if __name__ == "__main__":
     LUIAtlasPool.get_global_ptr().load_atlas(
         "default", "../Res/atlas.txt", "../Res/atlas.png")
 
-    base.win.set_clear_color(Vec4(1, 1, 1, 1))
+    base.win.set_clear_color(Vec4(1, 0, 0, 1))
 
     region = LUIRegion.make("LUI", base.win)
     handler = LUIInputHandler()
@@ -105,13 +112,16 @@ if __name__ == "__main__":
 
     bgFrame = LUISprite(region.root(), "blank", "default", 0, 0, 10000, 10000)
     bgFrame.bind("click", lambda event: bgFrame.request_focus())
-    bgFrame.z_offset = -10
+    bgFrame.z_offset = -1
 
     inputfield = LUIInputField(width=300, font_size=15)
     inputfield.parent = region.root()
 
     inputfield.centered = (True, True)
 
-    base.accept("f3", region.root().ls)
+    # base.accept("f3", region.root().ls)
+    base.accept("f3", region.toggle_render_wireframe)
+
+    print "Root is at ", region.root()
 
     base.run()

@@ -53,9 +53,6 @@ void LUIObject::init() {
 
 void LUIObject::set_root(LUIRoot* root) {
 
-  if (luiObject_cat.is_spam()) {
-    luiObject_cat.spam() << "Root changed" << endl;
-  }
 
   if (_root != NULL && root != _root) {
     luiObject_cat.error() << "Object is already attached to another root!" << endl;

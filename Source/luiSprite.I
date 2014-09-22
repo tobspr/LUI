@@ -1,17 +1,40 @@
 
 
 INLINE void LUISprite::recompute_vertices() {
-  // Upper Right
-  _data[1].x = _data[0].x + _size.get_x();
-  _data[1].z = _data[0].z;
 
-  // Lower Right
-  _data[2].x =_data[0].x + _size.get_x();
-  _data[2].z =_data[0].z + _size.get_y();
+  // Compute clipping
+  float x1 = _pos_x;
+  float y1 = _pos_y;
+  float x2 = x1 + _size.get_x();
+  float y2 = y1 + _size.get_y();
 
-  // Lower Left
-  _data[3].x = _data[0].x;
-  _data[3].z = _data[0].z + _size.get_y();
+  float bnds_x1 = _abs_clip_bounds->get_x();
+  float bnds_y1 = _abs_clip_bounds->get_y();
+  float bnds_x2 = bnds_x1 + _abs_clip_bounds->get_w();
+  float bnds_y2 = bnds_x2 + _abs_clip_bounds->get_h();
+
+  x1 = min(bnds_x2, max(bnds_x1, x1));
+  y1 = min(bnds_y2, max(bnds_y1, y1));
+
+  x2 = min(bnds_x2, max(bnds_x1, x2));
+  y2 = min(bnds_y2, max(bnds_y1, y2));
+
+  if (luiSprite_cat.is_spam()) {
+    luiSprite_cat.spam() <<  _debug_name << "Recomputing, bounds = (" << _abs_clip_bounds->get_x() << ", " 
+      << _abs_clip_bounds->get_y() << " / " << _abs_clip_bounds->get_w() << "x" << _abs_clip_bounds->get_h() 
+      << "), pos = (" << x1 << ", " << y1 << ", " << x2 << ", " << y2 << ")"
+      << endl;
+  }
+
+  // Update vertices
+  _data[0].x = x1;
+  _data[0].z = y1;
+  _data[1].x = x2;
+  _data[1].z = y1;
+  _data[2].x = x2;
+  _data[2].z = y2;
+  _data[3].x = x1;
+  _data[3].z = y2;
 }
 
 INLINE void LUISprite::set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end) {
@@ -57,7 +80,7 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
   if (tex != NULL) {
 
     if (luiSprite_cat.is_spam()) {
-      luiSprite_cat.spam() << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
+      luiSprite_cat.spam() <<  _debug_name << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
     }
     _tex = tex;
     set_uv_range(LTexCoord(0), LTexCoord(1));
@@ -76,7 +99,7 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
 INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor, bool resize) {
 
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Load texture data from descriptor" << endl;
+    luiSprite_cat.spam() <<  _debug_name << "Load texture data from descriptor" << endl;
   }
 
   nassertv(descriptor != NULL);
@@ -105,7 +128,7 @@ INLINE void LUISprite::set_texture(const string &source, bool resize) {
 INLINE void LUISprite::set_texture(const string &entry_name, const string &atlas_id, bool resize) {
 
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Load texture from atlas" << endl;
+    luiSprite_cat.spam() <<  _debug_name << "Load texture from atlas" << endl;
   }
   PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, entry_name);
   set_texture(descriptor, resize);
@@ -129,14 +152,12 @@ INLINE void LUISprite::print_vertices() {
 }
 
 INLINE void LUISprite::on_bounds_changed() {
-  _data[0].x = _pos_x;
-  _data[0].z = _pos_y;
   recompute_vertices();
   update_vertex_pool();
 }
 
 INLINE void LUISprite::on_visibility_changed() {
-  luiSprite_cat.info() << "Todo: on_visibility_changed" << endl;
+  // luiSprite_cat.info() << "Todo: on_visibility_changed" << endl;
 }
 
 INLINE void LUISprite::on_detached() {

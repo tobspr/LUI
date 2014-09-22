@@ -10,8 +10,6 @@
 #include "pandasymbols.h"
 #include "luse.h"
 #include "referenceCount.h"
-#include "callbackObject.h"
-#include "pythonCallbackObject.h"
 
 class EXPCL_LUI LUIBounds : public ReferenceCount {
 

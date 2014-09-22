@@ -28,10 +28,8 @@ PUBLISHED:
 public:
   LUIElementIterator(lui_element_iterator begin, lui_element_iterator end) 
     : _iter(begin), _end(end) {
-    lui_cat.spam() << "Construct lui iterator" << endl;  
   }
   ~LUIElementIterator() {
-    lui_cat.spam() << "Destruct lui iterator " << endl;
   }
 private:
   lui_element_iterator _iter;

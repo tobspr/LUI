@@ -168,22 +168,21 @@ void LUIInputHandler::process(LUIRoot *root) {
   }
 
   // Check for mouse move
-  if (_current_state.mouse_pos != _last_state.mouse_pos) {
-    
-    // Send a event to the hovered element
-    if (_hover_element != NULL) {
-      _hover_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
-    }
+  // Currently disabled, it's spamming the console
+  if (false) {
+    if (_current_state.mouse_pos != _last_state.mouse_pos) {
+      
+      // Send a event to the hovered element
+      if (_hover_element != NULL) {
+        _hover_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
+      }
 
-    // The focus element also recieves a mousemove element
-    if (_focused_element != NULL) {
-      _focused_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
+      // The focus element also recieves a mousemove element
+      if (_focused_element != NULL) {
+        _focused_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
+      }
     }
   }
-
-
-
-
 
   // Check for click events
   int click_mouse_button = 0;
@@ -211,7 +210,11 @@ void LUIInputHandler::process(LUIRoot *root) {
   if (requested_focus != NULL) {
 
     if (requested_focus != _focused_element) {
-      lui_cat.spam() << "Focus changed to " << requested_focus << " from " << _focused_element << endl;
+      if (lui_cat.is_spam()) {
+        lui_cat.spam() << "Focus changed to " 
+          << (requested_focus == NULL ? "NULL" : requested_focus->get_debug_name()) 
+          << " from " << (_focused_element == NULL ? "NULL" : _focused_element->get_debug_name()) << endl;
+      }
       requested_focus->set_focus(true);
       requested_focus->trigger_event("focus" , wstring(), _current_state.mouse_pos);
 
@@ -225,10 +228,8 @@ void LUIInputHandler::process(LUIRoot *root) {
   }
 
   // Check key events
-
   if (_focused_element != NULL) {
     for(vector<LUIKeyEvent>::iterator it = _key_events.begin(); it != _key_events.end(); ++it) {
-      cout << "key event! code: " << (*it).btn_name << ", mode = " << (*it).mode << endl;
       
       string btn_name((*it).btn_name);
       wstring btn_name_w(btn_name.begin(), btn_name.end());
@@ -256,7 +257,6 @@ void LUIInputHandler::process(LUIRoot *root) {
     }
 
   }
-
 
   _last_state = _current_state;
 }
