@@ -8,6 +8,7 @@ class LUIInputField(LUIObject):
     def __init__(self, width=200, font_size=20):
         LUIObject.__init__(self, x=0, y=0, w=width, h=font_size+10)
 
+
         self.background = LUISprite(
             self, "blank", "default", 0, 0, width, font_size + 10, (0.95, 0.95, 0.95, 1.0))
         self.background.z_offset = 5
@@ -16,16 +17,18 @@ class LUIInputField(LUIObject):
             self, "blank", "default", -1, -1, width + 2, font_size + 12, (0.2, 0.6, 1.0, 1.0))
 
         self.text_clip = LUIObject(parent=self, x=0, y=0,w=width,h=font_size+10)
-        self.text_clip.clip_bounds = (5, 5, 5, 5)
+        self.text_clip.clip_bounds = (2, 2, 2, 2)
 
-        self.text = LUIText(self.text_clip, u"", "default", font_size)
+        self.text_scroller = LUIObject(parent=self.text_clip, x=0, y=0)
+
+        self.text = LUIText(self.text_scroller, u"", "default", font_size)
         self.text.color = (0.5, 0.5, 0.5)
         self.text.margin.top = 3
         self.text.margin.left = 3
         self.text.z_offset = 10
 
         self.cursor = LUISprite(
-            self, "blank", "default", x=0, y=0, w=2, h=font_size)
+            self.text_scroller, "blank", "default", x=0, y=0, w=2, h=font_size)
         self.cursor.color = (0.2, 0.2, 0.2)
         self.cursor.margin = (6, 0, 0, 0)
         self.cursor.z_offset = 20
@@ -36,7 +39,7 @@ class LUIInputField(LUIObject):
         self.cursor.hide()
 
         self.current_text = u""
-        self.place_cursor()
+        self.render_text()
 
         # self.background.debug_name = "Background"
         # self.background_border.debug_name = "BG_border"
@@ -47,7 +50,14 @@ class LUIInputField(LUIObject):
 
     def render_text(self):
         self.text.text = self.current_text
-        self.place_cursor()
+        self.cursor.left = self.text.left + self.text.get_char_pos(self.cursor_index)
+
+        max_left = self.width - 5
+        if self.cursor.left > max_left:
+            self.text_scroller.left = max_left - self.cursor.left
+        else:
+            self.text_scroller.left = 0
+
 
     def set_cursor_pos(self, pos):
         self.cursor_index = max(0, min(len(self.current_text), pos))
@@ -63,7 +73,7 @@ class LUIInputField(LUIObject):
     def on_mousedown(self, event):
         local_x_offset = self.text.get_relative_pos(event.coordinates).x
         self.set_cursor_pos(self.text.get_char_index(local_x_offset))
-        self.place_cursor()
+        self.render_text()
 
     def on_focus(self, event):
         self.background_border.show()
@@ -81,10 +91,10 @@ class LUIInputField(LUIObject):
             self.render_text()
         elif key_name == "arrow_left":
             self.set_cursor_pos(self.cursor_index - 1)
-            self.place_cursor()
+            self.render_text()
         elif key_name == "arrow_right":
             self.set_cursor_pos(self.cursor_index + 1)
-            self.place_cursor()
+            self.render_text()
         else:
             print key_name
 
@@ -98,8 +108,6 @@ class LUIInputField(LUIObject):
         self.background_border.hide()
         self.cursor.hide()
 
-    def place_cursor(self):
-        self.cursor.left = self.text.left + self.text.get_char_pos(self.cursor_index)
 
 if __name__ == "__main__":
 
