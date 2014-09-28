@@ -37,6 +37,9 @@ PUBLISHED:
   INLINE void set_font_size(float size);
   INLINE float get_font_size();
 
+  int get_char_index(float pos);
+  float get_char_pos(int char_index);
+
   virtual void ls(int indent = 0);
 
   MAKE_PROPERTY(font, get_font, set_font);

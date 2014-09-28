@@ -41,21 +41,21 @@ PUBLISHED:
   INLINE void trigger_event(const string &event_name, const wstring &message = wstring(), const LPoint2 &coords = LPoint2(0));
 
   // Position
-  INLINE void set_left_top(const LVector2 &pos);
-  INLINE void set_right_top(const LVector2 &pos);
-  INLINE void set_left_bottom(const LVector2 &pos);
-  INLINE void set_right_bottom(const LVector2 &pos);
+  INLINE void set_left_top(const LPoint2 &pos);
+  INLINE void set_right_top(const LPoint2 &pos);
+  INLINE void set_left_bottom(const LPoint2 &pos);
+  INLINE void set_right_bottom(const LPoint2 &pos);
 
-  INLINE LVector2 get_left_top();
-  INLINE LVector2 get_right_top();
-  INLINE LVector2 get_left_bottom();
-  INLINE LVector2 get_right_bottom();
+  INLINE LPoint2 get_left_top();
+  INLINE LPoint2 get_right_top();
+  INLINE LPoint2 get_left_bottom();
+  INLINE LPoint2 get_right_bottom();
 
-  INLINE void set_pos(const LVector2 &pos);
+  INLINE void set_pos(const LPoint2 &pos);
   INLINE void set_pos(float x, float y);
-  INLINE LVector2 get_pos();
+  INLINE LPoint2 get_pos();
 
-  INLINE LVector2 get_abs_pos();
+  INLINE LPoint2 get_abs_pos();
 
   INLINE void set_top(float top);
   INLINE void set_right(float right);
@@ -67,6 +67,8 @@ PUBLISHED:
   INLINE float get_bottom();
   INLINE float get_left();
 
+  INLINE LPoint2 get_relative_pos(const LPoint2 &abs_pos);
+
   INLINE void set_centered(bool center_vert = true, bool center_horiz = true);
   INLINE void set_center_vertical(bool centered = true);
   INLINE void set_center_horizontal(bool centered = true);
@@ -74,6 +76,7 @@ PUBLISHED:
   INLINE bool is_centered();
   INLINE bool is_vertical_centered();
   INLINE bool is_horizontal_centered();
+
 
   // Margin
   INLINE void set_margin(const LVector4 &margin);

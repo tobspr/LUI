@@ -59,7 +59,7 @@ INLINE void LUIBaseElement::set_snap_position(bool snap) {
   _snap_position = snap;
 }
 
-INLINE void LUIBaseElement::set_left_top(const LVector2 &pos) {
+INLINE void LUIBaseElement::set_left_top(const LPoint2 &pos) {
   _placement_x = M_default;
   _placement_y = M_default;
   _offset_x = pos.get_x();
@@ -67,7 +67,7 @@ INLINE void LUIBaseElement::set_left_top(const LVector2 &pos) {
   recompute_position();
 }
 
-INLINE void LUIBaseElement::set_right_top(const LVector2 &pos) {
+INLINE void LUIBaseElement::set_right_top(const LPoint2 &pos) {
   _placement_x = M_inverse;
   _placement_y = M_default;
   _offset_x = pos.get_x();
@@ -75,7 +75,7 @@ INLINE void LUIBaseElement::set_right_top(const LVector2 &pos) {
   recompute_position();
 }
 
-INLINE void LUIBaseElement::set_left_bottom(const LVector2 &pos) {
+INLINE void LUIBaseElement::set_left_bottom(const LPoint2 &pos) {
   _placement_x = M_default;
   _placement_y = M_inverse;
   _offset_x = pos.get_x();
@@ -83,7 +83,7 @@ INLINE void LUIBaseElement::set_left_bottom(const LVector2 &pos) {
   recompute_position();
 }
 
-INLINE void LUIBaseElement::set_right_bottom(const LVector2 &pos) {
+INLINE void LUIBaseElement::set_right_bottom(const LPoint2 &pos) {
   _placement_x = M_inverse;
   _placement_y = M_default;
   _offset_x = pos.get_x();
@@ -91,36 +91,36 @@ INLINE void LUIBaseElement::set_right_bottom(const LVector2 &pos) {
   recompute_position();
 }
 
-INLINE LVector2 LUIBaseElement::get_left_top() {
-  return LVector2(get_left(), get_top());
+INLINE LPoint2 LUIBaseElement::get_left_top() {
+  return LPoint2(get_left(), get_top());
 }
 
-INLINE LVector2 LUIBaseElement::get_right_top() {
-  return LVector2(get_right(), get_top());
+INLINE LPoint2 LUIBaseElement::get_right_top() {
+  return LPoint2(get_right(), get_top());
 }
 
-INLINE LVector2 LUIBaseElement::get_left_bottom() {
-  return LVector2(get_left(), get_bottom());
+INLINE LPoint2 LUIBaseElement::get_left_bottom() {
+  return LPoint2(get_left(), get_bottom());
 }
 
-INLINE LVector2 LUIBaseElement::get_right_bottom() {
-  return LVector2(get_right(), get_bottom());
+INLINE LPoint2 LUIBaseElement::get_right_bottom() {
+  return LPoint2(get_right(), get_bottom());
 }
 
-INLINE void LUIBaseElement::set_pos(const LVector2 &pos) {
+INLINE void LUIBaseElement::set_pos(const LPoint2 &pos) {
   set_pos(pos.get_x(), pos.get_y());
 }
 
 INLINE void LUIBaseElement::set_pos(float x, float y) {
-  set_left_top(LVector2(x, y));
+  set_left_top(LPoint2(x, y));
 }
 
-INLINE LVector2 LUIBaseElement::get_pos() {
+INLINE LPoint2 LUIBaseElement::get_pos() {
   return get_left_top();
 }
 
-INLINE LVector2 LUIBaseElement::get_abs_pos() {
-  return LVector2(_pos_x, _pos_y);
+INLINE LPoint2 LUIBaseElement::get_abs_pos() {
+  return LPoint2(_pos_x, _pos_y);
 }
 
 INLINE void LUIBaseElement::set_top(float top) {
@@ -161,6 +161,10 @@ INLINE float LUIBaseElement::get_bottom() {
 
 INLINE float LUIBaseElement::get_left() {
   return _rel_pos_x;
+}
+
+INLINE LPoint2 LUIBaseElement::get_relative_pos(const LPoint2 &abs_pos) {
+  return abs_pos - get_abs_pos();
 }
 
 INLINE void LUIBaseElement::set_centered(bool center_vert, bool center_horiz) {

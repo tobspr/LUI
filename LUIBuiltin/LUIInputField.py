@@ -27,60 +27,79 @@ class LUIInputField(LUIObject):
         self.cursor = LUISprite(
             self, "blank", "default", x=0, y=0, w=2, h=font_size)
         self.cursor.color = (0.2, 0.2, 0.2)
-        self.cursor.margin = (6, 0, 0, 2)
+        self.cursor.margin = (6, 0, 0, 0)
         self.cursor.z_offset = 20
+
+        self.cursor_index = 0
 
         self.background_border.hide()
         self.cursor.hide()
 
-        self._current_text = u""
-        self._place_cursor()
+        self.current_text = u""
+        self.place_cursor()
 
-        self.background.debug_name = "Background"
-        self.background_border.debug_name = "BG_border"
-        self.debug_name = "LUIInputField"
-        self.text.debug_name = "InputText"
-        self.cursor.debug_name = "Cursor"
-        self.text_clip.debug_name = "TextClip"
+        # self.background.debug_name = "Background"
+        # self.background_border.debug_name = "BG_border"
+        # self.debug_name = "LUIInputField"
+        # self.text.debug_name = "InputText"
+        # self.cursor.debug_name = "Cursor"
+        # self.text_clip.debug_name = "TextClip"
 
-    def _render_text(self):
-        self.text.text = self._current_text
-        self._place_cursor()
+    def render_text(self):
+        self.text.text = self.current_text
+        self.place_cursor()
 
-    def _add_text(self, text):
-        self._current_text += text
-        self._render_text()
+    def set_cursor_pos(self, pos):
+        self.cursor_index = max(0, min(len(self.current_text), pos))
+
+    def add_text(self, text):
+        self.current_text = self.current_text[:self.cursor_index] + text + self.current_text[self.cursor_index:]
+        self.set_cursor_pos(self.cursor_index + len(text))
+        self.render_text()
 
     def on_click(self, event):
         self.request_focus()
 
+    def on_mousedown(self, event):
+        local_x_offset = self.text.get_relative_pos(event.coordinates).x
+        self.set_cursor_pos(self.text.get_char_index(local_x_offset))
+        self.place_cursor()
+
     def on_focus(self, event):
-        print "Got focus .."
         self.background_border.show()
         self.cursor.show()
 
     def on_keydown(self, event):
         key_name = event.get_message()
         if key_name == "backspace":
-            self._current_text = self._current_text[:-1]
-            self._render_text()
-        # elif key_name == "space":
-        #     self._add_text(" ")
+            self.current_text = self.current_text[:max(0, self.cursor_index - 1)] + self.current_text[self.cursor_index:]
+            self.set_cursor_pos(self.cursor_index - 1)
+            self.render_text()
+        elif key_name == "delete":
+            self.current_text = self.current_text[:self.cursor_index] + self.current_text[min(len(self.current_text), self.cursor_index + 1):]
+            self.set_cursor_pos(self.cursor_index)
+            self.render_text()
+        elif key_name == "arrow_left":
+            self.set_cursor_pos(self.cursor_index - 1)
+            self.place_cursor()
+        elif key_name == "arrow_right":
+            self.set_cursor_pos(self.cursor_index + 1)
+            self.place_cursor()
+        else:
+            print key_name
 
     def on_keyrepeat(self, event):
         self.on_keydown(event)
 
     def on_textinput(self, event):
-        print "On textinput .."
-        self._add_text(event.get_message())
+        self.add_text(event.get_message())
 
     def on_blur(self, event):
-        print "Lost focus .."
         self.background_border.hide()
         self.cursor.hide()
 
-    def _place_cursor(self):
-        self.cursor.left = self.text.left + self.text.width
+    def place_cursor(self):
+        self.cursor.left = self.text.left + self.text.get_char_pos(self.cursor_index)
 
 if __name__ == "__main__":
 

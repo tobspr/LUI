@@ -36,3 +36,4 @@ INLINE void LUIText::on_color_changed() {
     (*it)->set_color(_color);
   }
 }
+

@@ -1,67 +1,28 @@
 
 
-INLINE void LUISprite::recompute_vertices() {
-
-  // Compute clipping
-  float x1 = _pos_x;
-  float y1 = _pos_y;
-  float x2 = x1 + _size.get_x();
-  float y2 = y1 + _size.get_y();
-
-  float bnds_x1 = _abs_clip_bounds->get_x();
-  float bnds_y1 = _abs_clip_bounds->get_y();
-  float bnds_x2 = bnds_x1 + _abs_clip_bounds->get_w();
-  float bnds_y2 = bnds_x2 + _abs_clip_bounds->get_h();
-
-  x1 = min(bnds_x2, max(bnds_x1, x1));
-  y1 = min(bnds_y2, max(bnds_y1, y1));
-
-  x2 = min(bnds_x2, max(bnds_x1, x2));
-  y2 = min(bnds_y2, max(bnds_y1, y2));
-
-  if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() <<  _debug_name << "Recomputing, bounds = (" << _abs_clip_bounds->get_x() << ", " 
-      << _abs_clip_bounds->get_y() << " / " << _abs_clip_bounds->get_w() << "x" << _abs_clip_bounds->get_h() 
-      << "), pos = (" << x1 << ", " << y1 << ", " << x2 << ", " << y2 << ")"
-      << endl;
-  }
-
-  // Update vertices
-  _data[0].x = x1;
-  _data[0].z = y1;
-  _data[1].x = x2;
-  _data[1].z = y1;
-  _data[2].x = x2;
-  _data[2].z = y2;
-  _data[3].x = x1;
-  _data[3].z = y2;
-}
-
 INLINE void LUISprite::set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end) {
   set_uv_range(uv_begin.get_x(), uv_begin.get_y(), uv_end.get_x(), uv_end.get_y());
 }
 
 INLINE void LUISprite::set_uv_range(float u0, float v0, float u1, float v1) {
-  _data[0].u = u0;
-  _data[0].v = 1-v0;
 
-  _data[1].u = u1;
-  _data[1].v = 1-v0;
+  _uv_begin.set_x(u0);
+  _uv_begin.set_y(v0);
 
-  _data[2].u = u1;
-  _data[2].v = 1-v1;
+  _uv_end.set_x(u1);
+  _uv_end.set_y(v1);
 
-  _data[3].u = u0;
-  _data[3].v = 1-v1;
+  recompute_vertices();
   update_vertex_pool();
 }
 
 
-INLINE void LUISprite::get_uv_range(LTexCoord &uv_begin, LTexCoord &uv_end) {
-  uv_begin.set_x(_data[0].u);
-  uv_begin.set_y(1-_data[0].v);
-  uv_end.set_x(_data[2].u);
-  uv_end.set_y(1-_data[2].v);
+INLINE const LTexCoord &LUISprite::get_uv_begin() {
+  return _uv_begin;
+}
+
+INLINE const LTexCoord &LUISprite::get_uv_end() {
+  return _uv_end;
 }
 
 INLINE void LUISprite::set_texture(Texture* tex, bool resize) {

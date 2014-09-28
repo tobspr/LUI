@@ -113,9 +113,7 @@ void LUIText::update_text() {
        (dynamic_glyph->get_top() - dynamic_glyph->get_bottom()) * ppu);
     
     sprite->set_color(_color);
-
     sprite->set_debug_name("TextGlyph");
-
     sprite->end_update_section();
 
     // Move *cursor* by glyph length
@@ -132,4 +130,58 @@ void LUIText::ls(int indent) {
 
 }
 
+int LUIText::get_char_index(float pos) {  
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Trying to resolve " << pos << " into a character index .." << endl;
+  }
+  nassertr(_font != NULL, 0);
 
+  float cursor = 0.0;
+
+  for (int i = 0; i < _text.size(); ++i) {
+    int char_code = (int)_text.at(i);
+
+    const TextGlyph *glyph;
+    if (!_font->get_glyph(char_code, glyph)) {
+      lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
+      continue;
+    }
+
+    nassertr(glyph != NULL, 0);
+    cursor += glyph->get_advance() * _font_size;
+
+    if (cursor > pos) {
+      return i;
+    }
+
+  }  
+
+  return _text.size();
+}
+
+float LUIText::get_char_pos(int char_index) {
+  if (lui_cat.is_spam()) {
+    lui_cat.spam() << "Trying to resolve " << char_index << " into a character position .." << endl;
+  }
+  nassertr(_font != NULL, 0);
+
+  // Make sure we don't iterate over the text bounds
+  int iterate_max = min(char_index, (int)_text.size());
+
+  float cursor = 0.0;
+
+  for (int i = 0; i < iterate_max; i++) {
+    int char_code = (int)_text.at(i);
+
+    const TextGlyph *glyph;
+    if (!_font->get_glyph(char_code, glyph)) {
+      lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
+      continue;
+    }
+    nassertr(glyph != NULL, 0);
+    cursor += glyph->get_advance() * _font_size;
+  }
+
+  return cursor;
+
+}

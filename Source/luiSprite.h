@@ -57,7 +57,9 @@ PUBLISHED:
   // Texcoord
   INLINE void set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end);
   INLINE void set_uv_range(float u0, float v0, float u1, float v1);
-  INLINE void get_uv_range(LTexCoord &uv_begin, LTexCoord &uv_end);
+  INLINE const LTexCoord &get_uv_begin();
+  INLINE const LTexCoord &get_uv_end();
+
 
   // Texture
   INLINE void set_texture(Texture* tex, bool resize=true);
@@ -78,7 +80,7 @@ protected:
   void init(LUIObject *parent, float x, float y, const LColor &color);
   INLINE void init_size(float w, float h);
 
-  INLINE void recompute_vertices();
+  void recompute_vertices();
   void update_vertex_pool();
   void assign_vertex_pool();
   void unassign_vertex_pool();
@@ -102,6 +104,10 @@ protected:
 
   // Handle to the LUIVertexPool
   LUIChunkDescriptor *_chunk_descriptor;
+
+  // Stores texture coordinates
+  LTexCoord _uv_begin;
+  LTexCoord _uv_end;
 
   PT(Texture) _tex;
 

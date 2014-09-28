@@ -24,6 +24,11 @@ PUBLISHED:
   INLINE LPoint2 get_coordinates();
   INLINE wstring get_message();
 
+  MAKE_PROPERTY(name, get_name);
+  MAKE_PROPERTY(sender, get_sender);
+  MAKE_PROPERTY(coordinates, get_coordinates);
+  MAKE_PROPERTY(message, get_message);
+
 public:
 
   LUIEventData(LUIBaseElement *sender, const string &event_name, const wstring &message, const LPoint2 &coordinates = LPoint2(0));

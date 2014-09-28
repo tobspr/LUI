@@ -49,7 +49,7 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
   begin_update_section();
 
   set_color(color);
-  set_uv_range(LVector2(0), LVector2(1));
+  set_uv_range(0, 0, 1, 1);
   set_size(1, 1);
   set_pos(x, y); 
   set_z_offset(0);
@@ -179,4 +179,79 @@ void LUISprite::unassign_vertex_pool() {
     delete _chunk_descriptor;
     _chunk_descriptor = NULL;
   }
+}
+
+
+
+
+void LUISprite::recompute_vertices() {
+
+  // Get current position
+  float x1 = _pos_x;
+  float y1 = _pos_y;
+  float x2 = x1 + _size.get_x();
+  float y2 = y1 + _size.get_y();
+
+  // Get bounds
+  float bnds_x1 = _abs_clip_bounds->get_x();
+  float bnds_y1 = _abs_clip_bounds->get_y();
+  float bnds_x2 = bnds_x1 + _abs_clip_bounds->get_w();
+  float bnds_y2 = bnds_x2 + _abs_clip_bounds->get_h();
+
+  // Clip position to bounds
+  float nx1 = min(bnds_x2, max(bnds_x1, x1));
+  float ny1 = min(bnds_y2, max(bnds_y1, y1));
+  float nx2 = min(bnds_x2, max(bnds_x1, x2));
+  float ny2 = min(bnds_y2, max(bnds_y1, y2));
+
+  // Get current texcoord
+  float u1 = _uv_begin.get_x();
+  float v1 = _uv_begin.get_y();
+  float u2 = _uv_end.get_x();
+  float v2 = _uv_end.get_y();
+  
+  // Compute texcoord-per-pixel factor
+  float upp = 0, vpp = 0;
+
+  if (x2 - y1 != 0) {
+    upp = (u2 - u1) / (x2 - x1);
+  }
+
+  if (y2 - y1 != 0) {
+    vpp = (v2 - v1) / (y2 - y1);
+  }
+
+
+  // Adjust texcoord
+  u1 += (nx1 - x1) * upp;
+  u2 += (nx2 - x2) * upp;
+  v1 += (ny1 - y1) * vpp;
+  v2 += (ny2 - y2) * vpp;
+
+  if (luiSprite_cat.is_spam()) {
+    luiSprite_cat.spam() <<  _debug_name << "Recomputing, bounds = (" << _abs_clip_bounds->get_x() << ", " 
+      << _abs_clip_bounds->get_y() << " / " << _abs_clip_bounds->get_w() << "x" << _abs_clip_bounds->get_h() 
+      << "), pos = (" << nx1 << ", " << ny1 << ", " << nx2 << ", " << ny2 << ")"
+      << endl;
+  }
+
+  // Update vertex positions
+  _data[0].x = nx1; 
+  _data[0].z = ny1;
+  _data[1].x = nx2;
+  _data[1].z = ny1;
+  _data[2].x = nx2;
+  _data[2].z = ny2;
+  _data[3].x = nx1;
+  _data[3].z = ny2;
+
+  // Update vertex texcoords
+  _data[0].u = u1;
+  _data[0].v = 1-v1;
+  _data[1].u = u2;
+  _data[1].v = 1-v1;
+  _data[2].u = u2;
+  _data[2].v = 1-v2;
+  _data[3].u = u1;
+  _data[3].v = 1-v2;
 }
