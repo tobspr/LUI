@@ -53,11 +53,14 @@ class LUIInputField(LUIObject):
         self.cursor.left = self.text.left + self.text.get_char_pos(self.cursor_index)
 
         max_left = self.width - 5
-        if self.cursor.left > max_left:
-            self.text_scroller.left = max_left - self.cursor.left
-        else:
-            self.text_scroller.left = 0
 
+        # Scroll if the cursor is outside of the clip bounds
+
+        relX = self.get_relative_pos(self.cursor.get_abs_pos()).x
+        if relX >= max_left:
+            self.text_scroller.left = min(0, max_left - self.cursor.left)
+        if relX <= 0:
+            self.text_scroller.left = min(0, - self.cursor.left - relX)
 
     def set_cursor_pos(self, pos):
         self.cursor_index = max(0, min(len(self.current_text), pos))
@@ -95,9 +98,7 @@ class LUIInputField(LUIObject):
         elif key_name == "arrow_right":
             self.set_cursor_pos(self.cursor_index + 1)
             self.render_text()
-        else:
-            print key_name
-
+            
     def on_keyrepeat(self, event):
         self.on_keydown(event)
 
