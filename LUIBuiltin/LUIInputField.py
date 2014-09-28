@@ -23,8 +23,8 @@ class LUIInputField(LUIObject):
 
         self.text = LUIText(self.text_scroller, u"", "default", font_size)
         self.text.color = (0.5, 0.5, 0.5)
-        self.text.margin.top = 3
-        self.text.margin.left = 3
+        self.text.margin_top = 3
+        self.text.margin_left = 3
         self.text.z_offset = 10
 
         self.cursor = LUISprite(
@@ -40,13 +40,6 @@ class LUIInputField(LUIObject):
 
         self.current_text = u""
         self.render_text()
-
-        # self.background.debug_name = "Background"
-        # self.background_border.debug_name = "BG_border"
-        # self.debug_name = "LUIInputField"
-        # self.text.debug_name = "InputText"
-        # self.cursor.debug_name = "Cursor"
-        # self.text_clip.debug_name = "TextClip"
 
     def render_text(self):
         self.text.text = self.current_text
@@ -98,7 +91,7 @@ class LUIInputField(LUIObject):
         elif key_name == "arrow_right":
             self.set_cursor_pos(self.cursor_index + 1)
             self.render_text()
-            
+
     def on_keyrepeat(self, event):
         self.on_keydown(event)
 

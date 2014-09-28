@@ -81,11 +81,27 @@ PUBLISHED:
   // Margin
   INLINE void set_margin(const LVector4 &margin);
   INLINE void set_margin(float top, float right, float bottom, float left);
+  INLINE void set_margin_top(float top);
+  INLINE void set_margin_right(float right);
+  INLINE void set_margin_bottom(float bottom);
+  INLINE void set_margin_left(float left);
+  INLINE float get_margin_top();
+  INLINE float get_margin_right();
+  INLINE float get_margin_bottom();
+  INLINE float get_margin_left();
   INLINE LUIBounds *get_margin();
 
   // Padding
   INLINE void set_padding(const LVector4 &padding);
   INLINE void set_padding(float top, float right, float bottom, float left);
+  INLINE void set_padding_top(float top);
+  INLINE void set_padding_right(float right);
+  INLINE void set_padding_bottom(float bottom);
+  INLINE void set_padding_left(float left);
+  INLINE float get_padding_top();
+  INLINE float get_padding_right();
+  INLINE float get_padding_bottom();
+  INLINE float get_padding_left();
   INLINE LUIBounds *get_padding();
 
   // Size
@@ -151,8 +167,17 @@ PUBLISHED:
   MAKE_PROPERTY(center_horizontal, is_horizontal_centered, set_center_horizontal);
 
   MAKE_PROPERTY(margin, get_margin, set_margin);
+  MAKE_PROPERTY(margin_top, get_margin_top, set_margin_top);
+  MAKE_PROPERTY(margin_right, get_margin_right, set_margin_right);
+  MAKE_PROPERTY(margin_bottom, get_margin_bottom, set_margin_bottom);
+  MAKE_PROPERTY(margin_left, get_margin_left, set_margin_left);
+
   MAKE_PROPERTY(padding, get_padding, set_padding);
-  
+  MAKE_PROPERTY(padding_top, get_padding_top, set_padding_top);
+  MAKE_PROPERTY(padding_right, get_padding_right, set_padding_right);
+  MAKE_PROPERTY(padding_bottom, get_padding_bottom, set_padding_bottom);
+  MAKE_PROPERTY(padding_left, get_padding_left, set_padding_left);
+
   MAKE_PROPERTY(size, get_size, set_size);
   MAKE_PROPERTY(width, get_width, set_width);
   MAKE_PROPERTY(height, get_height, set_height);

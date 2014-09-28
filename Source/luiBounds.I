@@ -32,7 +32,7 @@ INLINE void LUIBounds::set_left(float left) {
 }
 
 INLINE void LUIBounds::set_bounds(const LVector4 &bounds) {
-  _bounds = bounds;
+  _bounds = LVector4(bounds);
 }
 
 INLINE void LUIBounds::set_bounds(float top, float right, float bottom, float left) {
@@ -41,7 +41,6 @@ INLINE void LUIBounds::set_bounds(float top, float right, float bottom, float le
   _bounds.set_z(bottom);
   _bounds.set_w(left);
 }
-
 
 INLINE const LVector4 &LUIBounds::get_bounds() {
   return _bounds;

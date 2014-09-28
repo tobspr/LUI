@@ -219,6 +219,42 @@ INLINE void LUIBaseElement::set_margin(float top, float right, float bottom, flo
   recompute_position();
 }
 
+INLINE void LUIBaseElement::set_margin_top(float top) {
+  _margin->set_top(top);
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_margin_right(float right) {
+  _margin->set_right(right);
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_margin_bottom(float bottom) {
+  _margin->set_bottom(bottom);
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_margin_left(float left) {
+  _margin->set_left(left);
+  recompute_position();
+}
+
+INLINE float LUIBaseElement::get_margin_top() {
+  return _margin->get_top();
+}
+
+INLINE float LUIBaseElement::get_margin_right() {
+  return _margin->get_right();
+}
+
+INLINE float LUIBaseElement::get_margin_bottom() {
+  return _margin->get_bottom();
+}
+
+INLINE float LUIBaseElement::get_margin_left() {
+  return _margin->get_left();
+}
+
 INLINE LUIBounds *LUIBaseElement::get_margin() {
   return _margin;
 }
@@ -231,6 +267,39 @@ INLINE void LUIBaseElement::set_padding(const LVector4 &padding) {
 INLINE void LUIBaseElement::set_padding(float top, float right, float bottom, float left) {
   _padding->set_bounds(top, right, bottom, left);
   recompute_position();
+}
+
+INLINE void LUIBaseElement::set_padding_top(float top) {
+  _padding->set_top(top);
+  recompute_position();
+}
+INLINE void LUIBaseElement::set_padding_right(float right) {
+  _padding->set_right(right);
+  recompute_position();
+}
+INLINE void LUIBaseElement::set_padding_bottom(float bottom) {
+  _padding->set_bottom(bottom);
+  recompute_position();
+}
+INLINE void LUIBaseElement::set_padding_left(float left) {
+  _padding->set_left(left);
+  recompute_position();
+}
+
+INLINE float LUIBaseElement::get_padding_top() {
+  return _padding->get_top();
+}
+
+INLINE float LUIBaseElement::get_padding_right() {
+  return _padding->get_right();
+}
+
+INLINE float LUIBaseElement::get_padding_bottom() {
+  return _padding->get_bottom();
+}
+
+INLINE float LUIBaseElement::get_padding_left() {
+  return _padding->get_left();
 }
 
 INLINE LUIBounds *LUIBaseElement::get_padding() {

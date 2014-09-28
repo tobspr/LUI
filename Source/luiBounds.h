@@ -24,20 +24,24 @@ PUBLISHED:
   INLINE float get_bottom();
   INLINE float get_left();
 
-  INLINE void set_top(float top);
-  INLINE void set_right(float right);
-  INLINE void set_bottom(float bottom);
-  INLINE void set_left(float left);
+
 
   INLINE void set_bounds(const LVector4 &bounds);
   INLINE void set_bounds(float top, float right, float bottom, float left);
 
   INLINE const LVector4 &get_bounds();
 
-  MAKE_PROPERTY(top, get_top, set_top);
-  MAKE_PROPERTY(bottom, get_bottom, set_bottom);
-  MAKE_PROPERTY(left, get_left, set_left);
-  MAKE_PROPERTY(right, get_right, set_right);
+  MAKE_PROPERTY(top, get_top);
+  MAKE_PROPERTY(bottom, get_bottom);
+  MAKE_PROPERTY(left, get_left);
+  MAKE_PROPERTY(right, get_right);
+
+public:
+
+  INLINE void set_top(float top);
+  INLINE void set_right(float right);
+  INLINE void set_bottom(float bottom);
+  INLINE void set_left(float left);
 
 protected:
 
