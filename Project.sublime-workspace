@@ -1,0 +1,303 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"entr",
+				"entry_name"
+			],
+			[
+				"atlas",
+				"atlas_id"
+			],
+			[
+				"getRea",
+				"getReadYSize"
+			],
+			[
+				"soure",
+				"sourcePath"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/Administrator/Desktop/TP",
+			"settings":
+			{
+				"buffer_size": 547,
+				"line_ending": "Windows",
+				"name": "Push:"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"ssc",
+				"Set Syntax: C"
+			],
+			[
+				"ss hp",
+				"Set Syntax: PHP"
+			]
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/E/Projects/Brainz stuff/LUI"
+	],
+	"file_history":
+	[
+		"/E/Projects/Brainz stuff/LUI/LUIBuiltin/LUIButton.py",
+		"/E/Projects/Brainz stuff/LUI/Source/luiSprite.h",
+		"/E/Projects/Brainz stuff/LUI/Res/LUIAtlasGen.py",
+		"/E/Projects/Brainz stuff/LUI/Res/LUIGenerateGrid.py",
+		"/E/Projects/Brainz stuff/LUI/Source/luiBaseElement.cxx",
+		"/E/Projects/Brainz stuff/LUI/Source/luiBaseElement.I",
+		"/E/Projects/Brainz stuff/LUI/Source/luiInputHandler.cxx",
+		"/E/Projects/Brainz stuff/LUI/Source/luiSprite.cxx",
+		"/E/Projects/Brainz stuff/LUI/LUIBuiltin/LUISpriteBoxLayout.py",
+		"/E/Projects/Brainz stuff/LUI/Source/luiBaseElement.h",
+		"/E/Projects/Brainz stuff/LUI/Source/luiText.cxx",
+		"/E/Projects/Brainz stuff/LUI/Source/luiSprite.I",
+		"/E/Projects/Brainz stuff/LUI/Source/luiBounds.cxx",
+		"/E/Projects/Brainz stuff/LUI/Res/AtlasGenGui.py",
+		"/E/Projects/Brainz stuff/LUI/Res/atlas.settings",
+		"/F/P3D/1.9.0-1/Build.bat",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/E/Projects/Brainz stuff/LUI/Source/luiAtlas.I",
+		"/E/xampp/htdocs/Aufgaben/Freitag-28-09-14/Contact/Contact/ContactEmail.class.php",
+		"/E/xampp/htdocs/Aufgaben/Freitag-28-09-14/ejuliaEMail/aufruf.txt",
+		"/E/xampp/htdocs/Aufgaben/Freitag-28-09-14/ejuliaEMail/class.EMail.php",
+		"/E/xampp/htdocs/Aufgaben/Freitag-28-09-14/ejuliaEMail/class.UserEmail.php",
+		"/E/Sonstiges/Screenshots/Scattering Old Version/TEMP/trash/lol.py",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Administrator/Documents/my games/Unreal Tournament 3/UTGame/Config/UTCustomChar.ini",
+		"/F/Spiele/Sonstige/Minecraft Server/run.bat",
+		"/F/Spiele/Sonstige/Minecraft Server/server.properties",
+		"/E/xampp/htdocs/Aufgaben/Freitag-28-09-14/twitter fehler/twitter aufruf.php",
+		"/E/xampp/htdocs/Aufgaben/Freitag-28-09-14/twitter fehler/twitter-async/simpleTest.php",
+		"/E/xampp/htdocs/Aufgaben/Freitag-28-09-14/rpx.1.1.3/rpx/readme.txt",
+		"/C/Users/Administrator/Documents/my games/Unreal Tournament 3/UTGame/Config/UTGame.ini",
+		"/C/Users/Administrator/Documents/my games/Unreal Tournament 3/UTGame/SaveData/Player.ue3profile",
+		"/C/Users/Administrator/Documents/my games/Unreal Tournament 3/UTGame/SaveData/.ue3profile",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/init.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/Functions.h",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/core/init.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/core/init_survival.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/core/jip.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/core/session/fn_insertPlayerInfo.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/core/session/fn_requestReceived.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/briefing.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/initPlayerLocal.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/initServer.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/KRON_Strings.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/mission.sqm",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/core/configuration.sqf",
+		"/C/Users/Administrator/Documents/GAltis_Life.Altis/GAltis_Life.Altis/dialog/impound.hpp"
+	],
+	"find":
+	{
+		"height": 21.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			"E:\\Projects\\Brainz stuff\\LUI\\Source",
+			"",
+			"C:\\Users\\Administrator\\Documents\\my games\\Unreal Tournament 3\\UTGame\\Config",
+			"C:\\Users\\Administrator\\Documents\\GAltis_Life.Altis\\GAltis_Life.Altis"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"debug_name",
+			" <<  _debug_name",
+			" << _debug_name",
+			"debug_name",
+			"get_debug_name",
+			"_debug_name",
+			"	",
+			"sourcePath",
+			"for",
+			"i0",
+			"Player",
+			"Database",
+			"sql",
+			"localhost"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"",
+			"    ",
+			"destPath"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/Administrator/Desktop/TP",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 547,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								547,
+								547
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Push:",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 21.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "Project.sublime-project",
+	"replace":
+	{
+		"height": 38.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"luispri",
+				"Source\\luiSprite.I"
+			],
+			[
+				"luisp",
+				"Source\\luiSprite.h"
+			],
+			[
+				"luiba",
+				"Source\\luiBaseElement.h"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 181.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

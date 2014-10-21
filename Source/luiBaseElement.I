@@ -3,7 +3,7 @@
 
 INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callback) {
   if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << _debug_name << "Binding event '" << event_name << "'" << endl;
+    luiBaseElement_cat.spam() << "Binding event '" << event_name << "'" << endl;
   }
   if (_events.count(event_name) != 0) {
     lui_cat.warning() << "Overriding event handler for '" << event_name << "'" << endl;
@@ -20,7 +20,7 @@ INLINE void LUIBaseElement::bind(const string &event_name, PyObject* callback) {
 
 INLINE void LUIBaseElement::unbind(const string &event_name) {
   if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << _debug_name << "Unbinding event '" << event_name << "'" << endl;
+    luiBaseElement_cat.spam() << "Unbinding event '" << event_name << "'" << endl;
   }
 
   if (has_event(event_name)) {
@@ -45,7 +45,7 @@ INLINE bool LUIBaseElement::has_event(const string &event_name) {
 
 INLINE void LUIBaseElement::trigger_event(const string &event_name, const wstring &message, const LPoint2 &coords) {
   // if (luiBaseElement_cat.is_spam()) {
-    // luiBaseElement_cat.spam() << _debug_name << "Triggering event '" << event_name << "' with coordinates " 
+    // luiBaseElement_cat.spam() << "Triggering event '" << event_name << "' with coordinates " 
     // << coords.get_x() << ", " << coords.get_y() << " and message '" << message << "'.." << endl;
   // }
 
@@ -402,18 +402,18 @@ INLINE void LUIBaseElement::end_update_section() {
   _in_update_section = false;  
 
   if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << _debug_name << "End of update section .." << endl;
+    luiBaseElement_cat.spam() << "End of update section .." << endl;
   }
   recompute_position();
 
   if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << _debug_name << "Finally left update section .." << endl;
+    luiBaseElement_cat.spam() << "Finally left update section .." << endl;
   }
 }
 
 INLINE void LUIBaseElement::set_clip_bounds(LUIBounds *bounds) {
   if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << _debug_name << "Setting clip bounds to (" << bounds->get_top() << ", " << bounds->get_right() << " / " << bounds->get_bottom() << " x " << bounds->get_left() << ") .." << endl;
+    luiBaseElement_cat.spam() << "Setting clip bounds to (" << bounds->get_top() << ", " << bounds->get_right() << " / " << bounds->get_bottom() << " x " << bounds->get_left() << ") .." << endl;
   }
   _clip_bounds = new LUIBounds(bounds->get_bounds());
   recompute_position();
@@ -421,7 +421,7 @@ INLINE void LUIBaseElement::set_clip_bounds(LUIBounds *bounds) {
 
 INLINE void LUIBaseElement::set_clip_bounds(float top, float right, float bottom, float left) {
   if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << _debug_name << "Setting clip bounds to (" << top << ", " << right << " / " << bottom << " x " << left << ") .." << endl;
+    luiBaseElement_cat.spam() << "Setting clip bounds to (" << top << ", " << right << " / " << bottom << " x " << left << ") .." << endl;
   }
   _clip_bounds = new LUIBounds(top, right, bottom, left);
   recompute_position();

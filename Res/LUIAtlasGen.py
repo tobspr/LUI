@@ -11,16 +11,11 @@ from os import listdir
 from os.path import join, isfile, isdir
 
 from panda3d.core import TexturePool, loadPrcFileData, PNMImage
-
-import sys
-sys.path.insert(0, "../")
-
 from panda3d.lui import LUIAtlasPacker
 
 # Supress PNMImage warnings about incorrect sRGB profile
 loadPrcFileData("", "notify-level-pnmimage error")
 loadPrcFileData("", "notify-level-lui spam")
-
 
 class AtlasEntry:
 
@@ -35,8 +30,6 @@ class AtlasEntry:
 
     def __repr__(self):
         return self.name
-
-
 
 def generate_atlas(files, dest_dat, dest_png):
     entries = []
@@ -60,7 +53,7 @@ def generate_atlas(files, dest_dat, dest_png):
             uv = packer.find_position(entry.w, entry.h)
 
             if uv.get_x() < 0:
-                print "  Not all images matched, trying next power of 2"
+                # print "  Not all images matched, trying next power of 2"
                 all_entries_matched = False
                 virtual_atlas_size *= 2
                 break
@@ -109,7 +102,8 @@ if __name__ == "__main__":
                 result += recursively_collect_files(abs_path)
             else:
                 extension = f.split(".")[-1]
-                verbose_name = ''.join(f.split(".")[:-1])
+                verbose_name = ''.join(abs_path.split(".")[:-1])
+                verbose_name = verbose_name.replace("\\", "/").strip("/")
                 if extension in supported_extensions and f != "atlas.png":
                     result.append(
                         (verbose_name, join(source_dir, f)))

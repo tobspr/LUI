@@ -212,8 +212,8 @@ void LUIInputHandler::process(LUIRoot *root) {
     if (requested_focus != _focused_element) {
       if (lui_cat.is_spam()) {
         lui_cat.spam() << "Focus changed to " 
-          << (requested_focus == NULL ? "NULL" : requested_focus->get_debug_name()) 
-          << " from " << (_focused_element == NULL ? "NULL" : _focused_element->get_debug_name()) << endl;
+          << requested_focus 
+          << " from " << _focused_element << endl;
       }
       requested_focus->set_focus(true);
       requested_focus->trigger_event("focus" , wstring(), _current_state.mouse_pos);

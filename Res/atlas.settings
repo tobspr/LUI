@@ -1,0 +1,4 @@
+folder btn_default
+folder btn_hover
+dynamic_frame btn_default.png 7 7 7 7
+dynamic_frame btn_hover.png 7 7 7 7

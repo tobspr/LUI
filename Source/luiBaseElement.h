@@ -142,11 +142,6 @@ PUBLISHED:
   INLINE LUIBounds *get_clip_bounds();
   INLINE LUIRect *get_abs_clip_bounds();
 
-  INLINE void set_debug_name(const string &debug_name) {
-  _debug_name = "\033[32m[" + debug_name + "]\033[0m ";
-  }
-  INLINE const string& get_debug_name() {return _debug_name;}
-
   // Properties for python
   MAKE_PROPERTY(left_top, get_left_top, set_left_top);
   MAKE_PROPERTY(right_top, get_right_top, set_right_top);
@@ -190,7 +185,7 @@ PUBLISHED:
 
   MAKE_PROPERTY(clip_bounds, get_clip_bounds, set_clip_bounds);
 
-  MAKE_PROPERTY(debug_name, get_debug_name, set_debug_name);
+
 
 public:
 
@@ -271,8 +266,6 @@ protected:
   LUIBaseElement *_parent;
   LUIRoot *_root;
 
-
-  string _debug_name;
 
 public:
   static TypeHandle get_class_type() {

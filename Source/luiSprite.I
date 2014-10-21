@@ -41,7 +41,7 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
   if (tex != NULL) {
 
     if (luiSprite_cat.is_spam()) {
-      luiSprite_cat.spam() <<  _debug_name << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
+      luiSprite_cat.spam() << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
     }
     _tex = tex;
     set_uv_range(LTexCoord(0), LTexCoord(1));
@@ -60,7 +60,7 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
 INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor, bool resize) {
 
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() <<  _debug_name << "Load texture data from descriptor" << endl;
+    luiSprite_cat.spam() << "Load texture data from descriptor" << endl;
   }
 
   nassertv(descriptor != NULL);
@@ -75,27 +75,37 @@ INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor, bool resize) 
 
 INLINE void LUISprite::set_texture(const string &source, bool resize) {
 
-  // load texture from file
-  PT(Texture) tex = TexturePool::load_texture(source);
+  size_t sep_pos = source.find(":");
+  if (sep_pos != string::npos) {
 
-  if (tex == NULL) {
-    luiSprite_cat.error() << "Could not load texture from '" << source << "'" << endl;
-    return;
+    // load texture from descriptor
+    // "atlas-id:entry-name"
+    string atlas_id = source.substr(0, sep_pos); 
+    cout << "Atlas id is: '" << atlas_id << "' an entry id is '" << entry_name << "'"; 
+
+    set_texture(entry_name, atlas_id, resize);
+
+  } else {
+
+    // load texture from file
+    PT(Texture) tex = TexturePool::load_texture(source);
+
+    if (tex == NULL) {
+      luiSprite_cat.error() << "Could not load texture from '" << source << "'" << endl;
+      return;
+    }
+
+    set_texture(tex, resize);
   }
-
-  set_texture(tex, resize);
 }
 
 INLINE void LUISprite::set_texture(const string &entry_name, const string &atlas_id, bool resize) {
-
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() <<  _debug_name << "Load texture from atlas" << endl;
+    luiSprite_cat.spam() << "Load texture from atlas" << endl;
   }
   PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, entry_name);
   set_texture(descriptor, resize);
 }
-
-
 
 INLINE Texture *LUISprite::get_texture() const {
   return _tex;
