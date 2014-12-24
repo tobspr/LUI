@@ -14,28 +14,28 @@ class LUIInputField(LUIObject):
         self.background.z_offset = 5
 
         self.background_border = LUISprite(
-            self, "blank", "default", -1, -1, width + 2, font_size + 12, (0.2, 0.6, 1.0, 1.0))
+            self, "blank", "default", -1, -1, width + 2, font_size + 12, (0.5, 0.5, 0.5, 1.0))
 
-        self.text_clip = LUIObject(parent=self, x=0, y=0,w=width,h=font_size+10)
-        self.text_clip.clip_bounds = (2, 2, 2, 2)
+        self.text_clip = LUIObject(parent=self, x=0, y=0,w=width,h=font_size+50)
+        # self.text_clip.clip_bounds = (2, 2, 2, 2)
+        self.text_clip.z_offset = 10
 
         self.text_scroller = LUIObject(parent=self.text_clip, x=0, y=0)
 
         self.text = LUIText(self.text_scroller, u"", "default", font_size)
         self.text.color = (0.5, 0.5, 0.5)
         self.text.margin_top = 3
-        self.text.margin_left = 3
+        self.text.margin_left = 5
         self.text.z_offset = 10
 
         self.cursor = LUISprite(
             self.text_scroller, "blank", "default", x=0, y=0, w=2, h=font_size)
-        self.cursor.color = (0.2, 0.2, 0.2)
+        self.cursor.color = (0.5, 0.5, 0.5)
         self.cursor.margin = (6, 0, 0, 0)
         self.cursor.z_offset = 20
 
         self.cursor_index = 0
 
-        self.background_border.hide()
         self.cursor.hide()
 
         self.current_text = u""
@@ -72,7 +72,7 @@ class LUIInputField(LUIObject):
         self.render_text()
 
     def on_focus(self, event):
-        self.background_border.show()
+        self.background_border.set_color(0.2,0.6,1.0,1.0)
         self.cursor.show()
 
     def on_keydown(self, event):
@@ -99,7 +99,7 @@ class LUIInputField(LUIObject):
         self.add_text(event.get_message())
 
     def on_blur(self, event):
-        self.background_border.hide()
+        self.background_border.setColor(0.5,0.5,0.5,1.0)
         self.cursor.hide()
 
 
@@ -112,9 +112,9 @@ if __name__ == "__main__":
 
         text-minfilter linear
         text-magfilter linear
-        notify-level-lui debug
         text-pixels-per-unit 32
         sync-video #f
+        notify-level-lui debug
 
     """)
     import direct.directbase.DirectStart

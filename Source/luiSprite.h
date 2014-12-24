@@ -20,7 +20,6 @@
 #include "luiChunkDescriptor.h"
 #include "luiColorable.h"
 #include "texturePool.h"
-#include <iostream>
 
 
 class LUIVertexPool;
@@ -60,7 +59,6 @@ PUBLISHED:
   INLINE const LTexCoord &get_uv_begin();
   INLINE const LTexCoord &get_uv_end();
 
-
   // Texture
   INLINE void set_texture(Texture* tex, bool resize=true);
   INLINE void set_texture(LUIAtlasDescriptor *descriptor, bool resize=true);
@@ -82,8 +80,8 @@ protected:
 
   void recompute_vertices();
   void update_vertex_pool();
-  void assign_vertex_pool();
-  void unassign_vertex_pool();
+  void assign_sprite_index();
+  void unassign_sprite_index();
 
   // Interface to LUIBaseElement
   INLINE void on_bounds_changed();
@@ -91,9 +89,14 @@ protected:
   INLINE void on_detached();
   void set_root(LUIRoot* root);
   INLINE void on_z_index_changed();
+  
+  virtual void render_recursive();
 
   // Interface to LUIColorable
   void on_color_changed();
+
+
+  void fetch_texture_index();
 
   // Stores data for 4 corner vertices
   // 0 - Upper Left
@@ -101,9 +104,6 @@ protected:
   // 2 - Lower Right
   // 3 - Lower Left
   LUIVertexData _data[4];
-
-  // Handle to the LUIVertexPool
-  LUIChunkDescriptor *_chunk_descriptor;
 
   // Stores texture coordinates
   LTexCoord _uv_begin;
@@ -115,6 +115,8 @@ protected:
   // tracking memory leaks
   static int _instance_count;
 
+  int _texture_index;
+  int _sprite_index;
 
 public:
   static TypeHandle get_class_type() {

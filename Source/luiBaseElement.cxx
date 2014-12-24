@@ -95,16 +95,6 @@ void LUIBaseElement::recompute_position() {
     luiBaseElement_cat.spam() << "Recompute position .." << endl;
   }
 
-  if (!_visible) {
-    // Just move out of the view frustum. Hacky but works fine :)
-    _pos_x = 0.0;
-    _pos_y = 0.0;
-
-    _abs_clip_bounds->set_rect(0,0,0,0);
-    on_bounds_changed();
-    return;
-  } 
-
   LVector2 ppos(0);  
 
   // When there is no parent, there is no sense in computing an accurate position

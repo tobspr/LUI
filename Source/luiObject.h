@@ -23,6 +23,8 @@
 class LUISprite;
 class LUIRoot;
 
+typedef pvector<PT(LUIBaseElement)> LUIChildVector;
+
 NotifyCategoryDecl(luiObject, EXPCL_LUI, EXPTP_LUI);
 
 class EXPCL_LUI LUIObject : public LUIBaseElement {
@@ -59,11 +61,13 @@ protected:
   INLINE virtual void on_detached();
   virtual void set_root(LUIRoot* root);
   INLINE virtual void on_z_index_changed();
+
+  virtual void render_recursive();
   
   // Interface to LUIColorable
   INLINE virtual void on_color_changed(); 
 
-  pset<PT(LUIBaseElement)> _children;
+  LUIChildVector _children;
 
   static int _instance_count;
 

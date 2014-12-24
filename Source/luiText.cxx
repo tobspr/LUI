@@ -184,3 +184,10 @@ float LUIText::get_char_pos(int char_index) {
   return cursor;
 
 }
+
+void LUIText::render_recursive() {
+  if (!_visible) return;
+  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+    (*it)->render_recursive();
+  }
+}

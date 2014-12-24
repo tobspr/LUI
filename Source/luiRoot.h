@@ -15,10 +15,20 @@
 #include "luiVertexPool.h"
 #include "luiAtlas.h"
 
+#include "geomVertexFormat.h"
+#include "geomVertexData.h"
+#include "geomVertexWriter.h"
+#include "geomVertexArrayFormat.h"
+#include "geomTriangles.h"
+#include "omniBoundingVolume.h"
+#include "geom.h"
+
+
 class LUIObject;
 class LUIBaseElement;
 
-typedef pmap<Texture*, LUIVertexPool*> LUIVertexPoolMap;
+typedef vector<Texture*> LUITextureVector;
+typedef vector<LUISprite*> LUISpriteVector;
 typedef set<LUIBaseElement*> LUIEventObjectSet;
 
 class EXPCL_LUI LUIRoot : public ReferenceCount {
@@ -34,33 +44,59 @@ PUBLISHED:
 
 public:
 
-  INLINE LUIVertexPool* get_vpool_by_texture(Texture* tex);
+  INLINE int get_index_by_texture(Texture* tex);
 
   INLINE void register_event_object(LUIBaseElement *event_object);
   INLINE void unregister_event_object(LUIBaseElement *event_object);
 
-
   INLINE void request_focus(LUIBaseElement *elem);
   INLINE LUIBaseElement *get_requested_focus();
-
-  // We expose this to LUIRegion only, so it can iterate over all pools
-  // in a fast way.
-  INLINE LUIVertexPoolMap::iterator get_iter_pool_begin();
-  INLINE LUIVertexPoolMap::iterator get_iter_pool_end();
 
   INLINE LUIEventObjectSet::iterator get_event_objects_begin();
   INLINE LUIEventObjectSet::iterator get_event_objects_end();
 
+  INLINE int register_sprite(LUISprite* sprite);
+  INLINE void unregister_sprite(int position);
+
+  INLINE void* get_sprite_vertex_pointer(int position);
+
+  INLINE void prepare_render();
+
+  INLINE void add_sprite_to_render_list(int position);
+
+  INLINE Geom* get_geom();
+
+
+  INLINE int get_num_textures();
+  INLINE Texture *get_texture(int index);
+
+
+  PT(Shader) create_object_shader();
 
 private:
 
 
+  PT(GeomVertexData) _vertex_data;
+  PT(GeomTriangles) _triangles;
+  PT(Geom) _geom;
 
-  // Vertex pools are stored as single pointers, to avoid circular
-  // references. The destructor of LUIRoot takes care of deleting them.
-  LUIVertexPoolMap _pools;
+  LUISpriteVector _sprites;  
+  LUITextureVector _textures;
 
+  int _sprites_rendered;
 
+  struct LUITriangleIndex {
+    uint vertices[3];
+  };
+
+  void* _sprite_vertex_pointer;
+
+  int _min_rendered_vertex;
+  int _max_rendered_vertex;
+
+  LUITriangleIndex* _triangle_index_buffer;
+  int _index_buffer_size;
+  
   // We store a private root node.
   // With this, we don't have to inherit from LUIObject, but
   // can maintain the ability to attach nodes directly to the

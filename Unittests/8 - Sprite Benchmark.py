@@ -17,6 +17,7 @@ text-minfilter linear
 text-magfilter linear
 text-pixels-per-unit 40
 """)
+loadPrcFileData("", "show-frame-rate-meter #t")
 
 
 LUIAtlasPool.get_global_ptr().load_atlas(
@@ -36,7 +37,7 @@ parent = LUIObject(parent=region.root(), x=15, y=70, w=600, h=600)
 
 a = time.time()
 
-numRows = 512
+numRows = 350
 
 def mouseover(event):
     # print "mouseover"
@@ -59,8 +60,8 @@ for x in xrange(numRows):
         sprite.left = x * s
         # sprite.color = (random(), random(), random())
         sprite.end_update_section()        
-        sprite.bind("mouseover", mouseover)
-        sprite.bind("mouseout", mouseout)
+        # sprite.bind("mouseover", mouseover)
+        # sprite.bind("mouseout", mouseout)
 
 d = (time.time() - a) * 1000.0
 
@@ -86,14 +87,14 @@ def test():
 
 LUIText(
     parent=region.root(),
-    text="Press 'p' to run a benchmark",
+    text=u"Press 'p' to run a benchmark",
     font_name="default",
     font_size=20,
     x=15, y=15)
 
 LUIText(
     parent=region.root(),
-    text="Each 'pixel' is a sprite. Total Count: " + str(numRows * numRows),
+    text=u"Each 'pixel' is a sprite. Total Count: " + str(numRows * numRows),
     font_name="default",
     font_size=15,
     x=15, y=42)

@@ -12,8 +12,7 @@ INLINE void LUISprite::set_uv_range(float u0, float v0, float u1, float v1) {
   _uv_end.set_x(u1);
   _uv_end.set_y(v1);
 
-  recompute_vertices();
-  update_vertex_pool();
+
 }
 
 
@@ -32,9 +31,10 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
     return;
   }
 
+  _texture_index = -1;
+
   // Unassign old texture
-  if (_tex != NULL && _chunk_descriptor != NULL) {
-    unassign_vertex_pool();
+  if (_tex != NULL) {
     _tex = tex;
   }
 
@@ -43,6 +43,7 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
     if (luiSprite_cat.is_spam()) {
       luiSprite_cat.spam() << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
     }
+
     _tex = tex;
     set_uv_range(LTexCoord(0), LTexCoord(1));
     
@@ -50,9 +51,9 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
       set_size(_tex->get_x_size(), _tex->get_y_size());
     }
 
-    // Assign new pool
+    // Assign new index
     if (_root != NULL) {
-      assign_vertex_pool();
+        fetch_texture_index();
     }
   }
 }
@@ -81,6 +82,7 @@ INLINE void LUISprite::set_texture(const string &source, bool resize) {
     // load texture from descriptor
     // "atlas-id:entry-name"
     string atlas_id = source.substr(0, sep_pos); 
+    string entry_name = source.substr(sep_pos+1);
     cout << "Atlas id is: '" << atlas_id << "' an entry id is '" << entry_name << "'"; 
 
     set_texture(entry_name, atlas_id, resize);
@@ -123,8 +125,6 @@ INLINE void LUISprite::print_vertices() {
 }
 
 INLINE void LUISprite::on_bounds_changed() {
-  recompute_vertices();
-  update_vertex_pool();
 }
 
 INLINE void LUISprite::on_visibility_changed() {
@@ -134,7 +134,7 @@ INLINE void LUISprite::on_visibility_changed() {
 INLINE void LUISprite::on_detached() {
   unregister_events();
   if (_tex != NULL) {
-    unassign_vertex_pool();
+    unassign_sprite_index();
   }
   _root = NULL;
   _parent = NULL;
@@ -144,7 +144,6 @@ INLINE void LUISprite::on_z_index_changed() {
   for (int i = 0; i < 4; i++) {
     _data[i].y = -_z_index;
   }
-  update_vertex_pool();
 }
 
 INLINE void LUISprite::on_color_changed() {
@@ -156,7 +155,6 @@ INLINE void LUISprite::on_color_changed() {
     _data[i].color[2] = (unsigned char) (_composed_color.get_z() * 255.0);
     _data[i].color[3] = (unsigned char) (_composed_color.get_w() * 255.0);
   }
-  update_vertex_pool();
 }
 
 INLINE void LUISprite::init_size(float w, float h) {
@@ -168,3 +166,4 @@ INLINE void LUISprite::init_size(float w, float h) {
     set_height(h);
   }
 }
+

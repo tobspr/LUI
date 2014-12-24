@@ -344,7 +344,6 @@ INLINE const LVector2 &LUIBaseElement::get_size() const {
 
 INLINE void LUIBaseElement::set_visible(bool visible) {
   _visible = visible;
-  recompute_position();
   on_visibility_changed();
 }
 

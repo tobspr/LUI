@@ -22,20 +22,20 @@ import direct.directbase.DirectStart
 
 region = LUIRegion.make("LUI", base.win)
 parent = region.root()
-parent.set_relative_z_index(100)
+parent.z_offset = 100
 
-sprite1 = parent.attach_sprite("blank", "default", x=100, y=100, w=100, h=100)
-sprite2 = parent.attach_sprite("blank", "default", x=150, y=120, w=100, h=100)
-sprite3 = parent.attach_sprite("blank", "default", x=125, y=150, w=100, h=100)
+sprite1 = LUISprite(parent, "blank", "default", x=100, y=100, w=100, h=100)
+sprite2 = LUISprite(parent, "blank", "default", x=150, y=120, w=100, h=100)
+sprite3 = LUISprite(parent, "blank", "default", x=125, y=150, w=100, h=100)
 
-sprite1.set_color(0.2, 0.6, 1.0, 0.5)
-sprite2.set_color(0.4, 0.6, 1.0, 0.5)
-sprite3.set_color(0.6, 0.6, 1.0, 0.5)
+sprite1.set_color(0.2, 0.0, 0.0, 0.5)
+sprite2.set_color(0.4, 0.0, 0.0, 0.5)
+sprite3.set_color(0.6, 0.0, 0.0, 0.5)
 
-sprite1.set_relative_z_index(1)
-sprite2.set_relative_z_index(4)
-sprite3.set_relative_z_index(3)
+sprite1.z_offset = 1
+sprite2.z_offset = 2
+sprite3.z_offset = 3
 
-parent.ls()
+
 
 run()

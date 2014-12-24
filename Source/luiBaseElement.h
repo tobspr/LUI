@@ -26,6 +26,7 @@ NotifyCategoryDecl(luiBaseElement, EXPCL_LUI, EXPTP_LUI);
 class EXPCL_LUI LUIBaseElement : public TypedReferenceCount, public LUIColorable {
 
   friend class LUIObject;
+  friend class LUIText;
 
 PUBLISHED:
 
@@ -225,6 +226,9 @@ protected:
 
   // Interface to LUIColorable
   INLINE virtual void on_color_changed();
+
+
+  virtual void render_recursive() = 0;
 
   INLINE void recompute_z_index();
   void register_events();

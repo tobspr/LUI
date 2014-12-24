@@ -67,9 +67,10 @@ if __name__ == "__main__":
         text-magfilter linear
         text-pixels-per-unit 32
         sync-video #f
-        notify-level-lui spam
+        notify-level-lui debug
     """)
     import direct.directbase.DirectStart
+
 
     LUIFontPool.get_global_ptr().register_font(
         "default", loader.loadFont("../Res/font/SourceSansPro-Bold.ttf"))

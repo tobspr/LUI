@@ -1,6 +1,11 @@
 
 INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
-  if (find(_children.begin(), _children.end(), child) == _children.end()) {
+
+
+  LUIChildVector::iterator child_index = std::find(_children.begin(), _children.end(), child);
+
+
+  if (child_index == _children.end()) {
     luiObject_cat.warning() << "Attempted to remove child, but child is not attached to this object" << endl;
     return;
   }
@@ -9,7 +14,7 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
     luiObject_cat.spam() << "Removing child .." << endl;
   }
 
-  _children.erase(child);
+  _children.erase(child_index);
   child->on_detached();
   
   if (luiObject_cat.is_spam()) {
@@ -27,7 +32,7 @@ INLINE void LUIObject::remove_all_children() {
     (*it)->on_detached();
   }
 
-  // Now clear the set
+  // Now clear the vector
   _children.clear();
 }
 
@@ -42,7 +47,7 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
   child->set_parent(this);
   child->recompute_position();
   child->recompute_z_index();
-  _children.insert(child);
+  _children.push_back(child);
 
   // This has to be last. Otherwise we're attaching to the VertexPool with outdated positions
   child->set_root(_root);
@@ -102,3 +107,4 @@ INLINE void LUIObject::on_detached() {
   }
 
 }
+

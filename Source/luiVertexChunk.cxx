@@ -40,7 +40,7 @@ LUIVertexChunk::LUIVertexChunk(int chunk_size)
   _geom->add_primitive(_triangles);
 
   _write_pointer = _vertex_data->modify_array(0)->modify_handle()->get_write_pointer();
-  
+
   // Initialize child array
   _children = new LUISprite*[chunk_size];
   

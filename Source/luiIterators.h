@@ -12,7 +12,7 @@
 class LUIBaseElement;
 
 // Iterators
-typedef pset<PT(LUIBaseElement)>::iterator lui_element_iterator;
+typedef pvector<PT(LUIBaseElement)>::iterator lui_element_iterator;
 
 class EXPCL_LUI LUIElementIterator : public ReferenceCount {
 PUBLISHED:

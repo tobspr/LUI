@@ -61,6 +61,8 @@ private:
 
   bool _wireframe;
   
+  PT(Shader) _object_shader;
+  PT(Texture) _empty_tex;
   // void process_inputs();
 
 

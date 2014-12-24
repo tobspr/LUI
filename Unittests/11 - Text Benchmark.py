@@ -26,12 +26,12 @@ a = time.time()
 
 print "Creating Text .."
 
-t = LUIText(parent=region.root(), text="Press 'p' to run a benchmark",
+t = LUIText(parent=region.root(), text=u"Press 'p' to run a benchmark",
             font_name="default", font_size=30, x=10, y=10)
 
 
 t.set_font_size(20)
-t.set_relative_z_index(100)
+# t.set_relative_z_index(100)
 
 
 
@@ -41,7 +41,7 @@ def test():
     print "Setting text", iterations, "times"
     start = time.time()
     for i in xrange(iterations):
-        txt = "#" * random.randint(10,100)
+        txt = u"#" * random.randint(10,100)
         # print txt
         t.set_text(txt)
 

@@ -31,16 +31,15 @@ LUIRegion::
   _lens->set_near_far(-1000, 10.0);
 
   _lui_root = new LUIRoot(_width, _height);
+  _empty_tex = new Texture();
+  _object_shader = _lui_root->create_object_shader();
   set_camera(new Camera(context_name, _lens));
-
-  set_clear_depth_active(true);
-
+  set_clear_depth_active(false);
 }
 
 LUIRegion::~LUIRegion() {
   lui_cat.error() << "Todo: Make destructor of LUIRegion" << endl;
 }
-
 
 void LUIRegion::
   do_cull(CullHandler *cull_handler, SceneSetup *scene_setup,
@@ -70,12 +69,29 @@ void LUIRegion::
     trav->set_scene(scene_setup, gsg, get_incomplete_render());
     trav->set_view_frustum(NULL);
 
-    // Todo: Create a render state per chunk
+    CPT(RenderAttrib) shaderAttrib = ShaderAttrib::make_default();
+
+    for (int i = 0; i < 8; i++) {
+      std::stringstream sstm;
+      sstm << "lui_texture_" << i;
+      if (i < _lui_root->get_num_textures()) {
+          shaderAttrib = DCAST(ShaderAttrib, shaderAttrib)->set_shader_input(
+            InternalName::make(sstm.str()), _lui_root->get_texture(i) ); 
+      } else {
+          shaderAttrib = DCAST(ShaderAttrib, shaderAttrib)->set_shader_input(
+            InternalName::make(sstm.str()), _empty_tex); 
+      }
+      
+    }
+
+    shaderAttrib = DCAST(ShaderAttrib, shaderAttrib)->set_shader(_object_shader);
+
     CPT(RenderState) state = RenderState::make(
-      CullBinAttrib::make("unsorted", 0),
-      DepthTestAttrib::make(RenderAttrib::M_less),
-      DepthWriteAttrib::make(DepthWriteAttrib::M_on),
-      TransparencyAttrib::make(TransparencyAttrib::M_alpha)
+      // CullBinAttrib::make("unsorted", 0),
+      DepthTestAttrib::make(RenderAttrib::M_none),
+      DepthWriteAttrib::make(DepthWriteAttrib::M_off),
+      TransparencyAttrib::make(TransparencyAttrib::M_alpha),
+      shaderAttrib
     );
 
     if (_wireframe) {
@@ -86,25 +102,14 @@ void LUIRegion::
     CPT(TransformState) modelview_transform = trav->get_world_transform()->compose(net_transform);
     CPT(TransformState) internal_transform = trav->get_scene()->get_cs_transform()->compose(modelview_transform);
 
-    // Iterate all vertex pools
-    LUIVertexPoolMap::iterator iter = _lui_root->get_iter_pool_begin();
-    LUIVertexPoolMap::iterator end = _lui_root->get_iter_pool_end();
-    for (;iter != end; ++iter) {
+    _lui_root->prepare_render();
 
-      LUIVertexPool *current = iter->second;
-      Texture *currentTex = iter->first;
+    Geom* geom = _lui_root->get_geom();
 
-      CPT(RenderState) texture_state = state->set_attrib(TextureAttrib::make(currentTex));
+    CullableObject *object = new CullableObject(geom, state, net_transform, 
+      modelview_transform, _trav->get_scene());
+    trav->get_cull_handler()->record_object(object, trav);
 
-      for (int i = 0; i < current->get_num_chunks(); i++) {
-        Geom* geom = current->get_chunk(i)->get_geom();
-
-        CullableObject *object = 
-          new CullableObject(geom, texture_state, net_transform, 
-          modelview_transform, _trav->get_scene());
-        trav->get_cull_handler()->record_object(object, trav);
-      }
-    }
     trav->end_traverse();
 }
 

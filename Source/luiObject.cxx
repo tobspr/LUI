@@ -28,9 +28,7 @@ LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float 
   set_pos(x, y);
 
   parent->add_child(this);
-  
   end_update_section();
-
 }
 
 LUIObject::~LUIObject() {
@@ -52,8 +50,6 @@ void LUIObject::init() {
 
 
 void LUIObject::set_root(LUIRoot* root) {
-
-
   if (_root != NULL && root != _root) {
     luiObject_cat.error() << "Object is already attached to another root!" << endl;
     return;
@@ -83,3 +79,22 @@ void LUIObject::ls(int indent) {
   }
 
 } 
+
+
+
+INLINE bool compare_z_index(LUIBaseElement* a, LUIBaseElement* b) {
+  return a->get_z_offset() < b->get_z_offset();
+}
+
+void LUIObject::render_recursive() {
+
+
+  if (!_visible) return;
+
+  std::sort(_children.begin(), _children.end(), compare_z_index);
+
+  // Render all children, sorted by their relative z-index
+  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+    (*it)->render_recursive();
+  }
+}

@@ -30,15 +30,13 @@ LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, 
   init_size(w, h);
 }
 
-
-
-
 void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
 
   // A lui sprite always needs a parent
   nassertv(parent != NULL);
 
-  _chunk_descriptor = NULL;
+  _texture_index = -1;
+  _sprite_index = -1;
   _instance_count ++;
 
   if (luiSprite_cat.is_spam()) {
@@ -47,7 +45,6 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
 
   // Prevent recomputation of the position while we initialize the sprite
   begin_update_section();
-
   set_color(color);
   set_uv_range(0, 0, 1, 1);
   set_size(1, 1);
@@ -56,7 +53,6 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
   end_update_section();
 
   parent->add_child(this);
-
 }
 
 LUISprite::~LUISprite() {
@@ -65,12 +61,7 @@ LUISprite::~LUISprite() {
     luiSprite_cat.spam() << "Destructing LUISprite, instances left: " << _instance_count << endl;
   }
 
-  if (_chunk_descriptor != NULL) {
-    luiSprite_cat.spam() << "Released chunk descriptor, as sprite did not get detached" << endl;
-    _chunk_descriptor->release();
-    delete _chunk_descriptor;
-    _chunk_descriptor = NULL;
-  }
+  unassign_sprite_index();
 }
 
 
@@ -80,13 +71,6 @@ void LUISprite::ls(int indent) {
       << "; size = " << _size.get_x() << " x " << _size.get_y() 
       << "; tex = " << (_tex != NULL ? _tex->get_name() : "none")
       << "; z_index = " << _z_index << " (+ " << _local_z_index << ")";
-
-
-  if (_chunk_descriptor == NULL) {
-    cout << "; no chunk ";
-  } else {
-    cout << "; chunk = " << _chunk_descriptor ->get_slot();
-  }
   cout << endl;
 } 
 
@@ -94,12 +78,12 @@ void LUISprite::ls(int indent) {
 void LUISprite::set_root(LUIRoot* root) {
 
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Root changed .." << endl;
+    luiSprite_cat.spam() << "Root changed to " << root << " .." << endl;
   }
 
   if (_root != NULL && _root != root) {
     luiSprite_cat.warning() << "Unregistering from old LUIRoot .. you should detach the sprite from the old root first .." << endl;
-    unassign_vertex_pool();
+    unassign_sprite_index();
   }
 
   if (_root != root) {
@@ -110,79 +94,61 @@ void LUISprite::set_root(LUIRoot* root) {
 
     // Register to new root
     register_events();
-
-    if (_tex != NULL) {
-      assign_vertex_pool();
-    }
-  }  
+    assign_sprite_index();
+  }
+  
 }
 
-void LUISprite::assign_vertex_pool() {
+void LUISprite::assign_sprite_index() {
 
   // This should never happen, as all methods which call this method
   // should check if the root is already set. Otherwise something
   // went really wrong.
   nassertv(_root != NULL);
 
-  LUIVertexPool* pool = _root->get_vpool_by_texture(_tex);
-  
+  _sprite_index = _root->register_sprite(this);
+
+  fetch_texture_index();
+
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Got vertex pool location: " << pool << endl;
+    luiSprite_cat.spam() << "Got sprite index: " << _sprite_index << " and texture index: " << _texture_index << endl;
   }
-
-  // This might occur sometimes (hopefully not), and means that get_vpool_by_texture
-  // could not allocate a vertex pool for some reason. 
-  nassertv(pool != NULL);
-
-  // Delete old descriptor first
-  if (_chunk_descriptor != NULL) {
-    _chunk_descriptor->release();
-    delete _chunk_descriptor;
-    _chunk_descriptor = NULL;
-  }
-
-  _chunk_descriptor = pool->allocate_slot(this);
-  if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Got chunk " << _chunk_descriptor->get_chunk() << ", slot = " << _chunk_descriptor->get_slot() << endl;
-  }
-
-  update_vertex_pool();
 
 }
 
 void LUISprite::update_vertex_pool() {
-  if (_chunk_descriptor != NULL && _root != NULL && !_in_update_section) {
+  if (_sprite_index >= 0 && _root != NULL && !_in_update_section) {
     
-    // This should never happen, but it's good to check
-    nassertv(_chunk_descriptor->get_chunk() != NULL);
-
     if (luiSprite_cat.is_spam()) {
-      luiSprite_cat.spam() << "Updating vertex pool slot " << _chunk_descriptor->get_slot() << " in pool " << _chunk_descriptor->get_chunk() << endl;
+      luiSprite_cat.spam() << "Updating vertex pool slot " << _sprite_index << endl;
     }
 
-    void* write_pointer = _chunk_descriptor->get_write_ptr();
+    void* write_pointer = _root->get_sprite_vertex_pointer(_sprite_index);
 
-    // This also should never happen
+    // This should never happen
     nassertv(write_pointer != NULL);
 
+    if (luiSprite_cat.is_spam()) {
+      luiSprite_cat.spam() << "Memcopying to " << write_pointer << endl;
+    }
+    
     memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
   }
 }
 
-void LUISprite::unassign_vertex_pool() {
+
+void LUISprite::unassign_sprite_index() {
   if (luiSprite_cat.is_spam()) {
     luiSprite_cat.spam() << "Unassign vertex pool" << endl;
   }
 
-  if (_chunk_descriptor != NULL) {
-    _chunk_descriptor->release();
-    delete _chunk_descriptor;
-    _chunk_descriptor = NULL;
+  if (_sprite_index >= 0 && _root != NULL) {
+    _root->unregister_sprite(_sprite_index);
+    _sprite_index = -1;
   }
+  
+  _texture_index = -1;
 }
-
-
-
 
 void LUISprite::recompute_vertices() {
 
@@ -196,7 +162,7 @@ void LUISprite::recompute_vertices() {
   float bnds_x1 = _abs_clip_bounds->get_x();
   float bnds_y1 = _abs_clip_bounds->get_y();
   float bnds_x2 = bnds_x1 + _abs_clip_bounds->get_w();
-  float bnds_y2 = bnds_x2 + _abs_clip_bounds->get_h();
+  float bnds_y2 = bnds_y1 + _abs_clip_bounds->get_h();
 
   // Clip position to bounds
   float nx1 = min(bnds_x2, max(bnds_x1, x1));
@@ -221,8 +187,7 @@ void LUISprite::recompute_vertices() {
     vpp = (v2 - v1) / (y2 - y1);
   }
 
-
-  // Adjust texcoord
+  // Adjust texcoord (clipping)
   u1 += (nx1 - x1) * upp;
   u2 += (nx2 - x2) * upp;
   v1 += (ny1 - y1) * vpp;
@@ -254,4 +219,32 @@ void LUISprite::recompute_vertices() {
   _data[2].v = 1-v2;
   _data[3].u = u1;
   _data[3].v = 1-v2;
+
+  // Set texture index
+  for (int i = 0; i < 4; i++) {
+    _data[i].texindex[0] = _texture_index;
+  }
+
+}
+
+void LUISprite::fetch_texture_index() {
+  if (_tex != NULL) {
+    _texture_index = _root->get_index_by_texture(_tex);
+  }
+}
+
+void LUISprite::render_recursive() {
+
+  if (!_visible) return;
+
+  // We should have a root
+  nassertv(_root != NULL);
+
+  // We also should have a index
+  nassertv(_sprite_index >= 0);
+
+  recompute_vertices();
+  update_vertex_pool();
+
+  _root->add_sprite_to_render_list(_sprite_index);
 }

@@ -51,6 +51,7 @@ protected:
 
   void update_text();
 
+  virtual void render_recursive();
   // Interface to LUIColorable
   INLINE virtual void on_color_changed();
 
@@ -58,6 +59,7 @@ protected:
   wstring _text;
   float _font_size;
   pvector<PT(DynamicTextGlyph)> _glyphs;
+
 
 
 public:

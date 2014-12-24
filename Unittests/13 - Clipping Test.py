@@ -14,6 +14,7 @@ loadPrcFileData("", "text-magfilter linear")
 loadPrcFileData("", "depth-bits 32")
 loadPrcFileData("", "sync-video #f")
 loadPrcFileData("", "text-page-size 256 256")
+loadPrcFileData("", "win-size 500 500")
 
 import direct.directbase.DirectStart
 
@@ -28,9 +29,9 @@ luiTop = luiRegion.root()
 LUIAtlasPool.get_global_ptr().load_atlas(
     "default", "../Res/atlas.txt", "../Res/atlas.png")
 
-luiRegion.root().clip_bounds = (150, 150, 150, 150)
+luiRegion.root().clip_bounds = (100, 100, 100, 100)
 
 LUISprite(luiRegion.root(), "blank", "default", 0, 0, 2000, 2000)
 
-
 base.run()
+taskMgr.step()
