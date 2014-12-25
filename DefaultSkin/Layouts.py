@@ -32,7 +32,7 @@ class UIVerticalLayout(LUIObject):
             column.top = currentY
             currentY += column.get_height() + self.spacing
 
-        self.heihgt = currentY
+        self.height = currentY
 
     def get_column(self, index):
         if index >= 0 and index < len(self.columns):
