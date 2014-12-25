@@ -108,3 +108,22 @@ INLINE void LUIObject::on_detached() {
 
 }
 
+INLINE void LUIObject::fit_to_children() {
+
+  float maxX = 0;
+  float maxY = 0;
+
+  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+    maxX = max(maxX, (*it)->get_left() + (*it)->get_width());
+    maxY = max(maxY, (*it)->get_top()+ (*it)->get_height());
+  }
+
+  set_width(maxX);
+  set_height(maxY);
+
+  if (luiObject_cat.is_spam()) {
+    luiObject_cat.spam() << "Fitted to children: " << get_width() << "x" << get_height() << " .." << endl;
+  }
+
+
+}

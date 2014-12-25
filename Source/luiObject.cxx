@@ -88,9 +88,9 @@ INLINE bool compare_z_index(LUIBaseElement* a, LUIBaseElement* b) {
 
 void LUIObject::render_recursive() {
 
-
   if (!_visible) return;
 
+  recompute_position();
   std::sort(_children.begin(), _children.end(), compare_z_index);
 
   // Render all children, sorted by their relative z-index

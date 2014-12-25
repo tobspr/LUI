@@ -23,7 +23,7 @@ class LUIInputField(LUIObject):
         self.text_scroller = LUIObject(parent=self.text_clip, x=0, y=0)
 
         self.text = LUIText(self.text_scroller, u"", "default", font_size)
-        self.text.color = (0.5, 0.5, 0.5)
+        self.text.color = (0.0, 0.0, 1.0)
         self.text.margin_top = 3
         self.text.margin_left = 5
         self.text.z_offset = 10

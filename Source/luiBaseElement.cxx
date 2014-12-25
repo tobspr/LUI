@@ -177,7 +177,7 @@ void LUIBaseElement::recompute_position() {
     bx1 += _clip_bounds->get_left();
     by1 += _clip_bounds->get_top();
     bx2 += -_clip_bounds->get_right();
-    by2 += -_clip_bounds->get_top();
+    by2 += -_clip_bounds->get_bottom();
   }
 
   if (_parent != NULL) {
@@ -201,7 +201,7 @@ void LUIBaseElement::recompute_position() {
       if (luiBaseElement_cat.is_spam()) {
         luiBaseElement_cat.spam() << "Using merged bounds (parent+custom) " << endl;
       }
-      _abs_clip_bounds->set_rect(nx, nx, nw, nh);
+      _abs_clip_bounds->set_rect(nx, ny, nw, nh);
     }
 
   } else {

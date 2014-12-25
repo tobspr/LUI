@@ -168,8 +168,9 @@ void LUIInputHandler::process(LUIRoot *root) {
   }
 
   // Check for mouse move
-  // Currently disabled, it's spamming the console
-  if (false) {
+  // --- Currently disabled, it's spamming the console ---
+  // ^ it's enabled
+  if (true) {
     if (_current_state.mouse_pos != _last_state.mouse_pos) {
       
       // Send a event to the hovered element

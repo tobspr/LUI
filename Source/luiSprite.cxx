@@ -243,6 +243,7 @@ void LUISprite::render_recursive() {
   // We also should have a index
   nassertv(_sprite_index >= 0);
 
+  recompute_position();
   recompute_vertices();
   update_vertex_pool();
 

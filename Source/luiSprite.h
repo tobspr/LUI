@@ -40,7 +40,6 @@ class EXPCL_LUI LUISprite : public LUIBaseElement  {
   friend class LUIObject;
 
 PUBLISHED:
-
   
   // Initialize with a path to an image  
   LUISprite(PyObject *self, LUIObject* parent, const string &image, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));

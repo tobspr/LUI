@@ -45,6 +45,8 @@ PUBLISHED:
 
   INLINE int get_child_count();
 
+  INLINE void fit_to_children();
+
   virtual void ls(int indent = 0);
 
   // Python properties
