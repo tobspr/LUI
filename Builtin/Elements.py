@@ -4,7 +4,7 @@ from functools import partial
 from Layouts import UIVerticalLayout
 
 
-class UIChangeCallback:
+class UICallback:
 
     def __init__(self):
         self.changeCallbacks = []
@@ -21,11 +21,11 @@ class UIChangeCallback:
         for cb in self.changeCallbacks:
             cb(*args, **kwargs)
 
-class UICheckbox(LUIObject, UIChangeCallback):
+class UICheckbox(LUIObject, UICallback):
 
     def __init__(self, parent=None, checked=False):
         LUIObject.__init__(self)
-        UIChangeCallback.__init__(self)
+        UICallback.__init__(self)
 
         self.sprite = LUISprite(self, "Checkbox_Default", "skin")
         self.fit_to_children()
@@ -87,11 +87,11 @@ class UILabel(LUIObject):
             self.shadowText.text = unicode(text)
         self.fit_to_children()
 
-class UILabeledCheckbox(LUIObject, UIChangeCallback):
+class UILabeledCheckbox(LUIObject, UICallback):
     
     def __init__(self, parent=None, checked=False, text=u"Checkbox"):
         LUIObject.__init__(self)    
-        UIChangeCallback.__init__(self)
+        UICallback.__init__(self)
 
         self.checkbox = UICheckbox(parent=self, checked=checked)
         self.label = UILabel(parent=self, text=text, shadow=True)
@@ -136,11 +136,11 @@ class UIRadioboxGroup(LUIObject):
         return self.selected_box.get_value()
 
 
-class UIRadiobox(LUIObject, UIChangeCallback):
+class UIRadiobox(LUIObject, UICallback):
 
     def __init__(self, parent=None, group=None, value=5):
         LUIObject.__init__(self)
-        UIChangeCallback.__init__(self)
+        UICallback.__init__(self)
 
         self.sprite = LUISprite(self, "Radiobox_Default", "skin")
         self.fit_to_children()
@@ -182,11 +182,11 @@ class UIRadiobox(LUIObject, UIChangeCallback):
         self.sprite.set_texture(img, "skin")
 
 
-class UILabeledRadiobox(LUIObject, UIChangeCallback):
+class UILabeledRadiobox(LUIObject, UICallback):
     
     def __init__(self, parent=None, group=None, value=None, text=u"Radiobox"):
         LUIObject.__init__(self)    
-        UIChangeCallback.__init__(self)
+        UICallback.__init__(self)
 
         self.radiobox = UIRadiobox(parent=self, group=group, value=value)
         self.label = UILabel(parent=self, text=text, shadow=True)
@@ -203,12 +203,12 @@ class UILabeledRadiobox(LUIObject, UIChangeCallback):
         self.fit_to_children()
 
 
-class UISlider(LUIObject, UIChangeCallback):
+class UISlider(LUIObject, UICallback):
 
     def __init__(self, parent=None, filled=False, min_value=0.0, max_value=1.0, width=100.0, value=None):
 
         LUIObject.__init__(self, x=0, y=0, w=width, h=0)
-        UIChangeCallback.__init__(self)
+        UICallback.__init__(self)
         self.knob = LUISprite(self, "SliderKnob", "skin")
         self.knob.z_offset = 5
 
@@ -316,11 +316,11 @@ class UISlider(LUIObject, UIChangeCallback):
         self.knob.color = (1,1,1,1)
 
 
-class UISliderWithLabel(LUIObject, UIChangeCallback):
+class UISliderWithLabel(LUIObject, UICallback):
 
     def __init__(self, parent=None, width=100.0, filled=False, min_value=0, max_value=1.0, precision=2, value=None):
         LUIObject.__init__(self, x=0, y=0, w=width, h=0)
-        UIChangeCallback.__init__(self)
+        UICallback.__init__(self)
 
         max_numbers_before = max(len(str(int(max_value))), len(str(int(min_value))))
         number_space_required = max_numbers_before
@@ -416,11 +416,11 @@ class UIProgressbar(LUIObject):
             percentage = self.progressPixel / self.width * 100.0
             self.progressLabel.set_text(unicode(int(percentage)) + u" %")
 
-class UIInputField(LUIObject, UIChangeCallback):
+class UIInputField(LUIObject, UICallback):
 
     def __init__(self, parent=None, width=200, placeholder=u"Enter some text ..", value=u""):
         LUIObject.__init__(self, x=0, y=0, w=width, h=0)
-        UIChangeCallback.__init__(self)
+        UICallback.__init__(self)
 
         self.bgLeft = LUISprite(self, "InputField_Left", "skin")
         self.bgMid = LUISprite(self, "InputField", "skin")
@@ -557,11 +557,11 @@ class UIInputField(LUIObject, UIChangeCallback):
         if relX <= 0:
             self.textScroller.left = min(0, - self.cursor.left - relX)
 
-class UISelectbox(LUIObject, UIChangeCallback):
+class UISelectbox(LUIObject, UICallback):
 
     def __init__(self, parent=None, width=200, options=None, selectedOption=None):
         LUIObject.__init__(self, x=0, y=0, w=width+4, h=0)
-        UIChangeCallback.__init__(self)
+        UICallback.__init__(self)
 
         # The selectbox has a small border, to correct this we move it
         self.margin = (0, 0, 0, -2)
