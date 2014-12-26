@@ -70,7 +70,7 @@ void LUISprite::ls(int indent) {
       << _pos_x << ", " << _pos_y 
       << "; size = " << _size.get_x() << " x " << _size.get_y() 
       << "; tex = " << (_tex != NULL ? _tex->get_name() : "none")
-      << "; z_index = " << _z_index << " (+ " << _local_z_index << ")";
+      << "; z = " << _local_z_index << ")";
   cout << endl;
 } 
 

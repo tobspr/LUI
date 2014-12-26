@@ -1,6 +1,6 @@
 from panda3d.lui import *
 
-
+from functools import partial
 from Layouts import UIVerticalLayout
 
 
@@ -63,6 +63,7 @@ class UILabel(LUIObject):
 
         LUIObject.__init__(self)
 
+        # self.hide()
         self.text = LUIText(self, text, "label", 14.0, 0, 0)
         self.text.color = (1,1,1,0.9)
         self.text.z_offset = 5
@@ -70,7 +71,7 @@ class UILabel(LUIObject):
         self.have_shadow = shadow
 
         if self.have_shadow:
-            self.shadowText = LUIText(self, text, "label", 14.0, 0, 0)
+            self.shadowText = LUIText(self, unicode(text), "label", 14.0, 0, 0)
             self.shadowText.top = 1
             self.shadowText.color = (0,0,0,1)
 
@@ -80,6 +81,7 @@ class UILabel(LUIObject):
             self.parent = parent
 
     def set_text(self, text):
+
         self.text.text = unicode(text)
         if self.have_shadow:
             self.shadowText.text = unicode(text)
@@ -434,7 +436,7 @@ class UIInputField(LUIObject, UIChangeCallback):
         self.text = UILabel(parent=self.textScroller, text=u"", shadow=True)
 
         self.cursor = LUISprite(
-            self.textScroller, "blank", "default", x=0, y=0, w=2, h=15.0)
+            self.textScroller, "blank", "skin", x=0, y=0, w=2, h=15.0)
         self.cursor.color = (0.5, 0.5, 0.5)
         self.cursor.margin = (3, 0, 0, 0)
         self.cursor.z_offset = 20
@@ -557,7 +559,7 @@ class UIInputField(LUIObject, UIChangeCallback):
 
 class UISelectbox(LUIObject, UIChangeCallback):
 
-    def __init__(self, parent=None, width=200):
+    def __init__(self, parent=None, width=200, options=None, selectedOption=None):
         LUIObject.__init__(self, x=0, y=0, w=width+4, h=0)
         UIChangeCallback.__init__(self)
 
@@ -577,23 +579,197 @@ class UISelectbox(LUIObject, UIChangeCallback):
         self.labelContainer = LUIObject(self, x=10, y=6, w=width - 20 - self.bgRight.width, h=self.bgMid.height - 6)
         self.labelContainer.clip_bounds = (0,0,0,0)
 
-        self.label = UILabel(parent=self.labelContainer, text=u"Select an option .." * 3, shadow=True)
+        self.label = UILabel(parent=self.labelContainer, text=u"Select an option ..", shadow=True)
 
-        self.bgRight.bind("mouseover", self.knob_mouseover)
-        self.bgRight.bind("mouseout", self.knob_mouseout)
+        self.bgRight.bind("mouseover", self._knob_mouseover)
+        self.bgRight.bind("mouseout", self._knob_mouseout)
         self.bgRight.bind("click", self.on_click)
 
         self.fit_to_children()
 
 
-    def knob_mouseover(self, event):
+        self.dropMenu = UISelectdrop(parent=self, width=width)
+        self.dropMenu.top = self.bgMid.height - 7
+        self.dropMenu.z_offset = 10
+
+        self.dropOpen = False
+        self.dropMenu.hide()
+
+        self.options = []
+        self.currentOptionId = None
+
+        if options is not None:
+            self.options = options
+
+        self._select_option(selectedOption)
+
+    def _render_options(self):
+        self.dropMenu._render_options(self.options)
+
+    def set_options(self, options):
+        self._render_options()
+
+    def _select_option(self, optid):
+        self.label.color = (1,1,1,1)
+        for optID, optVal in self.options:
+            if optID == optid:
+                self.label.set_text(optVal)
+                self.currentOptionId = optID
+                return
+        self.label.color = (1,1,1,0.5)
+
+
+
+    def _knob_mouseover(self, event):
         self.bgRight.color = (0.9,0.9,0.9,1.0)
 
-    def knob_mouseout(self, event):
+    def _knob_mouseout(self, event):
         self.bgRight.color = (1,1,1,1.0)
 
     def on_click(self, event):
         self.request_focus()
+        if self.dropOpen:
+            self._close_drop()
+        else:
+            self._open_drop()
 
-    def on_focus(self, event):
-        pass
+    def on_mousedown(self, event):
+        self.bgLeft.color = (0.9,0.9,0.9,1.0)
+        self.bgMid.color = (0.9,0.9,0.9,1.0)
+
+    def on_mouseup(self, event):
+        self.bgLeft.color = (1,1,1,1.0)
+        self.bgMid.color = (1,1,1,1.0)
+
+    def _open_drop(self):
+        if not self.dropOpen:
+            self._render_options()
+            self.dropMenu.show()
+            self.request_focus()
+
+            self.dropOpen = True
+
+    def _close_drop(self):
+        if self.dropOpen:
+            self.dropMenu.hide()
+
+            self.dropOpen = False
+
+    def _on_option_selected(self, optid):
+        self._select_option(optid)
+        self._close_drop()
+
+    def on_blur(self, event):
+        self._close_drop()
+
+class UISelectdrop(LUIObject):
+
+    def __init__(self, parent, width=200):
+        LUIObject.__init__(self, x=0, y=0, w=width, h=1)
+
+        self.layout = UICornerLayout(self, "Selectdrop_", width + 10, 100)
+        self.layout.margin = (0, 0, 0, -3)
+
+        self.opener = LUISprite(self, "SelectboxOpen_Right", "skin")
+        self.opener.right = -4
+        self.opener.top = -25
+        self.opener.z_offset = 3
+
+        self.container = LUIObject(self.layout, 0, 0, 0, 0)
+        self.container.width = self.width
+        self.container.clip_bounds = (0,0,0,0)
+        self.container.left = 5
+
+        self.selectbox = parent
+        self.parent = self.selectbox
+
+    def _on_opt_over(self, event):
+        event.sender.color = (0,0,0,0.1)
+
+    def _on_opt_out(self, event):
+        event.sender.color = (0,0,0,0)
+
+    def _on_opt_click(self, optid, event):
+        self.selectbox._on_option_selected(optid)
+
+    def _render_options(self, options):
+        visible = min(4, len(options))
+        offsetTop = 6
+        self.layout.height = visible * 30 + offsetTop + 11
+        self.container.height = visible * 30 + offsetTop + 1
+        self.layout.render_layout()
+        self.container.remove_all_children()
+        
+        currentY = offsetTop
+        for optId, optVal in options:
+            optContainer = LUIObject(self.container, x=0, y=currentY, w=self.container.width - 30, h=30)
+
+            optBg = LUISprite(optContainer, "blank", "skin")
+            optBg.width = self.container.width
+            optBg.height = optContainer.height
+            optBg.color = (0,0,0,0)
+            optBg.bind("mouseover", self._on_opt_over)
+            optBg.bind("mouseout", self._on_opt_out)
+            optBg.bind("click", partial(self._on_opt_click, optId))
+
+            optLabel = UILabel(parent=optContainer, text=unicode(optVal), shadow=True)
+            optLabel.top = 5
+            optLabel.left = 8
+            divider = LUISprite(optContainer, "SelectdropDivider", "skin")
+            divider.top = 30 - divider.height / 2
+            divider.width = self.container.width
+
+            currentY += 30
+
+
+class UICornerLayout(LUIObject):
+
+    modes = ["TR", "Top", "TL", "Right", "Mid", "Left", "BR", "Bottom", "BL"]
+
+    def __init__(self, parent=None, image_prefix="", width=0, height=0):
+        LUIObject.__init__(self, x=0, y=0, w=width, h=height)
+
+        self.prefix = image_prefix
+        self.parts = {}
+        for i in self.modes:
+            self.parts[i] = LUISprite(self, "blank", "skin")
+        self.render_layout()
+
+        if parent is not None:
+            self.parent = parent
+
+    def render_layout(self):
+        for i in self.modes:
+            self.parts[i].set_texture(self.prefix + i, "skin", resize=True)
+
+        # Width
+        self.parts['Top'].width = self.width - self.parts['TL'].width - self.parts['TR'].width
+        self.parts['Mid'].width = self.width - self.parts['Left'].width - self.parts['Right'].width
+        self.parts['Bottom'].width = self.width - self.parts['BL'].width - self.parts['BR'].width
+
+        # Height
+        self.parts['Left'].height = self.height - self.parts['TL'].height - self.parts['BL'].height
+        self.parts['Mid'].height = self.height - self.parts['Top'].height - self.parts['Bottom'].height
+        self.parts['Right'].height = self.height - self.parts['TR'].height - self.parts['BR'].height
+
+        # Positioning - Left
+        self.parts['Top'].left = self.parts['TL'].width
+        self.parts['Mid'].left = self.parts['Left'].width
+        self.parts['Bottom'].left = self.parts['BL'].width
+
+        self.parts['TR'].left = self.parts['Top'].left + self.parts['Top'].width
+        self.parts['Right'].left = self.parts['Mid'].left + self.parts['Mid'].width
+        self.parts['BR'].left = self.parts['Bottom'].left + self.parts['Bottom'].width
+
+        # Positioning - Top
+        self.parts['Left'].top = self.parts['TL'].height
+        self.parts['Mid'].top = self.parts['Top'].height
+        self.parts['Right'].top = self.parts['TR'].height
+
+        self.parts['BL'].top = self.parts['Left'].top + self.parts['Left'].height
+        self.parts['Bottom'].top = self.parts['Mid'].top + self.parts['Mid'].height
+        self.parts['BR'].top = self.parts['Right'].top + self.parts['Right'].height
+
+    def set_prefix(self, prefix):
+        self.prefix = prefix
+        self.render_layout()

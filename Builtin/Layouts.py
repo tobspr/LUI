@@ -12,6 +12,10 @@ class UIVerticalLayout(LUIObject):
         if parent is not None:
             self.parent = parent
 
+    def reset(self):
+        self.columns = []
+        self.update()
+
     def set_spacing(self, spacing):
         self.spacing = spacing
         self.update()

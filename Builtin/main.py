@@ -10,7 +10,7 @@ if __name__ == "__main__":
         text-magfilter linear
         text-pixels-per-unit 32
         sync-video #f
-        notify-level-lui debug
+        notify-level-lui info
         show-frame-rate-meter #t
     """)
 
@@ -27,8 +27,8 @@ if __name__ == "__main__":
 
     LUIFontPool.get_global_ptr().register_font(
         "label", labelFont)
-    LUIAtlasPool.get_global_ptr().load_atlas(
-        "default", "../Res/atlas.txt", "../Res/atlas.png")
+    # LUIAtlasPool.get_global_ptr().load_atlas(
+    #     "default", "../Res/atlas.txt", "../Res/atlas.png")
     LUIAtlasPool.get_global_ptr().load_atlas(
         "skin", "res/atlas.txt", "res/atlas.png")
 
@@ -53,7 +53,15 @@ if __name__ == "__main__":
     slider2 = UISliderWithLabel(filled=True, min_value=0.0, max_value=120.0, width=300.0, precision=1)
     bar = UIProgressbar(width=300, value=33.5)
 
-    box = UISelectbox(width=300)
+    box = UISelectbox(width=300, options = [
+            ("opt1", "Option 1"),
+            ("opt2", "Option 2"),
+            ("opt3", "Option 3"),
+            ("opt4", "Option 4"),
+            ("opt5", "Option 5"),
+            ("opt6", "Option 6"),
+            ("opt7", "Option 7"),
+        ])
 
     def set_bar_value(obj, val):
         bar.set_value(val)
@@ -73,7 +81,7 @@ if __name__ == "__main__":
 
     skinParent.fit_to_children()
 
-    bgFrame = LUISprite(region.root(), "blank", "default", 0, 0, 10000, 10000)
+    bgFrame = LUISprite(region.root(), "blank", "skin", 0, 0, 10000, 10000)
     bgFrame.bind("click", lambda event: bgFrame.request_focus())
     bgFrame.z_offset = -1
     bgFrame.color = (0.1,0.1,0.1)

@@ -80,7 +80,6 @@ void LUIText::update_text() {
     }
 
     TextGlyph *glyph = (TextGlyph*) const_glyph;
-
     PT(DynamicTextGlyph) dynamic_glyph = DCAST(DynamicTextGlyph, glyph);
 
     // If this gets executed, a non-dynamic font got loaded. 
@@ -89,31 +88,44 @@ void LUIText::update_text() {
     _glyphs.push_back(dynamic_glyph);
     dynamic_glyph->_geom_count ++;
 
-    sprite->begin_update_section();
 
-    // LUISprite has a check if the texture is the same, so if the atlas didn't
-    // change, this is quite efficient.
-    sprite->set_texture(dynamic_glyph->get_page());
+    // Some characters have no texture (like space)
+    if (dynamic_glyph->get_page() == NULL) {
+      lui_cat.debug() << "Character '" << (char)char_code << "' (Code: " << char_code << ") has no texture page!" << endl;
+      sprite->hide();
 
-    // Position the glyph. 
-    sprite->set_pos(
-      current_x_pos + dynamic_glyph->get_left() * ppu, 
-      (_font->get_line_height() * 0.8 - dynamic_glyph->get_top()) * ppu);
+    } else {
+      sprite->show();
 
-    // The V coordinate is inverted, as panda stores the textures flipped
-    sprite->set_uv_range(
-      dynamic_glyph->get_uv_left(), 
-      1-dynamic_glyph->get_uv_top(),
-      dynamic_glyph->get_uv_right(), 
-      1-dynamic_glyph->get_uv_bottom());
+      sprite->begin_update_section();
 
-    // Determine size from coordinates
-    sprite->set_size( 
-       (dynamic_glyph->get_right() - dynamic_glyph->get_left()) * ppu,
-       (dynamic_glyph->get_top() - dynamic_glyph->get_bottom()) * ppu);
-    
-    sprite->set_color(_color);
-    sprite->end_update_section();
+      // LUISprite has a check if the texture is the same, so if the atlas didn't
+      // change, this is quite efficient.
+      sprite->set_texture(dynamic_glyph->get_page());
+
+      // Position the glyph. 
+      // lui_cat.error() << current_x_pos << " left = " << dynamic_glyph->get_left() << endl;
+
+      sprite->set_pos(
+        current_x_pos + dynamic_glyph->get_left() * ppu, 
+        (_font->get_line_height() * 0.8 - dynamic_glyph->get_top()) * ppu);
+
+      // The V coordinate is inverted, as panda stores the textures flipped
+      sprite->set_uv_range(
+        dynamic_glyph->get_uv_left(), 
+        1-dynamic_glyph->get_uv_top(),
+        dynamic_glyph->get_uv_right(), 
+        1-dynamic_glyph->get_uv_bottom());
+
+      // Determine size from coordinates
+      sprite->set_size( 
+         (dynamic_glyph->get_right() - dynamic_glyph->get_left()) * ppu,
+         (dynamic_glyph->get_top() - dynamic_glyph->get_bottom()) * ppu);
+      
+      sprite->set_color(_color);
+      sprite->end_update_section();
+
+    }
 
     // Move *cursor* by glyph length
     current_x_pos += dynamic_glyph->get_advance() * ppu;
@@ -125,7 +137,11 @@ void LUIText::update_text() {
 }
 
 void LUIText::ls(int indent) {
-  cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; text = '" << _text << "'; z-index = " << _z_index << " (+ "<< _local_z_index << ")" << endl;
+  cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; text = '" << _text << "'; z = " << _local_z_index << endl;
+
+  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+   (*it)->ls(indent + 1);
+  }
 
 }
 
