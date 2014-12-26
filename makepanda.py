@@ -30,8 +30,8 @@ import time
 import os
 import sys
 
-## jGenPyCode tries to get the directory for Direct from the sys.path. This only works if you 
-## have installed the sdk using a installer. This would not work if the installer was 
+## jGenPyCode tries to get the directory for Direct from the sys.path. This only works if you
+## have installed the sdk using a installer. This would not work if the installer was
 ## never used and everything was grabbed into a virgin environment using cvs.
 sys.path.append(os.getcwd())
 
@@ -52,6 +52,7 @@ GENMAN=0
 COMPRESSOR="zlib"
 THREADCOUNT=0
 CFLAGS=""
+CXXFLAGS=""
 LDFLAGS=""
 RTDIST=0
 RTDIST_VERSION="dev"
@@ -88,19 +89,19 @@ PkgListSet(["PYTHON", "DIRECT",                        # Python support
   "VRPN", "OPENSSL",                                   # Transport
   "FFTW",                                              # Algorithm helpers
   "ARTOOLKIT", "OPENCV", "DIRECTCAM", "VISION",        # Augmented Reality
-  "NPAPI", "AWESOMIUM",                                # Browser embedding
-  "GTK2", "WX", "FLTK",                                # Toolkit support
-  "ROCKET",                                            # GUI libraries
+  "GTK2",                                              # GTK2 is used for PStats on Unix
+  "NPAPI", "MFC", "WX", "FLTK",                        # Used for web plug-in only
+  "ROCKET", "AWESOMIUM",                               # GUI libraries
   "CARBON", "COCOA",                                   # Mac OS X toolkits
   "X11", "XF86DGA", "XRANDR", "XCURSOR",               # Unix platform support
   "PANDATOOL", "PVIEW", "DEPLOYTOOLS",                 # Toolchain
   "SKEL",                                              # Example SKEL project
-  "PANDAFX",                                           # Some distortion special lenses 
+  "PANDAFX",                                           # Some distortion special lenses
   "PANDAPARTICLESYSTEM",                               # Built in particle system
   "CONTRIB",                                           # Experimental
   "SSE2", "NEON",                                      # Compiler features
   "TOUCHINPUT",                                        # Touchinput interface (requires Windows 7)
-  "LUI"                                                # Lightweight User Interface
+  "LUI"                                                # Lightweight user interface for panda
 ])
 
 CheckPandaSourceTree()
@@ -217,7 +218,7 @@ def parseopts(args):
                 if STRDXSDKVERSION == '':
                     print("No DirectX SDK version specified. Using 'default' DirectX SDK search")
                     STRDXSDKVERSION = 'default'
-            elif (option=="--platform-sdk"): 
+            elif (option=="--platform-sdk"):
                 STRMSPLATFORMVERSION = value.strip().lower()
                 if STRMSPLATFORMVERSION == '':
                     print("No MS Platform SDK version specified. Using 'default' MS Platform SDK search")
@@ -235,7 +236,7 @@ def parseopts(args):
             if  (option=="--everything" or option.startswith("--use-")
               or option=="--nothing" or option.startswith("--no-")):
               anything = 1
-    except: 
+    except:
         usage(0)
         print("Exception while parsing commandline:", sys.exc_info()[0])
     if (anything==0): usage(0)
@@ -284,13 +285,17 @@ parseopts(sys.argv[1:])
 ########################################################################
 
 if ("CFLAGS" in os.environ):
-    CFLAGS = os.environ["CFLAGS"]
+    CFLAGS = os.environ["CFLAGS"].strip()
+
+if ("CXXFLAGS" in os.environ):
+    CXXFLAGS = os.environ["CXXFLAGS"].strip()
+
 if ("RPM_OPT_FLAGS" in os.environ):
-    CFLAGS += " " + os.environ["RPM_OPT_FLAGS"]
-CFLAGS = CFLAGS.strip()
+    CFLAGS += " " + os.environ["RPM_OPT_FLAGS"].strip()
+    CXXFLAGS += " " + os.environ["RPM_OPT_FLAGS"].strip()
+
 if ("LDFLAGS" in os.environ):
-    LDFLAGS = os.environ["LDFLAGS"]
-LDFLAGS = LDFLAGS.strip()
+    LDFLAGS = os.environ["LDFLAGS"].strip()
 
 os.environ["MAKEPANDA"] = os.path.abspath(sys.argv[0])
 if (GetHost() == "darwin" and OSXTARGET != None):
@@ -493,7 +498,7 @@ if (COMPILER == "MSVC"):
                 LibName(pkg, 'dxerr.lib')
             else:
                 LibName(pkg, 'dxerrVNUM.lib'.replace("VNUM", vnum))
-            LibName(pkg, 'ddraw.lib')
+            #LibName(pkg, 'ddraw.lib')
             LibName(pkg, 'dxguid.lib')
     IncDirectory("ALWAYS", GetThirdpartyDir() + "extras/include")
     LibName("WINSOCK", "wsock32.lib")
@@ -537,7 +542,6 @@ if (COMPILER == "MSVC"):
     if (PkgSkip("FFTW")==0):     LibName("FFTW",     GetThirdpartyDir() + "fftw/lib/fftw.lib")
     if (PkgSkip("ARTOOLKIT")==0):LibName("ARTOOLKIT",GetThirdpartyDir() + "artoolkit/lib/libAR.lib")
     if (PkgSkip("FCOLLADA")==0): LibName("FCOLLADA", GetThirdpartyDir() + "fcollada/lib/FCollada.lib")
-    if (PkgSkip("SQUISH")==0):   LibName("SQUISH",   GetThirdpartyDir() + "squish/lib/squish.lib")
     if (PkgSkip("OPENCV")==0):   LibName("OPENCV",   GetThirdpartyDir() + "opencv/lib/cv.lib")
     if (PkgSkip("OPENCV")==0):   LibName("OPENCV",   GetThirdpartyDir() + "opencv/lib/highgui.lib")
     if (PkgSkip("OPENCV")==0):   LibName("OPENCV",   GetThirdpartyDir() + "opencv/lib/cvaux.lib")
@@ -549,6 +553,11 @@ if (COMPILER == "MSVC"):
     if (PkgSkip("FFMPEG")==0):   LibName("FFMPEG",   GetThirdpartyDir() + "ffmpeg/lib/avutil.lib")
     if (PkgSkip("SWSCALE")==0):  LibName("SWSCALE",  GetThirdpartyDir() + "ffmpeg/lib/swscale.lib")
     if (PkgSkip("SWRESAMPLE")==0):LibName("SWRESAMPLE",GetThirdpartyDir() + "ffmpeg/lib/swresample.lib")
+    if (PkgSkip("SQUISH")==0):
+        if GetOptimize() <= 2:
+            LibName("SQUISH",   GetThirdpartyDir() + "squish/lib/squishd.lib")
+        else:
+            LibName("SQUISH",   GetThirdpartyDir() + "squish/lib/squish.lib")
     if (PkgSkip("ROCKET")==0):
         LibName("ROCKET", GetThirdpartyDir() + "rocket/lib/RocketCore.lib")
         LibName("ROCKET", GetThirdpartyDir() + "rocket/lib/RocketControls.lib")
@@ -565,13 +574,13 @@ if (COMPILER == "MSVC"):
             LibName("FMODEX",   GetThirdpartyDir() + "fmodex/lib/fmodex64_vc.lib")
         else:
             LibName("FMODEX",   GetThirdpartyDir() + "fmodex/lib/fmodex_vc.lib")
-    if (PkgSkip("WX")==0):
+    if (PkgSkip("WX")==0 and RTDIST):
         LibName("WX",       GetThirdpartyDir() + "wx/lib/wxbase28u.lib")
         LibName("WX",       GetThirdpartyDir() + "wx/lib/wxmsw28u_core.lib")
         DefSymbol("WX",     "__WXMSW__", "")
         DefSymbol("WX",     "_UNICODE", "")
         DefSymbol("WX",     "UNICODE", "")
-    if (PkgSkip("FLTK")==0):
+    if (PkgSkip("FLTK")==0 and RTDIST):
         LibName("FLTK",     GetThirdpartyDir() + "fltk/lib/fltk.lib")
     if (PkgSkip("VORBIS")==0):
         LibName("VORBIS",   GetThirdpartyDir() + "vorbis/lib/libogg_static.lib")
@@ -664,21 +673,6 @@ if (COMPILER=="GCC"):
         IncDirectory("ALWAYS", "/usr/local/include")
         LibDirectory("ALWAYS", "/usr/local/lib")
 
-    if GetHost() != "darwin":
-        # Workaround for an issue where pkg-config does not include this path
-        if GetTargetArch() in ("x86_64", "amd64"):
-            if (os.path.isdir("/usr/lib64/glib-2.0/include")):
-                IncDirectory("GTK2", "/usr/lib64/glib-2.0/include")
-            if (os.path.isdir("/usr/lib64/gtk-2.0/include")):
-                IncDirectory("GTK2", "/usr/lib64/gtk-2.0/include")
-
-            if (os.path.isdir("/usr/X11R6/lib64")):
-                LibDirectory("ALWAYS", "/usr/X11R6/lib64")
-            else:
-                LibDirectory("ALWAYS", "/usr/X11R6/lib")
-        else:
-            LibDirectory("ALWAYS", "/usr/X11R6/lib")
-
     fcollada_libs = ("FColladaD", "FColladaSD", "FColladaS")
     # WARNING! The order of the ffmpeg libraries matters!
     ffmpeg_libs = ("libavformat", "libavcodec", "libavutil")
@@ -752,6 +746,22 @@ if (COMPILER=="GCC"):
             SmartPkgEnable("XRANDR", "xrandr", "Xrandr", "X11/extensions/Xrandr.h")
             SmartPkgEnable("XF86DGA", "xxf86dga", "Xxf86dga", "X11/extensions/xf86dga.h")
             SmartPkgEnable("XCURSOR", "xcursor", "Xcursor", "X11/Xcursor/Xcursor.h")
+
+    if GetHost() != "darwin":
+        # Workaround for an issue where pkg-config does not include this path
+        if GetTargetArch() in ("x86_64", "amd64"):
+            if (os.path.isdir("/usr/lib64/glib-2.0/include")):
+                IncDirectory("GTK2", "/usr/lib64/glib-2.0/include")
+            if (os.path.isdir("/usr/lib64/gtk-2.0/include")):
+                IncDirectory("GTK2", "/usr/lib64/gtk-2.0/include")
+
+            if not PkgSkip("X11"):
+                if (os.path.isdir("/usr/X11R6/lib64")):
+                    LibDirectory("ALWAYS", "/usr/X11R6/lib64")
+                else:
+                    LibDirectory("ALWAYS", "/usr/X11R6/lib")
+        elif not PkgSkip("X11"):
+            LibDirectory("ALWAYS", "/usr/X11R6/lib")
 
     if (RUNTIME):
         # For the runtime, all packages are required
@@ -925,7 +935,7 @@ def CompileCxx(obj,src,opts):
                 cmd += "/DWINVER=0x601 "
             cmd += "/Fo" + obj + " /nologo /c"
             if (GetTargetArch() != 'x64' and PkgSkip("SSE2") == 0):
-                cmd += " /arch:SSE2"            
+                cmd += " /arch:SSE2"
             for x in ipath: cmd += " /I" + x
             for (opt,dir) in INCDIRECTORIES:
                 if (opt=="ALWAYS") or (opt in opts): cmd += " /I" + BracketNameWithQuotes(dir)
@@ -937,7 +947,7 @@ def CompileCxx(obj,src,opts):
             if (optlevel==1): cmd += " /MDd /Zi /RTCs /GS"
             if (optlevel==2): cmd += " /MDd /Zi"
             if (optlevel==3): cmd += " /MD /Zi /O2 /Ob2 /Oi /Ot /fp:fast /DFORCE_INLINING"
-            if (optlevel==4): 
+            if (optlevel==4):
                cmd += " /MD /Zi /Ox /Ob2 /Oi /Ot /fp:fast /DFORCE_INLINING /DNDEBUG /GL"
                cmd += " /Oy /Zp16"      # jean-claude add /Zp16 insures correct static alignment for SSEx
 
@@ -983,11 +993,11 @@ def CompileCxx(obj,src,opts):
             if (optlevel==3):
                 cmd += " /MD /Zi /O2 /Oi /Ot /arch:SSE3"
                 cmd += " /Ob0"
-                cmd += " /Qipo-"                            # beware of IPO !!!  
+                cmd += " /Qipo-"                            # beware of IPO !!!
             ##      Lesson learned: Don't use /GL flag -> end result is MESSY
             ## ----------------------------------------------------------------
             if (optlevel==4):
-                cmd += " /MD /Zi /O3 /Oi /Ot /Ob0 /Yc /DNDEBUG"  # /Ob0 a ete rajoute en cours de route a 47%                
+                cmd += " /MD /Zi /O3 /Oi /Ot /Ob0 /Yc /DNDEBUG"  # /Ob0 a ete rajoute en cours de route a 47%
                 cmd += " /Qipo"                              # optimization multi file
 
             # for 3 & 4 optimization levels
@@ -999,7 +1009,7 @@ def CompileCxx(obj,src,opts):
                 cmd += " /Qopt-matmul"                        # needs /O2 or /O3
                 cmd += " /Qprec-div-"
                 cmd += " /Qsimd"
-                
+
                 cmd += " /QxHost"                            # compile for target host; Compiling for distribs should probably strictly enforce /arch:..
                 cmd += " /Quse-intel-optimized-headers"        # use intel optimized headers
                 cmd += " /Qparallel"                        # enable parallelization
@@ -1007,7 +1017,7 @@ def CompileCxx(obj,src,opts):
 
             ## PCH files coexistence: the /Qpchi option causes the Intel C++ Compiler to name its
             ## PCH files with a .pchi filename suffix and reduce build time.
-            ## The /Qpchi option is on by default but interferes with Microsoft libs; so use /Qpchi- to turn it off. 
+            ## The /Qpchi option is on by default but interferes with Microsoft libs; so use /Qpchi- to turn it off.
             ## I need to have a deeper look at this since the compile time is quite influenced by this setting !!!
             cmd += " /Qpchi-"                                 # keep it this way!
 
@@ -1025,7 +1035,7 @@ def CompileCxx(obj,src,opts):
             ## Use this option if you always define a class before you declare a pointer to a member of the class.
             ## The compiler will issue an error if it encounters a pointer declaration before the class is defined.
             ## Alternate: #pragma pointers_to_members
-      
+
             cmd += " /Fd" + os.path.splitext(obj)[0] + ".pdb"
             building = GetValueOption(opts, "BUILDING:")
             if (building): cmd += " /DBUILDING_" + building
@@ -1033,10 +1043,10 @@ def CompileCxx(obj,src,opts):
                 cmd += " /bigobj"
 
             # level of warnings and optimization reports
-            if GetVerbose(): 
+            if GetVerbose():
                 cmd += " /W3 " # or /W4 or /Wall
                 cmd += " /Qopt-report:2 /Qopt-report-phase:hlo /Qopt-report-phase:hpo"    # some optimization reports
-            else:            
+            else:
                 cmd += " /W1 "
             cmd += " /EHa /Zm300 /DWIN32_VC /DWIN32"
             if GetTargetArch() == 'x64':
@@ -1044,10 +1054,10 @@ def CompileCxx(obj,src,opts):
             cmd += " " + BracketNameWithQuotes(src)
 
             oscmd(cmd)
-            
+
     if (COMPILER=="GCC"):
         if (src.endswith(".c")): cmd = GetCC() +' -fPIC -c -o ' + obj
-        else:                    cmd = GetCXX()+' -ftemplate-depth-30 -fPIC -c -o ' + obj
+        else:                    cmd = GetCXX()+' -ftemplate-depth-50 -fPIC -c -o ' + obj
         for (opt, dir) in INCDIRECTORIES:
             if (opt=="ALWAYS") or (opt in opts): cmd += ' -I' + BracketNameWithQuotes(dir)
         for (opt,var,val) in DEFSYMBOLS:
@@ -1071,9 +1081,12 @@ def CompileCxx(obj,src,opts):
             cmd += ' --sysroot=%s -no-canonical-prefixes' % (SDK["SYSROOT"])
 
         # Android-specific flags.
+        arch = GetTargetArch()
+
         if GetTarget() == "android":
+            cmd += ' -I%s/include' % (SDK["ANDROID_STL"])
+            cmd += ' -I%s/libs/%s/include' % (SDK["ANDROID_STL"], SDK["ANDROID_ABI"])
             cmd += ' -ffunction-sections -funwind-tables'
-            arch = GetTargetArch()
             if arch == 'armv7a':
                 cmd += ' -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__'
                 cmd += ' -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16'
@@ -1112,14 +1125,20 @@ def CompileCxx(obj,src,opts):
         else:
             cmd += " -pthread"
 
-        if PkgSkip("SSE2") == 0:
+        if PkgSkip("SSE2") == 0 and not arch.startswith("arm"):
             cmd += " -msse2"
-        
+
         if (optlevel==1): cmd += " -ggdb -D_DEBUG"
         if (optlevel==2): cmd += " -O1 -D_DEBUG"
         if (optlevel==3): cmd += " -O2"
         if (optlevel==4): cmd += " -O3 -DNDEBUG"
-        if (CFLAGS !=""): cmd += " " + CFLAGS
+
+        if src.endswith(".c"):
+            cmd += ' ' + CFLAGS
+        else:
+            cmd += ' ' + CXXFLAGS
+        cmd = cmd.rstrip()
+
         building = GetValueOption(opts, "BUILDING:")
         if (building): cmd += " -DBUILDING_" + building
         cmd += ' ' + BracketNameWithQuotes(src)
@@ -1218,7 +1237,7 @@ def CompileIgate(woutd,wsrc,opts):
         # NOTE: this 1600 value is the version number for VC2010.
         cmd += ' -D_MSC_VER=1600 -D"_declspec(param)=" -D_near -D_far -D__near -D__far -D__stdcall'
     if (COMPILER=="GCC"):
-        cmd += ' -DCPPPARSER -D__STDC__=1 -D__cplusplus -D__inline -D__const=const'
+        cmd += ' -DCPPPARSER -D__STDC__=1 -D__cplusplus -D__inline -D__const=const -D__attribute__\(x\)='
         if GetTargetArch() in ("x86_64", "amd64"):
             cmd += ' -D_LP64'
         else:
@@ -1340,7 +1359,7 @@ def CompileLink(dll, obj, opts):
             if ("MFC" not in opts):
                 cmd += " /NOD:MFC90.LIB /NOD:MFC80.LIB /NOD:LIBCMT"
             cmd += " /NOD:LIBCI.LIB /DEBUG"
-            cmd += " /nod:libc /nod:libcmtd /nod:atlthunk /nod:atls"
+            cmd += " /nod:libc /nod:libcmtd /nod:atlthunk /nod:atls /nod:atlsd"
             if (GetOrigExt(dll) != ".exe"): cmd += " /DLL"
             optlevel = GetOptimizeOption(opts)
             if (optlevel==1): cmd += " /MAP /MAPINFO:EXPORTS /NOD:MSVCRT.LIB /NOD:MSVCPRT.LIB /NOD:MSVCIRT.LIB"
@@ -1391,7 +1410,7 @@ def CompileLink(dll, obj, opts):
             oscmd(cmd)
         else:
             cmd = "xilink"
-            if GetVerbose(): cmd += " /verbose:lib"            
+            if GetVerbose(): cmd += " /verbose:lib"
             if HasTargetArch():
                 cmd += " /MACHINE:" + GetTargetArch().upper()
             if ("MFC" not in opts):
@@ -1496,7 +1515,7 @@ def CompileLink(dll, obj, opts):
 
         # Android-specific flags.
         if GetTarget() == 'android':
-            cmd += " -Wl,--no-undefined -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now"
+            cmd += " -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now"
             if GetTargetArch() == 'armv7a':
                 cmd += " -march=armv7-a -Wl,--fix-cortex-a8"
             cmd += ' -lc -lm'
@@ -2131,7 +2150,7 @@ def WriteConfigSettings():
 
     if (PkgSkip("TOUCHINPUT") == 0 and GetTarget() == "windows"):
         dtool_config["HAVE_WIN_TOUCHINPUT"] = '1'
-    
+
     if (GetOptimize() <= 3):
         dtool_config["HAVE_ROCKET_DEBUGGER"] = '1'
 
@@ -2578,11 +2597,11 @@ CopyAllHeaders('panda/src/downloader')
 CopyAllHeaders('panda/metalibs/pandaexpress')
 
 CopyAllHeaders('panda/src/pipeline')
+CopyAllHeaders('panda/src/linmath')
 CopyAllHeaders('panda/src/putil')
 CopyAllHeaders('dtool/src/prckeys')
 CopyAllHeaders('panda/src/audio')
 CopyAllHeaders('panda/src/event')
-CopyAllHeaders('panda/src/linmath')
 CopyAllHeaders('panda/src/mathutil')
 CopyAllHeaders('panda/src/gsgbase')
 CopyAllHeaders('panda/src/pnmimage')
@@ -2614,7 +2633,7 @@ CopyAllHeaders('panda/src/pgui')
 CopyAllHeaders('panda/src/pnmimagetypes')
 CopyAllHeaders('panda/src/recorder')
 if (PkgSkip("ROCKET")==0):
-    CopyAllHeaders('panda/src/rocket')   
+    CopyAllHeaders('panda/src/rocket')
 if (PkgSkip("VRPN")==0):
     CopyAllHeaders('panda/src/vrpn')
 CopyAllHeaders('panda/src/wgldisplay')
@@ -2664,7 +2683,7 @@ CopyAllHeaders('panda/metalibs/pandaphysics')
 CopyAllHeaders('panda/src/testbed')
 
 if (PkgSkip("LUI")==0):
-    CopyAllHeaders('panda/src/lui')   
+    CopyAllHeaders('panda/src/lui')
 
 if (PkgSkip("PHYSX")==0):
     CopyAllHeaders('panda/src/physx')
@@ -2881,14 +2900,8 @@ TargetAdd('p3interrogatedb_composite2.obj', opts=OPTS, input='p3interrogatedb_co
 #
 
 OPTS=['DIR:dtool/metalibs/dtoolconfig', 'BUILDING:DTOOLCONFIG']
-if (PkgSkip("PYTHON")):
-  TargetAdd('p3dtoolconfig_pydtool.obj', opts=OPTS, input="null.cxx")
-else:
-  TargetAdd('p3dtoolconfig_pydtool.obj', opts=OPTS, input="pydtool.cxx")
 TargetAdd('p3dtoolconfig_dtoolconfig.obj', opts=OPTS, input='dtoolconfig.cxx')
-TargetAdd('p3dtoolconfig_pydtool.obj', dep='dtool_have_python.dat')
 TargetAdd('libp3dtoolconfig.dll', input='p3dtoolconfig_dtoolconfig.obj')
-TargetAdd('libp3dtoolconfig.dll', input='p3dtoolconfig_pydtool.obj')
 TargetAdd('libp3dtoolconfig.dll', input='p3interrogatedb_composite1.obj')
 TargetAdd('libp3dtoolconfig.dll', input='p3interrogatedb_composite2.obj')
 TargetAdd('libp3dtoolconfig.dll', input='p3dconfig_composite1.obj')
@@ -2896,6 +2909,13 @@ TargetAdd('libp3dtoolconfig.dll', input='p3prc_composite1.obj')
 TargetAdd('libp3dtoolconfig.dll', input='p3prc_composite2.obj')
 TargetAdd('libp3dtoolconfig.dll', input='libp3dtool.dll')
 TargetAdd('libp3dtoolconfig.dll', opts=['ADVAPI', 'OPENSSL', 'WINGDI', 'WINUSER'])
+
+if not PkgSkip("PYTHON"):
+  TargetAdd('dtoolconfig_pydtool.obj', opts=OPTS, input="pydtool.cxx")
+  TargetAdd('dtoolconfig.pyd', input='dtoolconfig_pydtool.obj')
+  TargetAdd('dtoolconfig.pyd', input='libp3dtoolconfig.dll')
+  TargetAdd('dtoolconfig.pyd', input='libp3dtool.dll')
+  TargetAdd('dtoolconfig.pyd', opts=['PYTHON'])
 
 #
 # DIRECTORY: dtool/src/pystub/
@@ -3021,6 +3041,25 @@ if (not RUNTIME):
   TargetAdd('libp3pipeline_igate.obj', input='libp3pipeline.in', opts=["DEPENDENCYONLY"])
 
 #
+# DIRECTORY: panda/src/linmath/
+#
+
+if (not RUNTIME):
+  OPTS=['DIR:panda/src/linmath', 'BUILDING:PANDA']
+  TargetAdd('p3linmath_composite1.obj', opts=OPTS, input='p3linmath_composite1.cxx')
+  TargetAdd('p3linmath_composite2.obj', opts=OPTS, input='p3linmath_composite2.cxx')
+  IGATEFILES=GetDirectoryContents('panda/src/linmath', ["*.h", "*_composite*.cxx"])
+  for ifile in IGATEFILES[:]:
+      if "_src." in ifile:
+          IGATEFILES.remove(ifile)
+  IGATEFILES.remove('cast_to_double.h')
+  IGATEFILES.remove('lmat_ops.h')
+  IGATEFILES.remove('cast_to_float.h')
+  TargetAdd('libp3linmath.in', opts=OPTS, input=IGATEFILES)
+  TargetAdd('libp3linmath.in', opts=['IMOD:panda3d.core', 'ILIB:libp3linmath', 'SRCDIR:panda/src/linmath'])
+  TargetAdd('libp3linmath_igate.obj', input='libp3linmath.in', opts=["DEPENDENCYONLY"])
+
+#
 # DIRECTORY: panda/src/putil/
 #
 
@@ -3059,25 +3098,6 @@ if (not RUNTIME):
   TargetAdd('libp3event.in', opts=OPTS, input=IGATEFILES)
   TargetAdd('libp3event.in', opts=['IMOD:panda3d.core', 'ILIB:libp3event', 'SRCDIR:panda/src/event'])
   TargetAdd('libp3event_igate.obj', input='libp3event.in', opts=["DEPENDENCYONLY"])
-
-#
-# DIRECTORY: panda/src/linmath/
-#
-
-if (not RUNTIME):
-  OPTS=['DIR:panda/src/linmath', 'BUILDING:PANDA']
-  TargetAdd('p3linmath_composite1.obj', opts=OPTS, input='p3linmath_composite1.cxx')
-  TargetAdd('p3linmath_composite2.obj', opts=OPTS, input='p3linmath_composite2.cxx')
-  IGATEFILES=GetDirectoryContents('panda/src/linmath', ["*.h", "*_composite*.cxx"])
-  for ifile in IGATEFILES[:]:
-      if "_src." in ifile:
-          IGATEFILES.remove(ifile)
-  IGATEFILES.remove('cast_to_double.h')
-  IGATEFILES.remove('lmat_ops.h')
-  IGATEFILES.remove('cast_to_float.h')
-  TargetAdd('libp3linmath.in', opts=OPTS, input=IGATEFILES)
-  TargetAdd('libp3linmath.in', opts=['IMOD:panda3d.core', 'ILIB:libp3linmath', 'SRCDIR:panda/src/linmath'])
-  TargetAdd('libp3linmath_igate.obj', input='libp3linmath.in', opts=["DEPENDENCYONLY"])
 
 #
 # DIRECTORY: panda/src/mathutil/
@@ -3171,6 +3191,7 @@ if (not RUNTIME):
   TargetAdd('libp3gobj.in', opts=['IMOD:panda3d.core', 'ILIB:libp3gobj', 'SRCDIR:panda/src/gobj'])
   TargetAdd('libp3gobj_igate.obj', input='libp3gobj.in', opts=["DEPENDENCYONLY"])
   TargetAdd('p3gobj_geomVertexArrayData_ext.obj', opts=OPTS, input='geomVertexArrayData_ext.cxx')
+  TargetAdd('p3gobj_internalName_ext.obj', opts=OPTS, input='internalName_ext.cxx')
 
 #
 # DIRECTORY: panda/src/pgraphnodes/
@@ -3270,6 +3291,7 @@ if (not RUNTIME):
   TargetAdd('libp3display.in', opts=['IMOD:panda3d.core', 'ILIB:libp3display', 'SRCDIR:panda/src/display'])
   TargetAdd('libp3display_igate.obj', input='libp3display.in', opts=["DEPENDENCYONLY"])
   TargetAdd('p3display_graphicsStateGuardian_ext.obj', opts=OPTS, input='graphicsStateGuardian_ext.cxx')
+  TargetAdd('p3display_graphicsWindow_ext.obj', opts=OPTS, input='graphicsWindow_ext.cxx')
 
   if RTDIST and GetTarget() == 'darwin':
     OPTS=['DIR:panda/src/display']
@@ -3542,8 +3564,10 @@ if (not RUNTIME):
   TargetAdd('libpanda.dll', input='p3putil_typedWritable_ext.obj')
   TargetAdd('libpanda.dll', input='p3pnmimage_pfmFile_ext.obj')
   TargetAdd('libpanda.dll', input='p3gobj_geomVertexArrayData_ext.obj')
+  TargetAdd('libpanda.dll', input='p3gobj_internalName_ext.obj')
   TargetAdd('libpanda.dll', input='p3pgraph_ext_composite.obj')
   TargetAdd('libpanda.dll', input='p3display_graphicsStateGuardian_ext.obj')
+  TargetAdd('libpanda.dll', input='p3display_graphicsWindow_ext.obj')
 
   if PkgSkip("FREETYPE")==0:
     TargetAdd('libpanda.dll', input="p3pnmtext_composite1.obj")
@@ -3715,8 +3739,6 @@ if (PkgSkip('SKEL')==0) and (not RUNTIME):
   TargetAdd('skel.pyd', input='core.pyd')
   TargetAdd('skel.pyd', input=COMMON_PANDA_LIBS)
   TargetAdd('skel.pyd', opts=['PYTHON'])
-
-
 
 #
 # DIRECTORY: panda/src/distort/
@@ -4462,11 +4484,9 @@ if (not RUNTIME and (GetTarget() in ('windows', 'darwin') or PkgSkip("X11")==0) 
   TargetAdd('libp3tinydisplay.dll', input='p3tinydisplay_ztriangle_table.obj')
   TargetAdd('libp3tinydisplay.dll', input=COMMON_PANDA_LIBS)
 
-
 #
 # DIRECTORY: panda/src/lui
 #
-
 
 if (PkgSkip("LUI") == 0) and (not RUNTIME):
   OPTS=['DIR:panda/src/lui', 'BUILDING:LUI', 'LUI', 'FREETYPE']
@@ -4494,8 +4514,6 @@ if (PkgSkip("LUI") == 0) and (not RUNTIME):
   TargetAdd('lui.pyd', opts=['PYTHON', 'LUI'])
 
 
-
-
 #
 # DIRECTORY: direct/src/directbase/
 #
@@ -4509,7 +4527,7 @@ if (PkgSkip("DIRECT")==0):
     TargetAdd('packpanda.obj', opts=OPTS+['BUILDING:PACKPANDA'], input='ppython.cxx')
     TargetAdd('packpanda.exe', input='packpanda.obj')
     TargetAdd('packpanda.exe', opts=['PYTHON'])
-  
+
     DefSymbol("BUILDING:EGGCACHER", "IMPORT_MODULE", "direct.directscripts.eggcacher")
     TargetAdd('eggcacher.obj', opts=OPTS+['BUILDING:EGGCACHER'], input='ppython.cxx')
     TargetAdd('eggcacher.exe', input='eggcacher.obj')
@@ -4777,7 +4795,7 @@ if (RUNTIME and PkgSkip("NPAPI")==0):
 # DIRECTORY: direct/src/plugin_activex/
 #
 
-if (RUNTIME and GetTarget() == 'windows'):
+if (RUNTIME and GetTarget() == 'windows' and PkgSkip("MFC")==0):
   OPTS=['DIR:direct/src/plugin_activex', 'RUNTIME', 'ACTIVEX', 'MFC']
   DefSymbol('ACTIVEX', '_USRDLL', '')
   DefSymbol('ACTIVEX', '_WINDLL', '')
@@ -5844,7 +5862,7 @@ if (PkgSkip("PYTHON")==0 and not RUNTIME):
     TargetAdd('PandaModules.py', input='fx.pyd')
   if (PkgSkip("DIRECT")==0):
     TargetAdd('PandaModules.py', input='direct.pyd')
-  if (PkgSkip("VISION")==0):  
+  if (PkgSkip("VISION")==0):
     TargetAdd('PandaModules.py', input='vision.pyd')
   if (PkgSkip("SKEL")==0):
     TargetAdd('PandaModules.py', input='skel.pyd')
@@ -6083,11 +6101,25 @@ def MakeInstallerNSIS(file, fullname, smdirectory, installdir):
     elif (os.path.isdir(file)):
         shutil.rmtree(file)
 
+    if GetTargetArch() == 'x64':
+        regview = '64'
+    else:
+        regview = '32'
+
     if (RUNTIME):
         # Invoke the make_installer script.
         AddToPathEnv("PATH", GetOutputDir() + "\\bin")
         AddToPathEnv("PATH", GetOutputDir() + "\\plugins")
-        oscmd(sys.executable + " -B direct\\src\\plugin_installer\\make_installer.py --version %s" % VERSION)
+
+        cmd = sys.executable + " -B -u direct\\src\\plugin_installer\\make_installer.py"
+        cmd += " --version %s --regview %s" % (VERSION, regview)
+
+        if GetTargetArch() == 'x64':
+            cmd += " --install \"$PROGRAMFILES64\\Panda3D\" "
+        else:
+            cmd += " --install \"$PROGRAMFILES32\\Panda3D\" "
+
+        oscmd(cmd)
         shutil.move("direct\\src\\plugin_installer\\p3d-setup.exe", file)
         return
 
@@ -6099,11 +6131,6 @@ def MakeInstallerNSIS(file, fullname, smdirectory, installdir):
     WriteFile(GetOutputDir()+"/tmp/__init__.py", "")
     psource = os.path.abspath(".")
     panda = os.path.abspath(GetOutputDir())
-
-    if GetTargetArch() == 'x64':
-        regview = '64'
-    else:
-        regview = '32'
 
     nsis_defs = {
         'COMPRESSOR'  : COMPRESSOR,
