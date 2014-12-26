@@ -35,6 +35,7 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
   // A lui sprite always needs a parent
   nassertv(parent != NULL);
 
+  _last_frame_visible = -1;
   _texture_index = -1;
   _sprite_index = -1;
   _instance_count ++;
@@ -247,5 +248,6 @@ void LUISprite::render_recursive() {
   recompute_vertices();
   update_vertex_pool();
 
+  _last_frame_visible  = _root->get_frame_index();
   _root->add_sprite_to_render_list(_sprite_index);
 }

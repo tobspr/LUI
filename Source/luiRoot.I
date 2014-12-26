@@ -146,8 +146,11 @@ INLINE void LUIRoot::prepare_render() {
   _min_rendered_vertex = 999999999;
   _max_rendered_vertex = 0;
 
+  _frame_count += 1;
+
   // prepare the geom triangle
   _sprites_rendered = 0;
+  
   _triangles->clear_vertices();
   _triangles->make_indexed();
   _triangles->set_index_type(GeomEnums::NT_uint32);
@@ -185,4 +188,8 @@ INLINE int LUIRoot::get_num_textures() {
 INLINE Texture* LUIRoot::get_texture(int index) {
   nassertr(index >= 0 && index < _textures.size(), NULL);
   return _textures[index];  
+}
+
+INLINE int LUIRoot::get_frame_index() {
+  return _frame_count;
 }

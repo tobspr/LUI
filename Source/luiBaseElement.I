@@ -382,8 +382,15 @@ INLINE LUIBaseElement* LUIBaseElement::get_parent() {
 
 INLINE bool LUIBaseElement::intersects(float x, float y) {
   return (
-      x >= _pos_x && y >= _pos_y &&
-      x <= _pos_x + _size.get_x() && y <= _pos_y + _size.get_y()
+      x >= _pos_x && 
+      y >= _pos_y &&
+      x <= _pos_x + _size.get_x() && 
+      y <= _pos_y + _size.get_y() &&
+
+      x >= _abs_clip_bounds->get_x() &&
+      y >= _abs_clip_bounds->get_y() &&
+      x <= _abs_clip_bounds->get_x() + _abs_clip_bounds->get_w() &&
+      y <= _abs_clip_bounds->get_y() + _abs_clip_bounds->get_h()
     );
 }
 
@@ -474,4 +481,8 @@ INLINE void LUIBaseElement::on_color_changed() {
   } else {
     compose_color();
   }
+}
+
+INLINE int LUIBaseElement::get_last_frame_visible() {
+  return _last_frame_visible;
 }

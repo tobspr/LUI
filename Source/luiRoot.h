@@ -65,7 +65,7 @@ public:
   INLINE void add_sprite_to_render_list(int position);
 
   INLINE Geom* get_geom();
-
+  INLINE int get_frame_index();
 
   INLINE int get_num_textures();
   INLINE Texture *get_texture(int index);
@@ -84,6 +84,7 @@ private:
   LUITextureVector _textures;
 
   int _sprites_rendered;
+  int _frame_count;
 
   struct LUITriangleIndex {
     uint vertices[3];

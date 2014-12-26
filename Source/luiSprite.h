@@ -110,6 +110,8 @@ protected:
 
   PT(Texture) _tex;
 
+
+
   // Keep track of the amount of instances created, for 
   // tracking memory leaks
   static int _instance_count;

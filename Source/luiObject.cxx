@@ -90,6 +90,9 @@ void LUIObject::render_recursive() {
 
   if (!_visible) return;
 
+
+  _last_frame_visible = _root->get_frame_index();
+  
   recompute_position();
   std::sort(_children.begin(), _children.end(), compare_z_index);
 

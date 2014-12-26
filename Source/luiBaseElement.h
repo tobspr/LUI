@@ -198,6 +198,7 @@ public:
   virtual void ls(int ident = 0) = 0;
 
   INLINE void set_focus(bool focus);
+  INLINE int get_last_frame_visible();
 
 protected:
 
@@ -269,6 +270,8 @@ protected:
 
   LUIBaseElement *_parent;
   LUIRoot *_root;
+
+  int _last_frame_visible;
 
 
 public:

@@ -12,6 +12,7 @@ LUIRoot::LUIRoot(float width, float height) : _requested_focus(NULL) {
   _root->set_root(this);
 
   _sprites_rendered = 0;
+  _frame_count = 0;
 
   // Create vertex chunks
   // CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3c4t2();

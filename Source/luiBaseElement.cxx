@@ -31,6 +31,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _focused(false),
   _clip_bounds(NULL),
   _abs_clip_bounds(NULL),
+  _last_frame_visible(-1),
   LUIColorable()
 {
 
