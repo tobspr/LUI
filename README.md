@@ -1,5 +1,5 @@
 
-![LUI Logo](https://raw.githubusercontent.com/tobspr/LUI/master/Res/Logo.png)
+![LUI Draft](http://fs1.directupload.net/images/141226/qd6z8ysu.png)
 
 ===
 

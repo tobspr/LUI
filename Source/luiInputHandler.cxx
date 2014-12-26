@@ -257,6 +257,10 @@ void LUIInputHandler::process(LUIRoot *root) {
       _focused_element->trigger_event("textinput", wstring(1, (unsigned short)(*it)), _current_state.mouse_pos);
     }
 
+
+    // Focus tick
+    _focused_element->trigger_event("tick", wstring(), _current_state.mouse_pos);
+
   }
 
   _last_state = _current_state;

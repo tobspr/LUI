@@ -3,7 +3,7 @@ rootDir = ""
 
 
 
-sourceDirectories = ["Source/", "LUIBuiltin/"]
+sourceDirectories = ["Source/"]
 ignorePattern = []
 extensions = "py compute fragment vertex ini include geometry glsl cxx h I".split()
 
