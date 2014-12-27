@@ -4,6 +4,50 @@
 		"selected_items":
 		[
 			[
+				"LUISrpi",
+				"LUISpriteVector"
+			],
+			[
+				"set_to",
+				"set_topmost"
+			],
+			[
+				"selecte",
+				"selectedOption"
+			],
+			[
+				"opt",
+				"opt_bg"
+			],
+			[
+				"LU",
+				"LUISprite"
+			],
+			[
+				"clip",
+				"clip_bounds"
+			],
+			[
+				"curre",
+				"currentY"
+			],
+			[
+				"max",
+				"max_at_one_time"
+			],
+			[
+				"char",
+				"char_code"
+			],
+			[
+				"knob",
+				"knob_mouseover"
+			],
+			[
+				"label",
+				"labelContainer"
+			],
+			[
 				"UICH",
 				"UIChangeCallback"
 			],
@@ -74,10 +118,6 @@
 			[
 				"changeC",
 				"changeCallbacks"
-			],
-			[
-				"max",
-				"max_value"
 			],
 			[
 				"shado",
@@ -270,10 +310,6 @@
 			[
 				"entry",
 				"entry_name"
-			],
-			[
-				"opt",
-				"opt_basecolor_b"
 			],
 			[
 				"base",
@@ -478,69 +514,32 @@
 			[
 				"mrgin",
 				"margin-bottom"
-			],
-			[
-				"font",
-				"font-family"
-			],
-			[
-				"start",
-				"start_url"
-			],
-			[
-				"countSc",
-				"countScreenshotOK"
-			],
-			[
-				"bia",
-				"biasedDepth"
-			],
-			[
-				"pcf",
-				"pcfSampleState"
-			],
-			[
-				"tra",
-				"traced"
-			],
-			[
-				"colo",
-				"colorSample"
-			],
-			[
-				"resul",
-				"resultColorI"
-			],
-			[
-				"local",
-				"localCoord"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "DefaultSkin/Skin.py",
+			"file": "Source/luiSprite.cxx",
 			"settings":
 			{
-				"buffer_size": 21542,
+				"buffer_size": 6469,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Builtin/Elements.py",
+			"settings":
+			{
+				"buffer_size": 26375,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "bot adc\n\njungle",
+			"file": "Source/luiRoot.h",
 			"settings":
 			{
-				"buffer_size": 15,
-				"line_ending": "Windows",
-				"name": "bot adc"
-			}
-		},
-		{
-			"file": "Source/luiSprite.h",
-			"settings":
-			{
-				"buffer_size": 3905,
+				"buffer_size": 2626,
 				"line_ending": "Unix"
 			}
 		},
@@ -548,49 +547,74 @@
 			"file": "Source/luiInputHandler.cxx",
 			"settings":
 			{
-				"buffer_size": 8589,
+				"buffer_size": 8650,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "LUIBuiltin/LUIInputField.py",
+			"file": "Source/luiRoot.i",
 			"settings":
 			{
-				"buffer_size": 4856,
+				"buffer_size": 5522,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Source/luiObject.h",
+			"settings":
+			{
+				"buffer_size": 2203,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "jungle",
+			"settings":
+			{
+				"buffer_size": 6,
+				"line_ending": "Windows",
+				"name": "jungle"
+			}
+		},
+		{
+			"file": "Builtin/main.py",
+			"settings":
+			{
+				"buffer_size": 2965,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/E/Sonstiges/Skripte & Bat Files/RunPython.bat",
+			"file": "Source/luiSprite.h",
 			"settings":
 			{
-				"buffer_size": 284,
-				"line_ending": "Windows"
+				"buffer_size": 3907,
+				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "DefaultSkin/Layouts.py",
+			"file": "Source/luiSprite.i",
 			"settings":
 			{
-				"buffer_size": 1005,
-				"line_ending": "Windows"
+				"buffer_size": 4152,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Source/luiBaseElement.i",
+			"settings":
+			{
+				"buffer_size": 11844,
+				"line_ending": "Unix"
 			}
 		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 58.0,
+		"height": 392.0,
 		"selected_items":
 		[
-			[
-				"clsoe al",
-				"File: Close All"
-			],
-			[
-				"ssc++",
-				"Set Syntax: C++"
-			],
 			[
 				"ssc",
 				"Set Syntax: C"
@@ -598,6 +622,14 @@
 			[
 				"close al",
 				"File: Close All"
+			],
+			[
+				"clsoe al",
+				"File: Close All"
+			],
+			[
+				"ssc++",
+				"Set Syntax: C++"
 			],
 			[
 				"clos al",
@@ -681,44 +713,58 @@
 	],
 	"file_history":
 	[
-		"/E/Projects/Brainz stuff/LUI/Source/luiSprite.cxx",
-		"/E/Projects/Brainz stuff/LUI/Source/luiAtlas.cxx",
-		"/E/Projects/Brainz stuff/LUI/Source/luiRoot.cxx",
-		"/E/Projects/Brainz stuff/LUI/Source/luiIterators.h",
-		"/E/Projects/Brainz stuff/LUI/Source/luiEventData.cxx",
-		"/E/Projects/Brainz stuff/LUI/Source/luiInputHandler.cxx",
-		"/E/Projects/Brainz stuff/LUI/Unittests/9 - Z-Index.py",
-		"/E/Projects/Brainz stuff/LUI/Unittests/1 - LUISprite.py",
-		"/E/Projects/Brainz stuff/LUI/DefaultSkin/Skin.py",
-		"/E/Projects/Brainz stuff/LUI/Unittests/14 - Simpl Sprite.py",
-		"/E/Projects/Brainz stuff/LUI/Source/luiRect.h",
-		"/E/Projects/Brainz stuff/LUI/Source/luiRegion.cxx",
-		"/E/Projects/Brainz stuff/LUI/DefaultSkin/Layouts.py",
-		"/E/Projects/Brainz stuff/LUI/Source/luiObject.h",
-		"/E/Projects/Brainz stuff/LUI/Source/luiObject.cxx",
-		"/E/Projects/Brainz stuff/LUI/Source/luiBaseElement.h",
-		"/E/Projects/Brainz stuff/LUI/Source/luiBaseElement.i",
 		"/E/Projects/Brainz stuff/LUI/Source/luiBaseElement.cxx",
-		"/E/Projects/Brainz stuff/LUI/Unittests/13 - Clipping Test.py",
+		"/E/Projects/Brainz stuff/LUI/Source/luiBaseElement.h",
+		"/E/Projects/Brainz stuff/LUI/Source/luiBounds.cxx",
+		"/E/Projects/Brainz stuff/LUI/Source/luiInputHandler.h",
+		"/E/Projects/Brainz stuff/LUI/Source/luiInputHandler.cxx",
+		"/E/Projects/Brainz stuff/LUI/Source/luiRoot.cxx",
 		"/E/Projects/Brainz stuff/LUI/Source/luiObject.i",
+		"/E/Projects/Brainz stuff/LUI/Source/luiObject.h",
+		"/E/Projects/Brainz stuff/LUI/Source/luiSprite.h",
+		"/E/Projects/Brainz stuff/LUI/Source/luiSprite.i",
+		"/E/Projects/Brainz stuff/LUI/Source/luiSprite.cxx",
+		"/E/Projects/Brainz stuff/LUI/Builtin/main.py",
+		"/E/Projects/Brainz stuff/LUI/Builtin/Elements.py",
+		"/E/Projects/Brainz stuff/LUI/Builtin/Layouts.py",
+		"/E/Projects/Brainz stuff/LUI/Source/luiRoot.h",
+		"/E/Projects/Brainz stuff/LUI/Source/luiRoot.i",
+		"/E/Projects/Brainz stuff/LUI/Source/luiBaseElement.i",
+		"/E/Projects/Brainz stuff/LUI/Source/luiText.cxx",
+		"/E/Projects/Brainz stuff/LUI/Source/luiObject.cxx",
 		"/E/Projects/Brainz stuff/LUI/Source/luiText.h",
 		"/E/Projects/Brainz stuff/LUI/Source/luiText.i",
-		"/E/Projects/Brainz stuff/LUI/Source/luiText.cxx",
+		"/E/Sonstiges/Skripte & Bat Files/RunPython.bat",
+		"/E/Projects/Brainz stuff/LUI/DefaultSkin/Layouts.py",
+		"/E/Projects/Brainz stuff/LUI/Source/luiRoot.I",
+		"/E/Projects/Brainz stuff/LUI/Source/luiRegion.cxx",
+		"/E/Projects/Brainz stuff/RenderPipeline/Code/AutoGenerated/TimeOfDay.py",
+		"/E/Projects/Brainz stuff/RenderPipeline/Code/GlobalIllumination.py",
+		"/E/Projects/Brainz stuff/RenderPipeline/Code/AutoGenerated/DayProperty.py",
+		"/E/Projects/Brainz stuff/RenderPipeline/Code/Antialiasing.py",
+		"/E/Projects/Brainz stuff/RenderPipeline/Code/RenderingPipeline.py",
+		"/E/Projects/Brainz stuff/LUI/Source/luiIterators.h",
+		"/E/Projects/Brainz stuff/LUI/Source/luiEventData.cxx",
+		"/E/Projects/Brainz stuff/LUI/Source/luiAtlas.cxx",
+		"/E/Projects/Brainz stuff/LUI/Outdated/LUIBuiltin/LUISpriteBoxLayout.py",
+		"/E/Projects/Brainz stuff/LUI/README.md",
+		"/E/Projects/Brainz stuff/LUI/DefaultSkin/Skin.py",
+		"/E/Projects/Brainz stuff/LUI/LUIBuiltin/LUIInputField.py",
+		"/E/Projects/Brainz stuff/LUI/Unittests/9 - Z-Index.py",
+		"/E/Projects/Brainz stuff/LUI/Unittests/1 - LUISprite.py",
+		"/E/Projects/Brainz stuff/LUI/Unittests/14 - Simpl Sprite.py",
+		"/E/Projects/Brainz stuff/LUI/Source/luiRect.h",
+		"/E/Projects/Brainz stuff/LUI/Unittests/13 - Clipping Test.py",
 		"/E/Projects/Brainz stuff/LUI/Source/luiFontPool.cxx",
-		"/E/Projects/Brainz stuff/LUI/Source/luiSprite.h",
 		"/E/Projects/Brainz stuff/LUI/Source/luiRect.cxx",
-		"/E/Projects/Brainz stuff/LUI/Source/luiSprite.i",
 		"/E/Projects/Brainz stuff/LUI/Source/luiVertexChunk.cxx",
 		"/E/Projects/Brainz stuff/LUI/Source/luiRegion.h",
 		"/E/Projects/Brainz stuff/LUI/Source/luiEventData.h",
 		"/E/Projects/Brainz stuff/LUI/Source/luiFontPool.h",
 		"/E/Projects/Brainz stuff/LUI/Source/luiFontPool.I",
-		"/E/Projects/Brainz stuff/LUI/Source/luiRoot.I",
 		"/E/Projects/Brainz stuff/HelpRdbDecide/main.py",
-		"/E/Sonstiges/Skripte & Bat Files/RunPython.bat",
 		"/E/Projects/Brainz stuff/LUI/Res/atlas.settings",
 		"/E/Projects/Brainz stuff/LUI/.gitignore",
-		"/E/Projects/Brainz stuff/LUI/LUIBuiltin/LUIInputField.py",
 		"/E/Projects/Brainz stuff/LUI/Unittests/8 - Sprite Benchmark.py",
 		"/E/Projects/Brainz stuff/LUI/Unittests/12 - Text Rendering Benchmark.py",
 		"/E/Projects/Brainz stuff/LUI/Res/LUIAtlasGen.py",
@@ -727,7 +773,6 @@
 		"/E/Projects/Brainz stuff/LUI/Res/AtlasGenGui.py",
 		"/E/Projects/Brainz stuff/LUI/DefaultSkin/res/gen.bat",
 		"/E/Projects/Brainz stuff/LUI/DefaultSkin/UICheckbox.py",
-		"/E/Projects/Brainz stuff/LUI/Source/luiRoot.h",
 		"/C/Users/Administrator/AppData/Roaming/.minecraft/versions/NodusLauncher/NodusLauncher.json",
 		"/E/Projects/Brainz stuff/LUI/Source/config_lui.cxx",
 		"/E/Projects/Brainz stuff/LUI/LUIBuiltin/LUISpriteBoxLayout.py",
@@ -758,8 +803,6 @@
 		"/E/Projects/Brainz stuff/LUI/Unittests/10 - Events.py",
 		"/E/Projects/Brainz stuff/LUI/Unittests/11 - Text Benchmark.py",
 		"/E/Projects/Brainz stuff/LUI/Unittests/2 - Loading Images.py",
-		"/E/Projects/Brainz stuff/LUI/Source/luiRoot.i",
-		"/E/Projects/Brainz stuff/LUI/Source/luiBounds.cxx",
 		"/E/Projects/Brainz stuff/LUI/Source/p3lui_composite1.cxx",
 		"/E/Projects/Brainz stuff/LUI/CodeAnalyer.py",
 		"/E/Projects/Brainz stuff/LUI/LUIBuiltin/LUIButton.py",
@@ -767,16 +810,13 @@
 		"/E/Projects/Brainz stuff/RenderPipeline/Toolkit/Material Explorer/main.py",
 		"/E/Projects/Brainz stuff/RenderPipeline/main.py",
 		"/E/Projects/Brainz stuff/RenderPipeline/.gitignore",
-		"/E/Projects/Brainz stuff/RenderPipeline/Code/GlobalIllumination.py",
 		"/E/Projects/Brainz stuff/RenderPipeline/Config/pipeline.ini",
 		"/E/Projects/Brainz stuff/RenderPipeline/Shader/Occlusion/SAO.include",
 		"/F/P3D/1.9GIT/makepanda/makepanda.py",
 		"/E/Projects/Brainz stuff/LUI/Source/config_lui.h",
-		"/E/Projects/Brainz stuff/LUI/README.md",
 		"/F/P3D/1.9GIT/panda/src/dxgsg8/config_dxgsg8.h",
 		"/E/Projects/Brainz stuff/RenderPipeline/Shader/Includes/GlobalIllumination.include",
 		"/E/Projects/Brainz stuff/RenderPipeline/Shader/ApplyLighting.fragment",
-		"/E/Projects/Brainz stuff/RenderPipeline/Code/RenderingPipeline.py",
 		"/E/Projects/Brainz stuff/RenderPipeline/Shader/Includes/Configuration.include",
 		"/E/Projects/Brainz stuff/RenderPipeline/Shader/GI/Voxelize.fragment",
 		"/E/Projects/Brainz stuff/RenderPipeline/Shader/GI/Voxelize.vertex",
@@ -800,15 +840,7 @@
 		"/E/Sonstiges/UnrealEngine_4_3/Unreal Engine/Engine/Shaders/BRDF.usf",
 		"/E/Sonstiges/UnrealEngine_4_3/Unreal Engine/Engine/Shaders/DeferredLightingCommon.usf",
 		"/E/Sonstiges/UnrealEngine_4_3/Unreal Engine/Engine/Shaders/PostProcessAmbient.usf",
-		"/E/Projects/Brainz stuff/RenderPipeline/Code/BetterShader.py",
-		"/E/Sonstiges/Unreal_Engine_4_5/Engine/Shaders/DeferredLightPixelShaders.usf",
-		"/E/Sonstiges/Unreal_Engine_4_5/Engine/Shaders/Random.usf",
-		"/E/Sonstiges/Unreal_Engine_4_5/Engine/Shaders/Common.usf",
-		"/E/Projects/Brainz stuff/RenderPipeline/Temp/ShaderAutoConfig.include",
-		"/E/Projects/Brainz stuff/RenderPipeline/Shader/GI/ConvertGrid.compute",
-		"/E/Projects/Brainz stuff/RenderPipeline/Code/SettingsManager.py",
-		"/E/Projects/Brainz stuff/RenderPipeline/Code/DirectionalLight.py",
-		"/E/Projects/Brainz stuff/RenderPipeline/Code/MountManager.py"
+		"/E/Projects/Brainz stuff/RenderPipeline/Code/BetterShader.py"
 	],
 	"find":
 	{
@@ -840,6 +872,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"get_abs_z",
+			"_sprites",
+			"UIChangeCallback",
+			"default",
 			"set_value",
 			"self.current_text",
 			"get_abs",
@@ -963,11 +999,7 @@
 			"cycle",
 			"output",
 			"make_display_region",
-			"flatten",
-			"matchImage",
-			"setShaderI",
-			"getAtlasTex",
-			"Sampler"
+			"flatten"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -975,6 +1007,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"UICallback",
 			"self.value",
 			"lightSourceRadius",
 			"computeMipmapFromRoughness",
@@ -999,82 +1032,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "DefaultSkin/Skin.py",
+					"file": "Source/luiSprite.cxx",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 21542,
+						"buffer_size": 6469,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								20399,
-								20399
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 7391.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 15,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9,
-								15
-							]
-						],
-						"settings":
-						{
-							"auto_name": "bot adc",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "Source/luiSprite.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3905,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1770,
-								1773
+								6124,
+								6140
 							]
 						],
 						"settings":
@@ -1084,10 +1059,70 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2753.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Builtin/Elements.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 26375,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								25051,
+								25005
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 840.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Source/luiRoot.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2626,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1869,
+								1869
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 378.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1096,15 +1131,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8589,
+						"buffer_size": 8650,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7430,
-								7430
+								1712,
+								1712
 							]
 						],
 						"settings":
@@ -1114,85 +1149,115 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2603.0,
+						"translation.y": 84.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "LUIBuiltin/LUIInputField.py",
+					"file": "Source/luiRoot.i",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4856,
+						"buffer_size": 5522,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1820,
-								3628
+								1566,
+								1566
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 624.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/E/Sonstiges/Skripte & Bat Files/RunPython.bat",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 284,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								284,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Batch File/Batch File.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 121.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "DefaultSkin/Layouts.py",
+					"buffer": 5,
+					"file": "Source/luiObject.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1005,
+						"buffer_size": 2203,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								847,
-								847
+								882,
+								882
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 210.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								6
+							]
+						],
+						"settings":
+						{
+							"auto_name": "jungle",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "Builtin/main.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2965,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								596,
+								612
 							]
 						],
 						"settings":
@@ -1207,13 +1272,103 @@
 					},
 					"stack_index": 6,
 					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "Source/luiSprite.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3907,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "Source/luiSprite.i",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4152,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1344.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "Source/luiBaseElement.i",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11844,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8675,
+								8675
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4727.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
 				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 21.0
+		"height": 22.0
 	},
 	"input":
 	{
@@ -1258,8 +1413,64 @@
 		"selected_items":
 		[
 			[
+				"readm",
+				"README.md"
+			],
+			[
+				"liuba",
+				"Source\\luiBaseElement.i"
+			],
+			[
+				"luiin",
+				"Source\\luiInputHandler.cxx"
+			],
+			[
+				"luiob",
+				"Source\\luiObject.h"
+			],
+			[
+				"luiba",
+				"Source\\luiBaseElement.h"
+			],
+			[
+				"luiro",
+				"Source\\luiRoot.cxx"
+			],
+			[
+				"elemen",
+				"Builtin\\Elements.py"
+			],
+			[
 				"luisp",
-				"Source\\luiSprite.h"
+				"Source\\luiSprite.cxx"
+			],
+			[
+				"luib",
+				"Source\\luiBaseElement.h"
+			],
+			[
+				"luite",
+				"Source\\luiText.cxx"
+			],
+			[
+				"luio",
+				"Source\\luiObject.h"
+			],
+			[
+				"luii",
+				"Source\\luiInputHandler.cxx"
+			],
+			[
+				"layout",
+				"Builtin\\Layouts.py"
+			],
+			[
+				"luit",
+				"Source\\luiText.cxx"
+			],
+			[
+				"read",
+				"README.md"
 			],
 			[
 				"luiinp",
@@ -1272,18 +1483,6 @@
 			[
 				"skin",
 				"DefaultSkin\\Skin.py"
-			],
-			[
-				"luiba",
-				"Source\\luiBaseElement.h"
-			],
-			[
-				"luite",
-				"Source\\luiText.cxx"
-			],
-			[
-				"luiob",
-				"Source\\luiObject.cxx"
 			],
 			[
 				"luirect",
@@ -1316,10 +1515,6 @@
 			[
 				"luips",
 				"Source\\luiSprite.h"
-			],
-			[
-				"luiro",
-				"Source\\luiRegion.cxx"
 			],
 			[
 				"luir",
@@ -1728,46 +1923,6 @@
 			[
 				"displayr",
 				"F:\\P3D\\1.9GIT\\panda\\src\\display\\displayRegion.h"
-			],
-			[
-				"lightng",
-				"Shader\\Includes\\Lighting.include"
-			],
-			[
-				"rendert",
-				"Code\\RenderTarget.py"
-			],
-			[
-				"lightm",
-				"Code\\LightManager.py"
-			],
-			[
-				"rendi",
-				"Code\\RenderingPipeline.py"
-			],
-			[
-				"lightma",
-				"Code\\LightManager.py"
-			],
-			[
-				"f",
-				"Shader\\DefaultObjectShader\\fragment.glsl"
-			],
-			[
-				"pipe",
-				"Data\\GUI\\PipelineDebugger.psd"
-			],
-			[
-				"generatemp",
-				"Shader\\GI\\GenerateMipmaps.compute"
-			],
-			[
-				"gid",
-				"Shader\\Includes\\GIData.include"
-			],
-			[
-				"fin",
-				"Shader\\Final.fragment"
 			]
 		],
 		"width": 0.0
@@ -1777,6 +1932,10 @@
 		"height": 500.0,
 		"selected_items":
 		[
+			[
+				"",
+				"E:\\Projects\\Brainz stuff\\RenderPipeline\\RenderPipeline.sublime-project"
+			],
 			[
 				"rende",
 				"E:\\Projects\\Brainz stuff\\RenderPipeline\\RenderPipeline.sublime-project"

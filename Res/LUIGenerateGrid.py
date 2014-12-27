@@ -9,15 +9,16 @@ from panda3d.core import *
 # destPath = dirname(source)
 # borderSize = int(raw_input("Border size in pixel: "))
 
-source = "btn_hover.png"
-destPath = "btn_hover"
-borderSize = 6
+source = "btn_green.png"
+destPath = "btn_green/"
+destName = "ButtonMagic_#.png"
+borderSize = 5
 
 def extractSubImage(x, y, w, h, name):
     print "Extracting sub image to",name
     subPNM = PNMImage(w, h, 4)
     subPNM.copySubImage(img, 0, 0, x, y, w, h)
-    subPNM.write(join(destPath, name + ".png"))
+    subPNM.write(destPath + destName.replace("#", name))
 
 
 img = PNMImage(source)
@@ -27,28 +28,29 @@ if not isdir(destPath):
     makedirs(destPath)
 
 # top left
-extractSubImage(0, 0, borderSize, borderSize, "tl")
+extractSubImage(0, 0, borderSize, borderSize, "TL")
 
 # top right
-extractSubImage(w-borderSize, 0, borderSize, borderSize, "tr")
+extractSubImage(w-borderSize, 0, borderSize, borderSize, "TR")
 
 # bottom left
-extractSubImage(0, h-borderSize, borderSize, borderSize, "bl")
+extractSubImage(0, h-borderSize, borderSize, borderSize, "BL")
 
 # bottom right
-extractSubImage(w-borderSize, h-borderSize, borderSize, borderSize, "br")
+extractSubImage(w-borderSize, h-borderSize, borderSize, borderSize, "BR")
 
 # top
-extractSubImage(borderSize, 0, w-2*borderSize, borderSize, "top")
+extractSubImage(borderSize, 0, w-2*borderSize, borderSize, "Top")
 
 # bottom
-extractSubImage(borderSize, h - borderSize, w-2*borderSize, borderSize, "bottom")
+extractSubImage(borderSize, h - borderSize, w-2*borderSize, borderSize, "Bottom")
 
 # left
-extractSubImage(0, borderSize, borderSize, h-2*borderSize, "left")
+extractSubImage(0, borderSize, borderSize, h-2*borderSize, "Left")
 
 # right
-extractSubImage(w-borderSize, borderSize, borderSize, h-2*borderSize, "right")
+extractSubImage(w-borderSize, borderSize, borderSize, h-2*borderSize, "Right")
 
 # mid
-extractSubImage(borderSize, borderSize, w-2*borderSize, h-2*borderSize, "mid")
+# extractSubImage(borderSize, borderSize, w-2*borderSize, h-2*borderSize, "Mid")
+extractSubImage(borderSize, borderSize, 1, h-2*borderSize, "Mid")

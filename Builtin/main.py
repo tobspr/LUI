@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
 
     labelFont = loader.loadFont("../Res/font/SourceSansPro-Semibold.ttf")
-    labelFont.setPixelsPerUnit(30)
+    labelFont.setPixelsPerUnit(32)
     # labelFont.setMinfilter(SamplerState.FTNearest)
     # labelFont.setMagfilter(SamplerState.FTNearest)
 
@@ -42,18 +42,25 @@ if __name__ == "__main__":
     skinParent = LUIObject(region.root(),x=0,y=0,w=100,h=100)
     skinParent.centered = (True, True)
 
-    layout = UIVerticalLayout(parent=skinParent, width=300, spacing=10)
+    layout = UIVerticalLayout(parent=skinParent, width=250, spacing=10)
     checkbox = UILabeledCheckbox(checked=False, text=u"Sample checkbox")
+    checkboxChecked = UILabeledCheckbox(checked=True, text=u"Checked checkbox")
 
     group = UIRadioboxGroup()
-    radiobox = UILabeledRadiobox(group=group, value=5, text=u"Value1")
-    radiobox2 = UILabeledRadiobox(group=group, value=7, text=u"Value2")
+    radiobox = UILabeledRadiobox(group=group, value=5, text=u"Radiobox")
+    radiobox2 = UILabeledRadiobox(group=group, value=7, text=u"Radiobox Checked")
 
-    slider = UISliderWithLabel(filled=False, min_value=0.0, max_value=1.0, width=300.0, precision=4)
-    slider2 = UISliderWithLabel(filled=True, min_value=0.0, max_value=120.0, width=300.0, precision=1)
-    bar = UIProgressbar(width=300, value=33.5)
+    radiobox2.get_box().set_active()
 
-    box = UISelectbox(width=300, options = [
+    slider = UISliderWithLabel(filled=False, min_value=0.0, max_value=1.0, width=250.0, precision=4)
+    slider2 = UISliderWithLabel(filled=True, min_value=0.0, max_value=120.0, width=250.0, precision=1, value=32)
+    bar = UIProgressbar(width=250, value=33.5)
+
+    btnOk = UIButton(width=120, text=u"SUBMIT", template="ButtonMagic")
+    btnCancel = UIButton(width=120, text=u"CANCEL")
+    btnCancel.right = 0
+
+    box = UISelectbox(width=250, options = [
             ("opt1", "Option 1"),
             ("opt2", "Option 2"),
             ("opt3", "Option 3"),
@@ -69,16 +76,23 @@ if __name__ == "__main__":
     slider2.add_change_callback(set_bar_value)
     bar.set_value(slider2.get_value())
 
-    field = UIInputField(width=300)
+    field = UIInputField(width=250)
 
-    layout.add_column(checkbox)
-    layout.add_column(box)
-    layout.add_column(radiobox)
-    layout.add_column(radiobox2)
-    layout.add_column(slider)
-    layout.add_column(field)
-    layout.add_column(slider2)
-    layout.add_column(bar)
+    layout.add_row(checkbox)
+    layout.add_row(checkboxChecked)
+    layout.add_row(box)
+    layout.add_row(radiobox)
+    layout.add_row(radiobox2)
+    layout.add_row(slider)
+    layout.add_row(field)
+    layout.add_row(slider2)
+    layout.add_row(bar)
+
+    
+    
+
+    layout.add_row(btnOk, btnCancel)
+
 
     skinParent.fit_to_children()
 
@@ -87,7 +101,7 @@ if __name__ == "__main__":
     bgFrame.z_offset = -10
     bgFrame.color = (0.1,0.1,0.1)
 
-    
+
     base.accept("f3", region.toggle_render_wireframe)
     base.accept("f4", region.root().ls)
     base.run()

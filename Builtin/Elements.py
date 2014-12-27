@@ -73,7 +73,7 @@ class UILabel(LUIObject):
         if self.have_shadow:
             self.shadowText = LUIText(self, unicode(text), "label", 14.0, 0, 0)
             self.shadowText.top = 1
-            self.shadowText.color = (0,0,0,1)
+            self.shadowText.color = (0,0,0,0.7)
 
         self.fit_to_children()
 
@@ -108,6 +108,9 @@ class UILabeledCheckbox(LUIObject, UICallback):
         self.label.top = self.label.height - self.checkbox.height
 
         self.fit_to_children()
+
+    def get_box(self):
+        return self.checkbox
 
 class UIRadioboxGroup(LUIObject):
 
@@ -203,6 +206,9 @@ class UILabeledRadiobox(LUIObject, UICallback):
         self.fit_to_children()
 
 
+    def get_box(self):
+        return self.radiobox
+
 class UISlider(LUIObject, UICallback):
 
     def __init__(self, parent=None, filled=False, min_value=0.0, max_value=1.0, width=100.0, value=None):
@@ -217,7 +223,7 @@ class UISlider(LUIObject, UICallback):
         self.bgRight = LUISprite(self.sliderBg, "SliderBg_Right", "skin")
         self.bgMid = LUISprite(self.sliderBg, "SliderBg", "skin")
 
-        self.bgMid.width = width - self.bgLeft.width - self.bgRight.width
+        self.bgMid.width = self.width - self.bgLeft.width - self.bgRight.width
         self.bgMid.left = self.bgLeft.width
         self.bgRight.left = self.bgMid.width + self.bgMid.left
 
@@ -373,7 +379,7 @@ class UIProgressbar(LUIObject):
         self.bgMid = LUISprite(self, "ProgressbarBg", "skin")
         self.bgRight = LUISprite(self, "ProgressbarBg_Right", "skin")
 
-        self.bgMid.width = width - self.bgLeft.width - self.bgRight.width
+        self.bgMid.width = self.width - self.bgLeft.width - self.bgRight.width
         self.bgMid.left = self.bgLeft.width
         self.bgRight.left = self.bgMid.width + self.bgMid.left
 
@@ -457,7 +463,7 @@ class UIInputField(LUIObject, UICallback):
         self.placeholder = UILabel(parent=self.textContent, text=placeholder, shadow=False)
         self.placeholder.color = (1,1,1,0.5)
 
-        self.bgMid.width = width - self.bgLeft.width - self.bgRight.width
+        self.bgMid.width = self.width - self.bgLeft.width - self.bgRight.width
         self.bgMid.left = self.bgLeft.width
         self.bgRight.left = self.bgMid.width + self.bgMid.left
 
@@ -612,6 +618,9 @@ class UISelectbox(LUIObject, UICallback):
 
         self._select_option(selectedOption)
 
+    def get_selected_option(self):
+        return self.currentOptionId
+
     def _render_options(self):
         self.dropMenu._render_options(self.options)
 
@@ -626,8 +635,6 @@ class UISelectbox(LUIObject, UICallback):
                 self.currentOptionId = optID
                 return
         self.label.color = (1,1,1,0.5)
-
-
 
     def _knob_mouseover(self, event):
         self.bgRight.color = (0.9,0.9,0.9,1.0)
@@ -670,6 +677,7 @@ class UISelectbox(LUIObject, UICallback):
 
     def on_blur(self, event):
         self._close_drop()
+
 
 class UISelectdrop(LUIObject):
 
@@ -724,11 +732,54 @@ class UISelectdrop(LUIObject):
             optLabel = UILabel(parent=optContainer, text=unicode(optVal), shadow=True)
             optLabel.top = 5
             optLabel.left = 8
+
+            if optId == self.selectbox.get_selected_option():
+                optLabel.color = (0.6, 0.9, 0.4, 1.0)
+
             divider = LUISprite(optContainer, "SelectdropDivider", "skin")
             divider.top = 30 - divider.height / 2
             divider.width = self.container.width
 
             currentY += 30
+
+
+class UIButton(LUIObject):
+
+    def __init__(self, parent=None, text=u"Button", width=200, template="ButtonDefault"):
+
+        LUIObject.__init__(self, x=0, y=0, w=width+2, h=0)
+
+        self.margin = (0, 0, 0, -1)
+
+        self.template = template
+        self.bgLeft = LUISprite(self, template + "_Left", "skin")
+        self.bgMid = LUISprite(self, template, "skin")
+        self.bgRight = LUISprite(self, template + "_Right", "skin")
+
+        self.bgMid.width = self.width - self.bgLeft.width - self.bgRight.width
+        self.bgMid.left = self.bgLeft.width
+        self.bgRight.left = self.bgMid.width + self.bgMid.left
+
+        self.label = UILabel(parent=self, text=text, shadow=True)
+        self.label.centered = (True, True)
+        self.label.margin = (-3,0,0,0)
+
+        self.fit_to_children()
+
+    def set_text(self, text):
+        self.label.set_text(text)
+
+    def on_mousedown(self, event):
+        self.bgLeft.set_texture(self.template + "Focus_Left", "skin", resize=False)
+        self.bgMid.set_texture(self.template + "Focus", "skin", resize=False)
+        self.bgRight.set_texture(self.template + "Focus_Right", "skin", resize=False)
+        self.label.margin = (-2,0,0,0)
+
+    def on_mouseup(self, event):
+        self.bgLeft.set_texture(self.template + "_Left", "skin", resize=False)
+        self.bgMid.set_texture(self.template, "skin", resize=False)
+        self.bgRight.set_texture(self.template + "_Right", "skin", resize=False)
+        self.label.margin = (-3,0,0,0)
 
 
 class UICornerLayout(LUIObject):

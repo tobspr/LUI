@@ -83,7 +83,6 @@ INLINE void LUIObject::on_bounds_changed() {
 }
 
 INLINE void LUIObject::on_visibility_changed() {
-  luiObject_cat.info() << "Todo: On on_visibility_changed" << endl;
 }
 
 
