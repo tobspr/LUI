@@ -12,6 +12,7 @@ if __name__ == "__main__":
         sync-video #f
         notify-level-lui info
         show-frame-rate-meter #t
+        win-size 800 610
     """)
 
     import direct.directbase.DirectStart
@@ -44,6 +45,8 @@ if __name__ == "__main__":
 
     skinParent = LUIObject(region.root(),x=300,y=150,w=100,h=100)
     # skinParent.centered = (True, True)
+    skinParent.top = 210
+    skinParent.left = 20
 
     frame = UIFrame(parent=skinParent, width=300, height=370)
     layout = UIVerticalLayout(parent=frame.get_content_node(), width=250, spacing=10)   
