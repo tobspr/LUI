@@ -45,7 +45,8 @@ if __name__ == "__main__":
     skinParent = LUIObject(region.root(),x=300,y=150,w=100,h=100)
     # skinParent.centered = (True, True)
 
-    layout = UIVerticalLayout(parent=skinParent, width=250, spacing=10)
+    frame = UIFrame(parent=skinParent, width=300, height=370)
+    layout = UIVerticalLayout(parent=frame.get_content_node(), width=250, spacing=10)   
     checkbox = UILabeledCheckbox(checked=False, text=u"Sample checkbox")
     checkboxChecked = UILabeledCheckbox(checked=True, text=u"Checked checkbox")
 
@@ -106,16 +107,13 @@ if __name__ == "__main__":
     layout.add_row(UIKeyInstruction(key=u"Enter", instruction=u"Another action"))
     layout.top = 80
 
-
-
-
     skinParent.fit_to_children()
 
-    bgFrame = LUISprite(region.root(), "blank", "skin", 0, 0, 10000, 10000)
+    bgFrame = LUISprite(region.root(), "blurred_background.jpg")
     bgFrame.bind("click", lambda event: bgFrame.request_focus())
     bgFrame.z_offset = -10
-    bgFrame.color = (0.1,0.1,0.1)
-
+    # bgFrame.color = (0.1,0.1,0.1)
+    bgFrame.centered = (True, True)
 
     base.accept("f3", region.toggle_render_wireframe)
     base.accept("f4", region.root().ls)

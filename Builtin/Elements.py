@@ -881,3 +881,11 @@ class UIKeyInstruction(LUIObject):
         self.instructionLabel.left = self.marker.width + 5
         self.fit_to_children()
 
+class UIFrame(UICornerLayout):
+    def __init__(self, parent=None, width=200, height=200):
+        UICornerLayout.__init__(self, parent=parent, image_prefix="Frame_", width=width, height=height)
+        self.content = LUIObject(self)
+        self.content.padding = (35,25,35,25)
+
+    def get_content_node(self):
+        return self.content
