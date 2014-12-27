@@ -66,7 +66,7 @@ class UILabel(LUIObject):
         # self.hide()
         self.text = LUIText(self, text, "label", 14.0, 0, 0)
         self.text.color = (1,1,1,0.9)
-        self.text.z_offset = 5
+        self.text.z_offset = 1
 
         self.have_shadow = shadow
 
@@ -210,7 +210,7 @@ class UISlider(LUIObject, UICallback):
         LUIObject.__init__(self, x=0, y=0, w=width, h=0)
         UICallback.__init__(self)
         self.knob = LUISprite(self, "SliderKnob", "skin")
-        self.knob.z_offset = 5
+        self.knob.z_offset = 2
 
         self.sliderBg = LUIObject(self, 0, 0, width, 0)
         self.bgLeft = LUISprite(self.sliderBg, "SliderBg_Left", "skin")
@@ -236,7 +236,7 @@ class UISlider(LUIObject, UICallback):
             self.fillLeft = LUISprite(self.sliderFill, "SliderBgFill_Left", "skin")
             self.fillMid = LUISprite(self.sliderFill, "SliderBgFill", "skin")
             self.fillMid.left = self.fillLeft.width
-            self.sliderFill.z_offset = 3
+            self.sliderFill.z_offset = 1
             self.sliderFill.top = self.sliderBg.top
             self.sliderFill.fit_to_children()
 
@@ -249,6 +249,8 @@ class UISlider(LUIObject, UICallback):
         self.knob.bind("keydown", self._on_keydown)
         self.knob.bind("blur", self._stop_drag)
         self.knob.bind("keyrepeat", self._on_keydown)
+
+
         self.dragStartPos = None
         self.dragging = False
         self.dragStartVal = 0
@@ -261,6 +263,13 @@ class UISlider(LUIObject, UICallback):
 
         self.fit_to_children()
         self._update_knob()
+
+    def on_click(self, event):
+        # I don't like this behaviour
+        if False:
+            relative_pos = self.get_relative_pos(event.coordinates)
+            if not self.dragging:
+                self._set_current_val(relative_pos.x)
 
     def _update_knob(self):
         self.knob.left = self.currentVal - (self.knob.width / 2) + self.sideMargin
@@ -574,7 +583,7 @@ class UISelectbox(LUIObject, UICallback):
         self.bgMid.left = self.bgLeft.width
         self.bgRight.left = self.bgMid.width + self.bgMid.left
 
-        self.bgRight.z_offset = 5
+        self.bgRight.z_offset = 1
 
         self.labelContainer = LUIObject(self, x=10, y=6, w=width - 20 - self.bgRight.width, h=self.bgMid.height - 6)
         self.labelContainer.clip_bounds = (0,0,0,0)
@@ -584,13 +593,13 @@ class UISelectbox(LUIObject, UICallback):
         self.bgRight.bind("mouseover", self._knob_mouseover)
         self.bgRight.bind("mouseout", self._knob_mouseout)
         self.bgRight.bind("click", self.on_click)
+        self.bgRight.bind("click", self.on_click)
 
         self.fit_to_children()
 
-
         self.dropMenu = UISelectdrop(parent=self, width=width)
         self.dropMenu.top = self.bgMid.height - 7
-        self.dropMenu.z_offset = 10
+        self.dropMenu.topmost = True
 
         self.dropOpen = False
         self.dropMenu.hide()

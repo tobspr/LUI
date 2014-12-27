@@ -132,50 +132,9 @@ INLINE void LUIRoot::add_sprite_to_render_list(int position) {
   if (pos < _min_rendered_vertex) _min_rendered_vertex = pos;
   if (pos+3 > _max_rendered_vertex) _max_rendered_vertex = pos + 3;
 
+
 }
 
-INLINE void LUIRoot::prepare_render() {
-
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "\nPreparing sprite render" << endl;
-  }
-
-  PT(GeomVertexArrayDataHandle) array_data_handle = _vertex_data->modify_array(0)->modify_handle();
-  _sprite_vertex_pointer = array_data_handle->get_write_pointer();
-
-  _min_rendered_vertex = 999999999;
-  _max_rendered_vertex = 0;
-
-  _frame_count += 1;
-
-  // prepare the geom triangle
-  _sprites_rendered = 0;
-  
-  _triangles->clear_vertices();
-  _triangles->make_indexed();
-  _triangles->set_index_type(GeomEnums::NT_uint32);
-
-  _root->render_recursive();
-
-  if (_sprites_rendered > 0) {
-    _triangles->modify_vertices()->unclean_set_num_rows(_sprites_rendered * 2 * 3);  
-
-    memcpy(_triangles->modify_vertices()->modify_handle()->get_write_pointer(), _triangle_index_buffer, _sprites_rendered * sizeof(LUITriangleIndex) * 2);
-
-    nassertv(_min_rendered_vertex < _max_rendered_vertex);
-    _triangles->set_minmax(_min_rendered_vertex, _max_rendered_vertex, NULL, NULL);
-
-  }
-
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "Rendered " << _triangles->get_num_vertices() << " vertices (" << _sprites_rendered << " Sprites)" << endl;
-
-    lui_cat.spam() << "Minmax indices were: " << _min_rendered_vertex << " to " << _max_rendered_vertex << endl;
-    // _geom->write(lui_cat.spam(), 0);
-    // _vertex_data->write(lui_cat.spam(), 0);
-    // _triangles->write(lui_cat.spam(), 0);
-  }
-}
 
 INLINE Geom* LUIRoot::get_geom() {
   return _geom;
@@ -192,4 +151,8 @@ INLINE Texture* LUIRoot::get_texture(int index) {
 
 INLINE int LUIRoot::get_frame_index() {
   return _frame_count;
+}
+
+INLINE int LUIRoot::allocate_render_index() {
+  return _render_index++;
 }

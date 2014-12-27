@@ -65,26 +65,29 @@ if __name__ == "__main__":
 
     def set_bar_value(obj, val):
         bar.set_value(val)
+        
     slider2.add_change_callback(set_bar_value)
     bar.set_value(slider2.get_value())
 
     field = UIInputField(width=300)
 
     layout.add_column(checkbox)
+    layout.add_column(box)
     layout.add_column(radiobox)
     layout.add_column(radiobox2)
     layout.add_column(slider)
     layout.add_column(field)
     layout.add_column(slider2)
     layout.add_column(bar)
-    layout.add_column(box)
 
     skinParent.fit_to_children()
 
     bgFrame = LUISprite(region.root(), "blank", "skin", 0, 0, 10000, 10000)
     bgFrame.bind("click", lambda event: bgFrame.request_focus())
-    bgFrame.z_offset = -1
+    bgFrame.z_offset = -10
     bgFrame.color = (0.1,0.1,0.1)
+
+    
     base.accept("f3", region.toggle_render_wireframe)
     base.accept("f4", region.root().ls)
     base.run()

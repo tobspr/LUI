@@ -133,9 +133,7 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
 void LUIInputHandler::process(LUIRoot *root) {
 
   LUIBaseElement *current_hover = NULL;
-  float current_hover_z_index = -1000000.0;
-
-
+  int current_render_index = -1;
 
   if (_current_state.has_mouse_pos) {
     
@@ -145,12 +143,17 @@ void LUIInputHandler::process(LUIRoot *root) {
       LUIEventObjectSet::iterator end = root->get_event_objects_end();
       for (;iter != end; ++iter) {
         LUIBaseElement *elem = *iter;
-        if (elem->get_last_frame_visible() >= root->get_frame_index() && elem->get_abs_z_offset() > current_hover_z_index &&
+        if (
+            // Visible
+            elem->get_last_frame_visible() >= root->get_frame_index() && 
+            // In front of the last element
+            elem->get_last_render_index() > current_render_index &&
+            // Under the mouse cursor
             elem->intersects(
               _current_state.mouse_pos.get_x(), 
               _current_state.mouse_pos.get_y())) {
           current_hover = elem;
-          current_hover_z_index = elem->get_abs_z_offset();
+          current_render_index = elem->get_last_render_index();     
       }
     }
   }

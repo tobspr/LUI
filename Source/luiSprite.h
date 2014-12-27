@@ -87,9 +87,8 @@ protected:
   INLINE void on_visibility_changed();
   INLINE void on_detached();
   void set_root(LUIRoot* root);
-  INLINE void on_z_index_changed();
   
-  virtual void render_recursive();
+  virtual void render_recursive(bool is_topmost_pass, bool render_anyway);
 
   // Interface to LUIColorable
   void on_color_changed();

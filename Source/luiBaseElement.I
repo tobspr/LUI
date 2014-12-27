@@ -360,17 +360,13 @@ INLINE void LUIBaseElement::show() {
 }
 
 INLINE void LUIBaseElement::set_z_offset(int z_offset) {
-  _local_z_index = (float)z_offset;
-  recompute_z_index();
+  _z_offset = (float)z_offset;
 }
 
 INLINE float LUIBaseElement::get_z_offset() {
-  return _local_z_index;
+  return _z_offset;
 }
 
-INLINE float LUIBaseElement::get_abs_z_offset() {
-  return _z_index;
-}
 
 INLINE bool LUIBaseElement::has_focus() {
   return _focused;
@@ -465,16 +461,6 @@ INLINE float LUIBaseElement::get_parent_height() {
   return _parent->get_height(); 
 }
 
-INLINE void LUIBaseElement::recompute_z_index() {
-  if (_parent != NULL) {
-    _z_index = _parent->get_abs_z_offset() + _local_z_index;
-    nassertv(_z_index > -10000.0 && _z_index < 10000.0);
-  } else {
-    _z_index = _local_z_index;
-  }
-  on_z_index_changed();
-}
-
 INLINE void LUIBaseElement::on_color_changed() {
   if (_parent != NULL) {
     compose_color(_parent->get_composed_color());
@@ -486,3 +472,16 @@ INLINE void LUIBaseElement::on_color_changed() {
 INLINE int LUIBaseElement::get_last_frame_visible() {
   return _last_frame_visible;
 }
+
+INLINE bool LUIBaseElement::is_topmost() {
+  return _topmost;
+}
+
+INLINE void LUIBaseElement::set_topmost(bool topmost) {
+  _topmost = topmost;
+}
+
+INLINE int LUIBaseElement::get_last_render_index() {
+  return _last_render_index;
+}
+

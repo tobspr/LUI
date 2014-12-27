@@ -23,8 +23,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _size(0),
   _parent(NULL),
   _root(NULL),
-  _local_z_index(0.5),
-  _z_index(0.0),
+  _z_offset(0.0),
   _events_registered(false),
   _in_update_section(false),
   _snap_position(true),
@@ -32,6 +31,8 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _clip_bounds(NULL),
   _abs_clip_bounds(NULL),
   _last_frame_visible(-1),
+  _last_render_index(-1),
+  _topmost(false),
   LUIColorable()
 {
 
@@ -284,4 +285,12 @@ void LUIBaseElement::reparent_to(LUIBaseElement *parent) {
 
 void LUIBaseElement::request_focus() {
   _root->request_focus(this);
+}
+
+void LUIBaseElement::fetch_render_index() {
+  if (_root == NULL) {
+    _last_render_index = -1;
+  } else {
+    _last_render_index = _root->allocate_render_index();
+  } 
 }

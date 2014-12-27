@@ -50,7 +50,6 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
   set_uv_range(0, 0, 1, 1);
   set_size(1, 1);
   set_pos(x, y); 
-  set_z_offset(0);
   end_update_section();
 
   parent->add_child(this);
@@ -71,7 +70,7 @@ void LUISprite::ls(int indent) {
       << _pos_x << ", " << _pos_y 
       << "; size = " << _size.get_x() << " x " << _size.get_y() 
       << "; tex = " << (_tex != NULL ? _tex->get_name() : "none")
-      << "; z = " << _local_z_index << ")";
+      << "; z = " << _z_offset << ")";
   cout << endl;
 } 
 
@@ -221,9 +220,9 @@ void LUISprite::recompute_vertices() {
   _data[3].u = u1;
   _data[3].v = 1-v2;
 
-  // Set texture index
   for (int i = 0; i < 4; i++) {
     _data[i].texindex[0] = _texture_index;
+    _data[i].y = 0;
   }
 
 }
@@ -234,9 +233,15 @@ void LUISprite::fetch_texture_index() {
   }
 }
 
-void LUISprite::render_recursive() {
+void LUISprite::render_recursive(bool is_topmost_pass, bool render_anyway) {
 
   if (!_visible) return;
+
+  bool do_render = render_anyway || is_topmost_pass == _topmost;
+  if (!do_render) return;
+  // bool do_render = false;
+
+  _last_render_index = -1;
 
   // We should have a root
   nassertv(_root != NULL);
@@ -244,6 +249,7 @@ void LUISprite::render_recursive() {
   // We also should have a index
   nassertv(_sprite_index >= 0);
 
+  fetch_render_index();
   recompute_position();
   recompute_vertices();
   update_vertex_pool();

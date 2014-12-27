@@ -128,7 +128,6 @@ INLINE void LUISprite::on_bounds_changed() {
 }
 
 INLINE void LUISprite::on_visibility_changed() {
-  // luiSprite_cat.info() << "Todo: on_visibility_changed" << endl;
 }
 
 INLINE void LUISprite::on_detached() {
@@ -138,12 +137,6 @@ INLINE void LUISprite::on_detached() {
   }
   _root = NULL;
   _parent = NULL;
-}
-
-INLINE void LUISprite::on_z_index_changed() {
-  for (int i = 0; i < 4; i++) {
-    _data[i].y = -_z_index;
-  }
 }
 
 INLINE void LUISprite::on_color_changed() {

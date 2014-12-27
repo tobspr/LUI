@@ -46,12 +46,10 @@ PUBLISHED:
   MAKE_PROPERTY(text, get_text, set_text);
   MAKE_PROPERTY(font_size, get_font_size, set_font_size);
 
-
 protected:
 
   void update_text();
 
-  virtual void render_recursive();
   // Interface to LUIColorable
   INLINE virtual void on_color_changed();
 
@@ -59,7 +57,6 @@ protected:
   wstring _text;
   float _font_size;
   pvector<PT(DynamicTextGlyph)> _glyphs;
-
 
 
 public:

@@ -46,7 +46,6 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
 
   child->set_parent(this);
   child->recompute_position();
-  child->recompute_z_index();
   _children.push_back(child);
 
   // This has to be last. Otherwise we're attaching to the VertexPool with outdated positions
@@ -87,11 +86,6 @@ INLINE void LUIObject::on_visibility_changed() {
   luiObject_cat.info() << "Todo: On on_visibility_changed" << endl;
 }
 
-INLINE void LUIObject::on_z_index_changed() {
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
-    (*it)->recompute_z_index();
-  }
-}
 
 INLINE void LUIObject::on_detached() {
   if (luiObject_cat.is_spam()) {
@@ -126,4 +120,12 @@ INLINE void LUIObject::fit_to_children() {
   }
 
 
+}
+
+INLINE void LUIObject::set_sort_children(bool do_sort) {
+  _sort_children = do_sort;
+}
+
+INLINE bool LUIObject::get_sort_children() {
+  return _sort_children;
 }

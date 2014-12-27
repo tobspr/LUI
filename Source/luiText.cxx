@@ -8,10 +8,10 @@ LUIText::LUIText(PyObject *self, LUIObject *parent, const wstring &text, const s
   LUIObject(self, parent, x, y),
   _text(text),
   _font_size(font_size) {
+  _sort_children = false;
   _snap_position = false;
   set_font(font_name);
 }
-
 
 LUIText::~LUIText() {
 
@@ -137,7 +137,7 @@ void LUIText::update_text() {
 }
 
 void LUIText::ls(int indent) {
-  cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; text = '" << _text << "'; z = " << _local_z_index << endl;
+  cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; text = '" << _text << "'; z = " << _z_offset << endl;
 
   for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
    (*it)->ls(indent + 1);
@@ -199,14 +199,4 @@ float LUIText::get_char_pos(int char_index) {
 
   return cursor;
 
-}
-
-void LUIText::render_recursive() {
-  if (!_visible) return;
-
-  _last_frame_visible = _root->get_frame_index();
-  recompute_position();
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
-    (*it)->render_recursive();
-  }
 }

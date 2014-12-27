@@ -59,17 +59,17 @@ public:
   INLINE void unregister_sprite(int position);
 
   INLINE void* get_sprite_vertex_pointer(int position);
-
-  INLINE void prepare_render();
-
   INLINE void add_sprite_to_render_list(int position);
+  
+  INLINE int allocate_render_index();
 
   INLINE Geom* get_geom();
+
+  INLINE void prepare_render();
   INLINE int get_frame_index();
 
   INLINE int get_num_textures();
   INLINE Texture *get_texture(int index);
-
 
   PT(Shader) create_object_shader();
 
@@ -85,6 +85,7 @@ private:
 
   int _sprites_rendered;
   int _frame_count;
+  int _render_index;
 
   struct LUITriangleIndex {
     uint vertices[3];
@@ -97,6 +98,8 @@ private:
 
   LUITriangleIndex* _triangle_index_buffer;
   int _index_buffer_size;
+
+  vector<int> _topmost_sprites;
   
   // We store a private root node.
   // With this, we don't have to inherit from LUIObject, but

@@ -28,7 +28,7 @@ LUIRegion::
   _lens = new OrthographicLens();
   _lens->set_film_size(_width, -_height);
   _lens->set_film_offset(_width * 0.5, _height * 0.5);
-  _lens->set_near_far(-1000, 10.0);
+  _lens->set_near_far(-10000.0, 10000.0);
 
   _lui_root = new LUIRoot(_width, _height);
   _empty_tex = new Texture();

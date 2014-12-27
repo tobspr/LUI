@@ -43,6 +43,7 @@ LUIObject::~LUIObject() {
 
 void LUIObject::init() {
   _instance_count ++;
+  _sort_children = true;
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Constructing new LUIObject (active: " << _instance_count << ")" << endl;
   }
@@ -72,32 +73,55 @@ void LUIObject::set_root(LUIRoot* root) {
 }
 
 void LUIObject::ls(int indent) {
-  cout << string(indent, ' ')  << "[LUIObject] pos = " << _pos_x << ", " << _pos_y << "; size = " << _size.get_x() << " x " << _size.get_y() << "; z-index = " << _z_index << " (+ "<< _local_z_index << ")" << endl;
+  cout << string(indent, ' ')  << "[LUIObject] pos = " << _pos_x << ", " << _pos_y << "; size = " << _size.get_x() << " x " << _size.get_y() << "; z = " << _z_offset << endl;
 
   for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
    (*it)->ls(indent + 1);
   }
-
 } 
 
 
 
-INLINE bool compare_z_index(LUIBaseElement* a, LUIBaseElement* b) {
+INLINE bool lui_compare_z_offset(LUIBaseElement* a, LUIBaseElement* b) {
   return a->get_z_offset() < b->get_z_offset();
 }
 
-void LUIObject::render_recursive() {
+void LUIObject::render_recursive(bool is_topmost_pass, bool render_anyway) {
 
   if (!_visible) return;
 
+  bool do_render = false;
+  bool do_render_children = false;
+  bool do_render_anyway = false;
 
-  _last_frame_visible = _root->get_frame_index();
+  if (!is_topmost_pass) {
+    do_render = is_topmost_pass == _topmost;
+    do_render_children = do_render;
+    do_render_anyway = false;
+  } else {
+    do_render = is_topmost_pass == _topmost || render_anyway;
+    do_render_children = true;
+    do_render_anyway = do_render_anyway || do_render;
+  }
+
   
-  recompute_position();
-  std::sort(_children.begin(), _children.end(), compare_z_index);
+  nassertv(_root != NULL);
+
+  if (do_render) {
+    _last_frame_visible = _root->get_frame_index();
+    recompute_position();
+    fetch_render_index();
+
+    // If z-sorting is enabled, sort by z-offset
+    if (_sort_children) {
+      std::sort(_children.begin(), _children.end(), lui_compare_z_offset);
+    }
+  }
 
   // Render all children, sorted by their relative z-index
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
-    (*it)->render_recursive();
+  if (do_render_children) {
+    for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+      (*it)->render_recursive(is_topmost_pass, do_render_anyway);
+    }
   }
 }

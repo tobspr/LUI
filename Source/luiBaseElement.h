@@ -124,7 +124,6 @@ PUBLISHED:
   // Z-Index
   INLINE void set_z_offset(int z_offset);
   INLINE float get_z_offset();
-  INLINE float get_abs_z_offset();
 
   // Focus
   INLINE bool has_focus();
@@ -142,6 +141,9 @@ PUBLISHED:
   INLINE void set_clip_bounds(float top, float right, float bottom, float left);
   INLINE LUIBounds *get_clip_bounds();
   INLINE LUIRect *get_abs_clip_bounds();
+
+  INLINE bool is_topmost();
+  INLINE void set_topmost(bool topmost);
 
   // Properties for python
   MAKE_PROPERTY(left_top, get_left_top, set_left_top);
@@ -185,7 +187,7 @@ PUBLISHED:
   MAKE_PROPERTY(parent, get_parent, reparent_to);
 
   MAKE_PROPERTY(clip_bounds, get_clip_bounds, set_clip_bounds);
-
+  MAKE_PROPERTY(topmost, is_topmost, set_topmost);
 
 
 public:
@@ -199,11 +201,14 @@ public:
 
   INLINE void set_focus(bool focus);
   INLINE int get_last_frame_visible();
+  INLINE int get_last_render_index();
 
 protected:
 
   INLINE float get_parent_width();
   INLINE float get_parent_height();
+
+  void fetch_render_index();
 
 
   enum LUIPlacementMode {
@@ -223,15 +228,13 @@ protected:
   virtual void on_detached() = 0;
   virtual void on_bounds_changed() = 0;
   virtual void on_visibility_changed() = 0;
-  virtual void on_z_index_changed() = 0;
 
   // Interface to LUIColorable
   INLINE virtual void on_color_changed();
 
 
-  virtual void render_recursive() = 0;
+  virtual void render_recursive(bool is_topmost_pass, bool render_anyway) = 0;
 
-  INLINE void recompute_z_index();
   void register_events();
   void unregister_events();
 
@@ -243,10 +246,7 @@ protected:
   bool _visible;
 
   // Z-Index, relative to the parent
-  float _local_z_index;
-
-  // Z-Index, absolute
-  float _z_index;
+  float _z_offset;
 
   // Wheter we already registered the element at the LUIRoot for recieving events
   bool _events_registered;
@@ -272,6 +272,8 @@ protected:
   LUIRoot *_root;
 
   int _last_frame_visible;
+  int _last_render_index;
+  bool _topmost;
 
 
 public:
