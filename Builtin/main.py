@@ -13,6 +13,7 @@ if __name__ == "__main__":
         notify-level-lui info
         show-frame-rate-meter #t
         win-size 800 610
+        win-fixed-size #t
     """)
 
     import direct.directbase.DirectStart
@@ -36,7 +37,7 @@ if __name__ == "__main__":
     LUIAtlasPool.get_global_ptr().load_atlas(
         "skin", "res/atlas.txt", "res/atlas.png")
 
-    base.win.set_clear_color(Vec4(1, 0, 0, 1))
+    base.win.set_clear_color(Vec4(0, 0, 0, 1))
 
     region = LUIRegion.make("LUI", base.win)
     handler = LUIInputHandler()

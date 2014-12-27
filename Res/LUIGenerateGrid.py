@@ -10,9 +10,9 @@ from panda3d.core import *
 # borderSize = int(raw_input("Border size in pixel: "))
 
 source = "window_bg.png"
-destPath = "window_bg/"
+destPath = "../Builtin/res/"
 destName = "Frame_#.png"
-borderSize = 5
+borderSize = 9
 
 def extractSubImage(x, y, w, h, name):
     print "Extracting sub image to",name
