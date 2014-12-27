@@ -59,19 +59,19 @@ class UICheckbox(LUIObject, UICallback):
 
 class UILabel(LUIObject):
 
-    def __init__(self, parent=None, text=u"Label", shadow=True):
+    def __init__(self, parent=None, text=u"Label", shadow=True, font_size=14, font="label"):
 
         LUIObject.__init__(self)
 
         # self.hide()
-        self.text = LUIText(self, text, "label", 14.0, 0, 0)
+        self.text = LUIText(self, text, font, font_size, 0, 0)
         self.text.color = (1,1,1,0.9)
         self.text.z_offset = 1
 
         self.have_shadow = shadow
 
         if self.have_shadow:
-            self.shadowText = LUIText(self, unicode(text), "label", 14.0, 0, 0)
+            self.shadowText = LUIText(self, unicode(text), font, font_size, 0, 0)
             self.shadowText.top = 1
             self.shadowText.color = (0,0,0,0.7)
 
@@ -764,6 +764,9 @@ class UIButton(LUIObject):
         self.label.centered = (True, True)
         self.label.margin = (-3,0,0,0)
 
+        if parent is not None:
+            self.parent = parent
+
         self.fit_to_children()
 
     def set_text(self, text):
@@ -833,3 +836,48 @@ class UICornerLayout(LUIObject):
     def set_prefix(self, prefix):
         self.prefix = prefix
         self.render_layout()
+
+class UIKeyMarker(LUIObject):
+    
+    def __init__(self, parent=None, key=u"A"):
+        LUIObject.__init__(self)
+        self.bgLeft = LUISprite(self, "Keymarker_Left", "skin")
+        self.bgMid = LUISprite(self, "Keymarker", "skin")
+        self.bgRight = LUISprite(self, "Keymarker_Right", "skin")
+
+        self.label = UILabel(parent=self, text=key, shadow=True)
+        self.label.centered = (True, True)
+        self.label.margin = (-3, 0, 0, -1)
+        self.margin = (-1, 0, 0, -1)
+
+        self.set_key(key)
+
+        if parent is not None:
+            self.parent = parent
+
+        self.fit_to_children()
+
+    def set_key(self, key):
+        self.label.set_text(key)
+        self.width = self.label.width + self.bgLeft.width + self.bgRight.width + 7
+        self.bgMid.width = self.width - self.bgLeft.width - self.bgRight.width
+        self.bgMid.left = self.bgLeft.width
+        self.bgRight.left = self.bgMid.width + self.bgMid.left
+
+        self.fit_to_children()
+
+class UIKeyInstruction(LUIObject):
+
+    def __init__(self, parent=None, key=u"A", instruction=u"Instruction"):
+        LUIObject.__init__(self)
+        self.marker = UIKeyMarker(parent=self, key=key)
+        self.instructionLabel = UILabel(parent=self, text=instruction, shadow=True)
+        self.instructionLabel.centered = (False, True)
+        self.instructionLabel.margin = (-4, 0, 0, 0)
+        self.set_key(key)
+
+    def set_key(self, key):
+        self.marker.set_key(key)
+        self.instructionLabel.left = self.marker.width + 5
+        self.fit_to_children()
+

@@ -22,13 +22,16 @@ if __name__ == "__main__":
 
     labelFont = loader.loadFont("../Res/font/SourceSansPro-Semibold.ttf")
     labelFont.setPixelsPerUnit(32)
-    # labelFont.setMinfilter(SamplerState.FTNearest)
-    # labelFont.setMagfilter(SamplerState.FTNearest)
 
     LUIFontPool.get_global_ptr().register_font(
         "label", labelFont)
-    # LUIAtlasPool.get_global_ptr().load_atlas(
-    #     "default", "../Res/atlas.txt", "../Res/atlas.png")
+
+    headerFont = loader.loadFont("../Res/font/SourceSansPro-Light.ttf")
+    headerFont.setPixelsPerUnit(80)
+
+    LUIFontPool.get_global_ptr().register_font(
+        "header", headerFont)
+
     LUIAtlasPool.get_global_ptr().load_atlas(
         "skin", "res/atlas.txt", "res/atlas.png")
 
@@ -39,8 +42,8 @@ if __name__ == "__main__":
     base.mouseWatcher.attach_new_node(handler)
     region.set_input_handler(handler)
 
-    skinParent = LUIObject(region.root(),x=0,y=0,w=100,h=100)
-    skinParent.centered = (True, True)
+    skinParent = LUIObject(region.root(),x=300,y=150,w=100,h=100)
+    # skinParent.centered = (True, True)
 
     layout = UIVerticalLayout(parent=skinParent, width=250, spacing=10)
     checkbox = UILabeledCheckbox(checked=False, text=u"Sample checkbox")
@@ -74,6 +77,7 @@ if __name__ == "__main__":
         bar.set_value(val)
         
     slider2.add_change_callback(set_bar_value)
+
     bar.set_value(slider2.get_value())
 
     field = UIInputField(width=250)
@@ -87,11 +91,22 @@ if __name__ == "__main__":
     layout.add_row(field)
     layout.add_row(slider2)
     layout.add_row(bar)
-
-    
-    
-
     layout.add_row(btnOk, btnCancel)
+
+    instructions = LUIObject(region.root(), x=25, y=25) 
+
+    # Title
+    title = UILabel(parent=instructions, text=u"LUI Basic Example", font_size=40, font="header")
+
+    # Instructions
+    layout = UIVerticalLayout(parent=instructions, spacing=6)
+    layout.add_row(UILabel(text=u"Instructions:"))
+    layout.add_row()
+    layout.add_row(UIKeyInstruction(key=u"A", instruction=u"Some fancy action"))
+    layout.add_row(UIKeyInstruction(key=u"Enter", instruction=u"Another action"))
+    layout.top = 80
+
+
 
 
     skinParent.fit_to_children()
