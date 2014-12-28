@@ -1,2 +1,1 @@
 - Add UIScrollableFrame
-- UIPopup should not be outside of the view

@@ -852,7 +852,7 @@ class UIFrame(UICornerLayout):
 
 class UIColorpicker(LUIObject):
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, color=None):
         LUIObject.__init__(self, x=0, y=0, w=27, h=27)
 
         self.previewBg = LUISprite(self, "ColorpickerPreviewBg", "skin")
@@ -870,7 +870,11 @@ class UIColorpicker(LUIObject):
         self.popup = UIColorpickerPopup(self)
         self.popup.hide()
 
-        self.colorValue = (0.5, 0.5, 0.5)
+        if color is not None:
+            self.colorValue = color
+        else:
+            # My favourite color
+            self.colorValue = (0.2, 0.6, 1.0)
         self.set_color_value(self.colorValue)
 
         self.popup.add_change_callback(self._on_popup_color_changed)
@@ -879,7 +883,10 @@ class UIColorpicker(LUIObject):
             self.parent = parent
 
     def _open_dialog(self, event):  
-        self.request_focus()
+        if self.has_focus():
+            self.blur()
+        else:
+            self.request_focus()
 
     def on_focus(self, event):
         self.popup._load_rgb(self.colorValue)
@@ -915,13 +922,29 @@ class UIPopup(UIFrame):
 
     def open_at(self, targetElement, distance):
         self.show()
-        self.top = 0
-        self.left = 0
-        relative = self.get_relative_pos(targetElement.get_abs_pos() + targetElement.get_size() / 2)
+
+        targetPos = targetElement.get_abs_pos()+ targetElement.get_size() / 2
+
+        showAbove = targetPos.y > self.height - self.borderSize
+        showLeft = targetPos.x > self.width - self.borderSize
+
+        relative = self.get_relative_pos(targetPos)
         self.pos += relative
-        self.pos -= self.size - self.borderSize
-        self.top -= distance
-        self.left += 25
+
+        if showLeft:
+            self.left -= self.width - self.borderSize
+            self.left += 25
+        else:
+            self.left -= self.borderSize
+            self.left -= 25
+
+        if showAbove:
+            self.top -= distance
+            self.top -= self.height - self.borderSize
+        else:
+            self.top += distance
+            self.top -= self.borderSize
+
 
     def _on_content_click(self, event):
         pass
@@ -946,6 +969,9 @@ class UIColorpickerPopup(UIPopup, UICallback):
         self.fieldBG.bind("mouseup", self._stop_field_dragging)
 
         self.fieldHandle = LUISprite(self.field, "ColorpickerFieldHandle", "skin")
+        self.fieldHandle.bind("mousedown", self._start_field_dragging)
+        self.fieldHandle.bind("mouseup", self._stop_field_dragging)
+
         self.fieldDragging = False
 
         self.hueSlider = LUIObject(self.content, x=140, y=0, w=40, h=128)

@@ -70,6 +70,10 @@ if __name__ == "__main__":
     btnCancel.right = 0
 
     picker = UIColorpicker()
+    pickLabel = UILabel(text=u"Pick your favourite color", shadow=True)
+    pickLabel.center_vertical = True
+    picker.right = 0
+
 
     box = UISelectbox(width=250, options = [
             ("opt1", "Option 1"),
@@ -98,7 +102,7 @@ if __name__ == "__main__":
     layout.add_row(slider)
     layout.add_row(field)
     layout.add_row(slider2)
-    layout.add_row(picker)
+    layout.add_row(pickLabel, picker)
     layout.add_row(bar)
     layout.add_row(btnOk, btnCancel)
     layout.margin_top = 10
