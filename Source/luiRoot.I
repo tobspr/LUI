@@ -54,7 +54,6 @@ INLINE void LUIRoot::unregister_event_object(LUIBaseElement *event_object) {
 }
 
 INLINE void LUIRoot::request_focus(LUIBaseElement *elem) {
-  nassertv(elem != NULL);
   _requested_focus = elem;
 }
 

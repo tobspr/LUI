@@ -13,7 +13,6 @@ if __name__ == "__main__":
         notify-level-lui info
         show-frame-rate-meter #t
         win-size 800 610
-        win-fixed-size #t
     """)
 
     import direct.directbase.DirectStart
@@ -44,15 +43,17 @@ if __name__ == "__main__":
     base.mouseWatcher.attach_new_node(handler)
     region.set_input_handler(handler)
 
-    skinParent = LUIObject(region.root(),x=300,y=150,w=100,h=100)
+    skinParent = LUIObject(region.root(),x=300,y=150,w=250,h=100)
     # skinParent.centered = (True, True)
-    skinParent.top = 210
-    skinParent.left = 20
+    skinParent.top = 100
+    skinParent.left = 300
 
-    frame = UIFrame(parent=skinParent, width=300, height=370)
+    frame = UIFrame(parent=skinParent, width=250, height=360, padding=30)
     layout = UIVerticalLayout(parent=frame.get_content_node(), width=250, spacing=10)   
     checkbox = UILabeledCheckbox(checked=False, text=u"Sample checkbox")
     checkboxChecked = UILabeledCheckbox(checked=True, text=u"Checked checkbox")
+
+    skinParent.fit_to_children()
 
     group = UIRadioboxGroup()
     radiobox = UILabeledRadiobox(group=group, value=5, text=u"Radiobox")
@@ -67,6 +68,8 @@ if __name__ == "__main__":
     btnOk = UIButton(width=120, text=u"SUBMIT", template="ButtonMagic")
     btnCancel = UIButton(width=120, text=u"CANCEL")
     btnCancel.right = 0
+
+    picker = UIColorpicker()
 
     box = UISelectbox(width=250, options = [
             ("opt1", "Option 1"),
@@ -95,8 +98,10 @@ if __name__ == "__main__":
     layout.add_row(slider)
     layout.add_row(field)
     layout.add_row(slider2)
+    layout.add_row(picker)
     layout.add_row(bar)
     layout.add_row(btnOk, btnCancel)
+    layout.margin_top = 10
 
     instructions = LUIObject(region.root(), x=25, y=25) 
 

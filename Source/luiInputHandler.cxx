@@ -211,7 +211,15 @@ void LUIInputHandler::process(LUIRoot *root) {
   // Manage focus requests
   LUIBaseElement *requested_focus = root->get_requested_focus();
 
-  if (requested_focus != NULL) {
+  if (requested_focus == NULL) {
+
+    if (_focused_element != NULL) {
+      _focused_element->set_focus(false);
+      _focused_element->trigger_event("blur", wstring(), _current_state.mouse_pos);
+      _focused_element = NULL;
+    }
+
+  } else {
 
     if (requested_focus != _focused_element) {
       if (lui_cat.is_spam()) {
@@ -230,6 +238,8 @@ void LUIInputHandler::process(LUIRoot *root) {
       _focused_element = requested_focus;
     }
   }
+
+
 
   // Check key events
   if (_focused_element != NULL) {

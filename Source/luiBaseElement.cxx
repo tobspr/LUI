@@ -99,6 +99,9 @@ void LUIBaseElement::recompute_position() {
 
   LVector2 ppos(0);  
 
+    float add_x = 0.0;
+    float add_y = 0.0;
+
   // When there is no parent, there is no sense in computing an accurate position
   if (_parent == NULL) {
     _rel_pos_x = _offset_x;
@@ -125,35 +128,40 @@ void LUIBaseElement::recompute_position() {
         }
     }
 
+
     // Compute top
     // Stick top
     if (_placement_y == M_default) {
-      _rel_pos_y = _offset_y + _margin->get_top() + ppadding->get_top();
+      _rel_pos_y = _offset_y;
+      add_y = _margin->get_top() + ppadding->get_top();
 
     // Stick bottom
     } else if (_placement_x == M_inverse) {
-      _rel_pos_y = psize.get_y() - _offset_y - _size.get_y() - _margin->get_bottom() - ppadding->get_bottom();
+      _rel_pos_y = psize.get_y() - _offset_y - _size.get_y();
+      add_y = -_margin->get_bottom() - ppadding->get_bottom();
     
     // Stick center
     } else {
-      _rel_pos_y = (psize.get_y() - _size.get_y()) / 2.0 + 
-                   (_margin->get_top() - _margin->get_bottom()) + 
-                   (ppadding->get_top() - ppadding->get_bottom());
+      _rel_pos_y = (psize.get_y() - _size.get_y()) / 2.0;
+      add_y = (_margin->get_top() - _margin->get_bottom()) + 
+              (ppadding->get_top() - ppadding->get_bottom());
     }
 
     // Compute left
     // Stick left
     if (_placement_x == M_default) {
-      _rel_pos_x = _offset_x + _margin->get_left() + ppadding->get_left();
+      _rel_pos_x = _offset_x;
+      add_x = _margin->get_left() + ppadding->get_left();
 
     // Stick right
     } else if (_placement_x == M_inverse) {
-      _rel_pos_x = psize.get_x() - _offset_x - _size.get_x() - _margin->get_right() - ppadding->get_right();
-    
+      _rel_pos_x = psize.get_x() - _offset_x - _size.get_x();
+      add_x = - _margin->get_right() - ppadding->get_right();
+
     // Center Element
     } else {
-      _rel_pos_x = (psize.get_x() - _size.get_x()) / 2.0 + 
-                   (_margin->get_left() - _margin->get_right()) + 
+      _rel_pos_x = (psize.get_x() - _size.get_x()) / 2.0;
+       add_x = (_margin->get_left() - _margin->get_right()) + 
                    (ppadding->get_left() - ppadding->get_right());
     }
   }
@@ -164,8 +172,8 @@ void LUIBaseElement::recompute_position() {
   }
 
 
-  _pos_x = _rel_pos_x + ppos.get_x();
-  _pos_y = _rel_pos_y + ppos.get_y();
+  _pos_x = _rel_pos_x + ppos.get_x() + add_x;
+  _pos_y = _rel_pos_y + ppos.get_y() + add_y;
 
   // Compute clip rect
 
@@ -182,7 +190,9 @@ void LUIBaseElement::recompute_position() {
     by2 += -_clip_bounds->get_bottom();
   }
 
-  if (_parent != NULL) {
+  bool ignoreParentBounds = _topmost && !_parent->is_topmost();
+
+  if (_parent != NULL && !ignoreParentBounds) {
     LUIRect *parent_bounds = _parent->get_abs_clip_bounds();
 
     // If we have no specific bounds, just take the parent bounds
@@ -285,6 +295,11 @@ void LUIBaseElement::reparent_to(LUIBaseElement *parent) {
 
 void LUIBaseElement::request_focus() {
   _root->request_focus(this);
+}
+
+
+void LUIBaseElement::blur() {
+  _root->request_focus(NULL);
 }
 
 void LUIBaseElement::fetch_render_index() {

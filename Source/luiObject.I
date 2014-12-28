@@ -107,8 +107,9 @@ INLINE void LUIObject::fit_to_children() {
   float maxY = 0;
 
   for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
-    maxX = max(maxX, (*it)->get_left() + (*it)->get_width());
-    maxY = max(maxY, (*it)->get_top()+ (*it)->get_height());
+    LPoint2 pos = get_relative_pos((*it)->get_abs_pos());
+    maxX = max(maxX, pos.get_x() + (*it)->get_width());
+    maxY = max(maxY, pos.get_y() + (*it)->get_height());
   }
 
   set_width(maxX);

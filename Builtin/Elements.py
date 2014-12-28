@@ -1,8 +1,11 @@
 from panda3d.lui import *
+from panda3d.core import Point2
 
 from functools import partial
-from Layouts import UIVerticalLayout
+from Layouts import *
 
+import math
+import colorsys
 
 class UICallback:
 
@@ -453,7 +456,7 @@ class UIInputField(LUIObject, UICallback):
         self.cursor = LUISprite(
             self.textScroller, "blank", "skin", x=0, y=0, w=2, h=15.0)
         self.cursor.color = (0.5, 0.5, 0.5)
-        self.cursor.margin = (3, 0, 0, 0)
+        self.cursor.margin_top = 3
         self.cursor.z_offset = 20
         self.cursor_index = 0
         self.cursor.hide()
@@ -579,7 +582,7 @@ class UISelectbox(LUIObject, UICallback):
         UICallback.__init__(self)
 
         # The selectbox has a small border, to correct this we move it
-        self.margin = (0, 0, 0, -2)
+        self.margin_left = -2
 
         self.bgLeft = LUISprite(self, "Selectbox_Left", "skin")
         self.bgMid = LUISprite(self, "Selectbox", "skin")
@@ -685,7 +688,7 @@ class UISelectdrop(LUIObject):
         LUIObject.__init__(self, x=0, y=0, w=width, h=1)
 
         self.layout = UICornerLayout(self, "Selectdrop_", width + 10, 100)
-        self.layout.margin = (0, 0, 0, -3)
+        self.layout.margin_left = -3
 
         self.opener = LUISprite(self, "SelectboxOpen_Right", "skin")
         self.opener.right = -4
@@ -714,7 +717,7 @@ class UISelectdrop(LUIObject):
         offsetTop = 6
         self.layout.height = visible * 30 + offsetTop + 11
         self.container.height = visible * 30 + offsetTop + 1
-        self.layout.render_layout()
+        self.layout.update_layout()
         self.container.remove_all_children()
         
         currentY = offsetTop
@@ -749,7 +752,7 @@ class UIButton(LUIObject):
 
         LUIObject.__init__(self, x=0, y=0, w=width+2, h=0)
 
-        self.margin = (0, 0, 0, -1)
+        self.margin_left = -1
 
         self.template = template
         self.bgLeft = LUISprite(self, template + "_Left", "skin")
@@ -762,7 +765,8 @@ class UIButton(LUIObject):
 
         self.label = UILabel(parent=self, text=text, shadow=True)
         self.label.centered = (True, True)
-        self.label.margin = (-3,0,0,0)
+        self.label.margin_top = -3
+        self.label.margin_left = -1
 
         if parent is not None:
             self.parent = parent
@@ -776,66 +780,15 @@ class UIButton(LUIObject):
         self.bgLeft.set_texture(self.template + "Focus_Left", "skin", resize=False)
         self.bgMid.set_texture(self.template + "Focus", "skin", resize=False)
         self.bgRight.set_texture(self.template + "Focus_Right", "skin", resize=False)
-        self.label.margin = (-2,0,0,0)
+        self.label.margin_top = -2
 
     def on_mouseup(self, event):
         self.bgLeft.set_texture(self.template + "_Left", "skin", resize=False)
         self.bgMid.set_texture(self.template, "skin", resize=False)
         self.bgRight.set_texture(self.template + "_Right", "skin", resize=False)
-        self.label.margin = (-3,0,0,0)
+        self.label.margin_top = -3
 
 
-class UICornerLayout(LUIObject):
-
-    modes = ["TR", "Top", "TL", "Right", "Mid", "Left", "BR", "Bottom", "BL"]
-
-    def __init__(self, parent=None, image_prefix="", width=0, height=0):
-        LUIObject.__init__(self, x=0, y=0, w=width, h=height)
-
-        self.prefix = image_prefix
-        self.parts = {}
-        for i in self.modes:
-            self.parts[i] = LUISprite(self, "blank", "skin")
-        self.render_layout()
-
-        if parent is not None:
-            self.parent = parent
-
-    def render_layout(self):
-        for i in self.modes:
-            self.parts[i].set_texture(self.prefix + i, "skin", resize=True)
-
-        # Width
-        self.parts['Top'].width = self.width - self.parts['TL'].width - self.parts['TR'].width
-        self.parts['Mid'].width = self.width - self.parts['Left'].width - self.parts['Right'].width
-        self.parts['Bottom'].width = self.width - self.parts['BL'].width - self.parts['BR'].width
-
-        # Height
-        self.parts['Left'].height = self.height - self.parts['TL'].height - self.parts['BL'].height
-        self.parts['Mid'].height = self.height - self.parts['Top'].height - self.parts['Bottom'].height
-        self.parts['Right'].height = self.height - self.parts['TR'].height - self.parts['BR'].height
-
-        # Positioning - Left
-        self.parts['Top'].left = self.parts['TL'].width
-        self.parts['Mid'].left = self.parts['Left'].width
-        self.parts['Bottom'].left = self.parts['BL'].width
-
-        self.parts['TR'].left = self.parts['Top'].left + self.parts['Top'].width
-        self.parts['Right'].left = self.parts['Mid'].left + self.parts['Mid'].width
-        self.parts['BR'].left = self.parts['Bottom'].left + self.parts['Bottom'].width
-
-        # Positioning - Top
-        self.parts['Left'].top = self.parts['TL'].height
-        self.parts['Mid'].top = self.parts['Top'].height
-        self.parts['Right'].top = self.parts['TR'].height
-
-        self.parts['BL'].top = self.parts['Left'].top + self.parts['Left'].height
-        self.parts['Bottom'].top = self.parts['Mid'].top + self.parts['Mid'].height
-        self.parts['BR'].top = self.parts['Right'].top + self.parts['Right'].height
-
-    def set_prefix(self, prefix):
-        self.prefix = prefix
-        self.render_layout()
 
 class UIKeyMarker(LUIObject):
     
@@ -873,7 +826,7 @@ class UIKeyInstruction(LUIObject):
         self.marker = UIKeyMarker(parent=self, key=key)
         self.instructionLabel = UILabel(parent=self, text=instruction, shadow=True)
         self.instructionLabel.centered = (False, True)
-        self.instructionLabel.margin = (-4, 0, 0, 0)
+        self.instructionLabel.margin_top = -4
         self.set_key(key)
 
     def set_key(self, key):
@@ -882,10 +835,223 @@ class UIKeyInstruction(LUIObject):
         self.fit_to_children()
 
 class UIFrame(UICornerLayout):
-    def __init__(self, parent=None, width=200, height=200):
-        UICornerLayout.__init__(self, parent=parent, image_prefix="Frame_", width=width, height=height)
+    def __init__(self, parent=None, width=200, height=200, padding=15):
+        borderSize = 33
+        effectivePadding = borderSize + padding
+        UICornerLayout.__init__(self, parent=parent, image_prefix="Frame_", width=width+2*effectivePadding, height=height+2*effectivePadding)
         self.content = LUIObject(self)
-        self.content.padding = (35,25,35,25)
+        self.content.size = (width+2*padding, height+2*padding)
+        self.content.pos = (borderSize, borderSize)
+        self.content.padding = (padding, padding, padding, padding)
+        self.content.clip_bounds = (0,0,0,0)
+        self.margin = (-borderSize, -borderSize, -borderSize, -borderSize)
 
     def get_content_node(self):
         return self.content
+
+
+class UIColorpicker(LUIObject):
+
+    def __init__(self, parent=None):
+        LUIObject.__init__(self, x=0, y=0, w=27, h=27)
+
+        self.previewBg = LUISprite(self, "ColorpickerPreviewBg", "skin")
+
+        self.filler = LUISprite(self, "blank", "skin")
+        self.filler.width = 21
+        self.filler.height = 21
+        self.filler.pos = (5, 5)
+        self.filler.color = (0.2,0.6,1.0,1.0)
+
+        self.overlay = LUISprite(self, "ColorpickerPreviewOverlay", "skin")
+        self.overlay.pos = (2, 2)
+        self.overlay.bind("click", self._open_dialog)        
+
+        self.popup = UIColorpickerPopup(self)
+        self.popup.hide()
+
+        self.colorValue = (0.5, 0.5, 0.5)
+        self.set_color_value(self.colorValue)
+
+        self.popup.add_change_callback(self._on_popup_color_changed)
+
+        if parent is not None:
+            self.parent = parent
+
+    def _open_dialog(self, event):  
+        self.request_focus()
+
+    def on_focus(self, event):
+        self.popup._load_rgb(self.colorValue)
+        self.popup.open_at(self, 14.0)
+
+    def set_color_value(self, rgb):
+        self.colorValue = rgb
+        self.filler.color = rgb
+
+    def get_color_value(self):
+        return self.colorValue
+
+    def on_tick(self, event):
+        self.popup._update(event)
+
+    def on_blur(self, event):
+        self.popup.close()
+
+    def _on_popup_color_changed(self, popup, rgb):
+        self.set_color_value(rgb)
+
+    def _on_popup_closed(self):
+        self.blur()
+
+
+class UIPopup(UIFrame):
+
+    def __init__(self, parent=None, width=200, height=200):
+        UIFrame.__init__(self, parent, width=width, height=height, padding=10)
+        self.topmost = True
+        self.borderSize = 33
+        self.content.bind("click", self._on_content_click)
+
+    def open_at(self, targetElement, distance):
+        self.show()
+        self.top = 0
+        self.left = 0
+        relative = self.get_relative_pos(targetElement.get_abs_pos() + targetElement.get_size() / 2)
+        self.pos += relative
+        self.pos -= self.size - self.borderSize
+        self.top -= distance
+        self.left += 25
+
+    def _on_content_click(self, event):
+        pass
+
+    def close(self):
+        self.hide()
+
+class UIColorpickerPopup(UIPopup, UICallback):
+    def __init__(self, parent=None):
+        UIPopup.__init__(self, parent=parent, width=220, height=126)
+        UICallback.__init__(self)
+
+        self.field = LUIObject(self.content, x=0, y=0, w=128, h=128)
+
+        self.fieldBG = LUISprite(self.field, "blank", "skin")
+        self.fieldBG.size = (128, 128)
+        self.fieldBG.color = (0.2,0.6,1.0)
+        self.fieldFG = LUISprite(self.field, "ColorpickerFieldOverlay", "skin")
+        self.fieldFG.pos = (-2, 0)
+
+        self.fieldBG.bind("mousedown", self._start_field_dragging)
+        self.fieldBG.bind("mouseup", self._stop_field_dragging)
+
+        self.fieldHandle = LUISprite(self.field, "ColorpickerFieldHandle", "skin")
+        self.fieldDragging = False
+
+        self.hueSlider = LUIObject(self.content, x=140, y=0, w=40, h=128)
+        self.hueSliderFG = LUISprite(self.hueSlider, "ColorpickerHueSlider", "skin")
+
+        self.hueHandle = LUISprite(self.hueSlider, "ColorpickerHueHandle", "skin")
+        self.hueHandle.left = (self.hueSliderFG.width - self.hueHandle.width) / 2.0
+        self.hueHandle.top = 50
+
+        self.hueDragging = False
+        self.hueSlider.bind("mousedown", self._start_hue_dragging)
+        self.hueSlider.bind("mouseup", self._stop_hue_dragging)
+
+        self.labels = UIVerticalLayout(self.content, width=40)
+        self.labels.pos = (177, 42)
+
+        colors = [u"R", u"G", u"B"]
+        self.colorLabels = []
+
+        for color in colors:
+            label = UILabel(text=color, shadow=True)
+            label.color =  (1,1,1,0.3)
+
+            valueLabel = UILabel(text=u"255", shadow=True)
+            valueLabel.right = 0
+            self.labels.add_row(label, valueLabel)
+            self.colorLabels.append(valueLabel)
+
+        self.activeColor = LUIObject(self.content, x=177, y=0)
+        self.activeColorBG = LUISprite(self.activeColor, "blank", "skin")
+        self.activeColorFG = LUISprite(self.activeColor, "ColorpickerActiveColorOverlay", "skin")
+
+        self.activeColorBG.size = (40, 40)
+        self.activeColorBG.pos = (2, 0)
+        self.activeColorBG.color = (0.2,0.6,1.0,1.0)
+
+        self.closeButton = UIButton(parent=self.content, text=u"Done", width=45, template="ButtonMagic")
+        self.closeButton.left = 177
+        self.closeButton.top = 98
+
+        self.closeButton.bind("click", self._close_popup)
+
+        self._set_hue(0.5)
+        self._set_sat_val(0.5, 0.5)
+
+        self.widget = parent
+
+    def _load_rgb(self, rgb):
+        hsv = colorsys.rgb_to_hsv(*rgb)
+        self._set_hue(hsv[0])
+        self._set_sat_val(hsv[1], hsv[2])
+
+    def _close_popup(self, event):
+        self.widget._on_popup_closed()
+        self.close()
+
+    def _update(self, event):
+        if self.hueDragging:
+            offset = event.coordinates.y - self.hueSliderFG.abs_pos.y
+            offset /= 128.0
+            offset = 1.0 - max(0.0, min(1.0, offset))
+            self._set_hue(offset)
+
+        if self.fieldDragging:
+            offset = event.coordinates - self.fieldBG.abs_pos
+            saturation = max(0.0, min(1.0, offset.x / 128.0))
+            value = 1.0 - max(0.0, min(1.0, offset.y / 128.0))
+            self._set_sat_val(saturation, value)
+
+        self._update_color()
+
+    def _set_sat_val(self, sat, val):
+        self.saturation = sat
+        self.valueValue = val
+
+        self.fieldHandle.top = (1.0 - self.valueValue) * 128.0 - self.fieldHandle.height / 2.0
+        self.fieldHandle.left = self.saturation * 128.0 - self.fieldHandle.width / 2.0
+
+    def _set_hue(self, hue):
+        self.hueValue = min(0.999, hue)
+        self.hueHandle.top = (1.0-hue) * 128.0 - self.hueHandle.height / 2
+        self.fieldBG.color = colorsys.hsv_to_rgb(self.hueValue, 1, 1)
+
+    def _update_color(self):
+        rgb = colorsys.hsv_to_rgb(self.hueValue, self.saturation, self.valueValue)
+        self.activeColorBG.color = rgb
+
+        self.colorLabels[0].set_text(unicode(int(rgb[0]*255.0)))
+        self.colorLabels[1].set_text(unicode(int(rgb[1]*255.0)))
+        self.colorLabels[2].set_text(unicode(int(rgb[2]*255.0)))
+
+        self._trigger_callback(self, rgb)
+
+    def _start_field_dragging(self, event):
+        if not self.fieldDragging:
+            self.fieldDragging = True
+
+    def _stop_field_dragging(self, event):
+        if self.fieldDragging:
+            self.fieldDragging = False
+
+    def _start_hue_dragging(self, event):
+        if not self.hueDragging:
+            self.hueDragging = True
+
+    def _stop_hue_dragging(self, event):
+        if self.hueDragging:
+            self.hueDragging = False
+

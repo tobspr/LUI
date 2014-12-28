@@ -128,6 +128,7 @@ PUBLISHED:
   // Focus
   INLINE bool has_focus();
   void request_focus();
+  void blur();
 
   void reparent_to(LUIBaseElement *parent);
   INLINE LUIBaseElement* get_parent();
