@@ -136,10 +136,10 @@ void LUIBaseElement::recompute_position() {
       add_y = _margin->get_top() + ppadding->get_top();
 
     // Stick bottom
-    } else if (_placement_x == M_inverse) {
+    } else if (_placement_y == M_inverse) {
       _rel_pos_y = psize.get_y() - _offset_y - _size.get_y();
       add_y = -_margin->get_bottom() - ppadding->get_bottom();
-    
+
     // Stick center
     } else {
       _rel_pos_y = (psize.get_y() - _size.get_y()) / 2.0;

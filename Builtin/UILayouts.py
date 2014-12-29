@@ -4,16 +4,26 @@ from panda3d.lui import *
 
 class UIVerticalLayout(LUIObject):
 
-    def __init__(self, parent=None, width=200, spacing=2):
+    def __init__(self, parent=None, width=None, spacing=2, use_dividers=False):
+        if width is None:
+            width = 100
+            if parent is not None:
+                width = parent.width - parent.padding_left - parent.padding_right
+
         LUIObject.__init__(self, x=0, y=0, w=width, h=0)
+        
+
         self.rows = []
+        self.dividers = LUIObject(self, x=0, y=0, w=width, h=0)
         self.spacing = spacing
+        self.useDividers = use_dividers
 
         if parent is not None:
             self.parent = parent
 
     def reset(self):
         self.rows = []
+        self.remove_all_children()
         self.update()
 
     def set_spacing(self, spacing):
@@ -26,15 +36,28 @@ class UIVerticalLayout(LUIObject):
 
         for obj in objects:
             obj.parent = container
-
         self.update()
+
+    def _add_divider(self, y_pos):
+        if self.useDividers:
+            divider = LUISprite(self.dividers, "ListDivider", "skin")
+            divider.width = self.width
+            divider.top = y_pos
 
     def update(self):
         currentY = 0
+
+        self.dividers.remove_all_children()
+        self._add_divider(0)
+
+        if self.useDividers:
+            currentY += self.spacing / 2
+
         for row in self.rows:
             row.fit_to_children()
             row.top = currentY
             currentY += row.get_height() + self.spacing
+            self._add_divider(currentY - self.spacing / 2)
 
         self.height = currentY
 
@@ -52,9 +75,10 @@ class UICornerLayout(LUIObject):
         LUIObject.__init__(self, x=0, y=0, w=width, h=height)
 
         self.prefix = image_prefix
+        self.layoutContainer = LUIObject(self, x=0, y=0, w=width, h=height)
         self.parts = {}
         for i in self.modes:
-            self.parts[i] = LUISprite(self, "blank", "skin")
+            self.parts[i] = LUISprite(self.layoutContainer, "blank", "skin")
         self.update_layout()
 
         if parent is not None:
@@ -95,3 +119,37 @@ class UICornerLayout(LUIObject):
     def set_prefix(self, prefix):
         self.prefix = prefix
         self.update_layout()
+
+
+
+class UIHorizontalStretchedLayout(LUIObject):
+
+    def __init__(self, parent=None, width=200, prefix="ButtonMagic"):
+        LUIObject.__init__(self, x=0, y=0, w=width, h=0)
+        self.spriteLeft = LUISprite(self, prefix + "_Left", "skin")
+        self.spriteMid = LUISprite(self, prefix, "skin")
+        self.spriteRight = LUISprite(self, prefix + "_Right", "skin")
+        self.recompute()
+        self.fit_to_children()
+
+        if parent is not None:
+            self.parent = parent
+
+    def recompute(self):
+        self.spriteMid.left = self.spriteLeft.width
+        self.spriteMid.width = self.width - self.spriteLeft.width - self.spriteRight.width
+        self.spriteRight.left = self.spriteMid.left + self.spriteMid.width
+
+    def set_prefix(self, prefix):
+        self.spriteLeft.set_texture(prefix + "_Left", "skin", resize=False)
+        self.spriteMid.set_texture(prefix, "skin", resize=False)
+        self.spriteRight.set_texture(prefix + "_Right", "skin", resize=False)
+
+    def get_sprite_left(self):
+        return self.spriteLeft
+
+    def get_sprite_mid(self):
+        return self.spriteMid
+
+    def get_sprite_right(self):
+        return self.spriteRight

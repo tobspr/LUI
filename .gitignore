@@ -3,5 +3,3 @@ Res/demo_textures
 Source/Interrogate*
 CodeAnalyzer.py
 /.project
-*.sublime-project
-*.sublime-workspace

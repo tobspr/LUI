@@ -17,24 +17,11 @@ if __name__ == "__main__":
 
     import direct.directbase.DirectStart
 
-    LUIFontPool.get_global_ptr().register_font(
-        "default", loader.loadFont("../Res/font/SourceSansPro-Semibold.ttf"))
+    from UISkin import UIDefaultSkin
+    from UICheckbox import UICheckbox
 
-
-    labelFont = loader.loadFont("../Res/font/SourceSansPro-Semibold.ttf")
-    labelFont.setPixelsPerUnit(32)
-
-    LUIFontPool.get_global_ptr().register_font(
-        "label", labelFont)
-
-    headerFont = loader.loadFont("../Res/font/SourceSansPro-Light.ttf")
-    headerFont.setPixelsPerUnit(80)
-
-    LUIFontPool.get_global_ptr().register_font(
-        "header", headerFont)
-
-    LUIAtlasPool.get_global_ptr().load_atlas(
-        "skin", "res/atlas.txt", "res/atlas.png")
+    skin = UIDefaultSkin()
+    skin.load()
 
     base.win.set_clear_color(Vec4(0, 0, 0, 1))
 
@@ -48,10 +35,11 @@ if __name__ == "__main__":
     skinParent.top = 100
     skinParent.left = 300
 
-    frame = UIFrame(parent=skinParent, width=250, height=360, padding=30)
-    layout = UIVerticalLayout(parent=frame.get_content_node(), width=250, spacing=10)   
-    checkbox = UILabeledCheckbox(checked=False, text=u"Sample checkbox")
-    checkboxChecked = UILabeledCheckbox(checked=True, text=u"Checked checkbox")
+    frame = UIFrame(parent=skinParent, width=290, height=400, padding=20, innerPadding=20, scrollable=True)
+    layout = UIVerticalLayout(parent=frame, width=250, spacing=10)   
+
+    checkbox = UICheckbox(checked=False, label=u"Sample checkbox")
+    checkboxChecked = UICheckbox(checked=True, label=u"Checked checkbox")
 
     skinParent.fit_to_children()
 
@@ -71,9 +59,8 @@ if __name__ == "__main__":
 
     picker = UIColorpicker()
     pickLabel = UILabel(text=u"Pick your favourite color", shadow=True)
-    pickLabel.center_vertical = True
+    pickLabel.top = 6
     picker.right = 0
-
 
     box = UISelectbox(width=250, options = [
             ("opt1", "Option 1"),
@@ -85,7 +72,7 @@ if __name__ == "__main__":
             ("opt7", "Option 7"),
         ])
 
-    def set_bar_value(obj, val):
+    def set_bar_value(parent, obj, val):
         bar.set_value(val)
         
     slider2.add_change_callback(set_bar_value)

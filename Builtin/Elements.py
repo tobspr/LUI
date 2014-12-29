@@ -2,118 +2,15 @@ from panda3d.lui import *
 from panda3d.core import Point2
 
 from functools import partial
-from Layouts import *
+from UILayouts import *
 
 import math
 import colorsys
 
-class UICallback:
-
-    def __init__(self):
-        self.changeCallbacks = []
-
-    def add_change_callback(self, cb):
-        if cb not in self.changeCallbacks:
-            self.changeCallbacks.append(cb)
-
-    def remove_change_callback(self, cb):
-        if cb in self.changeCallbacks:
-            self.changeCallbacks.remove(cb)
-
-    def _trigger_callback(self, *args, **kwargs):
-        for cb in self.changeCallbacks:
-            cb(*args, **kwargs)
-
-class UICheckbox(LUIObject, UICallback):
-
-    def __init__(self, parent=None, checked=False):
-        LUIObject.__init__(self)
-        UICallback.__init__(self)
-
-        self.sprite = LUISprite(self, "Checkbox_Default", "skin")
-        self.fit_to_children()
-        self.checked = checked
-        self._update_sprite()
-
-        if parent is not None:
-            self.parent = parent
-
-    def on_click(self, event):
-        self.checked = not self.checked
-        self._trigger_callback(self, self.checked)
-        self._update_sprite()
-
-    def on_mousedown(self, event):
-        self.color = (0.86,0.86,0.86,1.0)
-
-    def on_mouseup(self, event):
-        self.color = (1,1,1,1)
-
-    def is_checked(self):
-        return self.checked
-
-    def set_checked(self, checked):
-        self.checked = checked
-        self._update_sprite()
-
-    def _update_sprite(self):
-        img = "Checkbox_Checked" if self.checked else "Checkbox_Default"
-        self.sprite.set_texture(img, "skin")
-
-class UILabel(LUIObject):
-
-    def __init__(self, parent=None, text=u"Label", shadow=True, font_size=14, font="label"):
-
-        LUIObject.__init__(self)
-
-        # self.hide()
-        self.text = LUIText(self, text, font, font_size, 0, 0)
-        self.text.color = (1,1,1,0.9)
-        self.text.z_offset = 1
-
-        self.have_shadow = shadow
-
-        if self.have_shadow:
-            self.shadowText = LUIText(self, unicode(text), font, font_size, 0, 0)
-            self.shadowText.top = 1
-            self.shadowText.color = (0,0,0,0.7)
-
-        self.fit_to_children()
-
-        if parent is not None:
-            self.parent = parent
-
-    def set_text(self, text):
-
-        self.text.text = unicode(text)
-        if self.have_shadow:
-            self.shadowText.text = unicode(text)
-        self.fit_to_children()
-
-class UILabeledCheckbox(LUIObject, UICallback):
-    
-    def __init__(self, parent=None, checked=False, text=u"Checkbox"):
-        LUIObject.__init__(self)    
-        UICallback.__init__(self)
-
-        self.checkbox = UICheckbox(parent=self, checked=checked)
-        self.label = UILabel(parent=self, text=text, shadow=True)
-        self.label.bind("click", self.checkbox.on_click)
-        self.label.bind("mousedown", self.checkbox.on_mousedown)
-        self.label.bind("mouseup", self.checkbox.on_mouseup)
-
-        self.checkbox.add_change_callback(self._trigger_callback)
-
-        if parent is not None:
-            self.parent = parent
-
-        self.label.left = self.checkbox.width + 6
-        self.label.top = self.label.height - self.checkbox.height
-
-        self.fit_to_children()
-
-    def get_box(self):
-        return self.checkbox
+from UICallback import UICallback
+from UILabel import UILabel
+from UIFrame import UIFrame
+from UIButton import UIButton
 
 class UIRadioboxGroup(LUIObject):
 
@@ -140,7 +37,6 @@ class UIRadioboxGroup(LUIObject):
         if self.selected_box is None:
             return None
         return self.selected_box.get_value()
-
 
 class UIRadiobox(LUIObject, UICallback):
 
@@ -173,7 +69,7 @@ class UIRadiobox(LUIObject, UICallback):
 
     def _update_state(self, active):
         self.active = active
-        self._trigger_callback(self, self.active)
+        self._trigger_callback(self.active)
         self._update_sprite()
 
     def on_mousedown(self, event):
@@ -288,7 +184,7 @@ class UISlider(LUIObject, UICallback):
     def _set_current_val(self, pixels):
         pixels = max(0, min(self.effectiveWidth, pixels))
         self.currentVal = pixels
-        self._trigger_callback(self, self.get_value())
+        self._trigger_callback(self.get_value())
         self._update_knob()
 
     def _start_drag(self, event):
@@ -524,12 +420,12 @@ class UIInputField(LUIObject, UICallback):
         if key_name == "backspace":
             self.value = self.value[:max(0, self.cursor_index - 1)] + self.value[self.cursor_index:]
             self._set_cursor_pos(self.cursor_index - 1)
-            self._trigger_callback(self, self.value)
+            self._trigger_callback(self.value)
             self._render_text()
         elif key_name == "delete":
             self.value = self.value[:self.cursor_index] + self.value[min(len(self.value), self.cursor_index + 1):]
             self._set_cursor_pos(self.cursor_index)
-            self._trigger_callback(self, self.value)
+            self._trigger_callback(self.value)
             self._render_text()
         elif key_name == "arrow_left":
             self._set_cursor_pos(self.cursor_index - 1)
@@ -543,7 +439,7 @@ class UIInputField(LUIObject, UICallback):
 
     def on_textinput(self, event):
         self._add_text(event.get_message())
-        self._trigger_callback(self, self.value)
+        self._trigger_callback(self.value)
 
     def on_blur(self, event):
         self.cursor.hide()
@@ -560,7 +456,7 @@ class UIInputField(LUIObject, UICallback):
     def set_value(self, value):
         self.value = value
         # QUESTION: Should we trigger a callback when the user changes the value hisself?
-        self._trigger_callback(self, self.value)
+        self._trigger_callback(self.value)
         self._render_text()
 
     def _render_text(self):
@@ -746,50 +642,6 @@ class UISelectdrop(LUIObject):
             currentY += 30
 
 
-class UIButton(LUIObject):
-
-    def __init__(self, parent=None, text=u"Button", width=200, template="ButtonDefault"):
-
-        LUIObject.__init__(self, x=0, y=0, w=width+2, h=0)
-
-        self.margin_left = -1
-
-        self.template = template
-        self.bgLeft = LUISprite(self, template + "_Left", "skin")
-        self.bgMid = LUISprite(self, template, "skin")
-        self.bgRight = LUISprite(self, template + "_Right", "skin")
-
-        self.bgMid.width = self.width - self.bgLeft.width - self.bgRight.width
-        self.bgMid.left = self.bgLeft.width
-        self.bgRight.left = self.bgMid.width + self.bgMid.left
-
-        self.label = UILabel(parent=self, text=text, shadow=True)
-        self.label.centered = (True, True)
-        self.label.margin_top = -3
-        self.label.margin_left = -1
-
-        if parent is not None:
-            self.parent = parent
-
-        self.fit_to_children()
-
-    def set_text(self, text):
-        self.label.set_text(text)
-
-    def on_mousedown(self, event):
-        self.bgLeft.set_texture(self.template + "Focus_Left", "skin", resize=False)
-        self.bgMid.set_texture(self.template + "Focus", "skin", resize=False)
-        self.bgRight.set_texture(self.template + "Focus_Right", "skin", resize=False)
-        self.label.margin_top = -2
-
-    def on_mouseup(self, event):
-        self.bgLeft.set_texture(self.template + "_Left", "skin", resize=False)
-        self.bgMid.set_texture(self.template, "skin", resize=False)
-        self.bgRight.set_texture(self.template + "_Right", "skin", resize=False)
-        self.label.margin_top = -3
-
-
-
 class UIKeyMarker(LUIObject):
     
     def __init__(self, parent=None, key=u"A"):
@@ -834,20 +686,126 @@ class UIKeyInstruction(LUIObject):
         self.instructionLabel.left = self.marker.width + 5
         self.fit_to_children()
 
-class UIFrame(UICornerLayout):
-    def __init__(self, parent=None, width=200, height=200, padding=15):
-        borderSize = 33
-        effectivePadding = borderSize + padding
-        UICornerLayout.__init__(self, parent=parent, image_prefix="Frame_", width=width+2*effectivePadding, height=height+2*effectivePadding)
-        self.content = LUIObject(self)
-        self.content.size = (width+2*padding, height+2*padding)
-        self.content.pos = (borderSize, borderSize)
-        self.content.padding = (padding, padding, padding, padding)
-        self.content.clip_bounds = (0,0,0,0)
-        self.margin = (-borderSize, -borderSize, -borderSize, -borderSize)
+
+class UIScrollableRegion(LUIObject):
+
+    def __init__(self, parent, width=100, height=100, padding=10):
+        LUIObject.__init__(self, x=0, y=0, w=width, h=height)
+
+        self.contentParent = LUIObject(self, x=0, y=0, w=width, h=height)
+        self.contentParent.clip_bounds = (0,0,0,0)
+
+        self.contentClip = LUIObject(self.contentParent, x=padding, y=padding, w=self.width - 2*padding, h=self.height - 2*padding)
+        self.contentScroller = LUIObject(self.contentClip, x=0, y=0, w=self.contentClip.width, h=500)
+
+        self.scrollbar = LUIObject(self, x=0, y=0, w=20, h=self.height)
+        self.scrollbar.right = -10
+
+        self.scrollbarHeight = self.height
+        self.scrollbarBg = LUISprite(self.scrollbar, "blank", "skin")
+        self.scrollbarBg.color = (1,1,1,0.1)
+        self.scrollbarBg.size = (5, self.scrollbarHeight)
+        self.scrollbarBg.left = 8
+
+
+        # Handle
+        self.scrollbarHandle = LUIObject(self.scrollbar, x=5, y=0, w=10, h=100)
+        self.scrollHandleTop = LUISprite(self.scrollbarHandle, "ScrollbarHandle_Top", "skin")
+        self.scrollHandleMid = LUISprite(self.scrollbarHandle, "ScrollbarHandle", "skin")
+        self.scrollHandleBottom = LUISprite(self.scrollbarHandle, "ScrollbarHandle_Bottom", "skin")
+
+        self.scrollbarHandle.bind("mousedown", self._start_scrolling)
+        self.scrollbarHandle.bind("mouseup", self._stop_scrolling)
+        self.scrollbar.bind("mousedown", self._on_bar_click)
+        self.scrollbar.bind("mouseup", self._stop_scrolling)
+
+        self.handleDragging = False
+        self.dragStartY = 0
+
+        self.scrollTopPosition = 0
+        self.contentHeight = 400
+        
+        scrollShadowWidth = self.width - 10
+
+        # Top shadow
+        self.scrollShadowTop = LUIObject(self)
+        self.scrollShadowTopLeft = LUISprite(self.scrollShadowTop, "ScrollShadow_BL", "skin")
+        self.scrollShadowTopMid = LUISprite(self.scrollShadowTop, "ScrollShadow_Bottom", "skin")
+        self.scrollShadowTopRight = LUISprite(self.scrollShadowTop, "ScrollShadow_BR", "skin")
+        self.scrollShadowTopMid.left = self.scrollShadowTopLeft.width
+        self.scrollShadowTopMid.width = scrollShadowWidth - self.scrollShadowTopLeft.width - self.scrollShadowTopRight.width
+        self.scrollShadowTopRight.left = self.scrollShadowTopMid.left + self.scrollShadowTopMid.width
+    
+        # Bottom shadow        
+        self.scrollShadowBottom = LUIObject(self)
+        self.scrollShadowBottomLeft = LUISprite(self.scrollShadowBottom, "ScrollShadow_TL", "skin")
+        self.scrollShadowBottomMid = LUISprite(self.scrollShadowBottom, "ScrollShadow_Top", "skin")
+        self.scrollShadowBottomRight = LUISprite(self.scrollShadowBottom, "ScrollShadow_TR", "skin")
+        self.scrollShadowBottomMid.left = self.scrollShadowBottomLeft.width
+        self.scrollShadowBottomMid.width = scrollShadowWidth - self.scrollShadowBottomLeft.width - self.scrollShadowBottomRight.width
+        self.scrollShadowBottomRight.left = self.scrollShadowBottomMid.left + self.scrollShadowBottomMid.width
+        self.scrollShadowBottom.bottom = 0
+        self.scrollShadowBottomLeft.bottom = 0
+        self.scrollShadowBottomMid.bottom = 0
+        self.scrollShadowBottomRight.bottom = 0
+
+        self.handleHeight = 100
+        self._update()
+
+
+        if parent is not None:
+            self.parent = parent
+
+    def _on_bar_click(self, event):
+        self._scroll_to_bar_pixels(event.coordinates.y - self.scrollbar.abs_pos.y - self.handleHeight / 2.0)
+        self._update()
+        self._start_scrolling(event)
+
+    def _start_scrolling(self, event):
+        self.request_focus()
+        if not self.handleDragging:
+            self.dragStartY = event.coordinates.y
+            self.handleDragging = True
+
+    def _stop_scrolling(self, event):
+        if self.handleDragging:
+            self.handleDragging = False
+            self.blur()
+
+    def _scroll_to_bar_pixels(self, pixels):
+        offset = pixels * self.contentHeight / self.height
+        self.scrollTopPosition = offset
+        self.scrollTopPosition = max(0, min(self.contentHeight - self.contentClip.height, self.scrollTopPosition))
+
+    def on_tick(self, event):
+        if self.handleDragging:
+            scroll_abs_pos = self.scrollbar.abs_pos
+            clampedCoordY = max(scroll_abs_pos.y, min(scroll_abs_pos.y + self.scrollbarHeight, event.coordinates.y))
+            offset = clampedCoordY - self.dragStartY
+            self.dragStartY = clampedCoordY
+            self._scroll_to_bar_pixels(self.scrollTopPosition/self.contentHeight*self.height + offset)
+        self._update()
+
+    def _set_handle_height(self, height):
+        self.scrollHandleMid.top = self.scrollHandleTop.height
+        self.scrollHandleMid.height = height - self.scrollHandleTop.height - self.scrollHandleBottom.height
+        self.scrollHandleBottom.top = self.scrollHandleMid.height + self.scrollHandleMid.top
+        self.handleHeight = height
+
+    def _update(self):
+        self.contentScroller.top = -self.scrollTopPosition
+        scrollbarHeight = max(0.1, min(1.0, self.contentClip.height / self.contentHeight))
+        scrollbarHeightPixels = scrollbarHeight * self.height
+        self._set_handle_height(scrollbarHeightPixels)
+        self.scrollbarHandle.top = self.scrollTopPosition / self.contentHeight * self.height
+
+        topAlpha = max(0.0, min(1.0, self.scrollTopPosition / 50.0))
+        bottomAlpha = max(0.0, min(1.0, (self.contentHeight - self.scrollTopPosition - self.contentClip.height) / 50.0 ))
+        self.scrollShadowTop.color = (1,1,1,topAlpha)
+        self.scrollShadowBottom.color = (1,1,1,bottomAlpha)
 
     def get_content_node(self):
-        return self.content
+        return self.contentScroller
 
 
 class UIColorpicker(LUIObject):
@@ -865,7 +823,9 @@ class UIColorpicker(LUIObject):
 
         self.overlay = LUISprite(self, "ColorpickerPreviewOverlay", "skin")
         self.overlay.pos = (2, 2)
-        self.overlay.bind("click", self._open_dialog)        
+        self.overlay.bind("click", self._open_dialog)     
+
+        self.fit_to_children()   
 
         self.popup = UIColorpickerPopup(self)
         self.popup.hide()
@@ -915,7 +875,7 @@ class UIColorpicker(LUIObject):
 class UIPopup(UIFrame):
 
     def __init__(self, parent=None, width=200, height=200):
-        UIFrame.__init__(self, parent, width=width, height=height, padding=10)
+        UIFrame.__init__(self, parent, width=width, height=height, padding=10, innerPadding=0)
         self.topmost = True
         self.borderSize = 33
         self.content.bind("click", self._on_content_click)
@@ -954,7 +914,7 @@ class UIPopup(UIFrame):
 
 class UIColorpickerPopup(UIPopup, UICallback):
     def __init__(self, parent=None):
-        UIPopup.__init__(self, parent=parent, width=220, height=126)
+        UIPopup.__init__(self, parent=parent, width=240, height=146)
         UICallback.__init__(self)
 
         self.field = LUIObject(self.content, x=0, y=0, w=128, h=128)
@@ -1011,7 +971,6 @@ class UIColorpickerPopup(UIPopup, UICallback):
         self.closeButton = UIButton(parent=self.content, text=u"Done", width=45, template="ButtonMagic")
         self.closeButton.left = 177
         self.closeButton.top = 98
-
         self.closeButton.bind("click", self._close_popup)
 
         self._set_hue(0.5)
@@ -1063,7 +1022,7 @@ class UIColorpickerPopup(UIPopup, UICallback):
         self.colorLabels[1].set_text(unicode(int(rgb[1]*255.0)))
         self.colorLabels[2].set_text(unicode(int(rgb[2]*255.0)))
 
-        self._trigger_callback(self, rgb)
+        self._trigger_callback(rgb)
 
     def _start_field_dragging(self, event):
         if not self.fieldDragging:

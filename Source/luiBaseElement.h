@@ -38,6 +38,7 @@ PUBLISHED:
   INLINE void bind(const string &event_name, CallbackObject* callback);
   INLINE void unbind(const string &event_name);
   INLINE void unbind_all();
+
   INLINE bool has_event(const string &event_name);
   INLINE void trigger_event(const string &event_name, const wstring &message = wstring(), const LPoint2 &coords = LPoint2(0));
 
