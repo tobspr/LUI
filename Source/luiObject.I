@@ -16,6 +16,7 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
 
   _children.erase(child_index);
   child->on_detached();
+  child->set_parent(NULL);
   
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Reference count is now: " << child->get_ref_count() << endl;
@@ -48,7 +49,7 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
   child->recompute_position();
   _children.push_back(child);
 
-  // This has to be last. Otherwise we're attaching to the VertexPool with outdated positions
+  // This has to be last. Otherwise we're attaching to the pool with outdated positions
   child->set_root(_root);
 
   return child;
@@ -93,7 +94,7 @@ INLINE void LUIObject::on_detached() {
 
   unregister_events();
   _root = NULL;
-  _parent = NULL;
+  // _parent = NULL;
 
   for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->on_detached();

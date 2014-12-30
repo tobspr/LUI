@@ -314,6 +314,7 @@ INLINE void LUIBaseElement::set_size(float w, float h) {
   _size.set_x(w);
   _size.set_y(h);
   recompute_position();
+  trigger_event("resized");
 }
 
 INLINE bool LUIBaseElement::has_size() {
@@ -323,11 +324,13 @@ INLINE bool LUIBaseElement::has_size() {
 INLINE void LUIBaseElement::set_width(float w) {
   _size.set_x(w);
   recompute_position();
+  trigger_event("resized");
 }
 
 INLINE void LUIBaseElement::set_height(float h) {
   _size.set_y(h);
   recompute_position();
+  trigger_event("resized");
 }
 
 INLINE float LUIBaseElement::get_width() {

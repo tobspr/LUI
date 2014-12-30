@@ -8,15 +8,11 @@ TypeHandle LUIObject::_type_handle;
 
 LUIObject::LUIObject(PyObject *self, float x, float y, float w, float h) : LUIBaseElement(self) {
   init();
-
-   // Prevent recomputation of the position while we initialize the object
   begin_update_section();
-  
-  set_size(w, h);
+  _size.set_x(w);
+  _size.set_y(h);
   set_pos(x, y);
-
   end_update_section();
-
 }
 
 LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float w, float h)  : LUIBaseElement(self) {
@@ -24,7 +20,8 @@ LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float 
 
   // Prevent recomputation of the position while we initialize the object
   begin_update_section();
-  set_size(w, h);
+  _size.set_x(w);
+  _size.set_y(h);
   set_pos(x, y);
 
   parent->add_child(this);

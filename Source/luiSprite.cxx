@@ -48,7 +48,8 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
   begin_update_section();
   set_color(color);
   set_uv_range(0, 0, 1, 1);
-  set_size(1, 1);
+  _size.set_x(1);
+  _size.set_y(1);
   set_pos(x, y); 
   end_update_section();
 
@@ -70,8 +71,7 @@ void LUISprite::ls(int indent) {
       << _pos_x << ", " << _pos_y 
       << "; size = " << _size.get_x() << " x " << _size.get_y() 
       << "; tex = " << (_tex != NULL ? _tex->get_name() : "none")
-      << "; z = " << _z_offset << ")";
-  cout << endl;
+      << "; z = " << _z_offset << endl;
 } 
 
 

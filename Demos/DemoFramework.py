@@ -26,6 +26,7 @@ from UISkin import UIDefaultSkin
 from UILayouts import UIVerticalLayout
 from UICheckbox import UICheckbox
 from UIFormattedLabel import UIFormattedLabel
+from UISelectbox import UISelectbox
 from UIButton import UIButton
 
 class DemoFramework:
@@ -85,6 +86,14 @@ class DemoFramework:
         self.eventsLayout = UIVerticalLayout(parent=self.events, spacing=10, use_dividers=True)
         self.eventsLayout.top = 30
 
+        # Actions
+        self.actions = UIFrame(width=340,style=UIFrame.Sunken, height=80)
+        self.actionsLabel = UILabel(parent=self.actions, text=U"Demo-Actions")
+        self.actionsSelect = UISelectbox(parent=self.actions, width=250, top=30)
+        self.actionsBtn = UIButton(parent=self.actions, right=0, top=30, text=u"Execute", template="ButtonMagic")
+        self.actionsBtn.bind("click", self._exec_action)
+
+        self.rightBar.add_row(self.actions)
         self.rightBar.add_row(self.constructorParameters)
         self.rightBar.add_row(self.publicFunctions)
         self.rightBar.add_row(self.events)
@@ -108,6 +117,20 @@ class DemoFramework:
 
 
         self.widgetNode = LUIObject(self.widgetContainer, x=0, y=40)
+
+
+    def _exec_action(self, event):
+        selected = self.actionsSelect.get_selected_option()
+        if selected is not None:
+            selected()
+
+    def set_actions(self, actions):
+        opts = []
+
+        for name, action in actions.items():
+            opts.append((action, name))
+
+        self.actionsSelect.set_options(opts)
 
     def add_public_function(self, name, parameters=None, return_type="void"):
         label = UIFormattedLabel()
@@ -150,7 +173,6 @@ class DemoFramework:
         self.rightBar.update()
 
     def construct_sourcecode(self, classname):
-        
         self.sourceContent.remove_all_children()
         label = UIFormattedLabel(parent=self.sourceContent)
         label.add_text(text="element ", color=(0.9,0.9,0.9))
@@ -172,27 +194,3 @@ class DemoFramework:
 
     def get_widget_node(self):
         return self.widgetNode
-
-
-f = DemoFramework()
-f.prepare_demo("UICheckbox")
-
-
-# Constructor
-f.add_constructor_parameter("checked", "False")
-f.add_constructor_parameter("label", "'Checkbox'")
-
-# Functions
-f.add_public_function("get_checked", [], "bool")
-f.add_public_function("set_checked", [("checked", "bool")])
-f.add_public_function("get_label", [], "UILabel")
-
-# Events
-f.add_event("changed")
-f.construct_sourcecode("UICheckbox")
-
-checkbox = UICheckbox()
-checkbox.parent = f.get_widget_node()
-
-
-run()

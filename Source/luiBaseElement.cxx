@@ -93,10 +93,6 @@ LUIBaseElement::~LUIBaseElement() {
 void LUIBaseElement::recompute_position() {
   if (_in_update_section) return;
 
-  if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << "Recompute position .." << endl;
-  }
-
   LVector2 ppos(0);  
 
     float add_x = 0.0;
@@ -104,6 +100,10 @@ void LUIBaseElement::recompute_position() {
 
   // When there is no parent, there is no sense in computing an accurate position
   if (_parent == NULL) {
+
+    if (luiBaseElement_cat.is_spam()) {
+      luiBaseElement_cat.spam() << "Compute, parent is none" << endl;
+    }
     _rel_pos_x = _offset_x;
     _rel_pos_x = _offset_y;
 

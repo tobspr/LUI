@@ -136,7 +136,7 @@ INLINE void LUISprite::on_detached() {
     unassign_sprite_index();
   }
   _root = NULL;
-  _parent = NULL;
+  // _parent = NULL;
 }
 
 INLINE void LUISprite::on_color_changed() {
@@ -151,12 +151,15 @@ INLINE void LUISprite::on_color_changed() {
 }
 
 INLINE void LUISprite::init_size(float w, float h) {
-  if (w > 0.0 && h > 0.0) {
-    set_size(w, h);
-  } else if (w > 0.0) {
-    set_width(w);
-  } else if (h > 0.0) {
-    set_height(h);
-  }
+  // if (w > 0.0 && h > 0.0) {
+  //   set_size(w, h);
+  // } else if (w > 0.0) {
+  //   set_width(w);
+  // } else if (h > 0.0) {
+  //   set_height(h);
+  // }
+  if (w > 0.0) _size.set_x(w);
+  if (h > 0.0) _size.set_y(h);
+  recompute_position();
 }
 

@@ -7,7 +7,6 @@ from UIInitialState import UIInitialState
 class UIButton(LUIObject):
 
     """ Simple button. """
-
     def __init__(self, text=u"Button", template="ButtonDefault", **kwargs):
         LUIObject.__init__(self)
         UIInitialState.init(self, kwargs)
