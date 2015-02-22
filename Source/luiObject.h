@@ -33,8 +33,8 @@ class EXPCL_LUI LUIObject : public LUIBaseElement {
 
 PUBLISHED:
   
-  LUIObject(PyObject *self, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
-  LUIObject(PyObject *self, LUIObject *parent, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0);
+  LUIObject(PyObject *self, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, bool solid = false);
+  LUIObject(PyObject *self, LUIObject *parent, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, bool solid = false);
 
   virtual ~LUIObject();
 
@@ -49,6 +49,11 @@ PUBLISHED:
   INLINE int get_child_count();
 
   INLINE void fit_to_children();
+  INLINE void fit_height_to_children();
+  INLINE void fit_width_to_children();
+
+  INLINE void set_content_node(PT(LUIObject) content_node);
+  INLINE PT(LUIObject) get_content_node();
 
   virtual void ls(int indent = 0);
 
@@ -72,7 +77,10 @@ protected:
   INLINE virtual void on_color_changed(); 
 
   LUIChildVector _children;
+  PT(LUIObject) _content_node;
   bool _sort_children;
+
+
 
   static int _instance_count;
 

@@ -33,6 +33,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _last_frame_visible(-1),
   _last_render_index(-1),
   _topmost(false),
+  _solid(false),
   LUIColorable()
 {
 
@@ -87,7 +88,6 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
 }
 
 LUIBaseElement::~LUIBaseElement() {
-  _events.clear();
 }
 
 void LUIBaseElement::recompute_position() {
@@ -241,8 +241,7 @@ void LUIBaseElement::recompute_position() {
 }
 
 void LUIBaseElement::register_events() {
-
-  if (_root != NULL && _parent != NULL && !_events_registered && _events.size() > 0) {
+  if (_root != NULL && _parent != NULL && !_events_registered && _solid) {
       _root->register_event_object(this);
       _events_registered = true;
 

@@ -10,8 +10,6 @@ INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callb
   }
 
   _events[event_name] = callback;
-
-  register_events();
 }
 
 INLINE void LUIBaseElement::bind(const string &event_name, PyObject* callback) {
@@ -27,15 +25,11 @@ INLINE void LUIBaseElement::unbind(const string &event_name) {
     _events.erase(event_name);
   }
 
-  if (_events.size() < 1) {
-    unregister_events();
-  }
 
 }
 
 INLINE void LUIBaseElement::unbind_all() {
   _events.clear();
-  unregister_events();
 }
 
 INLINE bool LUIBaseElement::has_event(const string &event_name) {
@@ -44,11 +38,6 @@ INLINE bool LUIBaseElement::has_event(const string &event_name) {
 
 
 INLINE void LUIBaseElement::trigger_event(const string &event_name, const wstring &message, const LPoint2 &coords) {
-  // if (luiBaseElement_cat.is_spam()) {
-    // luiBaseElement_cat.spam() << "Triggering event '" << event_name << "' with coordinates " 
-    // << coords.get_x() << ", " << coords.get_y() << " and message '" << message << "'.." << endl;
-  // }
-
   if (has_event(event_name)) {
       PT(LUIEventData) data = new LUIEventData(this, event_name, message, coords);
       _events[event_name]->do_callback(data);
@@ -219,6 +208,12 @@ INLINE void LUIBaseElement::set_margin(float top, float right, float bottom, flo
   recompute_position();
 }
 
+INLINE void LUIBaseElement::set_margin(float margin) {
+  _margin->set_bounds(margin, margin, margin, margin);
+  recompute_position();
+}
+
+
 INLINE void LUIBaseElement::set_margin_top(float top) {
   _margin->set_top(top);
   recompute_position();
@@ -269,6 +264,11 @@ INLINE void LUIBaseElement::set_padding(float top, float right, float bottom, fl
   recompute_position();
 }
 
+INLINE void LUIBaseElement::set_padding(float padding) {
+  _padding->set_bounds(padding, padding, padding, padding);
+  recompute_position();
+}
+
 INLINE void LUIBaseElement::set_padding_top(float top) {
   _padding->set_top(top);
   recompute_position();
@@ -311,6 +311,7 @@ INLINE void LUIBaseElement::set_size(const LVector2 &size) {
 }
 
 INLINE void LUIBaseElement::set_size(float w, float h) {
+  // nassertv(w >= 0 && h >= 0);
   _size.set_x(w);
   _size.set_y(h);
   recompute_position();
@@ -322,12 +323,14 @@ INLINE bool LUIBaseElement::has_size() {
 }
 
 INLINE void LUIBaseElement::set_width(float w) {
+  // nassertv(w >= 0.0);
   _size.set_x(w);
   recompute_position();
   trigger_event("resized");
 }
 
 INLINE void LUIBaseElement::set_height(float h) {
+  // nassertv(h >= 0.0);
   _size.set_y(h);
   recompute_position();
   trigger_event("resized");
@@ -488,3 +491,16 @@ INLINE int LUIBaseElement::get_last_render_index() {
   return _last_render_index;
 }
 
+INLINE void LUIBaseElement::set_solid(bool solid) {
+  _solid = solid;
+  if (_solid) {
+    register_events();
+  } else {
+    unregister_events();
+  }
+}
+
+
+INLINE bool LUIBaseElement::get_solid() {
+  return _solid;
+}

@@ -12,32 +12,6 @@ from UILabel import UILabel
 from UIFrame import UIFrame
 from UIButton import UIButton
 
-class UIRadioboxGroup(LUIObject):
-
-    def __init__(self):
-        self.boxes = []
-        self.selected_box = None
-
-    def register_box(self, box):
-        if box not in self.boxes:
-            self.boxes.append(box)
-
-    def set_active(self, active_box):
-        for box in self.boxes:
-            if box is not active_box:
-                box._update_state(False)
-            else:
-                box._update_state(True)
-        self.selected_box = active_box
-
-    def get_active_box(self):
-        return self.selected_box
-
-    def get_active_value(self):
-        if self.selected_box is None:
-            return None
-        return self.selected_box.get_value()
-
 class UIRadiobox(LUIObject, UICallback):
 
     def __init__(self, parent=None, group=None, value=5):

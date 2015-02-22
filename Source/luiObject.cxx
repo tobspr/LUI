@@ -6,16 +6,17 @@ NotifyCategoryDef(luiObject, ":lui");
 int LUIObject::_instance_count = 0;
 TypeHandle LUIObject::_type_handle;
 
-LUIObject::LUIObject(PyObject *self, float x, float y, float w, float h) : LUIBaseElement(self) {
+LUIObject::LUIObject(PyObject *self, float x, float y, float w, float h, bool solid) : LUIBaseElement(self) {
   init();
   begin_update_section();
   _size.set_x(w);
   _size.set_y(h);
   set_pos(x, y);
+  set_solid(solid);
   end_update_section();
 }
 
-LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float w, float h)  : LUIBaseElement(self) {
+LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float w, float h, bool solid)  : LUIBaseElement(self) {
   init();
 
   // Prevent recomputation of the position while we initialize the object
@@ -23,7 +24,7 @@ LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float 
   _size.set_x(w);
   _size.set_y(h);
   set_pos(x, y);
-
+  set_solid(solid);
   parent->add_child(this);
   end_update_section();
 }
@@ -41,6 +42,7 @@ LUIObject::~LUIObject() {
 void LUIObject::init() {
   _instance_count ++;
   _sort_children = true;
+  _content_node = NULL;
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Constructing new LUIObject (active: " << _instance_count << ")" << endl;
   }

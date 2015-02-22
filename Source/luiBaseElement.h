@@ -79,10 +79,10 @@ PUBLISHED:
   INLINE bool is_vertical_centered();
   INLINE bool is_horizontal_centered();
 
-
   // Margin
   INLINE void set_margin(const LVector4 &margin);
   INLINE void set_margin(float top, float right, float bottom, float left);
+  INLINE void set_margin(float margin);
   INLINE void set_margin_top(float top);
   INLINE void set_margin_right(float right);
   INLINE void set_margin_bottom(float bottom);
@@ -96,6 +96,7 @@ PUBLISHED:
   // Padding
   INLINE void set_padding(const LVector4 &padding);
   INLINE void set_padding(float top, float right, float bottom, float left);
+  INLINE void set_padding(float padding);
   INLINE void set_padding_top(float top);
   INLINE void set_padding_right(float right);
   INLINE void set_padding_bottom(float bottom);
@@ -121,6 +122,10 @@ PUBLISHED:
   INLINE bool is_visible();
   INLINE void hide();
   INLINE void show();
+
+  // Solid
+  INLINE void set_solid(bool solid);
+  INLINE bool get_solid();
 
   // Z-Index
   INLINE void set_z_offset(int z_offset);
@@ -190,7 +195,7 @@ PUBLISHED:
 
   MAKE_PROPERTY(clip_bounds, get_clip_bounds, set_clip_bounds);
   MAKE_PROPERTY(topmost, is_topmost, set_topmost);
-
+  MAKE_PROPERTY(solid, get_solid, set_solid);
 
 public:
 
@@ -257,6 +262,7 @@ protected:
   bool _snap_position;
 
   bool _focused;
+  bool _solid;
 
   // Margin & Padding, relative to the element bounds
   PT(LUIBounds) _margin;
