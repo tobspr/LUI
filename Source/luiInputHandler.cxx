@@ -8,13 +8,16 @@
 
 TypeHandle LUIInputHandler::_type_handle;
 
-LUIInputHandler::LUIInputHandler(const string &name) : 
+LUIInputHandler::LUIInputHandler(const string &name) :
   DataNode(name),
   _hover_element(NULL),
   _mouse_down_element(NULL),
   _focused_element(NULL)
-   {
-  _mouse_pos_input =  define_input("pixel_xy", EventStoreVec2::get_class_type());
+{
+  // Work around crazy issue with MouseWatcher input type not matching up
+  ParamVecBase2f::init_type("ParamVecBase2f");
+
+  _mouse_pos_input = define_input("pixel_xy", ParamVecBase2f::get_class_type());
   _buttons_input = define_input("button_events", ButtonEventList::get_class_type());
 
   // Init states
@@ -175,7 +178,6 @@ void LUIInputHandler::process(LUIRoot *root) {
   // ^ it's enabled
   if (true) {
     if (_current_state.mouse_pos != _last_state.mouse_pos) {
-      
       // Send a event to the hovered element
       if (_hover_element != NULL) {
         _hover_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
@@ -243,27 +245,28 @@ void LUIInputHandler::process(LUIRoot *root) {
 
   // Check key events
   if (_focused_element != NULL) {
-    for(vector<LUIKeyEvent>::iterator it = _key_events.begin(); it != _key_events.end(); ++it) {
-      
+    vector<LUIKeyEvent>::const_iterator it;
+    for (it = _key_events.begin(); it != _key_events.end(); ++it) {
+
       string btn_name((*it).btn_name);
       wstring btn_name_w(btn_name.begin(), btn_name.end());
 
-      switch((*it).mode) {
-        case M_down: {
-          _focused_element->trigger_event("keydown", btn_name_w, _current_state.mouse_pos);
-          break;
-        }
-        case M_up: {
-          _focused_element->trigger_event("keyup", btn_name_w, _current_state.mouse_pos);
-          break; 
-        }
-        case M_repeat: {
-          _focused_element->trigger_event("keyrepeat", btn_name_w, _current_state.mouse_pos);
-          break; 
-        }
+      switch ((*it).mode) {
+      case M_down:
+        _focused_element->trigger_event("keydown", btn_name_w, _current_state.mouse_pos);
+        break;
 
+      case M_up:
+        _focused_element->trigger_event("keyup", btn_name_w, _current_state.mouse_pos);
+        break;
+
+      case M_repeat:
+        _focused_element->trigger_event("keyrepeat", btn_name_w, _current_state.mouse_pos);
+        break;
+
+      case M_press:
+        break;
       }
-
     }
 
     for (vector<int>::iterator it = _text_events.begin(); it != _text_events.end(); ++it) {

@@ -12,10 +12,6 @@ INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callb
   _events[event_name] = callback;
 }
 
-INLINE void LUIBaseElement::bind(const string &event_name, PyObject* callback) {
-  bind(event_name, new PythonCallbackObject(callback));
-}
-
 INLINE void LUIBaseElement::unbind(const string &event_name) {
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "Unbinding event '" << event_name << "'" << endl;

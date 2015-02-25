@@ -106,8 +106,7 @@ void LUIRegion::
 
     Geom* geom = _lui_root->get_geom();
 
-    CullableObject *object = new CullableObject(geom, state, net_transform, 
-      modelview_transform, _trav->get_scene());
+    CullableObject *object = new CullableObject(geom, state, internal_transform);
     trav->get_cull_handler()->record_object(object, trav);
 
     trav->end_traverse();

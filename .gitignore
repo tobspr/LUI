@@ -3,3 +3,5 @@ Res/demo_textures
 Source/Interrogate*
 CodeAnalyzer.py
 /.project
+*.pyc
+*.pyo
