@@ -9,7 +9,6 @@ class LUIButton(LUIObject):
     """ Simple button """
     def __init__(self, text=u"Button", template="ButtonDefault", **kwargs):
         LUIObject.__init__(self, x=0, y=0, w=0, h=0, solid=True)
-        LUIInitialState.init(self, kwargs)
         self.dynamicWidth = "width" not in kwargs
         self.margin_left = -1
         self.template = template
@@ -23,6 +22,9 @@ class LUIButton(LUIObject):
 
         self.layout = LUIHorizontalStretchedLayout(parent=self, width=width, prefix=self.template)
         self.fit_to_children()
+
+        LUIInitialState.init(self, kwargs)
+
 
     def on_resized(self, event):
         """ Internal callback when the button gets resized """

@@ -46,7 +46,7 @@ class LUIFrame(LUIObject):
 
         # TODO: Scrollable
         # if self.scrollable:
-            # self.content = LUIObject(self)
+        self.content = LUIObject(self)
             # self.content.size = (width, height)
             # self.content.pos = (self.borderSize, self.borderSize)
             # self.scrollContent = UIScrollableRegion(self.content, width=width-2*padding, height=height-2*padding, padding=innerPadding)

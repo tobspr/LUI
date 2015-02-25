@@ -1,6 +1,7 @@
 
 from panda3d.lui import LUIFontPool, LUIAtlasPool
 from panda3d.core import Filename
+import os
 from os.path import join
 
 class LUISkin:
@@ -28,7 +29,8 @@ class LUIDefaultSkin(LUISkin):
 
     """ The default skin which comes with LUI """
 
-    skinLocation = "E:/Projects/Brainz stuff/LUI/Builtin"
+    #skinLocation = "E:/Projects/Brainz stuff/LUI/Builtin"
+    skinLocation = os.path.dirname(os.path.abspath(__file__))
 
     def __init__(self):
         pass

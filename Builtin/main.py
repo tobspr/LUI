@@ -17,10 +17,12 @@ if __name__ == "__main__":
 
     import direct.directbase.DirectStart
 
-    from UISkin import UIDefaultSkin
-    from UICheckbox import UICheckbox
+    from LUISkin import LUIDefaultSkin
+    from LUICheckbox import LUICheckbox
+    from LUIRadioboxGroup import LUIRadioboxGroup
+    from LUISelectbox import LUISelectbox
 
-    skin = UIDefaultSkin()
+    skin = LUIDefaultSkin()
     skin.load()
 
     base.win.set_clear_color(Vec4(0, 0, 0, 1))
@@ -35,34 +37,34 @@ if __name__ == "__main__":
     skinParent.top = 100
     skinParent.left = 300
 
-    frame = UIFrame(parent=skinParent, width=290, height=400, padding=20, innerPadding=20, scrollable=True)
-    layout = UIVerticalLayout(parent=frame, width=250, spacing=10)   
+    frame = LUIFrame(parent=skinParent, width=290, height=400, padding=20, innerPadding=20, scrollable=True)
+    layout = LUIVerticalLayout(parent=frame, width=250, spacing=10)
 
-    checkbox = UICheckbox(checked=False, label=u"Sample checkbox")
-    checkboxChecked = UICheckbox(checked=True, label=u"Checked checkbox")
+    checkbox = LUICheckbox(checked=False, label=u"Sample checkbox")
+    checkboxChecked = LUICheckbox(checked=True, label=u"Checked checkbox")
 
     skinParent.fit_to_children()
 
-    group = UIRadioboxGroup()
-    radiobox = UILabeledRadiobox(group=group, value=5, text=u"Radiobox")
-    radiobox2 = UILabeledRadiobox(group=group, value=7, text=u"Radiobox Checked")
+    group = LUIRadioboxGroup()
+    radiobox = LUILabeledRadiobox(group=group, value=5, text=u"Radiobox")
+    radiobox2 = LUILabeledRadiobox(group=group, value=7, text=u"Radiobox Checked")
 
     radiobox2.get_box().set_active()
 
-    slider = UISliderWithLabel(filled=False, min_value=0.0, max_value=1.0, width=250.0, precision=4)
-    slider2 = UISliderWithLabel(filled=True, min_value=0.0, max_value=120.0, width=250.0, precision=1, value=32)
-    bar = UIProgressbar(width=250, value=33.5)
+    slider = LUISliderWithLabel(filled=False, min_value=0.0, max_value=1.0, width=250.0, precision=4)
+    slider2 = LUISliderWithLabel(filled=True, min_value=0.0, max_value=120.0, width=250.0, precision=1, value=32)
+    bar = LUIProgressbar(width=250, value=33.5)
 
-    btnOk = UIButton(width=120, text=u"SUBMIT", template="ButtonMagic")
-    btnCancel = UIButton(width=120, text=u"CANCEL")
+    btnOk = LUIButton(width=120, text=u"SUBMIT", template="ButtonMagic")
+    btnCancel = LUIButton(width=120, text=u"CANCEL")
     btnCancel.right = 0
 
-    picker = UIColorpicker()
-    pickLabel = UILabel(text=u"Pick your favourite color", shadow=True)
+    picker = LUIColorpicker()
+    pickLabel = LUILabel(text=u"Pick your favourite color", shadow=True)
     pickLabel.top = 6
     picker.right = 0
 
-    box = UISelectbox(width=250, options = [
+    box = LUISelectbox(width=250, options = [
             ("opt1", "Option 1"),
             ("opt2", "Option 2"),
             ("opt3", "Option 3"),
@@ -79,7 +81,7 @@ if __name__ == "__main__":
 
     bar.set_value(slider2.get_value())
 
-    field = UIInputField(width=250)
+    field = LUIInputField(width=250)
 
     layout.add_row(checkbox)
     layout.add_row(checkboxChecked)
@@ -97,14 +99,14 @@ if __name__ == "__main__":
     instructions = LUIObject(region.root(), x=25, y=25) 
 
     # Title
-    title = UILabel(parent=instructions, text=u"LUI Basic Example", font_size=40, font="header")
+    title = LUILabel(parent=instructions, text=u"LUI Basic Example", font_size=40, font="header")
 
     # Instructions
-    layout = UIVerticalLayout(parent=instructions, spacing=6)
-    layout.add_row(UILabel(text=u"Instructions:"))
+    layout = LUIVerticalLayout(parent=instructions, spacing=6)
+    layout.add_row(LUILabel(text=u"Instructions:"))
     layout.add_row()
-    layout.add_row(UIKeyInstruction(key=u"A", instruction=u"Some fancy action"))
-    layout.add_row(UIKeyInstruction(key=u"Enter", instruction=u"Another action"))
+    layout.add_row(LUIKeyInstruction(key=u"A", instruction=u"Some fancy action"))
+    layout.add_row(LUIKeyInstruction(key=u"Enter", instruction=u"Another action"))
     layout.top = 80
 
     skinParent.fit_to_children()

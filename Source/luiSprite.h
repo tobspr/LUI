@@ -101,7 +101,9 @@ protected:
   // 1 - Upper Right
   // 2 - Lower Right
   // 3 - Lower Left
+#ifndef CPPPARSER  // Interrogate sucks at parsing the next line
   LUIVertexData _data[4];
+#endif
 
   // Stores texture coordinates
   LTexCoord _uv_begin;

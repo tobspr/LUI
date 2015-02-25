@@ -11,7 +11,6 @@
 #include "luse.h"
 #include "referenceCount.h"
 #include "callbackObject.h"
-#include "pythonCallbackObject.h"
 #include "luiEventData.h"
 #include "luiColorable.h"
 #include "luiBounds.h"
@@ -34,7 +33,6 @@ PUBLISHED:
   virtual ~LUIBaseElement();
 
   // Events
-  INLINE void bind(const string &event_name, PyObject* callback);
   INLINE void bind(const string &event_name, CallbackObject* callback);
   INLINE void unbind(const string &event_name);
   INLINE void unbind_all();

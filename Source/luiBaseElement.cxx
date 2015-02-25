@@ -5,8 +5,10 @@
 #include "luiRoot.h"
 #include "luiObject.h"
 
-TypeHandle LUIBaseElement::_type_handle;
+// Temporary
+#include "py_panda.h"
 
+TypeHandle LUIBaseElement::_type_handle;
 
 NotifyCategoryDef(luiBaseElement, ":lui");
 
@@ -41,7 +43,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _padding = new LUIBounds(0,0,0,0);
   _abs_clip_bounds = new LUIRect(0,0,1e6,1e6);
 
-  // This code here should belong in a _ext file, but that's currently 
+  // This code here should belong in a _ext file, but that's currently
   // not supported by interrogate.
 
   // This code checks for function named "on_xxx" where xxx is an event
@@ -54,6 +56,13 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
     Py_ssize_t pos = 0;
 
     string event_func_prefix = "on_";
+
+    // bind() no longer takes a PyObject* directly, so we have to do this.
+    // We have to pre-initialize self before we can call bind, though, since
+    // interrogate can't do this until after the constructor is called.
+    ((Dtool_PyInstDef *)self)->_ptr_to_object = (void *)this;
+    PyObject *bind_func = PyObject_GetAttrString(self, "bind");
+    nassertv(bind_func != NULL);
 
     // Get all attributes of the python object
     while (PyDict_Next(class_dict, &pos, &key, &value)) {
@@ -76,13 +85,14 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
             // The method handle we get is unbound, create a bound method which we can
             // call directly
             PyObject *bound_method = PyMethod_New(value, self, (PyObject *)Py_TYPE(self));
-            bind(event_name, bound_method);
+            PyObject_CallFunction(bind_func, (char *)"s#O", str + 3, len - 3, bound_method);
+
             // The PythonCallbackObject stores a reference, so we can decrease
             // the reference count.
-            Py_DECREF(bound_method); 
+            Py_DECREF(bound_method);
           }
         }
-      }          
+      }
     }
   }
 }
