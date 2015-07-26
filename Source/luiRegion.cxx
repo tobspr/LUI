@@ -33,7 +33,7 @@ LUIRegion::
   _lui_root = new LUIRoot(_width, _height);
   _empty_tex = new Texture();
   _object_shader = _lui_root->create_object_shader();
-  set_camera(new Camera(context_name, _lens));
+  set_camera(NodePath(new Camera(context_name, _lens)));
   set_clear_depth_active(false);
 }
 
