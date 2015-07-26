@@ -4843,11 +4843,10 @@ if (PkgSkip("LUI") == 0) and (not RUNTIME):
   TargetAdd('lui.pyd', input='lui_module.obj')
   TargetAdd('lui.pyd', input='libp3lui_igate.obj')
   TargetAdd('lui.pyd', input='libp3lui.dll')
-  TargetAdd('lui.pyd', input='core.pyd')
+  TargetAdd('lui.pyd', input='interrogatedb.pyd')
+  TargetAdd('lui.pyd', input='libp3interrogatedb.dll')
   TargetAdd('lui.pyd', input=COMMON_PANDA_LIBS)
   TargetAdd('lui.pyd', opts=['PYTHON', 'LUI'])
-
-
 
 #
 # DIRECTORY: direct/src/directbase/
