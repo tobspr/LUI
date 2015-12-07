@@ -14,6 +14,7 @@ load_prc_file_data("", """
     text-magfilter linear
     text-pixels-per-unit 32
     sync-video #f
+    textures-power-2 none
     notify-level-lui info
     show-frame-rate-meter #f
     win-size 780 630
@@ -51,6 +52,7 @@ class DemoFramework:
 
         # Background
         self.background = LUISprite(self.root, "res/DemoBackground.png")
+
         
         # Make the background solid and recieve events
         self.background.bind("click", lambda event: self.background.request_focus())

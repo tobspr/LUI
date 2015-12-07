@@ -9,16 +9,18 @@ from panda3d.core import *
 # destPath = dirname(source)
 # borderSize = int(raw_input("Border size in pixel: "))
 
-source = "btn_green_focus.png"
+source = "btn_gray.png"
 destPath = "../Builtin/res/"
-destName = "ButtonMagicFocus_#.png"
-borderSize = 7
+destName = "ButtonDefault_#.png"
+borderSize = 3
 
 def extractSubImage(x, y, w, h, name):
     print "Extracting sub image to",name
     subPNM = PNMImage(w, h, 4)
     subPNM.copySubImage(img, 0, 0, x, y, w, h)
-    subPNM.write(destPath + destName.replace("#", name))
+    suffix = destName.replace("#", name)
+    subPNM.write(destPath + suffix)
+
 
 
 img = PNMImage(source)

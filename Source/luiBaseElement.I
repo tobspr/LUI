@@ -20,8 +20,6 @@ INLINE void LUIBaseElement::unbind(const string &event_name) {
   if (has_event(event_name)) {
     _events.erase(event_name);
   }
-
-
 }
 
 INLINE void LUIBaseElement::unbind_all() {

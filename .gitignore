@@ -1,7 +1,15 @@
-Windows/
 Res/demo_textures
 Source/Interrogate*
-CodeAnalyzer.py
 /.project
 *.pyc
 *.pyo
+*.pdb
+*.pyd
+*.so
+*.psd
+
+# Module builder
+Scripts/
+build.py
+CMakeLists.txt
+
