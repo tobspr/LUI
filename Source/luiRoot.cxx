@@ -142,9 +142,7 @@ PT(Shader) LUIRoot::create_object_shader() {
     "uniform sampler2D lui_texture_7;\n"
     "out vec4 color;\n"
     "void main() {\n"
-    // "color = vec4(colorScale.xyz, 1);\n"
-    "vec4 sampledColor = vec4(0,0,0,1);"
-
+    "vec4 sampledColor = vec4(0,0,0,1);\n"
     "if (textureIndex.x == 0u) sampledColor = texture(lui_texture_0, texcoord);\n"
     "if (textureIndex.x == 1u) sampledColor = texture(lui_texture_1, texcoord);\n"
     "if (textureIndex.x == 2u) sampledColor = texture(lui_texture_2, texcoord);\n"

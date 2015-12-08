@@ -54,7 +54,7 @@ SunkenFrame_Bottom 120 144 16 4
 SunkenFrame_Left 136 144 4 16
 SunkenFrame_Right 140 144 4 16
 SunkenFrame_Top 144 144 16 4
-ButtonDefault2 160 144 1 32
+ButtonDefault 160 144 1 32
 ButtonDefaultFocus 161 144 1 32
 ButtonMagic 162 144 1 32
 ButtonMagicFocus 163 144 1 32
