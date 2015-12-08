@@ -4,6 +4,7 @@
 #include "luiBaseElement.h"
 #include "luiRoot.h"
 #include "luiObject.h"
+#include "luiEventData.h"
 
 // Temporary
 #include "py_panda.h"
@@ -115,8 +116,8 @@ void LUIBaseElement::recompute_position() {
       luiBaseElement_cat.spam() << "Compute, parent is none" << endl;
     }
     _rel_pos_x = _offset_x;
-    _rel_pos_x = _offset_y;
-
+    _rel_pos_y = _offset_y;
+    
   } else {
 
     // Recompute actual position from top/bottom and left/right offsets
@@ -317,4 +318,11 @@ void LUIBaseElement::fetch_render_index() {
   } else {
     _last_render_index = _root->allocate_render_index();
   } 
+}
+
+void LUIBaseElement::trigger_event(const string &event_name, const wstring &message, const LPoint2 &coords) {
+  if (has_event(event_name)) {
+      PT(LUIEventData) data = new LUIEventData(this, event_name, message, coords);
+      _events[event_name]->do_callback(data);
+  }
 }

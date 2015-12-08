@@ -65,7 +65,7 @@ public:
 
   INLINE Geom* get_geom();
 
-  INLINE void prepare_render();
+  void prepare_render();
   INLINE int get_frame_index();
 
   INLINE int get_num_textures();

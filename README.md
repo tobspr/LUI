@@ -10,7 +10,12 @@
 ### Installation
 
 Run `python update_module_builder.py`. This will create a build file in the current directory, which you can then run with `python build.py`.
-Now there should be a `LUI.pyd` or `LUI.so` depending on your system, which you can use in your project.
+Now there should be a `lui.pyd` or `lui.so` depending on your system.
+
+If you are on **windows**, copy the .pyd into `PATH_TO_PANDA_SDK/panda3d/lui.pyd`.
+
+If you are on **linux**, copy the .so into `usr/lib/panda3d/lui.pyd`
+
 
 ### Running the Samples
 

@@ -13,8 +13,6 @@
 #include "callbackData.h"
 #include "luiBaseElement.h"
 
-class LUIBaseElement;
-
 class EXPCL_LUI LUIEventData : public CallbackData, public ReferenceCount  {
 
 PUBLISHED:

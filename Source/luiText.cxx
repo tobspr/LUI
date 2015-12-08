@@ -46,15 +46,13 @@ void LUIText::update_text() {
     sprite->set_snap_position(false);
   }
 
-
-
   // Pixels per unit, used to convert betweeen coordinate spaces
   float ppu = _font_size;
 
   // Unreference all current glyphs
-  for (int i = 0; i < _glyphs.size(); i++) {
-    _glyphs[i]->_geom_count --;
-  }
+  // for (int i = 0; i < _glyphs.size(); i++) {
+  //   _glyphs[i]->unref();
+  // }
   _glyphs.clear();
 
   // Iterate over the sprites
@@ -72,22 +70,20 @@ void LUIText::update_text() {
 
     int char_code = (int)_text.at(i);
 
-    const TextGlyph *const_glyph;
+    CPT(TextGlyph) const_glyph;
     if (!_font->get_glyph(char_code, const_glyph)) {
       sprite->set_texture((Texture*)NULL);
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
       continue;
     }
-
-    TextGlyph *glyph = (TextGlyph*) const_glyph;
-    PT(DynamicTextGlyph) dynamic_glyph = DCAST(DynamicTextGlyph, glyph);
+    
+    CPT(DynamicTextGlyph) dynamic_glyph = DCAST(DynamicTextGlyph, const_glyph);
 
     // If this gets executed, a non-dynamic font got loaded. 
     nassertv(dynamic_glyph != NULL);
 
     _glyphs.push_back(dynamic_glyph);
-    dynamic_glyph->_geom_count ++;
-
+    // dynamic_glyph->ref();
 
     // Some characters have no texture (like space)
     if (dynamic_glyph->get_page() == NULL) {
@@ -156,7 +152,7 @@ int LUIText::get_char_index(float pos) {
   for (int i = 0; i < _text.size(); ++i) {
     int char_code = (int)_text.at(i);
 
-    const TextGlyph *glyph;
+    CPT(TextGlyph) glyph;
     if (!_font->get_glyph(char_code, glyph)) {
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
       continue;
@@ -188,7 +184,7 @@ float LUIText::get_char_pos(int char_index) {
   for (int i = 0; i < iterate_max; i++) {
     int char_code = (int)_text.at(i);
 
-    const TextGlyph *glyph;
+    CPT(TextGlyph) glyph;
     if (!_font->get_glyph(char_code, glyph)) {
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
       continue;

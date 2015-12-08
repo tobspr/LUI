@@ -56,7 +56,7 @@ protected:
   DynamicTextFont *_font;
   wstring _text;
   float _font_size;
-  pvector<PT(DynamicTextGlyph)> _glyphs;
+  pvector<CPT(DynamicTextGlyph)> _glyphs;
 
 
 public:

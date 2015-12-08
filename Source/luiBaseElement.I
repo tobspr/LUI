@@ -31,13 +31,6 @@ INLINE bool LUIBaseElement::has_event(const string &event_name) {
 }
 
 
-INLINE void LUIBaseElement::trigger_event(const string &event_name, const wstring &message, const LPoint2 &coords) {
-  if (has_event(event_name)) {
-      PT(LUIEventData) data = new LUIEventData(this, event_name, message, coords);
-      _events[event_name]->do_callback(data);
-  }
-}
-
 INLINE void LUIBaseElement::set_snap_position(bool snap) {
   _snap_position = snap;
 }

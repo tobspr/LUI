@@ -1,6 +1,7 @@
 
 
 #include "luiRoot.h"
+#include "shader.h"
 
 
 LUIRoot::LUIRoot(float width, float height) : _requested_focus(NULL) {

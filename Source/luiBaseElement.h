@@ -11,7 +11,6 @@
 #include "luse.h"
 #include "referenceCount.h"
 #include "callbackObject.h"
-#include "luiEventData.h"
 #include "luiColorable.h"
 #include "luiBounds.h"
 #include "luiRect.h"
@@ -38,7 +37,7 @@ PUBLISHED:
   INLINE void unbind_all();
 
   INLINE bool has_event(const string &event_name);
-  INLINE void trigger_event(const string &event_name, const wstring &message = wstring(), const LPoint2 &coords = LPoint2(0));
+  void trigger_event(const string &event_name, const wstring &message = wstring(), const LPoint2 &coords = LPoint2(0));
 
   // Position
   INLINE void set_left_top(const LPoint2 &pos);

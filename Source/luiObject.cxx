@@ -1,5 +1,6 @@
 
 #include "luiObject.h"
+#include "luiRoot.h"
 
 NotifyCategoryDef(luiObject, ":lui");
 
