@@ -46,7 +46,7 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
 
     _tex = tex;
     set_uv_range(LTexCoord(0), LTexCoord(1));
-    
+
     if (resize) {
       set_size(_tex->get_x_size(), _tex->get_y_size());
     }
@@ -81,9 +81,9 @@ INLINE void LUISprite::set_texture(const string &source, bool resize) {
 
     // load texture from descriptor
     // "atlas-id:entry-name"
-    string atlas_id = source.substr(0, sep_pos); 
+    string atlas_id = source.substr(0, sep_pos);
     string entry_name = source.substr(sep_pos+1);
-    cout << "Atlas id is: '" << atlas_id << "' an entry id is '" << entry_name << "'"; 
+    cout << "Atlas id is: '" << atlas_id << "' an entry id is '" << entry_name << "'";
 
     set_texture(entry_name, atlas_id, resize);
 
@@ -117,8 +117,8 @@ INLINE void LUISprite::print_vertices() {
   cout << "LUISprite, 4 Vertices:" << endl;
 
   for (int i = 0; i < 4; i++) {
-    cout << "  [Vertex] POS = " << _data[i].x << "," << _data[i].y << "," << _data[i].z 
-      << "; UV = " << _data[i].u << "," << _data[i].v 
+    cout << "  [Vertex] POS = " << _data[i].x << "," << _data[i].y << "," << _data[i].z
+      << "; UV = " << _data[i].u << "," << _data[i].v
       << " COL = " << (float)_data[i].color[0] << "," << (float)_data[i].color[1] << "," << (float)_data[i].color[2] << "," << (float)_data[i].color[3] << endl;
   }
 

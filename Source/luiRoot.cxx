@@ -57,7 +57,7 @@ void LUIRoot::prepare_render() {
 
   PT(GeomVertexArrayDataHandle) array_data_handle = _vertex_data->modify_array(0)->modify_handle();
   _sprite_vertex_pointer = array_data_handle->get_write_pointer();
-  
+
   _min_rendered_vertex = 999999999;
   _max_rendered_vertex = 0;
   _render_index = 0;
@@ -65,7 +65,7 @@ void LUIRoot::prepare_render() {
 
   // prepare the geom triangle
   _sprites_rendered = 0;
-  
+
   _triangles->clear_vertices();
   _triangles->make_indexed();
   _triangles->set_index_type(GeomEnums::NT_uint32);
@@ -80,7 +80,7 @@ void LUIRoot::prepare_render() {
 
 
   if (_sprites_rendered > 0) {
-    _triangles->modify_vertices()->unclean_set_num_rows(_sprites_rendered * 2 * 3);  
+    _triangles->modify_vertices()->unclean_set_num_rows(_sprites_rendered * 2 * 3);
 
     memcpy(_triangles->modify_vertices()->modify_handle()->get_write_pointer(), _triangle_index_buffer, _sprites_rendered * sizeof(LUITriangleIndex) * 2);
 
@@ -90,7 +90,7 @@ void LUIRoot::prepare_render() {
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Rendered " << _triangles->get_num_vertices() << " vertices (" << _sprites_rendered << " Sprites)" << endl;
-    lui_cat.spam() << sprites_topmost << " sprites rendered topmost vs " << sprites_before << " normal" << endl; 
+    lui_cat.spam() << sprites_topmost << " sprites rendered topmost vs " << sprites_before << " normal" << endl;
   }
 }
 
@@ -109,7 +109,7 @@ LUIRoot::~LUIRoot() {
 
 
 PT(Shader) LUIRoot::create_object_shader() {
-  return Shader::make(Shader::SL_GLSL, 
+  return Shader::make(Shader::SL_GLSL,
     // Vertex
     "#version 150\n"
     "uniform mat4 p3d_ModelViewProjectionMatrix;\n"
@@ -126,7 +126,7 @@ PT(Shader) LUIRoot::create_object_shader() {
     "textureIndex = texindex;\n"
     "gl_Position = p3d_ModelViewProjectionMatrix * p3d_Vertex;\n"
     "}\n"
-    , 
+    ,
     // Fragment
     "#version 150\n"
     "in vec2 texcoord;\n"

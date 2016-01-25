@@ -29,7 +29,7 @@ public:
   virtual void do_transmit_data(DataGraphTraverser *trav,
                                 const DataNodeTransmit &input,
                                 DataNodeTransmit &output);
-  void process(LUIRoot *root); 
+  void process(LUIRoot *root);
 
 protected:
 
@@ -44,7 +44,7 @@ protected:
     M_down,
     M_repeat,
     M_press
-  };    
+  };
 
   struct LUIKeyEvent {
     string btn_name;
@@ -57,7 +57,7 @@ protected:
   LUIBaseElement *_hover_element;
   LUIBaseElement *_mouse_down_element;
   LUIBaseElement *_focused_element;
-  
+
   int _mouse_pos_input;
   int _buttons_input;
 

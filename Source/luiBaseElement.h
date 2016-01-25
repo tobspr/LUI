@@ -143,8 +143,8 @@ PUBLISHED:
 
   INLINE void set_clip_bounds(LUIBounds *bounds);
   INLINE void set_clip_bounds(float top, float right, float bottom, float left);
-  INLINE LUIBounds *get_clip_bounds();
-  INLINE LUIRect *get_abs_clip_bounds();
+  INLINE LUIBounds *get_clip_bounds() const;
+  INLINE LUIRect *get_abs_clip_bounds() const;
 
   INLINE bool is_topmost();
   INLINE void set_topmost(bool topmost);
@@ -154,7 +154,7 @@ PUBLISHED:
   MAKE_PROPERTY(right_top, get_right_top, set_right_top);
   MAKE_PROPERTY(left_bottom, get_left_bottom, set_left_bottom);
   MAKE_PROPERTY(right_bottom, get_right_bottom, set_right_bottom);
-  
+
   MAKE_PROPERTY(pos, get_pos, set_pos);
   MAKE_PROPERTY(abs_pos, get_abs_pos);
 
@@ -183,7 +183,7 @@ PUBLISHED:
   MAKE_PROPERTY(size, get_size, set_size);
   MAKE_PROPERTY(width, get_width, set_width);
   MAKE_PROPERTY(height, get_height, set_height);
-  
+
   MAKE_PROPERTY(visible, is_visible, set_visible);
   MAKE_PROPERTY(z_offset, get_z_offset, set_z_offset);
   MAKE_PROPERTY(absolute_z_offset, get_abs_pos);

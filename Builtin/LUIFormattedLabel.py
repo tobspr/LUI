@@ -24,12 +24,12 @@ class LUIFormattedLabel(LUIObject):
         self.fit_to_children()
 
     def br(self, font_size=14):
-        """ Moves the *cursor* to the next line """ 
+        """ Moves the *cursor* to the next line """
         self.currentTop += font_size + 2
         self.currentLeft = 0
 
     def add_text(self, *args, **kwargs):
-        """ Appends a new text. The arguments are equal to the arguments of 
+        """ Appends a new text. The arguments are equal to the arguments of
         UILabel """
         label = LUILabel(parent=self,left=self.currentLeft, top=self.currentTop, *args, **kwargs)
         self.currentLeft += label.width

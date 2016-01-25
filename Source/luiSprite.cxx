@@ -9,7 +9,7 @@ TypeHandle LUISprite::_type_handle;
 
 NotifyCategoryDef(luiSprite, ":lui");
 
-// Initialize with a path to an image  
+// Initialize with a path to an image
 LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
   init(parent, x, y, color);
   set_texture(image, true);
@@ -41,7 +41,7 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
   _instance_count ++;
 
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Constructed new LUISprite, (active: " << _instance_count << ")" << endl;  
+    luiSprite_cat.spam() << "Constructed new LUISprite, (active: " << _instance_count << ")" << endl;
   }
 
   // Prevent recomputation of the position while we initialize the sprite
@@ -50,7 +50,7 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
   set_uv_range(0, 0, 1, 1);
   _size.set_x(1);
   _size.set_y(1);
-  set_pos(x, y); 
+  set_pos(x, y);
   end_update_section();
 
   parent->add_child(this);
@@ -67,12 +67,12 @@ LUISprite::~LUISprite() {
 
 
 void LUISprite::ls(int indent) {
-  cout << string(indent, ' ')  << "[LUISprite] pos = " 
-      << _pos_x << ", " << _pos_y 
-      << "; size = " << _size.get_x() << " x " << _size.get_y() 
+  cout << string(indent, ' ')  << "[LUISprite] pos = "
+      << _pos_x << ", " << _pos_y
+      << "; size = " << _size.get_x() << " x " << _size.get_y()
       << "; tex = " << (_tex != NULL ? _tex->get_name() : "none")
       << "; z = " << _z_offset << endl;
-} 
+}
 
 
 void LUISprite::set_root(LUIRoot* root) {
@@ -96,7 +96,7 @@ void LUISprite::set_root(LUIRoot* root) {
     register_events();
     assign_sprite_index();
   }
-  
+
 }
 
 void LUISprite::assign_sprite_index() {
@@ -118,7 +118,7 @@ void LUISprite::assign_sprite_index() {
 
 void LUISprite::update_vertex_pool() {
   if (_sprite_index >= 0 && _root != NULL && !_in_update_section) {
-    
+
     if (luiSprite_cat.is_spam()) {
       luiSprite_cat.spam() << "Updating vertex pool slot " << _sprite_index << endl;
     }
@@ -131,7 +131,7 @@ void LUISprite::update_vertex_pool() {
     if (luiSprite_cat.is_spam()) {
       luiSprite_cat.spam() << "Memcopying to " << write_pointer << endl;
     }
-    
+
     memcpy(write_pointer, &_data, sizeof(LUIVertexData) * 4);
   }
 }
@@ -146,7 +146,7 @@ void LUISprite::unassign_sprite_index() {
     _root->unregister_sprite(_sprite_index);
     _sprite_index = -1;
   }
-  
+
   _texture_index = -1;
 }
 
@@ -175,7 +175,7 @@ void LUISprite::recompute_vertices() {
   float v1 = _uv_begin.get_y();
   float u2 = _uv_end.get_x();
   float v2 = _uv_end.get_y();
-  
+
   // Compute texcoord-per-pixel factor
   float upp = 0, vpp = 0;
 
@@ -194,14 +194,14 @@ void LUISprite::recompute_vertices() {
   v2 += (ny2 - y2) * vpp;
 
   if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Recomputing, bounds = (" << _abs_clip_bounds->get_x() << ", " 
-      << _abs_clip_bounds->get_y() << " / " << _abs_clip_bounds->get_w() << "x" << _abs_clip_bounds->get_h() 
+    luiSprite_cat.spam() << "Recomputing, bounds = (" << _abs_clip_bounds->get_x() << ", "
+      << _abs_clip_bounds->get_y() << " / " << _abs_clip_bounds->get_w() << "x" << _abs_clip_bounds->get_h()
       << "), pos = (" << nx1 << ", " << ny1 << ", " << nx2 << ", " << ny2 << ")"
       << endl;
   }
 
   // Update vertex positions
-  _data[0].x = nx1; 
+  _data[0].x = nx1;
   _data[0].z = ny1;
   _data[1].x = nx2;
   _data[1].z = ny1;

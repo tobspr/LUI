@@ -16,7 +16,7 @@ PUBLISHED:
 
   // Color
   INLINE void set_color(const LColor &color);
-  INLINE void set_color(const LVector3 &color);
+  INLINE void set_color(const LVecBase3 &rgb);
   INLINE void set_color(float r, float g, float b, float a = 1.0);
 
   INLINE void set_red(float r);
@@ -24,13 +24,13 @@ PUBLISHED:
   INLINE void set_blue(float b);
   INLINE void set_alpha(float a);
 
-  INLINE float get_red();
-  INLINE float get_green();
-  INLINE float get_blue();
-  INLINE float get_alpha();
+  INLINE float get_red() const;
+  INLINE float get_green() const;
+  INLINE float get_blue() const;
+  INLINE float get_alpha() const;
 
-  INLINE const LColor &get_color();
-  INLINE const LColor &get_composed_color();
+  INLINE const LColor &get_color() const;
+  INLINE const LColor &get_composed_color() const;
 
   // Python properties
   MAKE_PROPERTY(color, get_color, set_color);
@@ -44,14 +44,12 @@ protected:
 
   LUIColorable();
   virtual ~LUIColorable();
-
   virtual void on_color_changed() = 0;
 
   INLINE void compose_color(const LColor &parent_color = LColor(1));
 
   LColor _color;
   LColor _composed_color;
-
 };
 
 #include "luiColorable.I"

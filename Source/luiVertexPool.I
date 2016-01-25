@@ -1,5 +1,5 @@
 
-  
+
 INLINE int LUIVertexPool::get_num_chunks() {
   return _chunks.size();
 

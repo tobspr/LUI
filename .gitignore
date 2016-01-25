@@ -1,20 +1,20 @@
-Res/demo_textures
-Source/Interrogate*
-/.project
-*.pyc
-*.pyo
-*.pdb
+
+# Prefab gitignore which can be used by the user to ignore the files generated
+# by the module builder
+
 *.pyd
+*.pyc
 *.so
-*.psd
+*.pdb
 
+# Various output names
+win_*/
+linux_*/
+Source/Interrogate*
 
-# Module builder
+# Source and script files
+Source/
 Scripts/
-build.py
 CMakeLists.txt
-
-win_amd64
-win_i386
-linux_amd64
-linux_i386
+build.py
+LICENSE

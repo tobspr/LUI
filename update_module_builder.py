@@ -73,7 +73,7 @@ def download_submodule(author, module_name, dest_path, ignore_list):
                 with zip_handle.open(fname, "r") as source, open(rel_name, "wb") as dest:
                     shutil.copyfileobj(source, dest)
                 num_files += 1
-                        
+
         # Directories
         else:
             if not os.path.isdir(rel_name):
@@ -83,8 +83,11 @@ def download_submodule(author, module_name, dest_path, ignore_list):
     print("Extracted", num_files, "files and", num_dirs, "directories")
 
 if __name__ == "__main__":
-    ignore = ("__init__.py .gitignore LICENSE README.md config.ini Source/config_module.cpp "
+    ignore = ("__init__.py LICENSE README.md config.ini Source/config_module.cpp "
         "Source/config_module.h Source/ExampleClass.cpp Source/ExampleClass.h Source/ExampleClass.I").split()
     curr_dir = os.path.dirname(os.path.realpath(__file__)); os.chdir(curr_dir);
     download_submodule("tobspr", "P3DModuleBuilder", curr_dir, ignore)
     with open("Scripts/__init__.py", "w") as handle: pass
+    try: os.remove(".gitignore")
+    except: pass
+    os.rename("prefab.gitignore", ".gitignore")

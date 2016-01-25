@@ -29,11 +29,11 @@ INLINE PT(LUIAtlasDescriptor) LUIAtlasPool::get_descriptor(const string &atlas_i
     PT(LUIAtlasDescriptor) descriptor = new LUIAtlasDescriptor();
     descriptor->set_size(entry->size);
     descriptor->set_uv_range(
-        entry->pos / float(atlas->get_size()), 
+        entry->pos / float(atlas->get_size()),
         (entry->pos + entry->size) / float(atlas->get_size()) );
     descriptor->set_texture(atlas->get_texture());
     return descriptor;
-  } 
+  }
 
   lui_cat.error() << "Atlas entry '" << entry_id << "' not found!" << endl;
   return NULL;

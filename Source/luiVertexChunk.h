@@ -33,7 +33,7 @@ public:
 
   INLINE int reserve_slot(LUISprite *sprite);
   INLINE void free_slot(int slot);
-  INLINE void* get_slot_ptr(int slot); 
+  INLINE void* get_slot_ptr(int slot);
 
 private:
 

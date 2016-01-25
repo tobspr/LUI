@@ -9,12 +9,13 @@
 #include "pandasymbols.h"
 #include "luse.h"
 
+#include <stdint.h>
+
 struct LUIVertexData {
   PN_stdfloat x, y, z;
   unsigned char color[4];
   PN_stdfloat u, v;
   unsigned char texindex[2];
 };
-
 
 #endif

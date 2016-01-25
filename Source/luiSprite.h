@@ -40,13 +40,13 @@ class EXPCL_LUI LUISprite : public LUIBaseElement  {
   friend class LUIObject;
 
 PUBLISHED:
-  
-  // Initialize with a path to an image  
+
+  // Initialize with a path to an image
   LUISprite(PyObject *self, LUIObject* parent, const string &image, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
-  
+
   // Initialize with a texture handle
   LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
-  
+
   // Initialize with a atlas entry
   LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
 
@@ -71,7 +71,7 @@ PUBLISHED:
 
   // Python properties
   MAKE_PROPERTY(texture, get_texture);
-  
+
 protected:
 
   void init(LUIObject *parent, float x, float y, const LColor &color);
@@ -87,7 +87,7 @@ protected:
   INLINE void on_visibility_changed();
   INLINE void on_detached();
   void set_root(LUIRoot* root);
-  
+
   virtual void render_recursive(bool is_topmost_pass, bool render_anyway);
 
   // Interface to LUIColorable
@@ -113,7 +113,7 @@ protected:
 
 
 
-  // Keep track of the amount of instances created, for 
+  // Keep track of the amount of instances created, for
   // tracking memory leaks
   static int _instance_count;
 

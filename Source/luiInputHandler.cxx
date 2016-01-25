@@ -44,14 +44,14 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
     // The mouse is within the window.  Get the current mouse position.
     const EventStoreVec2 *mouse_pos;
     DCAST_INTO_V(mouse_pos, input.get_data(_mouse_pos_input).get_ptr());
-    
+
     _current_state.mouse_pos = mouse_pos->get_value();
     _current_state.has_mouse_pos = true;
   } else {
     _current_state.has_mouse_pos = false;
     _current_state.mouse_pos = LPoint2(0);
   }
-  
+
 
   _key_events.clear();
   _text_events.clear();
@@ -99,7 +99,7 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
         }
 
       } else if (be._type == ButtonEvent::T_repeat) {
-        
+
         LUIKeyEvent event = {be._button.get_name(), M_repeat};
         _key_events.push_back(event);
 
@@ -139,7 +139,7 @@ void LUIInputHandler::process(LUIRoot *root) {
   int current_render_index = -1;
 
   if (_current_state.has_mouse_pos) {
-    
+
       // Iterate all event objects, and find the one with the highest z-index
       // below the cursor
       LUIEventObjectSet::iterator iter = root->get_event_objects_begin();
@@ -148,15 +148,15 @@ void LUIInputHandler::process(LUIRoot *root) {
         LUIBaseElement *elem = *iter;
         if (
             // Visible
-            elem->get_last_frame_visible() >= root->get_frame_index() && 
+            elem->get_last_frame_visible() >= root->get_frame_index() &&
             // In front of the last element
             elem->get_last_render_index() > current_render_index &&
             // Under the mouse cursor
             elem->intersects(
-              _current_state.mouse_pos.get_x(), 
+              _current_state.mouse_pos.get_x(),
               _current_state.mouse_pos.get_y())) {
           current_hover = elem;
-          current_render_index = elem->get_last_render_index();     
+          current_render_index = elem->get_last_render_index();
       }
     }
   }
@@ -225,8 +225,8 @@ void LUIInputHandler::process(LUIRoot *root) {
 
     if (requested_focus != _focused_element) {
       if (lui_cat.is_spam()) {
-        lui_cat.spam() << "Focus changed to " 
-          << requested_focus 
+        lui_cat.spam() << "Focus changed to "
+          << requested_focus
           << " from " << _focused_element << endl;
       }
       requested_focus->set_focus(true);

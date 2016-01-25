@@ -20,7 +20,7 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
   _children.erase(child_index);
   child->on_detached();
   child->set_parent(NULL);
-  
+
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Reference count is now: " << child->get_ref_count() << endl;
   }
@@ -73,7 +73,7 @@ INLINE int LUIObject::get_child_count() {
 
 INLINE void LUIObject::on_color_changed() {
   LUIBaseElement::on_color_changed();
-  
+
   for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->on_color_changed();
   }
@@ -122,7 +122,7 @@ INLINE void LUIObject::fit_to_children() {
     if (child->_placement_x == M_default) {
       maxX = max(maxX, pos.get_x() + child->get_width());
     }
-    
+
     if (child->_placement_y == M_default) {
       maxY = max(maxY, pos.get_y() + child->get_height());
     }
@@ -139,7 +139,7 @@ INLINE void LUIObject::fit_height_to_children() {
 
   for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
     LUIBaseElement* child = (*it);
-    LPoint2 pos = get_relative_pos(child->get_abs_pos());  
+    LPoint2 pos = get_relative_pos(child->get_abs_pos());
     if (child->_placement_y == M_default) {
       maxY = max(maxY, pos.get_y() + child->get_height());
     }
@@ -154,7 +154,7 @@ INLINE void LUIObject::fit_width_to_children() {
 
   for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
     LUIBaseElement* child = (*it);
-    LPoint2 pos = get_relative_pos(child->get_abs_pos());  
+    LPoint2 pos = get_relative_pos(child->get_abs_pos());
     if (child->_placement_x == M_default) {
       maxX = max(maxX, pos.get_x() + child->get_width());
     }

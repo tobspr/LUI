@@ -145,7 +145,7 @@ INLINE int LUIRoot::get_num_textures() {
 
 INLINE Texture* LUIRoot::get_texture(int index) {
   nassertr(index >= 0 && index < _textures.size(), NULL);
-  return _textures[index];  
+  return _textures[index];
 }
 
 INLINE int LUIRoot::get_frame_index() {

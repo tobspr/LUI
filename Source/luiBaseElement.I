@@ -328,7 +328,7 @@ INLINE float LUIBaseElement::get_width() {
 }
 
 INLINE float LUIBaseElement::get_height() {
-  return _size.get_y(); 
+  return _size.get_y();
 }
 
 INLINE const LVector2 &LUIBaseElement::get_size() const {
@@ -371,9 +371,9 @@ INLINE LUIBaseElement* LUIBaseElement::get_parent() {
 
 INLINE bool LUIBaseElement::intersects(float x, float y) {
   return (
-      x >= _pos_x && 
+      x >= _pos_x &&
       y >= _pos_y &&
-      x <= _pos_x + _size.get_x() && 
+      x <= _pos_x + _size.get_x() &&
       y <= _pos_y + _size.get_y() &&
 
       x >= _abs_clip_bounds->get_x() &&
@@ -394,7 +394,7 @@ INLINE void LUIBaseElement::begin_update_section() {
 
 INLINE void LUIBaseElement::end_update_section() {
   nassertv(_in_update_section == true);
-  _in_update_section = false;  
+  _in_update_section = false;
 
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "End of update section .." << endl;
@@ -422,11 +422,11 @@ INLINE void LUIBaseElement::set_clip_bounds(float top, float right, float bottom
   recompute_position();
 }
 
-INLINE LUIBounds *LUIBaseElement::get_clip_bounds() {
+INLINE LUIBounds *LUIBaseElement::get_clip_bounds() const {
   return _clip_bounds;
 }
 
-INLINE LUIRect *LUIBaseElement::get_abs_clip_bounds() {
+INLINE LUIRect *LUIBaseElement::get_abs_clip_bounds() const {
   return _abs_clip_bounds;
 }
 
@@ -448,10 +448,10 @@ INLINE float LUIBaseElement::get_parent_width() {
 }
 
 INLINE float LUIBaseElement::get_parent_height() {
-  if (_parent == NULL) { 
+  if (_parent == NULL) {
     return 0.0;
   }
-  return _parent->get_height(); 
+  return _parent->get_height();
 }
 
 INLINE void LUIBaseElement::on_color_changed() {

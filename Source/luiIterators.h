@@ -26,7 +26,7 @@ PUBLISHED:
     return *this;
   }
 public:
-  LUIElementIterator(lui_element_iterator begin, lui_element_iterator end) 
+  LUIElementIterator(lui_element_iterator begin, lui_element_iterator end)
     : _iter(begin), _end(end) {
   }
   ~LUIElementIterator() {

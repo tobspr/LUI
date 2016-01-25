@@ -2,9 +2,9 @@
 #include "luiVertexChunk.h"
 
 
-LUIVertexChunk::LUIVertexChunk(int chunk_size) 
+LUIVertexChunk::LUIVertexChunk(int chunk_size)
   : _chunk_size(chunk_size), _sprite_count(0) {
-  
+
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Constructed new chunk of size " << chunk_size << endl;
   }
@@ -43,7 +43,7 @@ LUIVertexChunk::LUIVertexChunk(int chunk_size)
 
   // Initialize child array
   _children = new LUISprite*[chunk_size];
-  
+
   for (int i = 0; i < chunk_size; i++) {
     _children[i] = NULL;
   }

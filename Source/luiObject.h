@@ -32,7 +32,7 @@ class EXPCL_LUI LUIObject : public LUIBaseElement {
   friend class LUIRoot;
 
 PUBLISHED:
-  
+
   LUIObject(PyObject *self, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, bool solid = false);
   LUIObject(PyObject *self, LUIObject *parent, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, bool solid = false);
 
@@ -72,9 +72,9 @@ protected:
   INLINE virtual void on_detached();
   virtual void set_root(LUIRoot* root);
   virtual void render_recursive(bool is_topmost_pass, bool render_anyway);
-  
+
   // Interface to LUIColorable
-  INLINE virtual void on_color_changed(); 
+  INLINE virtual void on_color_changed();
 
   LUIChildVector _children;
   PT(LUIObject) _content_node;

@@ -29,10 +29,10 @@ INLINE int LUIVertexChunk::reserve_slot(LUISprite *sprite) {
 
   // As we checked for has_space above, this should never happen
   nassertr(slot >= 0 && slot < _chunk_size, 0);
-  
+
   _children[slot] = sprite;
   _sprite_count ++;
-  
+
   return slot;
 }
 
@@ -53,7 +53,7 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Free slot " << slot << endl;
   }
- 
+
   for (int i = 0; i < 4; i++) {
     memset(get_slot_ptr(slot), 0, sizeof(LUIVertexData) * 4);
   }
@@ -71,7 +71,7 @@ INLINE void *LUIVertexChunk::get_slot_ptr(int slot) {
 
   // Make sure the write pointer is correct
   nassertr(_vertex_data->modify_array(0)->modify_handle()->get_write_pointer() == _write_pointer, NULL);
-  
+
   // Make sure we don't write at the wrong location
   nassertr(slot < _chunk_size, NULL);
 

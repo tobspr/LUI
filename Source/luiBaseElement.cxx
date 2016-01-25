@@ -13,8 +13,8 @@ TypeHandle LUIBaseElement::_type_handle;
 
 NotifyCategoryDef(luiBaseElement, ":lui");
 
-LUIBaseElement::LUIBaseElement(PyObject *self) :   
-  _visible(true), 
+LUIBaseElement::LUIBaseElement(PyObject *self) :
+  _visible(true),
   _offset_x(0),
   _offset_y(0),
   _pos_x(0),
@@ -104,7 +104,7 @@ LUIBaseElement::~LUIBaseElement() {
 void LUIBaseElement::recompute_position() {
   if (_in_update_section) return;
 
-  LVector2 ppos(0);  
+  LVector2 ppos(0);
 
     float add_x = 0.0;
     float add_y = 0.0;
@@ -117,7 +117,7 @@ void LUIBaseElement::recompute_position() {
     }
     _rel_pos_x = _offset_x;
     _rel_pos_y = _offset_y;
-    
+
   } else {
 
     // Recompute actual position from top/bottom and left/right offsets
@@ -126,11 +126,11 @@ void LUIBaseElement::recompute_position() {
     LUIBounds* ppadding = _parent->get_padding();
 
     if (luiBaseElement_cat.is_spam()) {
-      luiBaseElement_cat.spam() << "Compute, bounds = " << psize.get_x() << ", " 
-        << psize.get_y() << ", pos = " << ppos.get_x() 
-        << ", " << ppos.get_y() << ", place = " << _placement_x << " / " << _placement_y 
-        << ", margin = " << _margin->get_top() << ", " << _margin->get_right() << ", " 
-        << _margin->get_bottom() << ", " << _margin->get_left() << ", p_padding = " 
+      luiBaseElement_cat.spam() << "Compute, bounds = " << psize.get_x() << ", "
+        << psize.get_y() << ", pos = " << ppos.get_x()
+        << ", " << ppos.get_y() << ", place = " << _placement_x << " / " << _placement_y
+        << ", margin = " << _margin->get_top() << ", " << _margin->get_right() << ", "
+        << _margin->get_bottom() << ", " << _margin->get_left() << ", p_padding = "
         << ppadding->get_top() << ", " << ppadding->get_right() << ", " << ppadding->get_bottom() << ", " << ppadding->get_left()
         << ", size = " << _size.get_x() << " / " << _size.get_y()
         << endl;
@@ -154,7 +154,7 @@ void LUIBaseElement::recompute_position() {
     // Stick center
     } else {
       _rel_pos_y = (psize.get_y() - _size.get_y()) / 2.0;
-      add_y = (_margin->get_top() - _margin->get_bottom()) + 
+      add_y = (_margin->get_top() - _margin->get_bottom()) +
               (ppadding->get_top() - ppadding->get_bottom());
     }
 
@@ -172,7 +172,7 @@ void LUIBaseElement::recompute_position() {
     // Center Element
     } else {
       _rel_pos_x = (psize.get_x() - _size.get_x()) / 2.0;
-       add_x = (_margin->get_left() - _margin->get_right()) + 
+       add_x = (_margin->get_left() - _margin->get_right()) +
                    (ppadding->get_left() - ppadding->get_right());
     }
   }
@@ -209,7 +209,7 @@ void LUIBaseElement::recompute_position() {
     // If we have no specific bounds, just take the parent bounds
     if (_clip_bounds == NULL) {
       if (luiBaseElement_cat.is_spam()) {
-        luiBaseElement_cat.spam() << "Using parent bounds (" << _parent << ") (no custom) (" << parent_bounds->get_x() << ", " 
+        luiBaseElement_cat.spam() << "Using parent bounds (" << _parent << ") (no custom) (" << parent_bounds->get_x() << ", "
           << parent_bounds->get_y() << " / " << parent_bounds->get_w() << " x " << parent_bounds->get_h() << ") .." << endl;
       }
       _abs_clip_bounds->set_rect(parent_bounds->get_rect());
@@ -243,7 +243,7 @@ void LUIBaseElement::recompute_position() {
   }
 
   if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << "new position is " << _rel_pos_x << " / " << _rel_pos_y << " (abs: " << _pos_x << " / " << _pos_y << "), bounds=(" 
+    luiBaseElement_cat.spam() << "new position is " << _rel_pos_x << " / " << _rel_pos_y << " (abs: " << _pos_x << " / " << _pos_y << "), bounds=("
       << _abs_clip_bounds->get_x() << ", " << _abs_clip_bounds->get_y() << ", " << _abs_clip_bounds->get_w() << " x " << _abs_clip_bounds->get_h() << ")" << endl;
 
   }
@@ -271,7 +271,7 @@ void LUIBaseElement::unregister_events() {
   if (_root != NULL && _events_registered) {
     _root->unregister_event_object(this);
     _events_registered = false;
-  
+
     if (luiBaseElement_cat.is_spam()) {
       luiBaseElement_cat.spam() << "Un-registering events for object .." << endl;
     }
@@ -298,7 +298,7 @@ void LUIBaseElement::reparent_to(LUIBaseElement *parent) {
     luiBaseElement_cat.error() << "You can only attach elements to a LUIObject (or a subclass of it)" << endl;
     return;
   }
-  
+
   new_parent_as_object->add_child(this);
 }
 
@@ -317,7 +317,7 @@ void LUIBaseElement::fetch_render_index() {
     _last_render_index = -1;
   } else {
     _last_render_index = _root->allocate_render_index();
-  } 
+  }
 }
 
 void LUIBaseElement::trigger_event(const string &event_name, const wstring &message, const LPoint2 &coords) {

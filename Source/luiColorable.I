@@ -5,12 +5,11 @@ INLINE void LUIColorable::set_color(const LColor &color) {
   on_color_changed();
 }
 
-INLINE void LUIColorable::set_color(const LVector3 &color) {
-  _color.set_x(color.get_x());
-  _color.set_y(color.get_y());
-  _color.set_z(color.get_z());
+INLINE void LUIColorable::set_color(const LVecBase3 &rgb) {
+  _color.set(rgb.get_x(), rgb.get_y(), rgb.get_z(), 1.0);
   on_color_changed();
 }
+
 
 INLINE void LUIColorable::set_color(float r, float g, float b, float a) {
   _color.set_x(r);
@@ -40,27 +39,27 @@ INLINE void LUIColorable::set_alpha(float a) {
   on_color_changed();
 }
 
-INLINE float LUIColorable::get_red() {
+INLINE float LUIColorable::get_red() const {
   return _color.get_x();
 }
 
-INLINE float LUIColorable::get_green() {
+INLINE float LUIColorable::get_green() const {
   return _color.get_y();
 }
 
-INLINE float LUIColorable::get_blue() {
+INLINE float LUIColorable::get_blue() const {
   return _color.get_z();
 }
 
-INLINE float LUIColorable::get_alpha() {
+INLINE float LUIColorable::get_alpha() const {
   return _color.get_w();
 }
 
-INLINE const LColor &LUIColorable::get_color() {
+INLINE const LColor &LUIColorable::get_color() const {
   return _color;
 }
 
-INLINE const LColor &LUIColorable::get_composed_color() {
+INLINE const LColor &LUIColorable::get_composed_color() const {
   return _composed_color;
 }
 
