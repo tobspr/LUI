@@ -1,22 +1,23 @@
 
 
-INLINE bool LUIAtlasPool::has_atlas(const string &atlas_id) {
+INLINE bool LUIAtlasPool::has_atlas(const string &atlas_id) const {
   return _atlases.count(atlas_id) == 1;
 }
 
 
-INLINE PT(LUIAtlas) LUIAtlasPool::get_atlas(const string &atlas_id) {
-  if (has_atlas(atlas_id)) {
-    return _atlases[atlas_id];
+INLINE PT(LUIAtlas) LUIAtlasPool::get_atlas(const string &atlas_id) const {
+  auto it = _atlases.find(atlas_id);
+  if (it != _atlases.end()) {
+    return it->second;
   }
   return NULL;
 }
 
-INLINE PT(LUIAtlasDescriptor) LUIAtlasPool::get_descriptor(const string &entry_id) {
+INLINE PT(LUIAtlasDescriptor) LUIAtlasPool::get_descriptor(const string &entry_id) const {
   return get_descriptor("default", entry_id);
 }
 
-INLINE PT(LUIAtlasDescriptor) LUIAtlasPool::get_descriptor(const string &atlas_id, const string &entry_id) {
+INLINE PT(LUIAtlasDescriptor) LUIAtlasPool::get_descriptor(const string &atlas_id, const string &entry_id) const {
   if (!has_atlas(atlas_id)) {
     lui_cat.error() << "Atlas '" << atlas_id << "' not found!" << endl;
     return NULL;
@@ -37,5 +38,4 @@ INLINE PT(LUIAtlasDescriptor) LUIAtlasPool::get_descriptor(const string &atlas_i
 
   lui_cat.error() << "Atlas entry '" << entry_id << "' not found!" << endl;
   return NULL;
-
 }

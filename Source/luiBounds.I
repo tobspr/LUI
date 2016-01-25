@@ -1,17 +1,17 @@
 
-INLINE float LUIBounds::get_top() {
+INLINE float LUIBounds::get_top() const {
   return _bounds.get_x();
 }
 
-INLINE float LUIBounds::get_right() {
+INLINE float LUIBounds::get_right() const {
   return _bounds.get_y();
 }
 
-INLINE float LUIBounds::get_bottom() {
+INLINE float LUIBounds::get_bottom() const {
   return _bounds.get_z();
 }
 
-INLINE float LUIBounds::get_left() {
+INLINE float LUIBounds::get_left() const {
   return _bounds.get_w();
 }
 
@@ -42,6 +42,6 @@ INLINE void LUIBounds::set_bounds(float top, float right, float bottom, float le
   _bounds.set_w(left);
 }
 
-INLINE const LVector4 &LUIBounds::get_bounds() {
+INLINE const LVector4 &LUIBounds::get_bounds() const {
   return _bounds;
 }

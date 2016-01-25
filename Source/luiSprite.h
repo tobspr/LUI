@@ -21,11 +21,9 @@
 #include "luiColorable.h"
 #include "texturePool.h"
 
-
 class LUIVertexPool;
 class LUIObject;
 class LUIChunkDescriptor;
-
 
 NotifyCategoryDecl(luiSprite, EXPCL_LUI, EXPTP_LUI);
 
@@ -42,21 +40,24 @@ class EXPCL_LUI LUISprite : public LUIBaseElement  {
 PUBLISHED:
 
   // Initialize with a path to an image
-  LUISprite(PyObject *self, LUIObject* parent, const string &image, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
+  LUISprite(PyObject *self, LUIObject* parent, const string &image,
+            float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
 
   // Initialize with a texture handle
-  LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
+  LUISprite(PyObject *self, LUIObject* parent, Texture *texture,
+            float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
 
   // Initialize with a atlas entry
-  LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
+  LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id,
+            float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
 
   virtual ~LUISprite();
 
   // Texcoord
   INLINE void set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end);
   INLINE void set_uv_range(float u0, float v0, float u1, float v1);
-  INLINE const LTexCoord &get_uv_begin();
-  INLINE const LTexCoord &get_uv_end();
+  INLINE const LTexCoord &get_uv_begin() const;
+  INLINE const LTexCoord &get_uv_end() const;
 
   // Texture
   INLINE void set_texture(Texture* tex, bool resize=true);
@@ -111,8 +112,6 @@ protected:
 
   PT(Texture) _tex;
 
-
-
   // Keep track of the amount of instances created, for
   // tracking memory leaks
   static int _instance_count;
@@ -135,8 +134,6 @@ public:
 
 private:
   static TypeHandle _type_handle;
-
-
 };
 
 

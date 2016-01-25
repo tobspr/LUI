@@ -6,7 +6,9 @@ INLINE void LUIColorable::set_color(const LColor &color) {
 }
 
 INLINE void LUIColorable::set_color(const LVecBase3 &rgb) {
-  _color.set(rgb.get_x(), rgb.get_y(), rgb.get_z(), 1.0);
+  _color.set_x(rgb.get_x());
+  _color.set_y(rgb.get_y());
+  _color.set_z(rgb.get_z());
   on_color_changed();
 }
 

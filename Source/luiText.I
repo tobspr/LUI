@@ -18,15 +18,15 @@ INLINE void LUIText::set_font_size(float size) {
   }
 }
 
-INLINE DynamicTextFont* LUIText::get_font() {
+INLINE DynamicTextFont* LUIText::get_font() const{
     return _font;
 }
 
-INLINE const wstring& LUIText::get_text() {
+INLINE const wstring& LUIText::get_text() const {
     return _text;
 }
 
-INLINE float LUIText::get_font_size() {
+INLINE float LUIText::get_font_size() const {
     return _font_size;
 }
 
@@ -36,4 +36,3 @@ INLINE void LUIText::on_color_changed() {
     (*it)->set_color(_color);
   }
 }
-

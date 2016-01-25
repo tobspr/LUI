@@ -43,14 +43,15 @@ PUBLISHED:
   INLINE static LUIRegion* make(const string &context_name,
                                    GraphicsOutput *window,
                                    const LVecBase4 &dimensions);
-  INLINE LUIObject *root();
+  INLINE LUIObject* get_root() const;
+
+  MAKE_PROPERTY(root, get_root);
 
   INLINE void set_input_handler(LUIInputHandler *handler);
   INLINE LUIInputHandler *get_input_handler() const;
 
   INLINE void set_render_wireframe(bool wireframe);
   INLINE void toggle_render_wireframe();
-
 
 private:
 

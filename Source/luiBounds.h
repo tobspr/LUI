@@ -19,17 +19,15 @@ PUBLISHED:
   LUIBounds(float top, float right, float bottom, float left);
   ~LUIBounds();
 
-  INLINE float get_top();
-  INLINE float get_right();
-  INLINE float get_bottom();
-  INLINE float get_left();
-
-
+  INLINE float get_top() const;
+  INLINE float get_right() const;
+  INLINE float get_bottom() const;
+  INLINE float get_left() const;
 
   INLINE void set_bounds(const LVector4 &bounds);
   INLINE void set_bounds(float top, float right, float bottom, float left);
 
-  INLINE const LVector4 &get_bounds();
+  INLINE const LVector4 &get_bounds() const;
 
   MAKE_PROPERTY(top, get_top);
   MAKE_PROPERTY(bottom, get_bottom);

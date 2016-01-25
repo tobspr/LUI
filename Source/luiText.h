@@ -29,16 +29,16 @@ PUBLISHED:
   ~LUIText();
 
   INLINE void set_font(const string &font_name);
-  INLINE DynamicTextFont* get_font();
+  INLINE DynamicTextFont* get_font() const;
 
   INLINE void set_text(const wstring &text);
-  INLINE const wstring& get_text();
+  INLINE const wstring& get_text() const;
 
   INLINE void set_font_size(float size);
-  INLINE float get_font_size();
+  INLINE float get_font_size() const;
 
-  int get_char_index(float pos);
-  float get_char_pos(int char_index);
+  int get_char_index(float pos) const;
+  float get_char_pos(int char_index) const;
 
   virtual void ls(int indent = 0);
 

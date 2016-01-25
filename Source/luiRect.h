@@ -19,10 +19,10 @@ PUBLISHED:
   LUIRect(float x, float y, float w, float h);
   ~LUIRect();
 
-  INLINE float get_x();
-  INLINE float get_y();
-  INLINE float get_w();
-  INLINE float get_h();
+  INLINE float get_x() const;
+  INLINE float get_y() const;
+  INLINE float get_w() const;
+  INLINE float get_h() const;
 
   INLINE void set_x(float x);
   INLINE void set_y(float y);
@@ -32,7 +32,7 @@ PUBLISHED:
   INLINE void set_rect(const LVector4 &rect);
   INLINE void set_rect(float x, float y, float w, float h);
 
-  INLINE const LVector4 &get_rect();
+  INLINE const LVector4 &get_rect() const;
 
   MAKE_PROPERTY(x, get_x, set_x);
   MAKE_PROPERTY(y, get_y, set_y);
@@ -42,7 +42,6 @@ PUBLISHED:
 protected:
 
   LVector4 _rect;
-
 };
 
 #include "luiRect.I"

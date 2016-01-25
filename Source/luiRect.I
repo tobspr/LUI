@@ -1,17 +1,17 @@
 
-INLINE float LUIRect::get_x() {
+INLINE float LUIRect::get_x() const {
   return _rect.get_x();
 }
 
-INLINE float LUIRect::get_y() {
+INLINE float LUIRect::get_y() const {
   return _rect.get_y();
 }
 
-INLINE float LUIRect::get_w() {
+INLINE float LUIRect::get_w() const {
   return _rect.get_z();
 }
 
-INLINE float LUIRect::get_h() {
+INLINE float LUIRect::get_h() const {
   return _rect.get_w();
 }
 
@@ -42,6 +42,6 @@ INLINE void LUIRect::set_rect(float x, float y, float w, float h) {
   _rect.set_w(h);
 }
 
-INLINE const LVector4 &LUIRect::get_rect() {
+INLINE const LVector4 &LUIRect::get_rect() const {
   return _rect;
 }

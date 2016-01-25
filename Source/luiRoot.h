@@ -44,13 +44,13 @@ PUBLISHED:
 
 public:
 
-  INLINE int get_index_by_texture(Texture* tex);
+  INLINE int alloc_index_by_texture(Texture* tex);
 
   INLINE void register_event_object(LUIBaseElement *event_object);
   INLINE void unregister_event_object(LUIBaseElement *event_object);
 
   INLINE void request_focus(LUIBaseElement *elem);
-  INLINE LUIBaseElement *get_requested_focus();
+  INLINE LUIBaseElement* get_requested_focus() const;
 
   INLINE LUIEventObjectSet::iterator get_event_objects_begin();
   INLINE LUIEventObjectSet::iterator get_event_objects_end();
@@ -58,18 +58,17 @@ public:
   INLINE int register_sprite(LUISprite* sprite);
   INLINE void unregister_sprite(int position);
 
-  INLINE void* get_sprite_vertex_pointer(int position);
+  INLINE void* get_sprite_vertex_pointer(int position) const;
   INLINE void add_sprite_to_render_list(int position);
 
   INLINE int allocate_render_index();
 
-  INLINE Geom* get_geom();
+  INLINE Geom* get_geom() const;
 
   void prepare_render();
-  INLINE int get_frame_index();
-
-  INLINE int get_num_textures();
-  INLINE Texture *get_texture(int index);
+  INLINE int get_frame_index() const;
+  INLINE int get_num_textures() const;
+  INLINE Texture* get_texture(int index) const;
 
   PT(Shader) create_object_shader();
 

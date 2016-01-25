@@ -33,8 +33,8 @@ public:
 
   LUIChunkDescriptor *allocate_slot(LUISprite *child);
 
-  INLINE int get_num_chunks();
-  INLINE LUIVertexChunk* get_chunk(int n);
+  INLINE int get_num_chunks() const;
+  INLINE LUIVertexChunk* get_chunk(int n) const;
 
 private:
 

@@ -47,36 +47,36 @@ PUBLISHED:
   INLINE void set_left_bottom(const LPoint2 &pos);
   INLINE void set_right_bottom(const LPoint2 &pos);
 
-  INLINE LPoint2 get_left_top();
-  INLINE LPoint2 get_right_top();
-  INLINE LPoint2 get_left_bottom();
-  INLINE LPoint2 get_right_bottom();
+  INLINE LPoint2 get_left_top() const;
+  INLINE LPoint2 get_right_top() const;
+  INLINE LPoint2 get_left_bottom() const;
+  INLINE LPoint2 get_right_bottom() const;
 
   INLINE void set_pos(const LPoint2 &pos);
   INLINE void set_pos(float x, float y);
-  INLINE LPoint2 get_pos();
+  INLINE LPoint2 get_pos() const;
 
-  INLINE LPoint2 get_abs_pos();
+  INLINE LPoint2 get_abs_pos() const;
 
   INLINE void set_top(float top);
   INLINE void set_right(float right);
   INLINE void set_bottom(float bottom);
   INLINE void set_left(float left);
 
-  INLINE float get_top();
-  INLINE float get_right();
-  INLINE float get_bottom();
-  INLINE float get_left();
+  INLINE float get_top() const;
+  INLINE float get_right() const;
+  INLINE float get_bottom() const;
+  INLINE float get_left() const;
 
-  INLINE LPoint2 get_relative_pos(const LPoint2 &abs_pos);
+  INLINE LPoint2 get_relative_pos(const LPoint2 &abs_pos) const;
 
   INLINE void set_centered(bool center_vert = true, bool center_horiz = true);
   INLINE void set_center_vertical(bool centered = true);
   INLINE void set_center_horizontal(bool centered = true);
 
-  INLINE bool is_centered();
-  INLINE bool is_vertical_centered();
-  INLINE bool is_horizontal_centered();
+  INLINE bool is_centered() const;
+  INLINE bool is_vertical_centered() const;
+  INLINE bool is_horizontal_centered() const;
 
   // Margin
   INLINE void set_margin(const LVector4 &margin);
@@ -86,11 +86,11 @@ PUBLISHED:
   INLINE void set_margin_right(float right);
   INLINE void set_margin_bottom(float bottom);
   INLINE void set_margin_left(float left);
-  INLINE float get_margin_top();
-  INLINE float get_margin_right();
-  INLINE float get_margin_bottom();
-  INLINE float get_margin_left();
-  INLINE LUIBounds *get_margin();
+  INLINE float get_margin_top() const;
+  INLINE float get_margin_right() const;
+  INLINE float get_margin_bottom() const;
+  INLINE float get_margin_left() const;
+  INLINE LUIBounds *get_margin() const;
 
   // Padding
   INLINE void set_padding(const LVector4 &padding);
@@ -100,45 +100,45 @@ PUBLISHED:
   INLINE void set_padding_right(float right);
   INLINE void set_padding_bottom(float bottom);
   INLINE void set_padding_left(float left);
-  INLINE float get_padding_top();
-  INLINE float get_padding_right();
-  INLINE float get_padding_bottom();
-  INLINE float get_padding_left();
-  INLINE LUIBounds *get_padding();
+  INLINE float get_padding_top() const;
+  INLINE float get_padding_right() const;
+  INLINE float get_padding_bottom() const;
+  INLINE float get_padding_left() const;
+  INLINE LUIBounds *get_padding() const;
 
   // Size
   INLINE void set_size(const LVector2 &size);
   INLINE void set_size(float w, float h);
   INLINE void set_width(float w);
   INLINE void set_height(float h);
-  INLINE float get_width();
-  INLINE float get_height();
-  INLINE bool has_size();
+  INLINE float get_width() const;
+  INLINE float get_height() const;
+  INLINE bool has_size() const;
   INLINE const LVector2 &get_size() const;
 
   // Visible
   INLINE void set_visible(bool visible);
-  INLINE bool is_visible();
+  INLINE bool is_visible() const;
   INLINE void hide();
   INLINE void show();
 
   // Solid
   INLINE void set_solid(bool solid);
-  INLINE bool get_solid();
+  INLINE bool get_solid() const;
 
   // Z-Index
   INLINE void set_z_offset(int z_offset);
-  INLINE float get_z_offset();
+  INLINE float get_z_offset() const;
 
   // Focus
-  INLINE bool has_focus();
+  INLINE bool has_focus() const;
   void request_focus();
   void blur();
 
   void reparent_to(LUIBaseElement *parent);
-  INLINE LUIBaseElement* get_parent();
+  INLINE LUIBaseElement* get_parent() const;
 
-  INLINE virtual bool intersects(float x, float y);
+  INLINE virtual bool intersects(float x, float y) const;
 
   INLINE void begin_update_section();
   INLINE virtual void end_update_section();
@@ -148,7 +148,7 @@ PUBLISHED:
   INLINE LUIBounds *get_clip_bounds() const;
   INLINE LUIRect *get_abs_clip_bounds() const;
 
-  INLINE bool is_topmost();
+  INLINE bool is_topmost() const;
   INLINE void set_topmost(bool topmost);
 
   // Properties for python
@@ -206,13 +206,13 @@ public:
   virtual void ls(int ident = 0) = 0;
 
   INLINE void set_focus(bool focus);
-  INLINE int get_last_frame_visible();
-  INLINE int get_last_render_index();
+  INLINE int get_last_frame_visible() const;
+  INLINE int get_last_render_index() const;
 
 protected:
 
-  INLINE float get_parent_width();
-  INLINE float get_parent_height();
+  INLINE float get_parent_width() const;
+  INLINE float get_parent_height() const;
 
   void fetch_render_index();
 

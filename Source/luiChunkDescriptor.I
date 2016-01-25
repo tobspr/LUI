@@ -1,9 +1,9 @@
 
 
-INLINE int LUIChunkDescriptor::get_slot() {
+INLINE int LUIChunkDescriptor::get_slot() const {
   return _slot;
 }
-INLINE LUIVertexChunk *LUIChunkDescriptor::get_chunk() {
+INLINE LUIVertexChunk *LUIChunkDescriptor::get_chunk() const {
   return _chunk;
 }
 

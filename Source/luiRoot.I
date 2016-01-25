@@ -13,7 +13,7 @@ INLINE LUIEventObjectSet::iterator LUIRoot::get_event_objects_end() {
   return _event_objects.end();
 }
 
-INLINE int LUIRoot::get_index_by_texture(Texture* tex) {
+INLINE int LUIRoot::alloc_index_by_texture(Texture* tex) {
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Finding vertex pool for texture " << tex << endl;
@@ -21,10 +21,9 @@ INLINE int LUIRoot::get_index_by_texture(Texture* tex) {
 
   nassertr(tex != NULL, -1);
 
-  LUITextureVector::iterator index = std::find(_textures.begin(), _textures.end(), tex);
+  auto index = std::find(_textures.begin(), _textures.end(), tex);
 
   if (index != _textures.end()) {
-
     if (lui_cat.is_spam()) {
       lui_cat.spam() << "Texture index found, returning .." << endl;
     }
@@ -57,7 +56,7 @@ INLINE void LUIRoot::request_focus(LUIBaseElement *elem) {
   _requested_focus = elem;
 }
 
-INLINE LUIBaseElement *LUIRoot::get_requested_focus() {
+INLINE LUIBaseElement* LUIRoot::get_requested_focus() const {
   return _requested_focus;
 }
 
@@ -95,7 +94,7 @@ INLINE void LUIRoot::unregister_sprite(int position) {
   // (Strip empty elements from the end)
 }
 
-INLINE void* LUIRoot::get_sprite_vertex_pointer(int position) {
+INLINE void* LUIRoot::get_sprite_vertex_pointer(int position) const {
   // A sprite shouldn't have an invalid index
   nassertr(position < _sprites.size() && position >= 0, 0);
 
@@ -134,21 +133,20 @@ INLINE void LUIRoot::add_sprite_to_render_list(int position) {
 
 }
 
-
-INLINE Geom* LUIRoot::get_geom() {
+INLINE Geom* LUIRoot::get_geom() const {
   return _geom;
 }
 
-INLINE int LUIRoot::get_num_textures() {
+INLINE int LUIRoot::get_num_textures() const {
   return _textures.size();
 }
 
-INLINE Texture* LUIRoot::get_texture(int index) {
+INLINE Texture* LUIRoot::get_texture(int index) const {
   nassertr(index >= 0 && index < _textures.size(), NULL);
   return _textures[index];
 }
 
-INLINE int LUIRoot::get_frame_index() {
+INLINE int LUIRoot::get_frame_index() const {
   return _frame_count;
 }
 

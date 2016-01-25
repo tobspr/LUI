@@ -17,10 +17,10 @@ class EXPCL_LUI LUIEventData : public CallbackData, public ReferenceCount  {
 
 PUBLISHED:
 
-  INLINE string get_name();
-  INLINE PT(LUIBaseElement) get_sender();
-  INLINE LPoint2 get_coordinates();
-  INLINE wstring get_message();
+  INLINE string get_name() const;
+  INLINE PT(LUIBaseElement) get_sender() const;
+  INLINE LPoint2 get_coordinates() const;
+  INLINE wstring get_message() const;
 
   MAKE_PROPERTY(name, get_name);
   MAKE_PROPERTY(sender, get_sender);

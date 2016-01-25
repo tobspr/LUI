@@ -221,7 +221,7 @@ void LUISprite::recompute_vertices() {
   _data[3].v = 1-v2;
 
   for (int i = 0; i < 4; i++) {
-    _data[i].texindex[0] = _texture_index;
+    _data[i].texindex = _texture_index;
     _data[i].y = 0;
   }
 
@@ -229,7 +229,7 @@ void LUISprite::recompute_vertices() {
 
 void LUISprite::fetch_texture_index() {
   if (_tex != NULL) {
-    _texture_index = _root->get_index_by_texture(_tex);
+    _texture_index = _root->alloc_index_by_texture(_tex);
   }
 }
 

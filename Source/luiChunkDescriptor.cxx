@@ -7,9 +7,9 @@ void LUIChunkDescriptor::release() {
     lui_cat.spam() << "LuiChunkDescriptor: Releasing slot .. " << endl;
   }
   _chunk->free_slot(_slot);
-}  
+}
 
-void* LUIChunkDescriptor::get_write_ptr() {
+void* LUIChunkDescriptor::get_write_ptr() const {
   return _chunk->get_slot_ptr(_slot);
 }
 

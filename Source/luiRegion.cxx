@@ -16,7 +16,7 @@ LUIRegion::
   _input_handler(NULL),
   _wireframe(false) {
 
-  if (lui_cat.is_spam()) {  
+  if (lui_cat.is_spam()) {
     lui_cat.spam() << "Constructing new LUIRegion .." << endl;
   }
 
@@ -76,12 +76,12 @@ void LUIRegion::
       sstm << "lui_texture_" << i;
       if (i < _lui_root->get_num_textures()) {
           shaderAttrib = DCAST(ShaderAttrib, shaderAttrib)->set_shader_input(
-            InternalName::make(sstm.str()), _lui_root->get_texture(i) ); 
+            InternalName::make(sstm.str()), _lui_root->get_texture(i) );
       } else {
           shaderAttrib = DCAST(ShaderAttrib, shaderAttrib)->set_shader_input(
-            InternalName::make(sstm.str()), _empty_tex); 
+            InternalName::make(sstm.str()), _empty_tex);
       }
-      
+
     }
 
     shaderAttrib = DCAST(ShaderAttrib, shaderAttrib)->set_shader(_object_shader);

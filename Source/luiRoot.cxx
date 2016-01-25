@@ -23,7 +23,7 @@ LUIRoot::LUIRoot(float width, float height) : _requested_focus(NULL) {
   array_format->add_column(InternalName::make("vertex"), 3, Geom::NT_stdfloat, Geom::C_point);
   array_format->add_column(InternalName::make("color"), 4, Geom::NT_uint8, Geom::C_color);
   array_format->add_column(InternalName::make("texcoord"), 2, Geom::NT_stdfloat, Geom::C_texcoord);
-  array_format->add_column(InternalName::make("texindex"), 2, Geom::NT_uint8, Geom::C_other);
+  array_format->add_column(InternalName::make("texindex"), 1, Geom::NT_uint16, Geom::C_other);
 
   _sprite_vertex_pointer = NULL;
 
@@ -114,24 +114,24 @@ PT(Shader) LUIRoot::create_object_shader() {
     "#version 150\n"
     "uniform mat4 p3d_ModelViewProjectionMatrix;\n"
     "in vec4 p3d_Vertex;\n"
-    "in uvec2 texindex;\n"
+    "in uint texindex;\n"
     "in vec4 color;\n"
     "in vec2 p3d_MultiTexCoord0;\n"
     "out vec2 texcoord;\n"
-    "flat out uvec2 textureIndex;\n"
-    "out vec4 colorScale;\n"
+    "flat out uint vtx_texindex;\n"
+    "out vec4 color_scale;\n"
     "void main() {\n"
     "texcoord = p3d_MultiTexCoord0;\n"
-    "colorScale = color;\n"
-    "textureIndex = texindex;\n"
+    "color_scale = color;\n"
+    "vtx_texindex = texindex;\n"
     "gl_Position = p3d_ModelViewProjectionMatrix * p3d_Vertex;\n"
     "}\n"
     ,
     // Fragment
     "#version 150\n"
     "in vec2 texcoord;\n"
-    "flat in uvec2 textureIndex;\n"
-    "in vec4 colorScale;\n"
+    "flat in uint vtx_texindex;\n"
+    "in vec4 color_scale;\n"
     "uniform sampler2D lui_texture_0;\n"
     "uniform sampler2D lui_texture_1;\n"
     "uniform sampler2D lui_texture_2;\n"
@@ -142,16 +142,18 @@ PT(Shader) LUIRoot::create_object_shader() {
     "uniform sampler2D lui_texture_7;\n"
     "out vec4 color;\n"
     "void main() {\n"
-    "vec4 sampledColor = vec4(0,0,0,1);\n"
-    "if (textureIndex.x == 0u) sampledColor = texture(lui_texture_0, texcoord);\n"
-    "if (textureIndex.x == 1u) sampledColor = texture(lui_texture_1, texcoord);\n"
-    "if (textureIndex.x == 2u) sampledColor = texture(lui_texture_2, texcoord);\n"
-    "if (textureIndex.x == 3u) sampledColor = texture(lui_texture_3, texcoord);\n"
-    "if (textureIndex.x == 4u) sampledColor = texture(lui_texture_4, texcoord);\n"
-    "if (textureIndex.x == 5u) sampledColor = texture(lui_texture_5, texcoord);\n"
-    "if (textureIndex.x == 6u) sampledColor = texture(lui_texture_6, texcoord);\n"
-    "if (textureIndex.x == 7u) sampledColor = texture(lui_texture_7, texcoord);\n"
-    "color = vec4(sampledColor * colorScale);\n"
+    "vec4 texcolor = vec4(0,0,0,1);\n"
+    "switch(vtx_texindex) {\n"
+    "  case 0u: texcolor = texture(lui_texture_0, texcoord); break;\n"
+    "  case 1u: texcolor = texture(lui_texture_1, texcoord); break;\n"
+    "  case 2u: texcolor = texture(lui_texture_2, texcoord); break;\n"
+    "  case 3u: texcolor = texture(lui_texture_3, texcoord); break;\n"
+    "  case 4u: texcolor = texture(lui_texture_4, texcoord); break;\n"
+    "  case 5u: texcolor = texture(lui_texture_5, texcoord); break;\n"
+    "  case 6u: texcolor = texture(lui_texture_6, texcoord); break;\n"
+    "  case 7u: texcolor = texture(lui_texture_7, texcoord); break;\n"
+    "}\n"
+    "color = vec4(texcolor * color_scale);\n"
     "}\n"
     );
 

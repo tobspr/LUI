@@ -45,7 +45,7 @@ class DemoFramework:
         base.mouseWatcher.attach_new_node(handler)
         region.set_input_handler(handler)
 
-        self.root = region.root()
+        self.root = region.root
         self.constructorParams = []
 
     def prepare_demo(self, demo_title=u"Some Demo"):
@@ -53,7 +53,7 @@ class DemoFramework:
         # Background
         self.background = LUISprite(self.root, "res/DemoBackground.png")
 
-        
+
         # Make the background solid and recieve events
         self.background.bind("click", lambda event: self.background.request_focus())
         self.background.solid = True
@@ -113,8 +113,8 @@ class DemoFramework:
         # Source Code
         self.sourceContainer = LUIFrame(parent=self.root, width=360, height=200, style=LUIFrame.Sunken)
         self.sourceLabel = LUILabel(parent=self.sourceContainer, text=u"Default Constructor")
-        self.copyCodeButton = LUIButton(parent=self.sourceContainer, 
-                text=u"Copy to Clipboard", template="ButtonMagic", 
+        self.copyCodeButton = LUIButton(parent=self.sourceContainer,
+                text=u"Copy to Clipboard", template="ButtonMagic",
                 right=-5, bottom=-5)
         self.sourceContainer.left = 26
         self.sourceContainer.top = 390

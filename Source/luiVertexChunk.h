@@ -27,13 +27,13 @@ public:
   LUIVertexChunk(int chunk_size);
   ~LUIVertexChunk();
 
-  INLINE bool is_empty();
-  INLINE bool has_space();
-  INLINE Geom* get_geom();
+  INLINE bool is_empty() const;
+  INLINE bool has_space() const;
+  INLINE Geom* get_geom() const;
 
   INLINE int reserve_slot(LUISprite *sprite);
   INLINE void free_slot(int slot);
-  INLINE void* get_slot_ptr(int slot);
+  INLINE void* get_slot_ptr(int slot) const;
 
 private:
 

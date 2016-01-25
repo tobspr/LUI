@@ -7,7 +7,6 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
 
   LUIChildVector::iterator child_index = std::find(_children.begin(), _children.end(), child);
 
-
   if (child_index == _children.end()) {
     luiObject_cat.warning() << "Attempted to remove child, but child is not attached to this object" << endl;
     return;
@@ -67,7 +66,7 @@ INLINE PT(LUIElementIterator) LUIObject::get_children() {
   return new LUIElementIterator(_children.begin(), _children.end());
 }
 
-INLINE int LUIObject::get_child_count() {
+INLINE int LUIObject::get_child_count() const {
   return _children.size();
 }
 
@@ -167,7 +166,7 @@ INLINE void LUIObject::set_sort_children(bool do_sort) {
   _sort_children = do_sort;
 }
 
-INLINE bool LUIObject::get_sort_children() {
+INLINE bool LUIObject::get_sort_children() const {
   return _sort_children;
 }
 

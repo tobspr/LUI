@@ -30,7 +30,6 @@ public:
 
 private:
 
-  // Todo: Add getters & setters
   Texture* _tex;
   LVector2 _size;
   LTexCoord _uv_begin;

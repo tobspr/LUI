@@ -31,12 +31,12 @@ PUBLISHED:
   bool load_descriptor_file(const string &descriptor_path);
   bool load_texture(const string &texture_path);
 
-  INLINE Texture* get_texture();
+  INLINE Texture* get_texture() const;
 
-  INLINE bool has_entry(const string &name);
-  INLINE LUIAtlasEntry* get_entry(const string &name);
+  INLINE bool has_entry(const string &name) const;
+  INLINE LUIAtlasEntry* get_entry(const string &name) const;
 
-  INLINE int get_size();
+  INLINE int get_size() const;
 
 private:
 

@@ -1,13 +1,13 @@
 
-INLINE bool LUIVertexChunk::is_empty() {
+INLINE bool LUIVertexChunk::is_empty() const {
   return _sprite_count == 0;
 }
 
-INLINE bool LUIVertexChunk::has_space() {
+INLINE bool LUIVertexChunk::has_space() const {
   return _sprite_count < _chunk_size;
 }
 
-INLINE Geom* LUIVertexChunk::get_geom() {
+INLINE Geom* LUIVertexChunk::get_geom() const {
   return _geom;
 }
 
@@ -67,7 +67,7 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
   }
 }
 
-INLINE void *LUIVertexChunk::get_slot_ptr(int slot) {
+INLINE void *LUIVertexChunk::get_slot_ptr(int slot) const {
 
   // Make sure the write pointer is correct
   nassertr(_vertex_data->modify_array(0)->modify_handle()->get_write_pointer() == _write_pointer, NULL);

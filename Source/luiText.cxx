@@ -4,8 +4,8 @@
 
 TypeHandle LUIText::_type_handle;
 
-LUIText::LUIText(PyObject *self, LUIObject *parent, const wstring &text, const string &font_name, float font_size, float x, float y) 
-  : 
+LUIText::LUIText(PyObject *self, LUIObject *parent, const wstring &text, const string &font_name, float font_size, float x, float y)
+  :
   LUIObject(self, parent, x, y),
   _text(text),
   _font_size(font_size) {
@@ -24,7 +24,7 @@ void LUIText::update_text() {
   nassertv(_font != NULL);
 
   if (lui_cat.is_spam()) {
-    lui_cat.spam() << "Current text is '" << _text.c_str() << "'" << endl; 
+    lui_cat.spam() << "Current text is '" << _text.c_str() << "'" << endl;
   }
 
   // Remove all sprites which aren't required
@@ -81,10 +81,10 @@ void LUIText::update_text() {
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
       continue;
     }
-    
+
     CPT(DynamicTextGlyph) dynamic_glyph = DCAST(DynamicTextGlyph, const_glyph);
 
-    // If this gets executed, a non-dynamic font got loaded. 
+    // If this gets executed, a non-dynamic font got loaded.
     nassertv(dynamic_glyph != NULL);
 
     _glyphs.push_back(dynamic_glyph);
@@ -104,25 +104,25 @@ void LUIText::update_text() {
       // change, this is quite efficient.
       sprite->set_texture(dynamic_glyph->get_page());
 
-      // Position the glyph. 
+      // Position the glyph.
       // lui_cat.error() << current_x_pos << " left = " << dynamic_glyph->get_left() << endl;
 
       sprite->set_pos(
-        current_x_pos + dynamic_glyph->get_left() * ppu, 
+        current_x_pos + dynamic_glyph->get_left() * ppu,
         (_font->get_line_height() * 0.8 - dynamic_glyph->get_top()) * ppu);
 
       // The V coordinate is inverted, as panda stores the textures flipped
       sprite->set_uv_range(
-        dynamic_glyph->get_uv_left(), 
+        dynamic_glyph->get_uv_left(),
         1-dynamic_glyph->get_uv_top(),
-        dynamic_glyph->get_uv_right(), 
+        dynamic_glyph->get_uv_right(),
         1-dynamic_glyph->get_uv_bottom());
 
       // Determine size from coordinates
-      sprite->set_size( 
+      sprite->set_size(
          (dynamic_glyph->get_right() - dynamic_glyph->get_left()) * ppu,
          (dynamic_glyph->get_top() - dynamic_glyph->get_bottom()) * ppu);
-      
+
       sprite->set_color(_color);
       sprite->end_update_section();
 
@@ -146,7 +146,7 @@ void LUIText::ls(int indent) {
 
 }
 
-int LUIText::get_char_index(float pos) {  
+int LUIText::get_char_index(float pos) const {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Trying to resolve " << pos << " into a character index .." << endl;
   }
@@ -174,12 +174,12 @@ int LUIText::get_char_index(float pos) {
       return i;
     }
 
-  }  
+  }
 
   return _text.size();
 }
 
-float LUIText::get_char_pos(int char_index) {
+float LUIText::get_char_pos(int char_index) const {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Trying to resolve " << char_index << " into a character position .." << endl;
   }

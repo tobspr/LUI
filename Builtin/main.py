@@ -32,7 +32,7 @@ if __name__ == "__main__":
     base.mouseWatcher.attach_new_node(handler)
     region.set_input_handler(handler)
 
-    skinParent = LUIObject(region.root(),x=300,y=150,w=250,h=100)
+    skinParent = LUIObject(region.root,x=300,y=150,w=250,h=100)
     # skinParent.centered = (True, True)
     skinParent.top = 100
     skinParent.left = 300
@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
     def set_bar_value(parent, obj, val):
         bar.set_value(val)
-        
+
     slider2.add_change_callback(set_bar_value)
 
     bar.set_value(slider2.get_value())
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     layout.add_row(btnOk, btnCancel)
     layout.margin_top = 10
 
-    instructions = LUIObject(region.root(), x=25, y=25) 
+    instructions = LUIObject(region.root, x=25, y=25)
 
     # Title
     title = LUILabel(parent=instructions, text=u"LUI Basic Example", font_size=40, font="header")
@@ -111,12 +111,12 @@ if __name__ == "__main__":
 
     skinParent.fit_to_children()
 
-    bgFrame = LUISprite(region.root(), "blurred_background.jpg")
+    bgFrame = LUISprite(region.root, "blurred_background.jpg")
     bgFrame.bind("click", lambda event: bgFrame.request_focus())
     bgFrame.z_offset = -10
     # bgFrame.color = (0.1,0.1,0.1)
     bgFrame.centered = (True, True)
 
     base.accept("f3", region.toggle_render_wireframe)
-    base.accept("f4", region.root().ls)
+    base.accept("f4", region.root.ls)
     base.run()

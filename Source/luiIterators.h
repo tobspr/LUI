@@ -16,13 +16,13 @@ typedef pvector<PT(LUIBaseElement)>::iterator lui_element_iterator;
 
 class EXPCL_LUI LUIElementIterator : public ReferenceCount {
 PUBLISHED:
-  INLINE LUIBaseElement * __next__() {
+  INLINE LUIBaseElement* __next__() {
     if (_iter != _end) {
       return *_iter++;
     }
     return NULL;
   }
-  INLINE LUIElementIterator &__iter__() {
+  INLINE LUIElementIterator& __iter__() {
     return *this;
   }
 public:

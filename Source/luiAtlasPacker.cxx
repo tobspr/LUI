@@ -21,11 +21,10 @@ LVector2f LUIAtlasPacker::find_position(int w, int h) {
   int search_h = _size - h;
 
   int step_size = 1;
-  
+
   // Less accuracy when the atlas gets bigger
   if (_size >= 4096) step_size = 2;
   if (_size >= 8192) step_size = 4;
-
 
   for (int search_y = 0; search_y <= search_h; search_y += step_size) {
     for (int search_x = 0; search_x <= search_w; search_x += step_size) {

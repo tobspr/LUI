@@ -67,19 +67,19 @@ INLINE void LUIBaseElement::set_right_bottom(const LPoint2 &pos) {
   recompute_position();
 }
 
-INLINE LPoint2 LUIBaseElement::get_left_top() {
+INLINE LPoint2 LUIBaseElement::get_left_top() const {
   return LPoint2(get_left(), get_top());
 }
 
-INLINE LPoint2 LUIBaseElement::get_right_top() {
+INLINE LPoint2 LUIBaseElement::get_right_top() const {
   return LPoint2(get_right(), get_top());
 }
 
-INLINE LPoint2 LUIBaseElement::get_left_bottom() {
+INLINE LPoint2 LUIBaseElement::get_left_bottom() const {
   return LPoint2(get_left(), get_bottom());
 }
 
-INLINE LPoint2 LUIBaseElement::get_right_bottom() {
+INLINE LPoint2 LUIBaseElement::get_right_bottom() const {
   return LPoint2(get_right(), get_bottom());
 }
 
@@ -91,11 +91,11 @@ INLINE void LUIBaseElement::set_pos(float x, float y) {
   set_left_top(LPoint2(x, y));
 }
 
-INLINE LPoint2 LUIBaseElement::get_pos() {
+INLINE LPoint2 LUIBaseElement::get_pos() const {
   return get_left_top();
 }
 
-INLINE LPoint2 LUIBaseElement::get_abs_pos() {
+INLINE LPoint2 LUIBaseElement::get_abs_pos() const {
   return LPoint2(_pos_x, _pos_y);
 }
 
@@ -123,23 +123,23 @@ INLINE void LUIBaseElement::set_left(float left) {
   recompute_position();
 }
 
-INLINE float LUIBaseElement::get_top() {
+INLINE float LUIBaseElement::get_top() const {
   return _rel_pos_y;
 }
 
-INLINE float LUIBaseElement::get_right() {
+INLINE float LUIBaseElement::get_right() const {
   return get_parent_width() - get_left();
 }
 
-INLINE float LUIBaseElement::get_bottom() {
+INLINE float LUIBaseElement::get_bottom() const {
   return get_parent_height() - get_top();
 }
 
-INLINE float LUIBaseElement::get_left() {
+INLINE float LUIBaseElement::get_left() const {
   return _rel_pos_x;
 }
 
-INLINE LPoint2 LUIBaseElement::get_relative_pos(const LPoint2 &abs_pos) {
+INLINE LPoint2 LUIBaseElement::get_relative_pos(const LPoint2 &abs_pos) const {
   return abs_pos - get_abs_pos();
 }
 
@@ -173,15 +173,15 @@ INLINE void LUIBaseElement::set_center_horizontal(bool centered) {
   }
 }
 
-INLINE bool LUIBaseElement::is_centered() {
+INLINE bool LUIBaseElement::is_centered() const {
   return _placement_x == M_center && _placement_y == M_center;
 }
 
-INLINE bool LUIBaseElement::is_vertical_centered() {
+INLINE bool LUIBaseElement::is_vertical_centered() const {
   return _placement_y == M_center;
 }
 
-INLINE bool LUIBaseElement::is_horizontal_centered() {
+INLINE bool LUIBaseElement::is_horizontal_centered() const {
   return _placement_x == M_center;
 }
 
@@ -221,23 +221,23 @@ INLINE void LUIBaseElement::set_margin_left(float left) {
   recompute_position();
 }
 
-INLINE float LUIBaseElement::get_margin_top() {
+INLINE float LUIBaseElement::get_margin_top() const {
   return _margin->get_top();
 }
 
-INLINE float LUIBaseElement::get_margin_right() {
+INLINE float LUIBaseElement::get_margin_right() const {
   return _margin->get_right();
 }
 
-INLINE float LUIBaseElement::get_margin_bottom() {
+INLINE float LUIBaseElement::get_margin_bottom() const {
   return _margin->get_bottom();
 }
 
-INLINE float LUIBaseElement::get_margin_left() {
+INLINE float LUIBaseElement::get_margin_left() const {
   return _margin->get_left();
 }
 
-INLINE LUIBounds *LUIBaseElement::get_margin() {
+INLINE LUIBounds *LUIBaseElement::get_margin() const {
   return _margin;
 }
 
@@ -273,23 +273,23 @@ INLINE void LUIBaseElement::set_padding_left(float left) {
   recompute_position();
 }
 
-INLINE float LUIBaseElement::get_padding_top() {
+INLINE float LUIBaseElement::get_padding_top() const {
   return _padding->get_top();
 }
 
-INLINE float LUIBaseElement::get_padding_right() {
+INLINE float LUIBaseElement::get_padding_right() const {
   return _padding->get_right();
 }
 
-INLINE float LUIBaseElement::get_padding_bottom() {
+INLINE float LUIBaseElement::get_padding_bottom() const {
   return _padding->get_bottom();
 }
 
-INLINE float LUIBaseElement::get_padding_left() {
+INLINE float LUIBaseElement::get_padding_left() const {
   return _padding->get_left();
 }
 
-INLINE LUIBounds *LUIBaseElement::get_padding() {
+INLINE LUIBounds *LUIBaseElement::get_padding() const {
   return _padding;
 }
 
@@ -305,7 +305,7 @@ INLINE void LUIBaseElement::set_size(float w, float h) {
   trigger_event("resized");
 }
 
-INLINE bool LUIBaseElement::has_size() {
+INLINE bool LUIBaseElement::has_size() const {
   return _size.get_x() > 0.0 && _size.get_y() > 0.0;
 }
 
@@ -323,11 +323,11 @@ INLINE void LUIBaseElement::set_height(float h) {
   trigger_event("resized");
 }
 
-INLINE float LUIBaseElement::get_width() {
+INLINE float LUIBaseElement::get_width() const {
   return _size.get_x();
 }
 
-INLINE float LUIBaseElement::get_height() {
+INLINE float LUIBaseElement::get_height() const {
   return _size.get_y();
 }
 
@@ -340,7 +340,7 @@ INLINE void LUIBaseElement::set_visible(bool visible) {
   on_visibility_changed();
 }
 
-INLINE bool LUIBaseElement::is_visible() {
+INLINE bool LUIBaseElement::is_visible() const {
   return _visible;
 }
 
@@ -356,20 +356,20 @@ INLINE void LUIBaseElement::set_z_offset(int z_offset) {
   _z_offset = (float)z_offset;
 }
 
-INLINE float LUIBaseElement::get_z_offset() {
+INLINE float LUIBaseElement::get_z_offset() const {
   return _z_offset;
 }
 
 
-INLINE bool LUIBaseElement::has_focus() {
+INLINE bool LUIBaseElement::has_focus() const {
   return _focused;
 }
 
-INLINE LUIBaseElement* LUIBaseElement::get_parent() {
+INLINE LUIBaseElement* LUIBaseElement::get_parent() const {
   return _parent;
 }
 
-INLINE bool LUIBaseElement::intersects(float x, float y) {
+INLINE bool LUIBaseElement::intersects(float x, float y) const {
   return (
       x >= _pos_x &&
       y >= _pos_y &&
@@ -440,14 +440,14 @@ INLINE void LUIBaseElement::set_focus(bool focus) {
   _focused = focus;
 }
 
-INLINE float LUIBaseElement::get_parent_width() {
+INLINE float LUIBaseElement::get_parent_width() const {
   if (_parent == NULL) {
     return 0.0;
   }
   return _parent->get_width();
 }
 
-INLINE float LUIBaseElement::get_parent_height() {
+INLINE float LUIBaseElement::get_parent_height() const {
   if (_parent == NULL) {
     return 0.0;
   }
@@ -462,11 +462,11 @@ INLINE void LUIBaseElement::on_color_changed() {
   }
 }
 
-INLINE int LUIBaseElement::get_last_frame_visible() {
+INLINE int LUIBaseElement::get_last_frame_visible() const {
   return _last_frame_visible;
 }
 
-INLINE bool LUIBaseElement::is_topmost() {
+INLINE bool LUIBaseElement::is_topmost() const {
   return _topmost;
 }
 
@@ -474,7 +474,7 @@ INLINE void LUIBaseElement::set_topmost(bool topmost) {
   _topmost = topmost;
 }
 
-INLINE int LUIBaseElement::get_last_render_index() {
+INLINE int LUIBaseElement::get_last_render_index() const {
   return _last_render_index;
 }
 
@@ -487,7 +487,6 @@ INLINE void LUIBaseElement::set_solid(bool solid) {
   }
 }
 
-
-INLINE bool LUIBaseElement::get_solid() {
+INLINE bool LUIBaseElement::get_solid() const {
   return _solid;
 }

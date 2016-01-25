@@ -11,7 +11,7 @@ INLINE LUIRegion *LUIRegion::
     return new LUIRegion(window, dimensions, context_name);
 }
 
-INLINE LUIObject *LUIRegion::root() {
+INLINE LUIObject *LUIRegion::get_root() const {
   return _lui_root->node();
 }
 

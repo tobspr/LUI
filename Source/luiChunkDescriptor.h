@@ -16,7 +16,6 @@ class LUIChunkDescriptor {
   // Give only LUIVertexPool the permission to set the initial values
   friend class LUIVertexPool;
 
-
 private:
 
   LUIChunkDescriptor();
@@ -32,11 +31,9 @@ public:
   ~LUIChunkDescriptor();
 
   void release();
-  void* get_write_ptr();
-
-  INLINE int get_slot();
-  INLINE LUIVertexChunk *get_chunk();
-
+  void* get_write_ptr() const;
+  INLINE int get_slot() const;
+  INLINE LUIVertexChunk *get_chunk() const;
 };
 
 

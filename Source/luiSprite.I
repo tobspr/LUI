@@ -16,11 +16,11 @@ INLINE void LUISprite::set_uv_range(float u0, float v0, float u1, float v1) {
 }
 
 
-INLINE const LTexCoord &LUISprite::get_uv_begin() {
+INLINE const LTexCoord &LUISprite::get_uv_begin() const {
   return _uv_begin;
 }
 
-INLINE const LTexCoord &LUISprite::get_uv_end() {
+INLINE const LTexCoord &LUISprite::get_uv_end() const {
   return _uv_end;
 }
 
