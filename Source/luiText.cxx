@@ -1,5 +1,6 @@
 
 #include "luiText.h"
+#include "pandaVersion.h"
 
 TypeHandle LUIText::_type_handle;
 
@@ -70,7 +71,11 @@ void LUIText::update_text() {
 
     int char_code = (int)_text.at(i);
 
+#if PANDA_MAJOR_VERSION > 1 || PANDA_MINOR_VERSION >= 10
     CPT(TextGlyph) const_glyph;
+#else
+    const TextGlyph *const_glyph;
+#endif
     if (!_font->get_glyph(char_code, const_glyph)) {
       sprite->set_texture((Texture*)NULL);
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
@@ -152,7 +157,11 @@ int LUIText::get_char_index(float pos) {
   for (int i = 0; i < _text.size(); ++i) {
     int char_code = (int)_text.at(i);
 
+#if PANDA_MAJOR_VERSION > 1 || PANDA_MINOR_VERSION >= 10
     CPT(TextGlyph) glyph;
+#else
+    const TextGlyph *glyph;
+#endif
     if (!_font->get_glyph(char_code, glyph)) {
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
       continue;
@@ -184,7 +193,11 @@ float LUIText::get_char_pos(int char_index) {
   for (int i = 0; i < iterate_max; i++) {
     int char_code = (int)_text.at(i);
 
+#if PANDA_MAJOR_VERSION > 1 || PANDA_MINOR_VERSION >= 10
     CPT(TextGlyph) glyph;
+#else
+    const TextGlyph *glyph;
+#endif
     if (!_font->get_glyph(char_code, glyph)) {
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
       continue;

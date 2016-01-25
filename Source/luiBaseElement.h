@@ -15,6 +15,8 @@
 #include "luiBounds.h"
 #include "luiRect.h"
 
+typedef struct _object PyObject;
+
 class LUIRoot;
 class LUIObject;
 class LUIRect;
