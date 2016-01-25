@@ -60,7 +60,7 @@ public:
 
   INLINE void* get_sprite_vertex_pointer(int position);
   INLINE void add_sprite_to_render_list(int position);
-  
+
   INLINE int allocate_render_index();
 
   INLINE Geom* get_geom();
@@ -80,7 +80,7 @@ private:
   PT(GeomTriangles) _triangles;
   PT(Geom) _geom;
 
-  LUISpriteVector _sprites;  
+  LUISpriteVector _sprites;
   LUITextureVector _textures;
 
   int _sprites_rendered;
@@ -88,7 +88,7 @@ private:
   int _render_index;
 
   struct LUITriangleIndex {
-    uint vertices[3];
+    unsigned int vertices[3];
   };
 
   void* _sprite_vertex_pointer;
@@ -100,7 +100,7 @@ private:
   int _index_buffer_size;
 
   vector<int> _topmost_sprites;
-  
+
   // We store a private root node.
   // With this, we don't have to inherit from LUIObject, but
   // can maintain the ability to attach nodes directly to the
