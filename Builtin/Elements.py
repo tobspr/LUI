@@ -59,9 +59,9 @@ class LUIRadiobox(LUIObject, LUICallback):
 
 
 class LUILabeledRadiobox(LUIObject, LUICallback):
-    
+
     def __init__(self, parent=None, group=None, value=None, text=u"Radiobox"):
-        LUIObject.__init__(self)    
+        LUIObject.__init__(self)
         LUICallback.__init__(self)
 
         self.radiobox = LUIRadiobox(parent=self, group=group, value=value)
@@ -222,7 +222,7 @@ class LUISliderWithLabel(LUIObject, LUICallback):
         self.slider = LUISlider(self, width=width - pixels_per_number * number_space_required - 5, filled=filled, min_value=min_value, max_value=max_value, value=value)
         self.label = LUILabel(parent=self, shadow=True, text=u"1.23")
         self.label.right = 0
-        self.label.top = self.label.height - self.slider.height 
+        self.label.top = self.label.height - self.slider.height
         self.label.color = (1,1,1,0.5)
 
         self.slider.add_change_callback(self._on_slider_changed)
@@ -236,17 +236,17 @@ class LUISliderWithLabel(LUIObject, LUICallback):
 
     def get_value(self):
         return self.slider.get_value()
-    
+
     def set_value(self, val):
         self.slider.set_value(val)
 
     def _on_slider_changed(self, obj, value):
-        self.label.set_text( ("{:." + str(self.precision) + "f}").format(value))
+        self.label.text = ("{:." + str(self.precision) + "f}").format(value)
 
 class LUIProgressbar(LUIObject):
 
     def __init__(self, parent=None, width=200, value=50, show_label=True):
-        LUIObject.__init__(self, x=0, y=0, w=width, h=0)    
+        LUIObject.__init__(self, x=0, y=0, w=width, h=0)
 
         self.bgLeft = LUISprite(self, "ProgressbarBg_Left", "skin")
         self.bgMid = LUISprite(self, "ProgressbarBg", "skin")
@@ -314,7 +314,7 @@ class LUIInputField(LUIObject, LUICallback):
         self.bgMid = LUISprite(self, "InputField", "skin")
         self.bgRight = LUISprite(self, "InputField_Right", "skin")
 
-        self.textContent = LUIObject(self)    
+        self.textContent = LUIObject(self)
         self.textContent.margin = (5, 8, 5, 8)
         self.textContent.clip_bounds = (0,0,0,0)
         self.textContent.height = self.bgMid.height - 10
@@ -450,7 +450,7 @@ class LUIInputField(LUIObject, LUICallback):
 
 
 class LUIKeyMarker(LUIObject):
-    
+
     def __init__(self, parent=None, key=u"A"):
         LUIObject.__init__(self)
         self.bgLeft = LUISprite(self, "Keymarker_Left", "skin")
@@ -531,7 +531,7 @@ class LUIScrollableRegion(LUIObject):
 
         self.scrollTopPosition = 0
         self.contentHeight = 400
-        
+
         scrollShadowWidth = self.width - 10
 
         # Top shadow
@@ -542,8 +542,8 @@ class LUIScrollableRegion(LUIObject):
         self.scrollShadowTopMid.left = self.scrollShadowTopLeft.width
         self.scrollShadowTopMid.width = scrollShadowWidth - self.scrollShadowTopLeft.width - self.scrollShadowTopRight.width
         self.scrollShadowTopRight.left = self.scrollShadowTopMid.left + self.scrollShadowTopMid.width
-    
-        # Bottom shadow        
+
+        # Bottom shadow
         self.scrollShadowBottom = LUIObject(self)
         self.scrollShadowBottomLeft = LUISprite(self.scrollShadowBottom, "ScrollShadow_TL", "skin")
         self.scrollShadowBottomMid = LUISprite(self.scrollShadowBottom, "ScrollShadow_Top", "skin")
@@ -630,9 +630,9 @@ class LUIColorpicker(LUIObject):
 
         self.overlay = LUISprite(self, "ColorpickerPreviewOverlay", "skin")
         self.overlay.pos = (2, 2)
-        self.overlay.bind("click", self._open_dialog)     
+        self.overlay.bind("click", self._open_dialog)
 
-        self.fit_to_children()   
+        self.fit_to_children()
 
         self.popup = LUIColorpickerPopup(self)
         self.popup.hide()
@@ -649,7 +649,7 @@ class LUIColorpicker(LUIObject):
         if parent is not None:
             self.parent = parent
 
-    def _open_dialog(self, event):  
+    def _open_dialog(self, event):
         if self.has_focus():
             self.blur()
         else:

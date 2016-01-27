@@ -99,10 +99,10 @@ class DemoFramework:
         self.actionsBtn = LUIButton(parent=self.actions, right=0, top=30, text=u"Execute", template="ButtonMagic")
         self.actionsBtn.bind("click", self._exec_action)
 
-        self.rightBar.add_row(self.actions)
-        # self.rightBar.add_row(self.constructorParameters)
-        self.rightBar.add_row(self.publicFunctions)
-        self.rightBar.add_row(self.events)
+        self.rightBar.add(self.actions)
+        # self.rightBar.add(self.constructorParameters)
+        self.rightBar.add(self.publicFunctions)
+        self.rightBar.add(self.events)
 
         # Widget
         self.widgetContainer = LUIFrame(parent=self.root, width=360, height=250, style=LUIFrame.Sunken)
@@ -154,7 +154,7 @@ class DemoFramework:
                 if index < len(parameters) - 1:
                     label.add_text(text=",", color=(0.9,0.9,0.9))
         label.add_text(text=" )", color=(0.9,0.9,0.9))
-        self.functionsLayout.add_row(label)
+        self.functionsLayout.add(label)
         self.update_layouts()
 
     def add_constructor_parameter(self, name, default):
@@ -162,14 +162,14 @@ class DemoFramework:
         # label.add_text(text=name, color=(255/255.0, 151/255.0, 31/255.0))
         # label.add_text(text=" = ", color=(249/255.0, 38/255.0, 114/255.0))
         # label.add_text(text=default, color=(153/255.0, 129/255.0, 255/255.0))
-        # self.constructorLayout.add_row(label)
+        # self.constructorLayout.add(label)
         self.constructorParams.append((name, default))
         self.update_layouts()
 
     def add_event(self, event_name):
         label = LUILabel(text=event_name)
         label.color = (1,1,1,0.5)
-        self.eventsLayout.add_row(label)
+        self.eventsLayout.add(label)
         self.update_layouts()
 
     def update_layouts(self):

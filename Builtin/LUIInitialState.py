@@ -1,7 +1,7 @@
 
 class LUIInitialState:
 
-    """ Small helper class to parse keyword arguments to the ui-objects """
+    """ Small helper class to pass keyword arguments to the LUI-objects """
 
     @staticmethod
     def init(obj, kwargs):

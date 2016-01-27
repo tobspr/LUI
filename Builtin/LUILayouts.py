@@ -1,3 +1,6 @@
+
+from __future__ import print_function
+
 from panda3d.lui import *
 from direct.directnotify.DirectNotify import DirectNotify
 
@@ -10,25 +13,22 @@ class LUILayout(LUIObject):
 
     def __init__(self, x, y, w, h):
         LUIObject.__init__(self, x, y, w, h)
-        self.notify = DirectNotify().newCategory("LUI")
 
-    """ Use to add elements """
     def add(self, *objects):
-        notify.warning("LUILayout's base add method called, but it should be overriden!")
-        return False
+        """ Use to add elements """
+        raise NotImplementedError()
 
-    """ Use to delete element """
     def remove(self, index):
-        notify.warning("LUILayout's base remove method called, but it should be overriden!")
-        return False
+        """ Use to delete element """
+        raise NotImplementedError()
 
-    """ Use to get an element """
     def get(self, index):
-        notify.warning("LUILayout's base get method called, but it should be overriden!")
-        return False
-
+        """ Use to get an element """
+        raise NotImplementedError()
 
 class LUIVerticalLayout(LUILayout):
+
+    """ A vertical layout storing components row-wise """
 
     def __init__(self, parent=None, width=None, spacing=2, use_dividers=False):
         if width is None:
@@ -38,67 +38,61 @@ class LUIVerticalLayout(LUILayout):
 
         LUILayout.__init__(self, x=0, y=0, w=width, h=0)
 
-        self.rows = []
-        self.dividers = LUIObject(self, x=0, y=0, w=width, h=0)
-        self.spacing = spacing
-        self.useDividers = use_dividers
+        self._rows = []
+        self._dividers = LUIObject(self, x=0, y=0, w=width, h=0)
+        self._spacing = spacing
+        self._use_dividers = use_dividers
 
         if parent is not None:
             self.parent = parent
 
     def reset(self):
-        self.rows = []
+        self._rows = []
         self.remove_all_children()
         self.update()
 
     def set_spacing(self, spacing):
-        self.spacing = spacing
+        self._spacing = spacing
         self.update()
 
     def add(self, *objects):
-        self.add_row(*objects)
-
-    def add_row(self, *objects):
         container = LUIObject(self, 0, 0, w=self.width, h=0)
-        self.rows.append(container)
+        self._rows.append(container)
 
         for obj in objects:
             obj.parent = container
         self.update()
 
-    """ Not implemented """
     def remove(self, *objects):
-        pass
+        """ Not implemented """
+        raise NotImplementedError()
 
     def _add_divider(self, y_pos):
-        if self.useDividers:
-            divider = LUISprite(self.dividers, "ListDivider", "skin")
+        if self._use_dividers:
+            divider = LUISprite(self._dividers, "ListDivider", "skin")
             divider.width = self.width
             divider.top = y_pos
 
     def update(self):
         currentY = 0
 
-        self.dividers.remove_all_children()
+        self._dividers.remove_all_children()
         self._add_divider(0)
 
-        if self.useDividers:
-            currentY += self.spacing / 2
+        if self._use_dividers:
+            currentY += self._spacing / 2
 
-        for row in self.rows:
+        for row in self._rows:
             row.fit_to_children()
             row.top = currentY
-            currentY += row.get_height() + self.spacing
-            self._add_divider(currentY - self.spacing / 2)
+            currentY += row.get_height() + self._spacing
+            self._add_divider(currentY - self._spacing / 2)
 
         self.height = currentY
 
     def get(self, index):
-        return self.get_row(index)
-
-    def get_row(self, index):
-        if index >= 0 and index < len(self.rows):
-            return self.rows[index]
+        if index >= 0 and index < len(self._rows):
+            return self._rows[index]
         return None
 
 
@@ -116,9 +110,9 @@ class LUIHorizontalLayout(LUILayout):
         LUILayout.__init__(self, x=0, y=0, w=0, h=height)
 
         self.columns = []
-        self.dividers = LUIObject(self, x=0, y=0, h=height, w=0)
-        self.spacing = spacing
-        self.useDividers = use_dividers
+        self._dividers = LUIObject(self, x=0, y=0, h=height, w=0)
+        self._spacing = spacing
+        self._use_dividers = use_dividers
 
         if parent is not None:
             self.parent = parent
@@ -129,7 +123,7 @@ class LUIHorizontalLayout(LUILayout):
         self.update()
 
     def set_spacing(self, spacing):
-        self.spacing = spacing
+        self._spacing = spacing
         self.update()
 
     def add(self, *objects):
@@ -148,25 +142,25 @@ class LUIHorizontalLayout(LUILayout):
         pass
 
     def _add_divider(self, x_pos):
-        if self.useDividers:
-            divider = LUISprite(self.dividers, "ListDivider", "skin")
+        if self._use_dividers:
+            divider = LUISprite(self._dividers, "ListDivider", "skin")
             divider.height = self.height
             divider.left = x_pos
 
     def update(self):
         currentX = 0
 
-        self.dividers.remove_all_children()
+        self._dividers.remove_all_children()
         self._add_divider(0)
 
-        if self.useDividers:
-            currentX += self.spacing / 2
+        if self._use_dividers:
+            currentX += self._spacing / 2
 
         for column in self.columns:
             column.fit_to_children()
             column.left = currentX
-            currentX += column.get_width() + self.spacing
-            self._add_divider(currentX - self.spacing / 2)
+            currentX += column.get_width() + self._spacing
+            self._add_divider(currentX - self._spacing / 2)
 
         self.width = currentX
 

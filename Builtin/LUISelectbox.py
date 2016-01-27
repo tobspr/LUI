@@ -69,7 +69,7 @@ class LUISelectbox(LUIObject, LUICallback):
         self.label.color = (1,1,1,1)
         for optID, optVal in self.options:
             if optID == optid:
-                self.label.set_text(optVal)
+                self.label.text = optVal
                 self.currentOptionId = optID
                 return
         self.label.color = (1,1,1,0.5)
