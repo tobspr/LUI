@@ -46,13 +46,16 @@ label.br()
 label.add_text(text="... but another line forced with ", color=(0.6,0.3,0.8))
 label.add_text(text="br() ", color=(1.0,0.6,0.2))
 
-label.br()
+def make_random_color():
+    return (random.random(), random.random(), random.random())
 
+def newline():
+    label.br()
+    label.add_text(text="New Line!", color=make_random_color())
 
 f.set_actions({
-        # "Set Random Text": lambda: label.set_text(unicode(random.randint(100, 10000))),
-        "Add random text": lambda: label.add_text(text="Text ", color=(random.random(), random.random(), random.random())),
-        "Go to next line": lambda: label.br()
+        "Add random text": lambda: label.add_text(text="Text ", color=make_random_color()),
+        "Go to next line": newline
     })
 
 run()

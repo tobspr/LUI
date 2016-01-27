@@ -37,7 +37,7 @@ void LUIText::update_text() {
 
   // Allocate as many sprites as required
   int to_allocate  = len - _children.size();
-  for (int i = 0; i < to_allocate; i++) {
+  for (int i = 0; i < to_allocate; ++i) {
     if (lui_cat.is_spam()) {
       lui_cat.spam() << "Allocating sprite .. " << endl;
     }
@@ -51,25 +51,21 @@ void LUIText::update_text() {
   float ppu = _font_size;
 
   // Unreference all current glyphs
-  // for (int i = 0; i < _glyphs.size(); i++) {
-  //   _glyphs[i]->unref();
-  // }
   _glyphs.clear();
 
   // Iterate over the sprites
-  int i = 0;
+  int char_idx = 0;
   float current_x_pos = 0.0;
 
-  for (lui_element_iterator it = _children.begin(); it != _children.end(); ++it, i++)
+  for (lui_element_iterator it = _children.begin(); it != _children.end(); ++it, ++char_idx)
   {
     LUIBaseElement* child = *it;
-
     LUISprite* sprite = DCAST(LUISprite, child);
 
-    // A lui text should have only sprites contained
+    // A lui text should have only sprites contained, otherwise something went wrong
     nassertv(sprite != NULL);
 
-    int char_code = (int)_text.at(i);
+    int char_code = (int)_text.at(char_idx);
 
 #if PANDA_MAJOR_VERSION > 1 || PANDA_MINOR_VERSION >= 10
     CPT(TextGlyph) const_glyph;
@@ -105,8 +101,6 @@ void LUIText::update_text() {
       sprite->set_texture(dynamic_glyph->get_page());
 
       // Position the glyph.
-      // lui_cat.error() << current_x_pos << " left = " << dynamic_glyph->get_left() << endl;
-
       sprite->set_pos(
         current_x_pos + dynamic_glyph->get_left() * ppu,
         (_font->get_line_height() * 0.8 - dynamic_glyph->get_top()) * ppu);

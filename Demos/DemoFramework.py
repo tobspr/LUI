@@ -19,7 +19,7 @@ load_prc_file_data("", """
     show-frame-rate-meter #f
     win-size 780 630
     window-title LUI Demo
-    win-fixed-size #t
+    win-fixed-size #f
 """)
 
 import direct.directbase.DirectStart
