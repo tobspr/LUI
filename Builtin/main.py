@@ -83,17 +83,17 @@ if __name__ == "__main__":
 
     field = LUIInputField(width=250)
 
-    layout.add_row(checkbox)
-    layout.add_row(checkboxChecked)
-    layout.add_row(box)
-    layout.add_row(radiobox)
-    layout.add_row(radiobox2)
-    layout.add_row(slider)
-    layout.add_row(field)
-    layout.add_row(slider2)
-    layout.add_row(pickLabel, picker)
-    layout.add_row(bar)
-    layout.add_row(btnOk, btnCancel)
+    layout.add(checkbox)
+    layout.add(checkboxChecked)
+    layout.add(box)
+    layout.add(radiobox)
+    layout.add(radiobox2)
+    layout.add(slider)
+    layout.add(field)
+    layout.add(slider2)
+    layout.add(pickLabel, picker)
+    layout.add(bar)
+    layout.add(btnOk, btnCancel)
     layout.margin_top = 10
 
     instructions = LUIObject(region.root, x=25, y=25)
@@ -103,10 +103,10 @@ if __name__ == "__main__":
 
     # Instructions
     layout = LUIVerticalLayout(parent=instructions, spacing=6)
-    layout.add_row(LUILabel(text=u"Instructions:"))
-    layout.add_row()
-    layout.add_row(LUIKeyInstruction(key=u"A", instruction=u"Some fancy action"))
-    layout.add_row(LUIKeyInstruction(key=u"Enter", instruction=u"Another action"))
+    layout.add(LUILabel(text=u"Instructions:"))
+    layout.add()
+    layout.add(LUIKeyInstruction(key=u"A", instruction=u"Some fancy action"))
+    layout.add(LUIKeyInstruction(key=u"Enter", instruction=u"Another action"))
     layout.top = 80
 
     skinParent.fit_to_children()

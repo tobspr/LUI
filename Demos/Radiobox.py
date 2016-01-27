@@ -36,9 +36,9 @@ box2 = LUIRadiobox(group=group, value=2, label="Radiobox 2", active=True)
 box3 = LUIRadiobox(group=group, value=3, label="Radiobox 3")
 
 # Add 3 boxes
-grid.add_row(box1)
-grid.add_row(box2)
-grid.add_row(box3)
+grid.add(box1)
+grid.add(box2)
+grid.add(box3)
 
 f.set_actions({
         "Select Box 1": lambda: box1.set_active(),

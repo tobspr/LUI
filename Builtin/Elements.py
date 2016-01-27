@@ -764,7 +764,7 @@ class LUIColorpickerPopup(LUIPopup, LUICallback):
 
             valueLabel = LUILabel(text=u"255", shadow=True)
             valueLabel.right = 0
-            self.labels.add_row(label, valueLabel)
+            self.labels.add(label, valueLabel)
             self.colorLabels.append(valueLabel)
 
         self.activeColor = LUIObject(self.content, x=177, y=0)
