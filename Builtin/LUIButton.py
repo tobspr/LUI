@@ -27,18 +27,18 @@ class LUIButton(LUIObject):
 
     def on_resized(self, event):
         """ Internal callback when the button gets resized """
-        if not self._dynamic_width:
+        if self._dynamic_width:
             self._layout.width = self.width
             self._layout.recompute()
 
     def on_mousedown(self, event):
         """ Internal on_mousedown handler. Do not override """
-        self._layout.set_prefix(self._template + "Focus")
+        self._layout.prefix = self._template + "Focus"
         self._label.margin_top = -2
 
     def on_mouseup(self, event):
         """ Internal on_mouseup handler. Do not override """
-        self._layout.set_prefix(self._template)
+        self._layout.prefix = self._template
         self._label.margin_top = -3
 
     def get_text(self, text):

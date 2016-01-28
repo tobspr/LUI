@@ -27,6 +27,7 @@ label = LUILabel(parent=f.get_widget_node(), text="This is a fancy label")
 
 f.set_actions({
         "Set Random Text": lambda: label.set_text(unicode(random.randint(100, 10000))),
+        "Set Random Color": lambda: label.set_color(random.random(), random.random(), random.random(), 1)
     })
 
 run()

@@ -12,7 +12,8 @@
 class LUIBaseElement;
 
 // Iterators
-typedef pvector<PT(LUIBaseElement)>::iterator lui_element_iterator;
+typedef pvector<PT(LUIBaseElement)>::const_iterator lui_element_iterator;
+typedef pvector<PT(LUIBaseElement)>::const_iterator lui_const_element_iterator;
 
 class EXPCL_LUI LUIElementIterator : public ReferenceCount {
 PUBLISHED:
@@ -26,14 +27,14 @@ PUBLISHED:
     return *this;
   }
 public:
-  LUIElementIterator(lui_element_iterator begin, lui_element_iterator end)
+  LUIElementIterator(lui_const_element_iterator begin, lui_const_element_iterator end)
     : _iter(begin), _end(end) {
   }
   ~LUIElementIterator() {
   }
 private:
-  lui_element_iterator _iter;
-  lui_element_iterator _end;
+  lui_const_element_iterator _iter;
+  lui_const_element_iterator _end;
 };
 
 #endif

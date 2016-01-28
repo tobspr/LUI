@@ -1,6 +1,7 @@
 
 from DemoFramework import DemoFramework
 from LUIButton import LUIButton
+from LUILayouts import LUIHorizontalLayout
 
 import random
 
@@ -16,15 +17,20 @@ f.add_constructor_parameter("template", "'ButtonDefault'")
 f.add_public_function("set_text", [("text", "string")])
 f.add_public_function("get_text", [], "string")
 
-# Events
+# Construct source code
 f.construct_sourcecode("LUIButton")
 
-# Create 2 new buttons
-button1 = LUIButton(parent=f.get_widget_node(), text="Do not click me")
-button2 = LUIButton(parent=f.get_widget_node(), text="Instead click me", template="ButtonMagic", left=button1.width + 10)
+# Create 2 new buttons, and store them in a vertical layout
+layout = LUIHorizontalLayout(parent=f.get_widget_node(), spacing=10, use_dividers=True)
 
-# f.set_actions({
-#         "Set Random Text": lambda: label.set_text(unicode(random.randint(100, 10000))),
-#     })
+button1 = LUIButton(text="Do not click me")
+button2 = LUIButton(text="Instead click me", template="ButtonMagic")
+
+layout.add(button1)
+layout.add(button2)
+
+f.set_actions({
+        "Set Random Text": lambda: button1.set_text(u"Text: " + unicode(random.randint(100, 10000000))),
+    })
 
 run()

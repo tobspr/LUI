@@ -39,3 +39,4 @@ class LUILabel(LUIObject):
         self.fit_to_children()
 
     text = property(get_text, set_text)
+    text_handle = property(get_text_handle)

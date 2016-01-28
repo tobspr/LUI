@@ -46,7 +46,6 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
     return _content_node->add_child(child);
   }
 
-
   if (child->get_parent() != NULL) {
     luiObject_cat.error() << "You cannot reattach a child, unattach the child from it's current parent first" << endl;
     return child;
@@ -62,8 +61,13 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
   return child;
 }
 
-INLINE PT(LUIElementIterator) LUIObject::get_children() {
+INLINE PT(LUIElementIterator) LUIObject::get_children() const {
   return new LUIElementIterator(_children.begin(), _children.end());
+}
+
+INLINE PT(LUIBaseElement) LUIObject::get_child(size_t index) const {
+  nassertr(index < _children.size(), NULL);
+  return _children[index];
 }
 
 INLINE int LUIObject::get_child_count() const {
@@ -171,11 +175,10 @@ INLINE bool LUIObject::get_sort_children() const {
 }
 
 
-
 INLINE void LUIObject::set_content_node(PT(LUIObject) content_node) {
   _content_node = content_node;
 }
 
-INLINE PT(LUIObject) LUIObject::get_content_node() {
+INLINE PT(LUIObject) LUIObject::get_content_node() const {
   return _content_node;
 }

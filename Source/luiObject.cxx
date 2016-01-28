@@ -78,7 +78,7 @@ void LUIObject::ls(int indent) {
   for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
    (*it)->ls(indent + 1);
   }
-} 
+}
 
 
 
@@ -104,7 +104,6 @@ void LUIObject::render_recursive(bool is_topmost_pass, bool render_anyway) {
     do_render_anyway = do_render_anyway || do_render;
   }
 
-  
   nassertv(_root != NULL);
 
   if (do_render) {

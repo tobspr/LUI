@@ -30,20 +30,17 @@ group = LUIRadioboxGroup()
 # Create a layout for the boxes
 grid = LUIVerticalLayout(parent=f.get_widget_node(), width=250, spacing=5)
 
-# Create 3 boxes
-box1 = LUIRadiobox(group=group, value=1, label="Radiobox 1")
-box2 = LUIRadiobox(group=group, value=2, label="Radiobox 2", active=True)
-box3 = LUIRadiobox(group=group, value=3, label="Radiobox 3")
-
-# Add 3 boxes
-grid.add(box1)
-grid.add(box2)
-grid.add(box3)
+# Create the boxes
+boxes = []
+for i in range(1, 4):
+    boxes.append(LUIRadiobox(group=group, value=i, label="Radiobox {0}".format(i), active=i==2))
+    grid.add(boxes[-1])
 
 f.set_actions({
-        "Select Box 1": lambda: box1.set_active(),
-        "Select Box 2": lambda: box2.set_active(),
-        "Set Random Text": lambda: box1.get_label().set_text(unicode(random.randint(100, 10000))),
+        "Select Box 1": lambda: boxes[0].set_active(),
+        "Select Box 2": lambda: boxes[1].set_active(),
+        "Select Box 3": lambda: boxes[2].set_active(),
+        "Set Random Text": lambda: boxes[0].label.set_text(u"Text: " + unicode(random.randint(100, 10000))),
     })
 
 run()

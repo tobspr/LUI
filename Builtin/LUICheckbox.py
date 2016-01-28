@@ -59,6 +59,8 @@ class LUICheckbox(LUIObject):
             its text) """
         return self._label
 
+    label = property(get_label)
+
     def _update_sprite(self):
         """ Internal method to update the sprites """
         img = "Checkbox_Checked" if self._checked else "Checkbox_Default"

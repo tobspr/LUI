@@ -40,7 +40,8 @@ PUBLISHED:
 
   virtual ~LUIObject();
 
-  INLINE PT(LUIElementIterator) get_children();
+  INLINE PT(LUIElementIterator) get_children() const;
+  INLINE PT(LUIBaseElement) get_child(size_t index) const;
   INLINE PT(LUIBaseElement) add_child(PT(LUIBaseElement) child);
   INLINE void remove_child(PT(LUIBaseElement) child);
   INLINE void remove_all_children();
@@ -55,7 +56,7 @@ PUBLISHED:
   INLINE void fit_width_to_children();
 
   INLINE void set_content_node(PT(LUIObject) content_node);
-  INLINE PT(LUIObject) get_content_node();
+  INLINE PT(LUIObject) get_content_node() const;
 
   virtual void ls(int indent = 0);
 

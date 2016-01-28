@@ -11,16 +11,16 @@ class LUIRadiobox(LUIObject):
         LUIObject.__init__(self, x=0, y=0, w=0, h=0, solid=True)
         LUIInitialState.init(self, kwargs)
 
-        self.sprite = LUISprite(self, "Radiobox_Default", "skin")
-        self.label = LUILabel(parent=self, text=label, shadow=True, left=self.sprite.width+6)
-        self.label.top = self.label.height - self.sprite.height
-        self.label.bind("resized", self._on_label_resized)
+        self._sprite = LUISprite(self, "Radiobox_Default", "skin")
+        self._label = LUILabel(parent=self, text=label, shadow=True, left=self._sprite.width + 6)
+        self._label.top = self._label.height - self._sprite.height
+        self._label.bind("resized", self._on_label_resized)
 
         self.fit_to_children()
-        self.group = group
-        self.group.register_box(self)
-        self.active = False
-        self.value = value
+        self._group = group
+        self._group.register_box(self)
+        self._active = False
+        self._value = value
 
         if active:
             self.set_active()
@@ -35,24 +35,32 @@ class LUIRadiobox(LUIObject):
 
     def set_active(self):
         """ Internal function to set the radiobox active """
-        if self.group is not None:
-            self.group.set_active(self)
+        if self._group is not None:
+            self._group.set_active(self)
         else:
             self._update_state(True)
 
     def get_value(self):
         """ Returns the value of the radiobox """
-        return self.value
+        return self._value
+
+    def set_value(self, value):
+        """ Sets the value of the radiobox """
+        self._value = value
+
+    value = property(get_value, set_value)
 
     def get_label(self):
-        """ Returns a handle to the label, so it can be modified (e.g. change 
+        """ Returns a handle to the label, so it can be modified (e.g. change
             its text) """
-        return self.label
+        return self._label
+
+    label = property(get_label)
 
     def _update_state(self, active):
         """ Internal method to update the state of the radiobox. Called by the
         LUIRadioboxGroup """
-        self.active = active
+        self._active = active
         self.trigger_event("changed")
         self._update_sprite()
 
@@ -66,5 +74,5 @@ class LUIRadiobox(LUIObject):
 
     def _update_sprite(self):
         """ Internal function to update the sprite of the radiobox """
-        img = "Radiobox_Active" if self.active else "Radiobox_Default"
-        self.sprite.set_texture(img, "skin")
+        img = "Radiobox_Active" if self._active else "Radiobox_Default"
+        self._sprite.set_texture(img, "skin")

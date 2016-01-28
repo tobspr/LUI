@@ -8,9 +8,6 @@ import random
 f = DemoFramework()
 f.prepare_demo("LUIFormattedLabel")
 
-# Constructor
-
-
 # Functions
 f.add_public_function("clear", [], "void")
 f.add_public_function("br", [], "void")
