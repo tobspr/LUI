@@ -36,7 +36,7 @@ class LUIRadiobox(LUIObject):
     def set_active(self):
         """ Internal function to set the radiobox active """
         if self._group is not None:
-            self._group.set_active(self)
+            self._group.set_active_box(self)
         else:
             self._update_state(True)
 

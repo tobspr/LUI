@@ -7,30 +7,34 @@ class LUIRadioboxGroup(LUIObject):
     checked at one timem """
 
     def __init__(self):
-        self.boxes = []
-        self.selected_box = None
+        self._boxes = []
+        self._selected_box = None
 
     def register_box(self, box):
         """ Registers a box to the collection """
-        if box not in self.boxes:
-            self.boxes.append(box)
+        if box not in self._boxes:
+            self._boxes.append(box)
 
-    def set_active(self, active_box):
+    def set_active_box(self, active_box):
         """ Internal function to set the active box """
-        for box in self.boxes:
+        for box in self._boxes:
             if box is not active_box:
                 box._update_state(False)
             else:
                 box._update_state(True)
-        self.selected_box = active_box
+        self._selected_box = active_box
 
     def get_active_box(self):
         """ Returns the current selected box """
-        return self.selected_box
+        return self._selected_box
+
+    active_box = property(get_active_box, set_active_box)
 
     def get_active_value(self):
-        """ Returns the value of the current selected box (or None if none is 
+        """ Returns the value of the current selected box (or None if none is
         selected) """
-        if self.selected_box is None:
+        if self._selected_box is None:
             return None
-        return self.selected_box.get_value()
+        return self._selected_box.get_value()
+
+    active_value = property(get_active_value)
