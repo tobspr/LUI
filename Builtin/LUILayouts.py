@@ -1,15 +1,15 @@
 
-from __future__ import print_function
+from __future__ import print_function, division
 
 from panda3d.lui import *
 from direct.directnotify.DirectNotify import DirectNotify
 
 from LUIInitialState import LUIInitialState
 
-class LUILayout(LUIObject):
+class LUIBaseLayout(LUIObject):
 
     """ Abstract class to supply consistent interface for different
-    LUILayouts """
+    LUIBaseLayouts """
 
     def __init__(self, x, y, w, h):
         LUIObject.__init__(self, x, y, w, h)
@@ -19,24 +19,31 @@ class LUILayout(LUIObject):
         raise NotImplementedError()
 
     def remove(self, index):
-        """ Use to delete element """
+        """ Use to delete cells """
+        raise NotImplementedError()
+
+    def reset(self):
+        """ Resets the layout, removing all components """
         raise NotImplementedError()
 
     def get(self, index):
         """ Use to get an element """
         raise NotImplementedError()
 
-class LUIVerticalLayout(LUILayout):
+class LUIVerticalLayout(LUIBaseLayout):
 
     """ A vertical layout storing components row-wise """
 
     def __init__(self, parent=None, width=None, spacing=2, use_dividers=False):
+        """ Constructs a new layout with a given parent and with. spacing controls
+        the distance between cells. If use_dividers is set to True, there will
+        be horizontal lines between the cells """
         if width is None:
             width = 100
             if parent is not None:
                 width = parent.width - parent.padding_left - parent.padding_right
 
-        LUILayout.__init__(self, x=0, y=0, w=width, h=0)
+        LUIBaseLayout.__init__(self, x=0, y=0, w=width, h=0)
 
         self._rows = []
         self._dividers = LUIObject(self, x=0, y=0, w=width, h=0)
@@ -47,15 +54,30 @@ class LUIVerticalLayout(LUILayout):
             self.parent = parent
 
     def reset(self):
+        """ Resets the layout, removing all children and rows """
         self._rows = []
         self.remove_all_children()
         self.update()
 
+    def get(self, index):
+        """ Returns the n-th row element """
+        if index >= 0 and index < len(self._rows):
+            return self._rows[index]
+        return None
+
     def set_spacing(self, spacing):
+        """ Sets the spacing between the rows in pixels """
         self._spacing = spacing
         self.update()
 
+    def get_spacing(self):
+        """ Returns the spacing between the rows in pixels """
+        return self._spacing
+
+    spacing = property(get_spacing, set_spacing)
+
     def add(self, *objects):
+        """ Adds a new row containing all given objects """
         container = LUIObject(self, 0, 0, w=self.width, h=0)
         self._rows.append(container)
 
@@ -63,53 +85,51 @@ class LUIVerticalLayout(LUILayout):
             obj.parent = container
         self.update()
 
-    def remove(self, *objects):
-        """ Not implemented """
+    def remove(self, index):
+        """ Not implemented yet """
         raise NotImplementedError()
 
     def _add_divider(self, y_pos):
+        """ Internal method to add a horizontal divider """
         if self._use_dividers:
             divider = LUISprite(self._dividers, "ListDivider", "skin")
             divider.width = self.width
             divider.top = y_pos
 
     def update(self):
-        currentY = 0
-
+        """ Updates the layout, recalculating all boxes """
+        current_height = 0
         self._dividers.remove_all_children()
         self._add_divider(0)
 
         if self._use_dividers:
-            currentY += self._spacing / 2
+            current_height += self._spacing // 2
 
         for row in self._rows:
             row.fit_to_children()
-            row.top = currentY
-            currentY += row.get_height() + self._spacing
-            self._add_divider(currentY - self._spacing / 2)
+            row.top = current_height
+            current_height += row.get_height() + self._spacing
+            self._add_divider(current_height - self._spacing // 2)
 
-        self.height = currentY
+        self.height = current_height
 
-    def get(self, index):
-        if index >= 0 and index < len(self._rows):
-            return self._rows[index]
-        return None
-
-
-class LUIHorizontalLayout(LUILayout):
+class LUIHorizontalLayout(LUIBaseLayout):
 
     """ Standard horizontal layout,
     objects are set next to each other from left to right """
 
     def __init__(self, parent=None, height=None, spacing=2, use_dividers=False):
+        """ Constructs a new horizontal layout with a given height and parent.
+        spacing controls the distance between cells. If use_dividers is set to
+        True, there will be horizontal lines between the cells"""
         if height is None:
             height = 100
             if parent is not None:
                 height = parent.height - parent.padding_top - parent.padding_bottom
 
-        LUILayout.__init__(self, x=0, y=0, w=0, h=height)
+        LUIBaseLayout.__init__(self, x=0, y=0, w=0, h=height)
 
-        self.columns = []
+        self._columns = []
         self._dividers = LUIObject(self, x=0, y=0, h=height, w=0)
         self._spacing = spacing
         self._use_dividers = use_dividers
@@ -118,124 +138,142 @@ class LUIHorizontalLayout(LUILayout):
             self.parent = parent
 
     def reset(self):
-        self.columns = []
+        """ Resets the layout """
+        self._columns = []
         self.remove_all_children()
         self.update()
 
     def set_spacing(self, spacing):
+        """ Sets the spacing between the cells in pixels """
         self._spacing = spacing
         self.update()
 
-    def add(self, *objects):
-        self.add_column(*objects)
+    def get_spacing(self):
+        """ Returns the spacing between the cells in pixels """
+        return self._spacing
 
-    def add_column(self, *objects):
+    spacing = property(get_spacing, set_spacing)
+
+    def add(self, *objects):
+        """ Adds a new column with the given objects """
         container = LUIObject(self, 0, 0, w=self.height, h=0)
-        self.columns.append(container)
+        self._columns.append(container)
 
         for obj in objects:
             obj.parent = container
         self.update()
 
-    """ Not implemented """
     def remove(self, index):
-        pass
+        """ Not implemented """
+        raise NotImplementedError()
 
     def _add_divider(self, x_pos):
+        """ Internal method to add a new divider """
         if self._use_dividers:
             divider = LUISprite(self._dividers, "ListDivider", "skin")
             divider.height = self.height
             divider.left = x_pos
 
     def update(self):
-        currentX = 0
+        """ Updates the layout, adjusting the size of all cells """
+        current_x = 0
 
         self._dividers.remove_all_children()
         self._add_divider(0)
 
         if self._use_dividers:
-            currentX += self._spacing / 2
+            current_x += self._spacing // 2
 
-        for column in self.columns:
+        for column in self._columns:
             column.fit_to_children()
-            column.left = currentX
-            currentX += column.get_width() + self._spacing
-            self._add_divider(currentX - self._spacing / 2)
+            column.left = current_x
+            current_x += column.get_width() + self._spacing
+            self._add_divider(current_x - self._spacing // 2)
 
-        self.width = currentX
+        self.width = current_x
 
     def get(self, index):
-        return self.get_column(index)
-
-    def get_column(self, index):
-        if index >= 0 and index < len(self.columns):
-            return self.columns[index]
+        """ Returns the n-th column object """
+        if index >= 0 and index < len(self._columns):
+            return self._columns[index]
         return None
 
 class LUICornerLayout(LUIObject):
 
     """ This is a layout which is used to combine 9 sprites to a single sprite,
-    e.g. used for box shadow """
+    e.g. used for box shadow or frames."""
 
-    modes = ["TR", "Top", "TL", "Right", "Mid", "Left", "BR", "Bottom", "BL"]
+    # List of all sprite identifiers required for the layout
+    _MODES = ["TR", "Top", "TL", "Right", "Mid", "Left", "BR", "Bottom", "BL"]
 
     def __init__(self, image_prefix="", **kwargs):
         """ Creates a new layout, using the image_prefix as prefix. """
         LUIObject.__init__(self, x=0, y=0, w=100, h=100)
         LUIInitialState.init(self, kwargs)
-        self.prefix = image_prefix
-        self.parts = {}
-        for i in self.modes:
-            self.parts[i] = LUISprite(self, "blank", "skin")
+        self._prefix = image_prefix
+        self._parts = {}
+        for i in self._MODES:
+            self._parts[i] = LUISprite(self, "blank", "skin")
         self.update_layout()
 
     def update_layout(self):
         """ Updates the layouts components. Should be called whenver the layout
         got resized """
-        for i in self.modes:
-            self.parts[i].set_texture(self.prefix + i, "skin", resize=True)
+        for i in self._MODES:
+            self._parts[i].set_texture(self._prefix + i, "skin", resize=True)
 
         # Width
-        self.parts['Top'].width = self.width - self.parts['TL'].width - self.parts['TR'].width
-        self.parts['Mid'].width = self.width - self.parts['Left'].width - self.parts['Right'].width
-        self.parts['Bottom'].width = self.width - self.parts['BL'].width - self.parts['BR'].width
+        self._parts['Top'].width = self.width - self._parts['TL'].width - self._parts['TR'].width
+        self._parts['Mid'].width = self.width - self._parts['Left'].width - self._parts['Right'].width
+        self._parts['Bottom'].width = self.width - self._parts['BL'].width - self._parts['BR'].width
 
         # Height
-        self.parts['Left'].height = self.height - self.parts['TL'].height - self.parts['BL'].height
-        self.parts['Mid'].height = self.height - self.parts['Top'].height - self.parts['Bottom'].height
-        self.parts['Right'].height = self.height - self.parts['TR'].height - self.parts['BR'].height
+        self._parts['Left'].height = self.height - self._parts['TL'].height - self._parts['BL'].height
+        self._parts['Mid'].height = self.height - self._parts['Top'].height - self._parts['Bottom'].height
+        self._parts['Right'].height = self.height - self._parts['TR'].height - self._parts['BR'].height
 
         # Positioning - Left
-        self.parts['Top'].left = self.parts['TL'].width
-        self.parts['Mid'].left = self.parts['Left'].width
-        self.parts['Bottom'].left = self.parts['BL'].width
+        self._parts['Top'].left = self._parts['TL'].width
+        self._parts['Mid'].left = self._parts['Left'].width
+        self._parts['Bottom'].left = self._parts['BL'].width
 
-        self.parts['TR'].left = self.parts['Top'].left + self.parts['Top'].width
-        self.parts['Right'].left = self.parts['Mid'].left + self.parts['Mid'].width
-        self.parts['BR'].left = self.parts['Bottom'].left + self.parts['Bottom'].width
+        self._parts['TR'].left = self._parts['Top'].left + self._parts['Top'].width
+        self._parts['Right'].left = self._parts['Mid'].left + self._parts['Mid'].width
+        self._parts['BR'].left = self._parts['Bottom'].left + self._parts['Bottom'].width
 
         # Positioning - Top
-        self.parts['Left'].top = self.parts['TL'].height
-        self.parts['Mid'].top = self.parts['Top'].height
-        self.parts['Right'].top = self.parts['TR'].height
+        self._parts['Left'].top = self._parts['TL'].height
+        self._parts['Mid'].top = self._parts['Top'].height
+        self._parts['Right'].top = self._parts['TR'].height
 
-        self.parts['BL'].top = self.parts['Left'].top + self.parts['Left'].height
-        self.parts['Bottom'].top = self.parts['Mid'].top + self.parts['Mid'].height
-        self.parts['BR'].top = self.parts['Right'].top + self.parts['Right'].height
+        self._parts['BL'].top = self._parts['Left'].top + self._parts['Left'].height
+        self._parts['Bottom'].top = self._parts['Mid'].top + self._parts['Mid'].height
+        self._parts['BR'].top = self._parts['Right'].top + self._parts['Right'].height
 
     def set_prefix(self, prefix):
         """ Changes the texture of the layout """
-        self.prefix = prefix
+        self._prefix = prefix
         self.update_layout()
+
+    def get_prefix(self):
+        """ Returns the layouts texture prefix """
+        return self._prefix
+
+    prefix = property(get_prefix, set_prefix)
 
 
 class LUIHorizontalStretchedLayout(LUIObject):
 
+    """ A layout which takes 3 sprites, a left sprite, a right sprite, and a
+    middle sprite. While the left and right sprites remain untouched, the middle
+    one will be stretched to fit the layout """
+
     def __init__(self, parent=None, width=200, prefix="ButtonMagic"):
         LUIObject.__init__(self, x=0, y=0, w=width, h=0)
-        self.spriteLeft = LUISprite(self, prefix + "_Left", "skin")
-        self.spriteMid = LUISprite(self, prefix, "skin")
-        self.spriteRight = LUISprite(self, prefix + "_Right", "skin")
+        self.sprite_left = LUISprite(self, "blank", "skin")
+        self.sprite_mid = LUISprite(self, "blank", "skin")
+        self.sprite_right = LUISprite(self, "blank", "skin")
+        self.set_prefix(prefix)
         self.recompute()
         self.fit_to_children()
 
@@ -243,22 +281,33 @@ class LUIHorizontalStretchedLayout(LUIObject):
             self.parent = parent
 
     def recompute(self):
-        self.spriteMid.left = self.spriteLeft.width
-        self.spriteMid.width = self.width - self.spriteLeft.width - self.spriteRight.width
-        self.spriteRight.left = self.spriteMid.left + self.spriteMid.width
+        """ Recomputes the layout to fit new dimensions """
+        self.sprite_mid.left = self.sprite_left.width
+        self.sprite_mid.width = self.width - self.sprite_left.width - self.sprite_right.width
+        self.sprite_right.left = self.sprite_mid.left + self.sprite_mid.width
 
     def set_prefix(self, prefix):
-        self.spriteLeft.set_texture(prefix + "_Left", "skin", resize=False)
-        self.spriteMid.set_texture(prefix, "skin", resize=False)
-        self.spriteRight.set_texture(prefix + "_Right", "skin", resize=False)
+        self.sprite_left.set_texture(prefix + "_Left", "skin")
+        self.sprite_mid.set_texture(prefix, "skin")
+        self.sprite_right.set_texture(prefix + "_Right", "skin")
+        self._prefix = prefix
+        self.recompute()
+
+    def get_prefix(self):
+        """ Returns the layout prefix """
+        return self._prefix
+
+    prefix = property(get_prefix, set_prefix)
 
     def get_sprite_left(self):
-        return self.spriteLeft
+        """ Returns a handle to the left sprite, usually not required """
+        return self.sprite_left
 
     def get_sprite_mid(self):
-        return self.spriteMid
+        """ Returns a handle to the middle sprite, usually not required """
+        return self.sprite_mid
 
     def get_sprite_right(self):
-        return self.spriteRight
-
+        """ Returns a handle to the right sprite, usually not required """
+        return self.sprite_right
 

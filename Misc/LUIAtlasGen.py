@@ -7,6 +7,8 @@ TODO: Command line interface
 
 """
 
+from __future__ import print_function
+
 from os import listdir
 from os.path import join, isfile, isdir
 
@@ -16,13 +18,14 @@ from panda3d.lui import LUIAtlasPacker
 # Supress PNMImage warnings about incorrect sRGB profile
 loadPrcFileData("", "notify-level-pnmimage error")
 loadPrcFileData("", "notify-level-lui spam")
+loadPrcFileData("", "model-cache ")
 
 class AtlasEntry:
 
     def __init__(self, verbose_name, source_path):
         self.name = verbose_name
         self.path = source_path
-        self.tex = TexturePool.load_texture(source_path)
+        self.tex = PNMImage(source_path)
         self.w = self.tex.get_x_size()
         self.h = self.tex.get_y_size()
         self.area = self.w * self.h
@@ -37,14 +40,14 @@ def generate_atlas(files, dest_dat, dest_png):
     virtual_atlas_size = 32
     all_entries_matched = False
 
-    print "Loading", len(files), "entries .."
+    print("Loading", len(files), "entries ..")
     for verbose_name, source in files:
         entries.append(AtlasEntry(verbose_name, source))
 
     entries = sorted(entries, key=lambda a: -a.area)
 
     while not all_entries_matched:
-        print "Trying to pack into a", virtual_atlas_size, "x", virtual_atlas_size, "atlas .."
+        print("Trying to pack into a", virtual_atlas_size, "x", virtual_atlas_size, "atlas ..")
 
         packer = LUIAtlasPacker(virtual_atlas_size)
         all_entries_matched = True
@@ -59,27 +62,26 @@ def generate_atlas(files, dest_dat, dest_png):
                 break
             entry.assigned_pos = uv
 
-    print "Matched entries, writing atlas .."
+    print("Matched entries, writing atlas ..")
 
     atlas_description_content = ""
     dest = PNMImage(virtual_atlas_size, virtual_atlas_size, 4)
 
     for entry in entries:
-        src = PNMImage(entry.w, entry.h, 4)
-        entry.tex.store(src)
 
-        if not src.has_alpha():
-            src.add_alpha()
-            src.alpha_fill(1.0)
+        if not entry.tex.has_alpha():
+            entry.tex.add_alpha()
+            entry.tex.alpha_fill(1.0)
 
         dest.copy_sub_image(
-            src, int(entry.assigned_pos.get_x()), int(entry.assigned_pos.get_y()))
+            entry.tex, int(entry.assigned_pos.get_x()), int(entry.assigned_pos.get_y()))
 
         atlas_description_content += "{0} {1} {2} {3} {4}\n".format(
             entry.name.replace(" ", "_"),
             int(entry.assigned_pos.get_x()),
             int(entry.assigned_pos.get_y()),
             entry.w, entry.h)
+        print("Writing", entry.name,"with dimensions", entry.w, entry.h)
 
     dest.write(dest_png)
 

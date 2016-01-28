@@ -28,7 +28,7 @@ f.construct_sourcecode("LUIRadiobox")
 group = LUIRadioboxGroup()
 
 # Create a layout for the boxes
-grid = LUIVerticalLayout(parent=f.get_widget_node(), width=250, spacing=5)   
+grid = LUIVerticalLayout(parent=f.get_widget_node(), width=250, spacing=5)
 
 # Create 3 boxes
 box1 = LUIRadiobox(group=group, value=1, label="Radiobox 1")
