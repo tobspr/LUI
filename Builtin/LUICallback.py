@@ -10,7 +10,8 @@ Do not use anymore! Use trigger_event instead!
 
 """
 
-
+from __future__ import print_function
+print("WARNING: LUICallback is outdated!")
 
 class LUICallback:
 

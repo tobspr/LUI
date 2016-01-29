@@ -4,6 +4,8 @@ from panda3d.lui import LUIObject
 from LUILabel import LUILabel
 from LUIInitialState import LUIInitialState
 
+__all__ = ["LUIFormattedLabel"]
+
 class LUIFormattedLabel(LUIObject):
 
     """ Small helper class to build a text consisting of different formatted
@@ -21,15 +23,15 @@ class LUIFormattedLabel(LUIObject):
         self.remove_all_children()
         self.fit_to_children()
 
-    def br(self, font_size=14):
+    def newline(self, font_size=14):
         """ Moves the cursor to the next line. The font size controlls how much
         the cursor will move. """
         self._cursor.x = 0
         self._cursor.y += font_size + 2
 
-    def add_text(self, *args, **kwargs):
+    def add(self, *args, **kwargs):
         """ Appends a new text. The arguments are equal to the arguments of
-        UILabel """
+        LUILabel """
         label = LUILabel(parent=self,left=self._cursor.x, top=self._cursor.y, *args, **kwargs)
         self._cursor.x += label.width
         self.fit_to_children()

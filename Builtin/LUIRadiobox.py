@@ -10,7 +10,6 @@ class LUIRadiobox(LUIObject):
     def __init__(self, group=None, value=None, active=False, label=u"Radiobox", **kwargs):
         LUIObject.__init__(self, x=0, y=0, w=0, h=0, solid=True)
         LUIInitialState.init(self, kwargs)
-
         self._sprite = LUISprite(self, "Radiobox_Default", "skin")
         self._label = LUILabel(parent=self, text=label, shadow=True, left=self._sprite.width + 6)
         self._label.top = self._label.height - self._sprite.height

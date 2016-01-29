@@ -5,15 +5,17 @@ from panda3d.lui import LUIObject
 from LUILayouts import LUICornerLayout
 from LUIInitialState import LUIInitialState
 
+__all__ = ["LUIFrame"]
+
 class LUIFrame(LUIObject):
 
     # Frame styles
-    Sunken = 1
-    Raised = 2
+    FS_sunken = 1
+    FS_raised = 2
 
     """ A container which can store multiple ui-elements """
 
-    def __init__(self, inner_padding=5, scrollable=False, style=Raised, **kwargs):
+    def __init__(self, inner_padding=5, scrollable=False, style=FS_raised, **kwargs):
         """ Creates a new frame with the given options and style. If scrollable
         is True, the contents of the frame will scroll if they don't fit into
         the frame height. inner_padding only has effect if scrollable is True.
@@ -31,14 +33,14 @@ class LUIFrame(LUIObject):
         self.solid = True
         prefix = ""
 
-        if style == LUIFrame.Raised:
+        if style == LUIFrame.FS_raised:
             self._border_size = 33
             prefix = "Frame_"
-        elif style == LUIFrame.Sunken:
+        elif style == LUIFrame.FS_sunken:
             self._border_size = 5
             prefix = "SunkenFrame_"
         else:
-            print("LUIFrame: Unkown UIFrame style:", style)
+            raise Exception("Unkown LUIFrame style: " + style)
 
         self._layout = LUICornerLayout(parent=self, image_prefix=prefix)
         LUIInitialState.init(self, kwargs)

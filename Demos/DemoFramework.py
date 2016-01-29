@@ -75,25 +75,25 @@ class DemoFramework:
         self.rightBar.pos = (410, 120)
 
         # Constructor parameters
-        # self.constructorParameters = LUIFrame(width=340, style=LUIFrame.Sunken)
+        # self.constructorParameters = LUIFrame(width=340, style=LUIFrame.FS_sunken)
         # self.constructorLabel = LUILabel(parent=self.constructorParameters, text=u"Additional Constructor Parameters")
         # self.constructorLayout = UIVerticalLayout(parent=self.constructorParameters, spacing=10, use_dividers=True)
         # self.constructorLayout.top = 30
 
         # Public functions
-        self.publicFunctions = LUIFrame(width=340, style=LUIFrame.Sunken)
+        self.publicFunctions = LUIFrame(width=340, style=LUIFrame.FS_sunken)
         self.functionsLabel = LUILabel(parent=self.publicFunctions, text=U"Additional Public functions")
         self.functionsLayout = LUIVerticalLayout(parent=self.publicFunctions,spacing=10, use_dividers=True)
         self.functionsLayout.top = 30
 
         # Events
-        self.events = LUIFrame(width=340,style=LUIFrame.Sunken)
+        self.events = LUIFrame(width=340,style=LUIFrame.FS_sunken)
         self.eventsLabel = LUILabel(parent=self.events, text=U"Additional Events")
         self.eventsLayout = LUIVerticalLayout(parent=self.events, spacing=10, use_dividers=True)
         self.eventsLayout.top = 30
 
         # Actions
-        self.actions = LUIFrame(width=340,style=LUIFrame.Sunken, height=80)
+        self.actions = LUIFrame(width=340,style=LUIFrame.FS_sunken, height=80)
         self.actionsLabel = LUILabel(parent=self.actions, text=U"Demo-Actions")
         self.actionsSelect = LUISelectbox(parent=self.actions, width=245, top=30)
         self.actionsBtn = LUIButton(parent=self.actions, right=0, top=30, text=u"Execute", template="ButtonMagic")
@@ -105,13 +105,13 @@ class DemoFramework:
         self.rightBar.add(self.events)
 
         # Widget
-        self.widgetContainer = LUIFrame(parent=self.root, width=360, height=250, style=LUIFrame.Sunken)
+        self.widgetContainer = LUIFrame(parent=self.root, width=360, height=250, style=LUIFrame.FS_sunken)
         self.widgetLabel = LUILabel(parent=self.widgetContainer, text=u"Widget Demo")
         self.widgetContainer.left = 26
         self.widgetContainer.top = 120
 
         # Source Code
-        self.sourceContainer = LUIFrame(parent=self.root, width=360, height=200, style=LUIFrame.Sunken)
+        self.sourceContainer = LUIFrame(parent=self.root, width=360, height=200, style=LUIFrame.FS_sunken)
         self.sourceLabel = LUILabel(parent=self.sourceContainer, text=u"Default Constructor")
         self.copyCodeButton = LUIButton(parent=self.sourceContainer,
                 text=u"Copy to Clipboard", template="ButtonMagic",
@@ -140,28 +140,28 @@ class DemoFramework:
 
     def add_public_function(self, name, parameters=None, return_type="void"):
         label = LUIFormattedLabel()
-        label.add_text(text=return_type + " ", color = (102/255.0, 217/255.0, 239/255.0))
-        label.add_text(text=name + " ", color = (166/255.0, 226/255.0, 46/255.0))
+        label.add(text=return_type + " ", color = (102/255.0, 217/255.0, 239/255.0))
+        label.add(text=name + " ", color = (166/255.0, 226/255.0, 46/255.0))
 
-        label.add_text(text="( ", color=(0.9,0.9,0.9))
+        label.add(text="( ", color=(0.9,0.9,0.9))
 
         if parameters is not None:
             for index, (pname, ptype) in enumerate(parameters):
-                label.add_text(text=pname, color=(255/255.0, 151/255.0, 31/255.0))
-                label.add_text(text=" : ", color=(0.9,0.9,0.9))
-                label.add_text(text=ptype, color=(102/255.0, 217/255.0, 239/255.0))
+                label.add(text=pname, color=(255/255.0, 151/255.0, 31/255.0))
+                label.add(text=" : ", color=(0.9,0.9,0.9))
+                label.add(text=ptype, color=(102/255.0, 217/255.0, 239/255.0))
 
                 if index < len(parameters) - 1:
-                    label.add_text(text=",", color=(0.9,0.9,0.9))
-        label.add_text(text=" )", color=(0.9,0.9,0.9))
+                    label.add(text=",", color=(0.9,0.9,0.9))
+        label.add(text=" )", color=(0.9,0.9,0.9))
         self.functionsLayout.add(label)
         self.update_layouts()
 
     def add_constructor_parameter(self, name, default):
         # label = UIFormattedLabel()
-        # label.add_text(text=name, color=(255/255.0, 151/255.0, 31/255.0))
-        # label.add_text(text=" = ", color=(249/255.0, 38/255.0, 114/255.0))
-        # label.add_text(text=default, color=(153/255.0, 129/255.0, 255/255.0))
+        # label.add(text=name, color=(255/255.0, 151/255.0, 31/255.0))
+        # label.add(text=" = ", color=(249/255.0, 38/255.0, 114/255.0))
+        # label.add(text=default, color=(153/255.0, 129/255.0, 255/255.0))
         # self.constructorLayout.add(label)
         self.constructorParams.append((name, default))
         self.update_layouts()
@@ -181,22 +181,22 @@ class DemoFramework:
     def construct_sourcecode(self, classname):
         self.sourceContent.remove_all_children()
         label = LUIFormattedLabel(parent=self.sourceContent)
-        label.add_text(text="element ", color=(0.9,0.9,0.9))
-        label.add_text(text="= ", color=(249/255.0, 38/255.0, 114/255.0))
-        label.add_text(text=classname, color=(166/255.0, 226/255.0, 46/255.0))
-        label.add_text(text="(", color=(0.9,0.9,0.9))
+        label.add(text="element ", color=(0.9,0.9,0.9))
+        label.add(text="= ", color=(249/255.0, 38/255.0, 114/255.0))
+        label.add(text=classname, color=(166/255.0, 226/255.0, 46/255.0))
+        label.add(text="(", color=(0.9,0.9,0.9))
 
         for index, (pname, pvalue) in enumerate(self.constructorParams):
-            label.br()
-            label.add_text(text=" " * 15)
-            label.add_text(text=pname, color=(255/255.0, 151/255.0, 31/255.0))
-            label.add_text(text=" = ")
-            label.add_text(text=pvalue, color=(153/255.0, 129/255.0, 255/255.0))
+            label.newline()
+            label.add(text=" " * 15)
+            label.add(text=pname, color=(255/255.0, 151/255.0, 31/255.0))
+            label.add(text=" = ")
+            label.add(text=pvalue, color=(153/255.0, 129/255.0, 255/255.0))
 
             if index < len(self.constructorParams) - 1:
-                label.add_text(text=",")
+                label.add(text=",")
 
-        label.add_text(text=")")
+        label.add(text=")")
 
         self.sourceContent.fit_height_to_children()
         self.sourceContainer.fit_height_to_children()
