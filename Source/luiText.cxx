@@ -131,7 +131,7 @@ void LUIText::update_text() {
   }
 
   // Finally, set the size
-  set_size(current_x_pos, _font_size);
+  set_size(current_x_pos, _font_size / 0.8);
 
 }
 
