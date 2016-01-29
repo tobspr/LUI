@@ -1,6 +1,5 @@
 
 from panda3d.lui import LUIObject, LUISprite
-from LUICallback import LUICallback
 from LUILabel import LUILabel
 from LUILayouts import LUICornerLayout
 from LUIInitialState import LUIInitialState
@@ -9,7 +8,7 @@ from functools import partial
 
 __all__ = ["LUISelectbox"]
 
-class LUISelectbox(LUIObject, LUICallback):
+class LUISelectbox(LUIObject):
 
     """ Selectbox widget, showing several options whereas the user can select
     only one. """
@@ -18,7 +17,6 @@ class LUISelectbox(LUIObject, LUICallback):
         """ Constructs a new selectbox with a given width """
         LUIObject.__init__(self, x=0, y=0, w=width+4, h=0, solid=True)
         LUIInitialState.init(self, kwargs)
-        LUICallback.__init__(self)
 
         # The selectbox has a small border, to correct this we move it
         self.margin_left = -2
