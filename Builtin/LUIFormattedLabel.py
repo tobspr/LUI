@@ -16,6 +16,7 @@ class LUIFormattedLabel(LUIObject):
         LUIObject.__init__(self)
         LUIInitialState.init(self, kwargs)
         self._cursor = LVecBase2i(0)
+        self._last_size = 14
 
     def clear(self):
         """ Removes all text from this label and resets it to the initial state """
@@ -23,15 +24,19 @@ class LUIFormattedLabel(LUIObject):
         self.remove_all_children()
         self.fit_to_children()
 
-    def newline(self, font_size=14):
+    def newline(self, font_size=None):
         """ Moves the cursor to the next line. The font size controlls how much
         the cursor will move. """
         self._cursor.x = 0
+        if font_size is None:
+            font_size = self._last_size
         self._cursor.y += font_size + 2
 
     def add(self, *args, **kwargs):
         """ Appends a new text. The arguments are equal to the arguments of
         LUILabel """
+        if "font_size" in kwargs:
+            self._last_size = kwargs["font_size"]
         label = LUILabel(parent=self,left=self._cursor.x, top=self._cursor.y, *args, **kwargs)
         self._cursor.x += label.width
         self.fit_to_children()

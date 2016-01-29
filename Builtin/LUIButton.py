@@ -23,7 +23,7 @@ class LUIButton(LUIObject):
         self._dynamic_width = "width" not in kwargs
         self._template = template
         self._label = LUILabel(parent=self, text=text, shadow=True, z_offset=1,
-                                centered=(True, True), margin=(-3, 0, 0, -1))
+                                centered=(True, True), margin=(0, 0, 0, -1))
         if self._dynamic_width:
             width = int(self._label.width) + 20
         else:

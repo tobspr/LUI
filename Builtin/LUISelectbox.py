@@ -31,7 +31,7 @@ class LUISelectbox(LUIObject):
 
         self._bg_right.z_offset = 1
 
-        self._label_container = LUIObject(self, x=10, y=6, w=width - 20 - self._bg_right.width, h=self._bg_mid.height - 6)
+        self._label_container = LUIObject(self, x=10, y=8, w=width - 20 - self._bg_right.width, h=self._bg_mid.height - 6)
         self._label_container.clip_bounds = (0,0,0,0)
 
         self._label = LUILabel(parent=self._label_container, text=u"Select an option ..", shadow=True)

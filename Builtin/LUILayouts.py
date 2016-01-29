@@ -94,23 +94,23 @@ class LUIVerticalLayout(LUIBaseLayout):
         if self._use_dividers:
             divider = LUISprite(self._dividers, "ListDivider", "skin")
             divider.width = self.width
-            divider.top = y_pos
+            divider.top = y_pos - divider.height // 2
 
     def update(self):
         """ Updates the layout, recalculating all boxes """
         current_height = 0
         self._in_update_section = True
         self._dividers.remove_all_children()
-        self._add_divider(0)
 
         if self._use_dividers:
             current_height += self._spacing // 2
 
-        for row in self._rows:
+        for index, row in enumerate(self._rows):
             row.fit_to_children()
             row.top = current_height
             current_height += row.height + self._spacing
-            self._add_divider(current_height - self._spacing // 2)
+            if index != len(self._rows) - 1:
+                self._add_divider(current_height - self._spacing // 2)
 
         self.height = current_height
         self._in_update_section = False

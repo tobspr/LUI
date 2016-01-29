@@ -35,6 +35,7 @@ void LUIText::update_text() {
     remove_child(*_children.begin());
   }
 
+
   // Allocate as many sprites as required
   int to_allocate  = len - _children.size();
   for (int i = 0; i < to_allocate; ++i) {
@@ -53,6 +54,7 @@ void LUIText::update_text() {
 
   // Pixels per unit, used to convert betweeen coordinate spaces
   float ppu = _font_size;
+  float line_height = _font->get_line_height();
 
   // Unreference all current glyphs
   _glyphs.clear();
@@ -107,7 +109,7 @@ void LUIText::update_text() {
       // Position the glyph.
       sprite->set_pos(
         current_x_pos + dynamic_glyph->get_left() * ppu,
-        (_font->get_line_height() * 0.8 - dynamic_glyph->get_top()) * ppu);
+        (0.85 - dynamic_glyph->get_top()) * ppu);
 
       // The V coordinate is inverted, as panda stores the textures flipped
       sprite->set_uv_range(
@@ -130,8 +132,7 @@ void LUIText::update_text() {
     current_x_pos += dynamic_glyph->get_advance() * ppu;
   }
 
-  // Finally, set the size
-  set_size(current_x_pos, _font_size / 0.8);
+  set_size(current_x_pos, line_height * ppu);
 
 }
 
