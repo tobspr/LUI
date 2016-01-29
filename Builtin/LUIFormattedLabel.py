@@ -37,6 +37,8 @@ class LUIFormattedLabel(LUIObject):
         LUILabel """
         if "font_size" in kwargs:
             self._last_size = kwargs["font_size"]
+        else:
+            self._last_size = 14
         label = LUILabel(parent=self,left=self._cursor.x, top=self._cursor.y, *args, **kwargs)
         self._cursor.x += label.width
         self.fit_to_children()

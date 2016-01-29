@@ -42,12 +42,12 @@ class LUIButton(LUIObject):
     def on_mousedown(self, event):
         """ Internal on_mousedown handler. Do not override """
         self._layout.prefix = self._template + "Focus"
-        self._label.margin_top = -2
+        self._label.margin_top = 1
 
     def on_mouseup(self, event):
         """ Internal on_mouseup handler. Do not override """
         self._layout.prefix = self._template
-        self._label.margin_top = -3
+        self._label.margin_top = 0
 
     def get_text(self, text):
         """ Returns the current label text of the button """

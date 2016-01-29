@@ -55,7 +55,6 @@ class DemoFramework:
 
 
         # Make the background solid and recieve events
-        self.background.bind("click", lambda event: self.background.request_focus())
         self.background.solid = True
 
         # Logo
@@ -65,7 +64,7 @@ class DemoFramework:
 
         # Title
         self.titleLabel = LUILabel(parent=self.root, text=demo_title, font_size=40, font="header")
-        self.titleLabel.pos = (120, 20)
+        self.titleLabel.pos = (120, 27)
         self.subtitleLabel = LUILabel(parent=self.root, text="Widget Demo", font_size=14, font="default")
         self.subtitleLabel.pos = (121, 65)
         self.subtitleLabel.color = (1,1,1,0.5)
