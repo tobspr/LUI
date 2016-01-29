@@ -39,6 +39,14 @@ PUBLISHED:
   MAKE_PROPERTY(w, get_w, set_w);
   MAKE_PROPERTY(h, get_h, set_h);
 
+  bool operator==(const LUIRect& other) { return _rect == other._rect; }
+  bool operator!=(const LUIRect& other) { return !(_rect == other._rect); }
+
+  friend ostream& operator<<(ostream& stream, const LUIRect& rect) {
+    return stream << "Rect[x=" << rect.get_x() << ",y=" << rect.get_y() << ",w="
+           << rect.get_w() << ",h=" << rect.get_h();
+  }
+
 protected:
 
   LVector4 _rect;

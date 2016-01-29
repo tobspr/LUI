@@ -51,6 +51,7 @@ public:
 
   INLINE void request_focus(LUIBaseElement *elem);
   INLINE LUIBaseElement* get_requested_focus() const;
+  INLINE void set_requested_focus(LUIBaseElement *elem);
 
   INLINE LUIEventObjectSet::iterator get_event_objects_begin();
   INLINE LUIEventObjectSet::iterator get_event_objects_end();

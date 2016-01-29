@@ -9,22 +9,34 @@ TypeHandle LUISprite::_type_handle;
 
 NotifyCategoryDef(luiSprite, ":lui");
 
+
+LUISprite::LUISprite(LUIText* parent_text)
+  : LUIBaseElement(NULL) {
+  set_emits_changed_event(false);
+  init((LUIObject*)parent_text, 0, 0, LColor(1));
+  set_texture((Texture*)NULL, true);
+}
+
+
 // Initialize with a path to an image
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color)
+  : LUIBaseElement(self) {
   init(parent, x, y, color);
   set_texture(image, true);
   init_size(w, h);
 }
 
 // Initialize with a texture handle
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color)
+  : LUIBaseElement(self) {
   init(parent, x, y, color);
   set_texture(texture, true);
   init_size(w, h);
 }
 
 // Initialize with a atlas entry
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color) : LUIBaseElement(self) {
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color)
+  : LUIBaseElement(self) {
   init(parent, x, y, color);
   set_texture(entry_id, atlas_id, true);
   init_size(w, h);
@@ -250,7 +262,6 @@ void LUISprite::render_recursive(bool is_topmost_pass, bool render_anyway) {
   nassertv(_sprite_index >= 0);
 
   fetch_render_index();
-  recompute_position();
   recompute_vertices();
   update_vertex_pool();
 

@@ -108,7 +108,7 @@ void LUIObject::render_recursive(bool is_topmost_pass, bool render_anyway) {
 
   if (do_render) {
     _last_frame_visible = _root->get_frame_index();
-    recompute_position();
+    // recompute_position();
     fetch_render_index();
 
     // If z-sorting is enabled, sort by z-offset

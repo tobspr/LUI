@@ -5,7 +5,7 @@ INLINE void LUIText::set_font(const string &font_name) {
 }
 
 INLINE void LUIText::set_text(const wstring &text) {
-    if (_text.compare(text) != 0) {
+    if (_text != text) {
         _text = text;
         update_text();
     }
@@ -35,4 +35,8 @@ INLINE void LUIText::on_color_changed() {
   for (lui_element_iterator it = _children.begin(); it != _children.end(); ++it) {
     (*it)->set_color(_color);
   }
+}
+
+INLINE void LUIText::on_child_changed() {
+  cout << "Text::Child changed" << endl;
 }

@@ -37,6 +37,8 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _last_render_index(-1),
   _topmost(false),
   _solid(false),
+  _emits_changed_event(true),
+  _last_recorded_bounds(-1, -1, -1, -1),
   LUIColorable()
 {
 
@@ -106,8 +108,8 @@ void LUIBaseElement::recompute_position() {
 
   LVector2 ppos(0);
 
-    float add_x = 0.0;
-    float add_y = 0.0;
+  float add_x = 0.0;
+  float add_y = 0.0;
 
   // When there is no parent, there is no sense in computing an accurate position
   if (_parent == NULL) {
@@ -249,6 +251,18 @@ void LUIBaseElement::recompute_position() {
   }
 
   on_bounds_changed();
+
+  LUIRect current_bounds = LUIRect(_pos_x, _pos_y, _size.get_x(), _size.get_y());
+
+  // Notify parent about changed dimensions
+  if (_parent && _emits_changed_event) {
+
+    // But only if they did actually change
+    if (_last_recorded_bounds != current_bounds) {
+      _last_recorded_bounds = current_bounds;
+      _parent->on_child_changed();
+    }
+  }
 }
 
 void LUIBaseElement::register_events() {
@@ -305,11 +319,13 @@ void LUIBaseElement::reparent_to(LUIBaseElement *parent) {
 
 void LUIBaseElement::request_focus() {
   _root->request_focus(this);
+  _focused = true;
 }
 
 
 void LUIBaseElement::blur() {
   _root->request_focus(NULL);
+  _focused = false;
 }
 
 void LUIBaseElement::fetch_render_index() {
@@ -325,4 +341,12 @@ void LUIBaseElement::trigger_event(const string &event_name, const wstring &mess
       PT(LUIEventData) data = new LUIEventData(this, event_name, message, coords);
       _events[event_name]->do_callback(data);
   }
+}
+
+void LUIBaseElement::on_child_changed() {
+  trigger_event("child_changed", wstring(), LPoint2(0));
+  // if (_parent) {
+    // cout << "on_child_changed() of " << this << ", calling on parent: " << _parent << endl;
+    // _parent->on_child_changed();
+  // }
 }

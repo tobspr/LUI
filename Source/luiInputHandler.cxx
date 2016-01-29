@@ -14,9 +14,6 @@ LUIInputHandler::LUIInputHandler(const string &name) :
   _mouse_down_element(NULL),
   _focused_element(NULL)
 {
-  // Work around crazy issue with MouseWatcher input type not matching up
-  ParamVecBase2f::init_type("ParamVecBase2f");
-
   _mouse_pos_input = define_input("pixel_xy", ParamVecBase2f::get_class_type());
   _buttons_input = define_input("button_events", ButtonEventList::get_class_type());
 
@@ -52,16 +49,15 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
     _current_state.mouse_pos = LPoint2(0);
   }
 
-
   _key_events.clear();
   _text_events.clear();
 
   if (input.has_data(_buttons_input)) {
-    const ButtonEventList *this_button_events;
+    const ButtonEventList* this_button_events;
     DCAST_INTO_V(this_button_events, input.get_data(_buttons_input).get_ptr());
     int num_events = this_button_events->get_num_events();
 
-    for (int i = 0; i < num_events; i++) {
+    for (int i = 0; i < num_events; ++i) {
       const ButtonEvent &be = this_button_events->get_event(i);
 
       // Button Down
@@ -74,10 +70,8 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
         //   _modifiers |= KM_ALT;
         // } else if (be._button == KeyboardButton::meta()) {
         //   _modifiers |= KM_META;
-
         // } else if (be._button == KeyboardButton::enter()) {
         //   _text_input.push_back('\n');
-
         // } else if (be._button == MouseButton::wheel_up()) {
         //   _wheel_delta -= 1;
         // } else if (be._button == MouseButton::wheel_down()) {
@@ -123,7 +117,7 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
 
       } else if (be._type == ButtonEvent::T_keystroke) {
 
-        // Ignore control characters; otherwise, they actually get added to strings in the UI.
+        // Ignore control characters; otherwise they actually get added to strings in the UI.
         if (be._keycode > 0x1F && (be._keycode < 0x7F || be._keycode > 0x9F)) {
           _text_events.push_back(be._keycode);
         }
@@ -174,32 +168,35 @@ void LUIInputHandler::process(LUIRoot *root) {
   }
 
   // Check for mouse move
-  // --- Currently disabled, it's spamming the console ---
-  // ^ it's enabled
-  if (true) {
-    if (_current_state.mouse_pos != _last_state.mouse_pos) {
-      // Send a event to the hovered element
-      if (_hover_element != NULL) {
-        _hover_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
-      }
+  if (_current_state.mouse_pos != _last_state.mouse_pos) {
+    // Send a event to the hovered element
+    if (_hover_element != NULL) {
+      _hover_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
+    }
 
-      // The focus element also recieves a mousemove element
-      if (_focused_element != NULL) {
-        _focused_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
-      }
+    // The focus element also recieves a mousemove element
+    if (_focused_element != NULL) {
+      _focused_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
     }
   }
 
   // Check for click events
   int click_mouse_button = 0;
+  bool lost_focus = false;
 
   if (mouse_key_pressed(click_mouse_button)) {
     if (_hover_element != NULL) {
       _mouse_down_element = _hover_element;
       _hover_element->trigger_event("mousedown", wstring(), _current_state.mouse_pos);
-    }
 
+      if (_focused_element != NULL && _hover_element != _focused_element) {
+        // When clicking somewhere, and the clicked element is not the focused one,
+        // make the focused one loose focus
+        lost_focus = true;
+      }
+    }
   }
+
   if (mouse_key_released(click_mouse_button)) {
     if (_mouse_down_element != NULL) {
       _mouse_down_element->trigger_event("mouseup", wstring(), _current_state.mouse_pos);
@@ -214,34 +211,40 @@ void LUIInputHandler::process(LUIRoot *root) {
   LUIBaseElement *requested_focus = root->get_requested_focus();
 
   if (requested_focus == NULL) {
-
-    if (_focused_element != NULL) {
+    // No focus request, eveything remains the same
+    // However, when the user clicked somewhere, and t was not the focused element,
+    // make it loose the focus. It is important this happens after calling the
+    // click event, otherwise we might loose events.
+    if (_focused_element != NULL && lost_focus) {
       _focused_element->set_focus(false);
       _focused_element->trigger_event("blur", wstring(), _current_state.mouse_pos);
       _focused_element = NULL;
     }
-
   } else {
-
+    // Focus was requested, and its different from the current focused element
     if (requested_focus != _focused_element) {
       if (lui_cat.is_spam()) {
         lui_cat.spam() << "Focus changed to "
           << requested_focus
           << " from " << _focused_element << endl;
       }
-      requested_focus->set_focus(true);
-      requested_focus->trigger_event("focus" , wstring(), _current_state.mouse_pos);
 
+      // Tell the currently focused element its no longer focused
       if (_focused_element != NULL) {
         _focused_element->set_focus(false);
         _focused_element->trigger_event("blur", wstring(), _current_state.mouse_pos);
+        _focused_element = NULL;
       }
+
+      // Tell the new element its now focused
+      requested_focus->set_focus(true);
+      requested_focus->trigger_event("focus" , wstring(), _current_state.mouse_pos);
 
       _focused_element = requested_focus;
     }
   }
 
-
+  root->set_requested_focus(NULL);
 
   // Check key events
   if (_focused_element != NULL) {

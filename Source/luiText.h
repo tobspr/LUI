@@ -52,6 +52,7 @@ protected:
 
   // Interface to LUIColorable
   INLINE virtual void on_color_changed();
+  INLINE virtual void on_child_changed();
 
   DynamicTextFont *_font;
   wstring _text;

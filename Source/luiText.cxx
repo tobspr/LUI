@@ -41,7 +41,11 @@ void LUIText::update_text() {
     if (lui_cat.is_spam()) {
       lui_cat.spam() << "Allocating sprite .. " << endl;
     }
-    PT(LUISprite) sprite = new LUISprite(NULL, this, (Texture*)NULL);
+    PT(LUISprite) sprite = new LUISprite(this);
+
+    // Don't make each glyph emit a changed eveet, this just leads to event
+    // pollution. Instead, we manually trigger changed events
+    sprite->set_emits_changed_event(false);
 
     // Required for text rendering
     sprite->set_snap_position(false);

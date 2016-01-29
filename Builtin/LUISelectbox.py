@@ -126,7 +126,8 @@ class LUISelectbox(LUIObject, LUICallback):
 
     def on_blur(self, event):
         """ Internal handler when the selectbox lost focus """
-        self._close_drop()
+        if not self._drop_menu.focused:
+            self._close_drop()
 
     def _open_drop(self):
         """ Internal method to show the dropdown menu """
@@ -155,7 +156,8 @@ class LUISelectdrop(LUIObject):
     def __init__(self, parent, width=200):
         LUIObject.__init__(self, x=0, y=0, w=width, h=1, solid=True)
 
-        self._layout = LUICornerLayout(parent=self, image_prefix="Selectdrop_", width=width + 10, height=100)
+        self._layout = LUICornerLayout(parent=self, image_prefix="Selectdrop_",
+                                       width=width + 10, height=100)
         self._layout.margin_left = -3
 
         self._opener = LUISprite(self, "SelectboxOpen_Right", "skin")
@@ -167,8 +169,11 @@ class LUISelectdrop(LUIObject):
         self._container.width = self.width
         self._container.clip_bounds = (0,0,0,0)
         self._container.left = 5
+        self._container.solid = True
+        self._container.bind("mousedown", lambda *args: self.request_focus())
 
         self._selectbox = parent
+        self._option_focus = False
         self.parent = self._selectbox
 
     def _on_opt_over(self, event):
@@ -202,13 +207,13 @@ class LUISelectdrop(LUIObject):
             opt_bg.color = (0,0,0,0)
             opt_bg.bind("mouseover", self._on_opt_over)
             opt_bg.bind("mouseout", self._on_opt_out)
+            opt_bg.bind("mousedown", lambda *args: self.request_focus())
             opt_bg.bind("click", partial(self._on_opt_click, opt_id))
             opt_bg.solid = True
 
             opt_label = LUILabel(parent=opt_container, text=unicode(opt_val), shadow=True)
             opt_label.top = 5
             opt_label.left = 8
-
 
             if opt_id == self._selectbox.selected_option:
                 opt_label.color = (0.6, 0.9, 0.4, 1.0)

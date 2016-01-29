@@ -189,7 +189,7 @@ PUBLISHED:
   MAKE_PROPERTY(visible, is_visible, set_visible);
   MAKE_PROPERTY(z_offset, get_z_offset, set_z_offset);
   MAKE_PROPERTY(absolute_z_offset, get_abs_pos);
-  MAKE_PROPERTY(focus, has_focus, request_focus);
+  MAKE_PROPERTY(focused, has_focus);
   MAKE_PROPERTY(parent, get_parent, reparent_to);
 
   MAKE_PROPERTY(clip_bounds, get_clip_bounds, set_clip_bounds);
@@ -208,6 +208,9 @@ public:
   INLINE void set_focus(bool focus);
   INLINE int get_last_frame_visible() const;
   INLINE int get_last_render_index() const;
+
+  INLINE void set_emits_changed_event(bool emit);
+  INLINE bool get_emits_changed_event() const;
 
 protected:
 
@@ -235,6 +238,8 @@ protected:
   virtual void on_bounds_changed() = 0;
   virtual void on_visibility_changed() = 0;
 
+  virtual void on_child_changed();
+
   // Interface to LUIColorable
   INLINE virtual void on_color_changed();
 
@@ -250,6 +255,9 @@ protected:
   PN_stdfloat _rel_pos_x, _rel_pos_y;
   LVector2 _size;
   bool _visible;
+  bool _emits_changed_event;
+
+  LUIRect _last_recorded_bounds;
 
   // Z-Index, relative to the parent
   float _z_offset;
@@ -274,6 +282,7 @@ protected:
   PT(LUIRect)   _abs_clip_bounds;
 
   pmap<string, PT(CallbackObject)> _events;
+
 
   LUIBaseElement *_parent;
   LUIRoot *_root;

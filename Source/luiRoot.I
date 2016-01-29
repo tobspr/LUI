@@ -53,8 +53,14 @@ INLINE void LUIRoot::unregister_event_object(LUIBaseElement *event_object) {
 }
 
 INLINE void LUIRoot::request_focus(LUIBaseElement *elem) {
+  set_requested_focus(elem);
+}
+
+INLINE void LUIRoot::set_requested_focus(LUIBaseElement *elem) {
   _requested_focus = elem;
 }
+
+
 
 INLINE LUIBaseElement* LUIRoot::get_requested_focus() const {
   return _requested_focus;

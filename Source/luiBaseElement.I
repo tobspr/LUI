@@ -33,6 +33,7 @@ INLINE bool LUIBaseElement::has_event(const string &event_name) {
 
 INLINE void LUIBaseElement::set_snap_position(bool snap) {
   _snap_position = snap;
+  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_left_top(const LPoint2 &pos) {
@@ -149,14 +150,13 @@ INLINE void LUIBaseElement::set_centered(bool center_vert, bool center_horiz) {
     _offset_x = 0;
   }
   if (center_vert) {
-  _placement_y = M_center;
-  _offset_y = 0;
+    _placement_y = M_center;
+    _offset_y = 0;
   }
 
-  if (center_vert || center_horiz) {
-    recompute_position();
-  }
+  recompute_position();
 }
+
 INLINE void LUIBaseElement::set_center_vertical(bool centered) {
   if (centered) {
     _placement_y = M_center;
@@ -399,6 +399,7 @@ INLINE void LUIBaseElement::end_update_section() {
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "End of update section .." << endl;
   }
+
   recompute_position();
 
   if (luiBaseElement_cat.is_spam()) {
@@ -434,6 +435,7 @@ INLINE LUIRect *LUIBaseElement::get_abs_clip_bounds() const {
 
 INLINE void LUIBaseElement::set_parent(LUIBaseElement* parent) {
   _parent = parent;
+  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_focus(bool focus) {
@@ -489,4 +491,13 @@ INLINE void LUIBaseElement::set_solid(bool solid) {
 
 INLINE bool LUIBaseElement::get_solid() const {
   return _solid;
+}
+
+
+INLINE void LUIBaseElement::set_emits_changed_event(bool emit){
+  _emits_changed_event = emit;
+}
+
+INLINE bool LUIBaseElement::get_emits_changed_event() const {
+  return _emits_changed_event;
 }

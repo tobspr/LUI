@@ -24,6 +24,7 @@
 class LUIVertexPool;
 class LUIObject;
 class LUIChunkDescriptor;
+class LUIText;
 
 NotifyCategoryDecl(luiSprite, EXPCL_LUI, EXPTP_LUI);
 
@@ -36,6 +37,10 @@ NotifyCategoryDecl(luiSprite, EXPCL_LUI, EXPTP_LUI);
 class EXPCL_LUI LUISprite : public LUIBaseElement  {
 
   friend class LUIObject;
+  friend class LUIText;
+
+  // Initialize empty with just a parent this is for the LUIText
+  explicit LUISprite(LUIText* parent_text);
 
 PUBLISHED:
 

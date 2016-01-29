@@ -51,7 +51,7 @@ class LUIVerticalLayout(LUIBaseLayout):
         self._dividers = LUIObject(self, x=0, y=0, w=width, h=0)
         self._spacing = spacing
         self._use_dividers = use_dividers
-
+        self._in_update_section = False
         if parent is not None:
             self.parent = parent
 
@@ -63,9 +63,7 @@ class LUIVerticalLayout(LUIBaseLayout):
 
     def get(self, index):
         """ Returns the n-th row element """
-        if index >= 0 and index < len(self._rows):
-            return self._rows[index]
-        return None
+        return self._rows[index]
 
     def set_spacing(self, spacing):
         """ Sets the spacing between the rows in pixels """
@@ -81,6 +79,7 @@ class LUIVerticalLayout(LUIBaseLayout):
     def add(self, *objects):
         """ Adds a new row containing all given objects """
         container = LUIObject(self, 0, 0, w=self.width, h=0)
+        container.bind("child_changed", self._layout_changed)
         self._rows.append(container)
         for obj in objects:
             obj.parent = container
@@ -100,6 +99,7 @@ class LUIVerticalLayout(LUIBaseLayout):
     def update(self):
         """ Updates the layout, recalculating all boxes """
         current_height = 0
+        self._in_update_section = True
         self._dividers.remove_all_children()
         self._add_divider(0)
 
@@ -113,6 +113,12 @@ class LUIVerticalLayout(LUIBaseLayout):
             self._add_divider(current_height - self._spacing // 2)
 
         self.height = current_height
+        self._in_update_section = False
+
+    def _layout_changed(self, event):
+        """ Internal method when any object of the child layout got changed """
+        if not self._in_update_section:
+            self.update()
 
 class LUIHorizontalLayout(LUIBaseLayout):
 
@@ -134,6 +140,7 @@ class LUIHorizontalLayout(LUIBaseLayout):
         self._dividers = LUIObject(self, x=0, y=0, h=height, w=0)
         self._spacing = spacing
         self._use_dividers = use_dividers
+        self._in_update_section = False
 
         if parent is not None:
             self.parent = parent
@@ -159,6 +166,7 @@ class LUIHorizontalLayout(LUIBaseLayout):
         """ Adds a new column with the given objects """
         container = LUIObject(self, 0, 0, w=self.height, h=0)
         self._columns.append(container)
+        container.bind("child_changed", self._layout_changed)
         for obj in objects:
             obj.parent = container
         self.update()
@@ -177,6 +185,7 @@ class LUIHorizontalLayout(LUIBaseLayout):
     def update(self):
         """ Updates the layout, adjusting the size of all cells """
         current_x = 0
+        self._in_update_section = True
         self._dividers.remove_all_children()
         self._add_divider(0)
 
@@ -196,6 +205,11 @@ class LUIHorizontalLayout(LUIBaseLayout):
         if index >= 0 and index < len(self._columns):
             return self._columns[index]
         return None
+
+    def _layout_changed(self, event):
+        """ Internal method when any object of the child layout got changed """
+        if not self._in_update_section:
+            self.update()
 
 class LUICornerLayout(LUIObject):
 

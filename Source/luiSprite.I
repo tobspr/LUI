@@ -83,8 +83,6 @@ INLINE void LUISprite::set_texture(const string &source, bool resize) {
     // "atlas-id:entry-name"
     string atlas_id = source.substr(0, sep_pos);
     string entry_name = source.substr(sep_pos+1);
-    cout << "Atlas id is: '" << atlas_id << "' an entry id is '" << entry_name << "'";
-
     set_texture(entry_name, atlas_id, resize);
 
   } else {
