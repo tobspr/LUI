@@ -53,6 +53,7 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
 
   child->set_parent(this);
   child->recompute_position();
+  child->on_color_changed();
   _children.push_back(child);
 
   // This has to be last. Otherwise we're attaching to the pool with outdated positions
