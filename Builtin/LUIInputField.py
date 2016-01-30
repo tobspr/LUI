@@ -134,8 +134,8 @@ class LUIInputField(LUIObject):
         elif key_name == "arrow_right":
             self._set_cursor_pos(self._cursor_index + 1)
             self._render_text()
-        elif key_name == "enter":
-            self.trigger_event("enter", self._value)
+
+        self.trigger_event(key_name, self._value)
 
     def on_keyrepeat(self, event):
         """ Internal keyrepeat handler """

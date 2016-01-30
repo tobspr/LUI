@@ -113,7 +113,7 @@ INLINE Texture *LUISprite::get_texture() const {
 
 INLINE void LUISprite::print_vertices() {
   cout << "LUISprite, 4 Vertices:" << endl;
-
+  recompute_vertices();
   for (int i = 0; i < 4; i++) {
     cout << "  [Vertex] POS = " << _data[i].x << "," << _data[i].y << "," << _data[i].z
       << "; UV = " << _data[i].u << "," << _data[i].v

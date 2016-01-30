@@ -192,7 +192,7 @@ void LUISprite::recompute_vertices() {
   // Compute texcoord-per-pixel factor
   float upp = 0, vpp = 0;
 
-  if (x2 - y1 != 0) {
+  if (x2 - x1 != 0) {
     upp = (u2 - u1) / (x2 - x1);
   }
 
