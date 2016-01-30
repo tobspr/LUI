@@ -145,10 +145,26 @@ class LUIScrollableRegion(LUIObject):
         else:
             self._scrollbar_handle.show()
 
+    def get_scroll_percentage(self):
+        """ Returns the current scroll height in percentage from 0 to 1 """
+        return self._scroll_top_position / max(1, self._content_height - self._content_clip.height)
+
+    def set_scroll_percentage(self, percentage):
+        """ Sets the scroll position in percentage, 0 means top and 1 means bottom """
+        percentage = max(0.0, min(1.0, percentage))
+        pixels =  max(0.0, self._content_height - self._content_clip.height) * percentage
+        self._scroll_top_position = pixels
+        self._update()
+
+    scroll_percentage = property(get_scroll_percentage, set_scroll_percentage)
+
     def scroll_to_bottom(self):
         """ Scrolls to the bottom of the frame """
-        self._scroll_top_position = max(0, self._content_height - self.content_clip.height)
-        self._update()
+        self.scroll_percentage = 1.0
+
+    def scroll_to_top(self):
+        """ Scrolls to the top of the frame """
+        self.scroll_percentage = 0.0
 
     def get_content_node(self):
         """ Returns the content node where elements can be reparented to """
