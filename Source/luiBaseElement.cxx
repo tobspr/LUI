@@ -339,9 +339,10 @@ void LUIBaseElement::fetch_render_index() {
 }
 
 void LUIBaseElement::trigger_event(const string &event_name, const wstring &message, const LPoint2 &coords) {
-  if (has_event(event_name)) {
+  auto elem_it = _events.find(event_name);
+  if (elem_it != _events.end()) {
       PT(LUIEventData) data = new LUIEventData(this, event_name, message, coords);
-      _events[event_name]->do_callback(data);
+      elem_it->second->do_callback(data);
   }
 }
 
@@ -349,4 +350,15 @@ void LUIBaseElement::on_child_changed() {
   // Instead of populating the event further upstream, let the implementation
   // decide if it actually needs to get populated further
   trigger_event("child_changed", wstring(), LPoint2(0));
+}
+
+
+void LUIBaseElement::set_z_offset(int z_offset) {
+  if (_parent) {
+    LUIObject* parent = DCAST(LUIObject, _parent);
+    nassertv(parent != NULL);
+    parent->change_child_z_offset(this, z_offset);
+  } else {
+    do_set_z_offset(z_offset);
+  }
 }

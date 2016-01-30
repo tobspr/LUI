@@ -66,6 +66,10 @@ PUBLISHED:
   MAKE_PROPERTY(sort_children, get_sort_children, set_sort_children);
   MAKE_PROPERTY(content_node, get_content_node, set_content_node);
 
+public:
+
+  INLINE void change_child_z_offset(PT(LUIBaseElement) child, int z_offset);
+
 protected:
 
   void init();

@@ -13,8 +13,8 @@ class LUIScrollableRegion(LUIObject):
         self._content_parent = LUIObject(self, x=0, y=0, w=width, h=height)
         self._content_parent.clip_bounds = (0,0,0,0)
 
-        self.content_clip = LUIObject(self._content_parent, x=padding, y=padding, w=self.width - 2*padding, h=self.height - 2*padding)
-        self.content_scroller = LUIObject(self.content_clip, x=0, y=0, w=self.content_clip.width, h=500)
+        self._content_clip = LUIObject(self._content_parent, x=padding, y=padding, w=self.width - 2*padding, h=self.height - 2*padding)
+        self.content_scroller = LUIObject(self._content_clip, x=0, y=0, w=self._content_clip.width, h=500)
 
         self._scrollbar = LUIObject(self, x=0, y=0, w=20, h=self.height)
         self._scrollbar.right = -10
@@ -108,7 +108,7 @@ class LUIScrollableRegion(LUIObject):
         """ Internal method to convert from pixels to a relative position """
         offset = pixels * self._content_height / self.height
         self._scroll_top_position = offset
-        self._scroll_top_position = max(0, min(self._content_height - self.content_clip.height, self._scroll_top_position))
+        self._scroll_top_position = max(0, min(self._content_height - self._content_clip.height, self._scroll_top_position))
 
     def on_tick(self, event):
         """ Internal on tick handler """
@@ -130,13 +130,13 @@ class LUIScrollableRegion(LUIObject):
     def _update(self):
         """ Internal method to update the scroll bar """
         self.content_scroller.top = -self._scroll_top_position
-        scrollbar_height = max(0.1, min(1.0, self.content_clip.height / self._content_height))
+        scrollbar_height = max(0.1, min(1.0, self._content_clip.height / self._content_height))
         scrollbar_height_px = scrollbar_height * self.height
         self._set_handle_height(scrollbar_height_px)
         self._scrollbar_handle.top = self._scroll_top_position / self._content_height * self.height
 
         top_alpha = max(0.0, min(1.0, self._scroll_top_position / 50.0))
-        bottom_alpha = max(0.0, min(1.0, (self._content_height - self._scroll_top_position - self.content_clip.height) / 50.0 ))
+        bottom_alpha = max(0.0, min(1.0, (self._content_height - self._scroll_top_position - self._content_clip.height) / 50.0 ))
         self._scroll_shadow_top.color = (1,1,1,top_alpha)
         self._scroll_shadow_bottom.color = (1,1,1,bottom_alpha)
 

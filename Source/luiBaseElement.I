@@ -15,8 +15,9 @@ INLINE void LUIBaseElement::unbind(const string &event_name) {
     luiBaseElement_cat.spam() << "Unbinding event '" << event_name << "'" << endl;
   }
 
-  if (has_event(event_name)) {
-    _events.erase(event_name);
+  auto elem_it = _events.find(event_name);
+  if (elem_it != _events.end()) {
+    _events.erase(elem_it);
   }
 }
 
@@ -369,10 +370,6 @@ INLINE void LUIBaseElement::show() {
   set_visible(true);
 }
 
-INLINE void LUIBaseElement::set_z_offset(int z_offset) {
-  _z_offset = (float)z_offset;
-}
-
 INLINE float LUIBaseElement::get_z_offset() const {
   return _z_offset;
 }
@@ -517,4 +514,9 @@ INLINE void LUIBaseElement::set_emits_changed_event(bool emit){
 
 INLINE bool LUIBaseElement::get_emits_changed_event() const {
   return _emits_changed_event;
+}
+
+
+INLINE void LUIBaseElement::do_set_z_offset(int z_offset) {
+  _z_offset = (float)z_offset;
 }

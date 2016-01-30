@@ -1,13 +1,17 @@
 
+INLINE bool lui_compare_z_offset(LUIBaseElement* a, LUIBaseElement* b) {
+  return a->get_z_offset() < b->get_z_offset();
+}
+
 INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
 
-  if (_content_node != NULL) {
+  if (_content_node) {
     return _content_node->remove_child(child);
   }
 
-  LUIChildVector::iterator child_index = std::find(_children.begin(), _children.end(), child);
+  auto child_it = std::find(_children.cbegin(), _children.cend(), child);
 
-  if (child_index == _children.end()) {
+  if (child_it == _children.end()) {
     luiObject_cat.warning() << "Attempted to remove child, but child is not attached to this object" << endl;
     return;
   }
@@ -16,7 +20,7 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
     luiObject_cat.spam() << "Removing child .." << endl;
   }
 
-  _children.erase(child_index);
+  _children.erase(child_it);
   child->on_detached();
   child->set_parent(NULL);
 
@@ -25,14 +29,23 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
   }
 }
 
+
+
+INLINE void LUIObject::change_child_z_offset(PT(LUIBaseElement) child, int z_offset) {
+  child->do_set_z_offset(z_offset);
+  std::sort(_children.begin(), _children.end(), lui_compare_z_offset);
+}
+
+
 INLINE void LUIObject::remove_all_children() {
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Removing all children .." << endl;
   }
 
   // Detach all children
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.begin(); it != _children.end(); ++it) {
     (*it)->on_detached();
+    (*it)->set_parent(NULL);
   }
 
   // Now clear the vector
@@ -41,12 +54,11 @@ INLINE void LUIObject::remove_all_children() {
 
 
 INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
-
-  if (_content_node != NULL) {
+  if (_content_node) {
     return _content_node->add_child(child);
   }
 
-  if (child->get_parent() != NULL) {
+  if (child->get_parent()) {
     luiObject_cat.error() << "You cannot reattach a child, unattach the child from it's current parent first" << endl;
     return child;
   }
@@ -58,6 +70,8 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
 
   // This has to be last. Otherwise we're attaching to the pool with outdated positions
   child->set_root(_root);
+
+  std::sort(_children.begin(), _children.end(), lui_compare_z_offset);
 
   return child;
 }
@@ -83,8 +97,6 @@ INLINE void LUIObject::on_color_changed() {
   }
 }
 
-
-
 INLINE void LUIObject::on_bounds_changed() {
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Updating children .. " << endl;
@@ -108,10 +120,9 @@ INLINE void LUIObject::on_detached() {
   _root = NULL;
   // _parent = NULL;
 
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->on_detached();
   }
-
 }
 
 INLINE void LUIObject::fit_to_children() {
@@ -119,7 +130,7 @@ INLINE void LUIObject::fit_to_children() {
   float maxX = 0;
   float maxY = 0;
 
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.begin(); it!= _children.end(); ++it) {
     LUIBaseElement* child = (*it);
     LPoint2 pos = get_relative_pos(child->get_abs_pos());
 
@@ -141,7 +152,7 @@ INLINE void LUIObject::fit_to_children() {
 INLINE void LUIObject::fit_height_to_children() {
   float maxY = 0;
 
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.begin(); it!= _children.end(); ++it) {
     LUIBaseElement* child = (*it);
     LPoint2 pos = get_relative_pos(child->get_abs_pos());
     if (child->_placement_y == M_default) {
@@ -152,11 +163,10 @@ INLINE void LUIObject::fit_height_to_children() {
   set_height(maxY + get_padding_bottom());
 }
 
-
 INLINE void LUIObject::fit_width_to_children() {
   float maxX = 0;
 
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.begin(); it!= _children.end(); ++it) {
     LUIBaseElement* child = (*it);
     LPoint2 pos = get_relative_pos(child->get_abs_pos());
     if (child->_placement_x == M_default) {
@@ -174,7 +184,6 @@ INLINE void LUIObject::set_sort_children(bool do_sort) {
 INLINE bool LUIObject::get_sort_children() const {
   return _sort_children;
 }
-
 
 INLINE void LUIObject::set_content_node(PT(LUIObject) content_node) {
   _content_node = content_node;

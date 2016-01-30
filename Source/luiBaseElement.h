@@ -15,6 +15,8 @@
 #include "luiBounds.h"
 #include "luiRect.h"
 
+#include <unordered_map>
+
 typedef struct _object PyObject;
 
 class LUIRoot;
@@ -127,7 +129,7 @@ PUBLISHED:
   INLINE bool get_solid() const;
 
   // Z-Index
-  INLINE void set_z_offset(int z_offset);
+  void set_z_offset(int z_offset);
   INLINE float get_z_offset() const;
 
   // Focus
@@ -214,6 +216,8 @@ public:
   INLINE int get_last_frame_visible() const;
   INLINE int get_last_render_index() const;
 
+  INLINE void do_set_z_offset(int z_offset);
+
 protected:
 
   INLINE float get_parent_width() const;
@@ -244,7 +248,6 @@ protected:
 
   // Interface to LUIColorable
   INLINE virtual void on_color_changed();
-
 
   virtual void render_recursive(bool is_topmost_pass, bool render_anyway) = 0;
 
@@ -283,7 +286,7 @@ protected:
   // Clip bounds, in render space (absolute coordinates)
   PT(LUIRect)   _abs_clip_bounds;
 
-  pmap<string, PT(CallbackObject)> _events;
+  unordered_map<string, PT(CallbackObject)> _events;
 
 
   LUIBaseElement *_parent;
