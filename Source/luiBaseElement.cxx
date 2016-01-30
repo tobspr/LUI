@@ -5,6 +5,7 @@
 #include "luiRoot.h"
 #include "luiObject.h"
 #include "luiEventData.h"
+#include "pythonCallbackObject.h"
 
 // Temporary
 #include "py_panda.h"
@@ -53,9 +54,11 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   // name, and auto-registers them, which is equal to bind("on_xxx", handler).
   if (self != NULL) {
 
-    PyObject *class_dict = Py_TYPE(self)->tp_dict;
+    PyObject *class_methods = PyObject_Dir((PyObject *)Py_TYPE(self));
+    nassertv(class_methods != NULL);
+    nassertv(PyList_Check(class_methods));
 
-    PyObject *key, *value;
+    Py_ssize_t num_elements = PyList_Size(class_methods);
     Py_ssize_t pos = 0;
 
     string event_func_prefix = "on_";
@@ -68,35 +71,34 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
     nassertv(bind_func != NULL);
 
     // Get all attributes of the python object
-    while (PyDict_Next(class_dict, &pos, &key, &value)) {
+    for (Py_ssize_t i = 0; i < num_elements; ++i) {
 
-      // Check if the attribute is a method
-      if (PyFunction_Check(value)) {
+      PyObject* method_name = PyList_GetItem(class_methods, i);
 
-        // Get the method name
-        char *str;
-        Py_ssize_t len;
+      char *str;
+      Py_ssize_t len;
 
-        if (PyString_AsStringAndSize(key, &str, &len) == 0) {
-          string method_name(str, len);
+      // Get the method name as string
+      if (PyString_AsStringAndSize(method_name, &str, &len) == 0) {
+        string method_name_str(str, len);
 
-          // Check if the method name starts with the required prefix
-          if (method_name.substr(0, event_func_prefix.size()) == event_func_prefix) {
-            // Bind to event
-            string event_name = method_name.substr(event_func_prefix.size());
+        // Check if the method name starts with the required prefix
+        if (method_name_str.substr(0, event_func_prefix.size()) == event_func_prefix) {
 
-            // The method handle we get is unbound, create a bound method which we can
-            // call directly
-            PyObject *bound_method = PyMethod_New(value, self, (PyObject *)Py_TYPE(self));
-            PyObject_CallFunction(bind_func, (char *)"s#O", str + 3, len - 3, bound_method);
+          PyObject* method = PyObject_GenericGetAttr(self, method_name);
+          nassertv(method != NULL);
 
-            // The PythonCallbackObject stores a reference, so we can decrease
-            // the reference count.
-            Py_DECREF(bound_method);
+          // Check if the attribute is a method
+          if (PyCallable_Check(method)) {
+              // Bind to event
+              PyObject_CallFunction(bind_func, (char *)"s#O",
+                str + event_func_prefix.size(), len - event_func_prefix.size(), method);
           }
         }
       }
     }
+
+    Py_DECREF(class_methods);
   }
 }
 
