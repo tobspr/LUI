@@ -7,7 +7,7 @@ class LUIScrollableRegion(LUIObject):
     """ Scrollable region, reparent elements to the .content_node to make them
     scroll. """
 
-    def __init__(self, parent, width=100, height=100, padding=10, **kwargs):
+    def __init__(self, parent=None, width=100, height=100, padding=10, **kwargs):
         LUIObject.__init__(self, x=0, y=0, w=width, h=height)
 
         self._content_parent = LUIObject(self, x=0, y=0, w=width, h=height)
