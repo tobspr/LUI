@@ -72,12 +72,6 @@ class DemoFramework:
         self._right_bar = LUIVerticalLayout(parent=self._root, width=350, spacing=20)
         self._right_bar.pos = (410, 120)
 
-        # Constructor parameters
-        # self._constructor_parameter_frame = LUIFrame(width=340, style=LUIFrame.FS_sunken)
-        # self._constructor_label = LUILabel(parent=self._constructor_parameter_frame, text=u"Additional Constructor Parameters")
-        # self._constructor_layout = UIVerticalLayout(parent=self._constructor_parameter_frame, spacing=10, use_dividers=True)
-        # self._constructor_layout.top = 30
-
         # Public functions
         self._public_functions = LUIFrame(width=340, style=LUIFrame.FS_sunken)
         self.functions_label = LUILabel(parent=self._public_functions, text=U"Additional Public functions")

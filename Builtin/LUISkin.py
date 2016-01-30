@@ -10,7 +10,7 @@ class LUISkin:
 
     # This is only for debugging, and stores the absolute path of the skin. Later
     # it should be fetched dynamically
-    skinLocation = ""
+    skin_location = ""
 
     def __init__(self):
         pass
@@ -21,16 +21,15 @@ class LUISkin:
         raise NotImplementedError()
 
     def get_resource(self, pth):
-        """ Turns a relative path into an absolute one, using the skinLocation """
-        return Filename.from_os_specific(join(self.skinLocation, pth)).get_fullpath()
+        """ Turns a relative path into an absolute one, using the skin_location """
+        return Filename.from_os_specific(join(self.skin_location, pth)).get_fullpath()
 
 
 class LUIDefaultSkin(LUISkin):
 
     """ The default skin which comes with LUI """
 
-    #skinLocation = "E:/Projects/Brainz stuff/LUI/Builtin"
-    skinLocation = os.path.dirname(os.path.abspath(__file__))
+    skin_location = os.path.dirname(os.path.abspath(__file__))
 
     def __init__(self):
         pass
@@ -51,5 +50,5 @@ class LUIDefaultSkin(LUISkin):
         LUIFontPool.get_global_ptr().register_font("header", headerFont)
 
         LUIAtlasPool.get_global_ptr().load_atlas("skin",
-            join(self.skinLocation, "res/atlas.txt"),
+            join(self.skin_location, "res/atlas.txt"),
             self.get_resource("res/atlas.png"))
