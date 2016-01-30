@@ -60,12 +60,16 @@ class LUIInputField(LUIObject):
 
     def set_value(self, value):
         """ Sets the value of the input field """
-        self._value = value
+        self._value = unicode(value)
         # QUESTION: Should we trigger a callback when the user changes the value hisself?
         self.trigger_event("changed", self._value)
         self._render_text()
 
     value = property(get_value, set_value)
+
+    def clear(self):
+        """ Clears the input value """
+        self.value = u""
 
     def _set_cursor_pos(self, pos):
         """ Internal method to set the cursor position """
@@ -130,6 +134,8 @@ class LUIInputField(LUIObject):
         elif key_name == "arrow_right":
             self._set_cursor_pos(self._cursor_index + 1)
             self._render_text()
+        elif key_name == "enter":
+            self.trigger_event("enter", self._value)
 
     def on_keyrepeat(self, event):
         """ Internal keyrepeat handler """

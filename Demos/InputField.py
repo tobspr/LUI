@@ -21,7 +21,7 @@ field = LUIInputField(parent=f.get_widget_node())
 
 f.set_actions({
         "Set Random Text": lambda: field.set_value(u"Text: " + unicode(random.randint(100, 10000000))),
-        "Clear": lambda: field.set_value(u""),
+        "Clear": lambda: field.clear(),
     })
 
 run()

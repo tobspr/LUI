@@ -64,6 +64,7 @@ PUBLISHED:
   MAKE_PROPERTY(children, get_children);
   MAKE_PROPERTY(child_count, get_child_count);
   MAKE_PROPERTY(sort_children, get_sort_children, set_sort_children);
+  MAKE_PROPERTY(content_node, get_content_node, set_content_node);
 
 protected:
 

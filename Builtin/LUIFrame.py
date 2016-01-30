@@ -4,6 +4,7 @@ from __future__ import print_function
 from panda3d.lui import LUIObject
 from LUILayouts import LUICornerLayout
 from LUIInitialState import LUIInitialState
+from LUIScrollableRegion import LUIScrollableRegion
 
 __all__ = ["LUIFrame"]
 
@@ -43,19 +44,22 @@ class LUIFrame(LUIObject):
             raise Exception("Unkown LUIFrame style: " + style)
 
         self._layout = LUICornerLayout(parent=self, image_prefix=prefix)
-        LUIInitialState.init(self, kwargs)
 
         self._effective_padding = self.padding_top + self._border_size
         self._scrollable = scrollable
         self._layout.margin = -self._effective_padding
 
-        # TODO: Scrollable
-        # if self._scrollable:
-        self.content = LUIObject(self)
-            # self.content.size = (width, height)
-            # self.content.pos = (self._border_size, self._border_size)
-            # self.scrollContent = UIScrollableRegion(self.content, width=width-2*padding, height=height-2*padding, padding=inner_padding)
-            # self.contentNode = self.scrollContent.get_content_node()
+        self._content = LUIObject(self)
+
+        if self._scrollable:
+            self._content.size = (self.width, self.height)
+            self._content.pos = (self._border_size, self._border_size)
+            self._scroll_content = LUIScrollableRegion(self._content,
+                width=self.width-2*self.padding_left, height=self.height-2*self.padding_left,
+                padding=inner_padding)
+            self.content_node = self._scroll_content.content_node
+
+        LUIInitialState.init(self, kwargs)
 
     def on_resized(self, event):
         """ Internal callback when the Frame got resized """
