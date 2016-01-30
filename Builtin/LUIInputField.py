@@ -34,7 +34,7 @@ class LUIInputField(LUIObject):
         self._value = value
 
         self._placeholder = LUILabel(parent=self._text_content, text=placeholder, shadow=False)
-        self._placeholder.color = (1,1,1,0.5)
+        self._placeholder.color = (1,1,1,0.2)
 
         self._bg_mid.width = self.width - self._bg_left.width - self._bg_right.width
         self._bg_mid.left = self._bg_left.width
@@ -164,6 +164,9 @@ class LUIInputField(LUIObject):
 
         if self._value:
             self._placeholder.hide()
+        else:
+            if not self.focused:
+                self._placeholder.show()
 
         # Scroll if the cursor is outside of the clip bounds
         relX = self.get_relative_pos(self._cursor.get_abs_pos()).x

@@ -15,7 +15,7 @@ LUIAtlasPool::~LUIAtlasPool() {
 LUIAtlasPool* LUIAtlasPool::get_global_ptr() {
   if (_global_ptr == (LUIAtlasPool *)NULL) {
     _global_ptr = new LUIAtlasPool();
-  } 
+  }
   return _global_ptr;
 }
 

@@ -4,7 +4,8 @@ from LUIInitialState import LUIInitialState
 
 class LUIScrollableRegion(LUIObject):
 
-    """ Scrollable region """
+    """ Scrollable region, reparent elements to the .content_node to make them
+    scroll. """
 
     def __init__(self, parent, width=100, height=100, padding=10, **kwargs):
         LUIObject.__init__(self, x=0, y=0, w=width, h=height)
@@ -20,7 +21,7 @@ class LUIScrollableRegion(LUIObject):
 
         self._scrollbar_height = self.height
         self._scrollbar_bg = LUISprite(self._scrollbar, "blank", "skin")
-        self._scrollbar_bg.color = (1,1,1,0.1)
+        self._scrollbar_bg.color = (1,1,1,0.05)
         self._scrollbar_bg.size = (5, self._scrollbar_height)
         self._scrollbar_bg.left = 8
 
@@ -79,32 +80,38 @@ class LUIScrollableRegion(LUIObject):
         LUIInitialState.init(self, kwargs)
 
     def _on_bar_click(self, event):
+        """ Internal handler when the user clicks on the scroll bar """
         self._scroll_to_bar_pixels(event.coordinates.y - self._scrollbar.abs_pos.y - self._handle_height / 2.0)
         self._update()
         self._start_scrolling(event)
 
     def _start_scrolling(self, event):
+        """ Internal method when we start scrolling """
         self.request_focus()
         if not self._handle_dragging:
             self._drag_start_y = event.coordinates.y
             self._handle_dragging = True
 
     def _update_height(self, event):
+        """ Internal handler to update the scroll height """
         self.content_scroller.fit_height_to_children()
         self._content_height = max(1, self.content_scroller.height)
         self._update()
 
     def _stop_scrolling(self, event):
+        """ Internal handler when we should stop scrolling """
         if self._handle_dragging:
             self._handle_dragging = False
             self.blur()
 
     def _scroll_to_bar_pixels(self, pixels):
+        """ Internal method to convert from pixels to a relative position """
         offset = pixels * self._content_height / self.height
         self._scroll_top_position = offset
         self._scroll_top_position = max(0, min(self._content_height - self.content_clip.height, self._scroll_top_position))
 
     def on_tick(self, event):
+        """ Internal on tick handler """
         if self._handle_dragging:
             scroll_abs_pos = self._scrollbar.abs_pos
             clamped_coord_y = max(scroll_abs_pos.y, min(scroll_abs_pos.y + self._scrollbar_height, event.coordinates.y))
@@ -114,12 +121,14 @@ class LUIScrollableRegion(LUIObject):
         self._update()
 
     def _set_handle_height(self, height):
+        """ Internal method to set the scrollbar height """
         self._scroll_handle_mid.top = self._scroll_handle_top.height
         self._scroll_handle_mid.height = height - self._scroll_handle_top.height - self._scroll_handle_bottom.height
         self._scroll_handle_bottom.top = self._scroll_handle_mid.height + self._scroll_handle_mid.top
         self._handle_height = height
 
     def _update(self):
+        """ Internal method to update the scroll bar """
         self.content_scroller.top = -self._scroll_top_position
         scrollbar_height = max(0.1, min(1.0, self.content_clip.height / self._content_height))
         scrollbar_height_px = scrollbar_height * self.height
@@ -131,12 +140,18 @@ class LUIScrollableRegion(LUIObject):
         self._scroll_shadow_top.color = (1,1,1,top_alpha)
         self._scroll_shadow_bottom.color = (1,1,1,bottom_alpha)
 
+        if self._content_height < self.height:
+            self._scrollbar_handle.hide()
+        else:
+            self._scrollbar_handle.show()
 
     def scroll_to_bottom(self):
+        """ Scrolls to the bottom of the frame """
         self._scroll_top_position = max(0, self._content_height - self.content_clip.height)
         self._update()
 
     def get_content_node(self):
+        """ Returns the content node where elements can be reparented to """
         return self.content_scroller
 
     content_node = property(get_content_node)
