@@ -9,5 +9,9 @@ class LUIInitialState:
     @staticmethod
     def init(obj, kwargs):
         """ Applies the keyword arguments as properties """
-        for arg,val in kwargs.items():
-            setattr(obj, arg, val)
+        for arg_name, arg_val in kwargs.items():
+            if hasattr(obj, arg_name):
+                setattr(obj, arg_name, arg_val)
+            else:
+                raise AttributeError("{0} has no attribute {1}".format(
+                    obj.__class__.__name__, arg_name))

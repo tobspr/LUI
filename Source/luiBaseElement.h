@@ -151,6 +151,9 @@ PUBLISHED:
   INLINE bool is_topmost() const;
   INLINE void set_topmost(bool topmost);
 
+  INLINE void set_emits_changed_event(bool emit);
+  INLINE bool get_emits_changed_event() const;
+
   // Properties for python
   MAKE_PROPERTY(left_top, get_left_top, set_left_top);
   MAKE_PROPERTY(right_top, get_right_top, set_right_top);
@@ -164,7 +167,6 @@ PUBLISHED:
   MAKE_PROPERTY(bottom, get_bottom, set_bottom);
   MAKE_PROPERTY(left, get_left, set_left);
   MAKE_PROPERTY(right, get_right, set_right);
-
 
   MAKE_PROPERTY(centered, is_centered, set_centered);
   MAKE_PROPERTY(center_vertical, is_vertical_centered, set_center_vertical);
@@ -196,6 +198,9 @@ PUBLISHED:
   MAKE_PROPERTY(topmost, is_topmost, set_topmost);
   MAKE_PROPERTY(solid, get_solid, set_solid);
 
+  MAKE_PROPERTY(emits_changed_event, get_emits_changed_event, set_emits_changed_event);
+
+
 public:
 
   INLINE void set_parent(LUIBaseElement* parent);
@@ -208,9 +213,6 @@ public:
   INLINE void set_focus(bool focus);
   INLINE int get_last_frame_visible() const;
   INLINE int get_last_render_index() const;
-
-  INLINE void set_emits_changed_event(bool emit);
-  INLINE bool get_emits_changed_event() const;
 
 protected:
 

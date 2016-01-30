@@ -4,11 +4,12 @@
 
 TypeHandle LUIText::_type_handle;
 
-LUIText::LUIText(PyObject *self, LUIObject *parent, const wstring &text, const string &font_name, float font_size, float x, float y)
+LUIText::LUIText(PyObject *self, LUIObject *parent, const wstring &text, const string &font_name, float font_size, float x, float y, bool wordwrap)
   :
   LUIObject(self, parent, x, y),
   _text(text),
-  _font_size(font_size) {
+  _font_size(font_size),
+  _wordwrap(wordwrap) {
   _sort_children = false;
   _snap_position = false;
   set_font(font_name);
@@ -44,7 +45,7 @@ void LUIText::update_text() {
     }
     PT(LUISprite) sprite = new LUISprite(this);
 
-    // Don't make each glyph emit a changed eveet, this just leads to event
+    // Don't make each glyph emit a changed event, this just leads to event
     // pollution. Instead, we manually trigger changed events
     sprite->set_emits_changed_event(false);
 
@@ -90,7 +91,6 @@ void LUIText::update_text() {
     nassertv(dynamic_glyph != NULL);
 
     _glyphs.push_back(dynamic_glyph);
-    // dynamic_glyph->ref();
 
     // Some characters have no texture (like space)
     if (dynamic_glyph->get_page() == NULL) {
@@ -99,7 +99,6 @@ void LUIText::update_text() {
 
     } else {
       sprite->show();
-
       sprite->begin_update_section();
 
       // LUISprite has a check if the texture is the same, so if the atlas didn't
@@ -109,7 +108,7 @@ void LUIText::update_text() {
       // Position the glyph.
       sprite->set_pos(
         current_x_pos + dynamic_glyph->get_left() * ppu,
-        (0.85 - dynamic_glyph->get_top()) * ppu);
+        (0.85 - dynamic_glyph->get_top()) * ppu + 1);
 
       // The V coordinate is inverted, as panda stores the textures flipped
       sprite->set_uv_range(
@@ -132,7 +131,7 @@ void LUIText::update_text() {
     current_x_pos += dynamic_glyph->get_advance() * ppu;
   }
 
-  set_size(current_x_pos, line_height * ppu);
+  set_size( floor(current_x_pos), floor(line_height * ppu));
 
 }
 

@@ -40,3 +40,12 @@ INLINE void LUIText::on_color_changed() {
 INLINE void LUIText::on_child_changed() {
   cout << "Text::Child changed" << endl;
 }
+
+INLINE void LUIText::set_wordwrap(bool wrap) {
+  _wordwrap = wrap;
+  update_text();
+}
+
+INLINE bool LUIText::get_wordwrap() const {
+  return _wordwrap;
+}

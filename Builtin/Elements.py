@@ -705,7 +705,7 @@ class LUIColorpickerPopup(LUIPopup, LUICallback):
         self.activeColorBG.pos = (2, 0)
         self.activeColorBG.color = (0.2,0.6,1.0,1.0)
 
-        self.closeButton = LUIButton(parent=self.content, text=u"Done", width=45, template="ButtonMagic")
+        self.closeButton = LUIButton(parent=self.content, text=u"Done", width=45, template="ButtonGreen")
         self.closeButton.left = 177
         self.closeButton.top = 98
         self.closeButton.bind("click", self._close_popup)

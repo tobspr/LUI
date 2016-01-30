@@ -1,6 +1,4 @@
 
-
-
 INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callback) {
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "Binding event '" << event_name << "'" << endl;
@@ -298,11 +296,18 @@ INLINE void LUIBaseElement::set_size(const LVector2 &size) {
 }
 
 INLINE void LUIBaseElement::set_size(float w, float h) {
-  // nassertv(w >= 0 && h >= 0);
-  _size.set_x(w);
-  _size.set_y(h);
-  recompute_position();
-  trigger_event("resized");
+  // nassertv(w >= 0.0 && h >= 0.0);
+  if ( abs(w - _size.get_x()) > 1e-6 || abs(h - _size.get_y()) > 1e-6) {
+    if (_snap_position) {
+      _size.set_x(int(w));
+      _size.set_y(int(h));
+    } else {
+      _size.set_x(w);
+      _size.set_y(h);
+    }
+    recompute_position();
+    trigger_event("resized");
+  }
 }
 
 INLINE bool LUIBaseElement::has_size() const {
@@ -311,16 +316,28 @@ INLINE bool LUIBaseElement::has_size() const {
 
 INLINE void LUIBaseElement::set_width(float w) {
   // nassertv(w >= 0.0);
-  _size.set_x(w);
-  recompute_position();
-  trigger_event("resized");
+  if ( abs(w - _size.get_x()) > 1e-6 ) {
+    if (_snap_position) {
+      _size.set_x(int(w));
+    } else {
+      _size.set_x(w);
+    }
+    recompute_position();
+    trigger_event("resized");
+  }
 }
 
 INLINE void LUIBaseElement::set_height(float h) {
   // nassertv(h >= 0.0);
-  _size.set_y(h);
-  recompute_position();
-  trigger_event("resized");
+  if ( abs(h - _size.get_y()) > 1e-6 ) {
+    if (_snap_position) {
+      _size.set_y(int(h));
+    } else {
+      _size.set_y(h);
+    }
+    recompute_position();
+    trigger_event("resized");
+  }
 }
 
 INLINE float LUIBaseElement::get_width() const {

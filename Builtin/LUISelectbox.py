@@ -210,7 +210,7 @@ class LUISelectdrop(LUIObject):
             opt_bg.solid = True
 
             opt_label = LUILabel(parent=opt_container, text=unicode(opt_val), shadow=True)
-            opt_label.top = 5
+            opt_label.top = 8
             opt_label.left = 8
 
             if opt_id == self._selectbox.selected_option:

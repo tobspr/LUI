@@ -3,6 +3,7 @@
 from DemoFramework import DemoFramework
 from LUIFrame import LUIFrame
 from LUILabel import LUILabel
+from LUIButton import LUIButton
 from LUILayouts import LUIVerticalLayout
 from panda3d.lui import LUIObject
 
@@ -24,16 +25,18 @@ f.add_constructor_parameter("style", "UIFrame.Raised")
 f.construct_sourcecode("LUIFrame")
 
 # Construct a new frame
-frame = LUIFrame(width=300, height=100, parent=f.get_widget_node())
+frame = LUIFrame(parent=f.get_widget_node())
 
-layout = LUIVerticalLayout(parent=frame, width=160, spacing=10)
-layout.add(LUILabel(text=u"This is some frame", color=(0.2, 0.6, 1.0, 1.0)))
-layout.add(LUILabel(text=u"Here is another line of text"))
-layout.add(LUILabel(text=u"And even more text."))
+layout = LUIVerticalLayout(parent=frame, spacing=5)
+layout.add(LUILabel(text="This is some frame ..", color=(0.2, 0.6, 1.0, 1.0), font_size=20))
+layout.add(LUILabel(text="It can contain arbitrary elements."))
+layout.add(LUILabel(text="For example this button:"))
+layout.add(LUIButton(text="Fancy button"))
+
+frame.fit_to_children()
 
 f.set_actions({
-        "Resize to 200x100": lambda: frame.set_size(200, 100),
-        "Resize to 200x120": lambda: frame.set_size(200, 120),
+        "Resize to 300x160": lambda: frame.set_size(300, 160),
         "Fit to children": lambda: frame.fit_to_children(),
     })
 

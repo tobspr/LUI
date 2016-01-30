@@ -1,4 +1,6 @@
 
+from __future__ import division
+
 from panda3d.lui import LUIObject, LUISprite
 from LUIInitialState import LUIInitialState
 from LUILabel import LUILabel
@@ -12,7 +14,7 @@ class LUIRadiobox(LUIObject):
         LUIInitialState.init(self, kwargs)
         self._sprite = LUISprite(self, "Radiobox_Default", "skin")
         self._label = LUILabel(parent=self, text=label, shadow=True, left=self._sprite.width + 6)
-        self._label.top = self._label.height - self._sprite.height
+        self._label.top = (self._label.height - self._sprite.height) // 2 - 1
         self._label.bind("resized", self._on_label_resized)
 
         self.fit_to_children()

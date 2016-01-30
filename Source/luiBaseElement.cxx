@@ -344,9 +344,7 @@ void LUIBaseElement::trigger_event(const string &event_name, const wstring &mess
 }
 
 void LUIBaseElement::on_child_changed() {
+  // Instead of populating the event further upstream, let the implementation
+  // decide if it actually needs to get populated further
   trigger_event("child_changed", wstring(), LPoint2(0));
-  // if (_parent) {
-    // cout << "on_child_changed() of " << this << ", calling on parent: " << _parent << endl;
-    // _parent->on_child_changed();
-  // }
 }

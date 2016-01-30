@@ -20,6 +20,9 @@ f.add_public_function("get_value", [], "object")
 f.add_public_function("get_label", [], "LUILabel")
 f.add_public_function("set_active", [], "void")
 
+f.add_property("value", "object")
+f.add_property("label", "LUILabel")
+
 # Events
 f.add_event("changed")
 f.construct_sourcecode("LUIRadiobox")

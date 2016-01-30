@@ -16,6 +16,7 @@ f.add_constructor_parameter("template", "'ButtonDefault'")
 # Functions
 f.add_public_function("set_text", [("text", "string")])
 f.add_public_function("get_text", [], "string")
+f.add_property("text", "string")
 
 # Construct source code
 f.construct_sourcecode("LUIButton")
@@ -24,7 +25,7 @@ f.construct_sourcecode("LUIButton")
 layout = LUIHorizontalLayout(parent=f.get_widget_node(), spacing=10, use_dividers=True)
 
 button1 = LUIButton(text="Do not click me")
-button2 = LUIButton(text="Instead click me", template="ButtonMagic")
+button2 = LUIButton(text="Instead click me", template="ButtonGreen")
 
 layout.add(button1)
 layout.add(button2)

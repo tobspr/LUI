@@ -13,7 +13,7 @@ class LUIBaseLayout(LUIObject):
 
     """ Abstract class to supply a consistent interface for different layouts """
 
-    def __init__(self, x, y, w, h):
+    def __init__(self, x, y, w, h, **kwargs):
         LUIObject.__init__(self, x, y, w, h)
 
     def add(self, *objects):
@@ -36,24 +36,19 @@ class LUIVerticalLayout(LUIBaseLayout):
 
     """ A vertical layout storing components row-wise """
 
-    def __init__(self, parent=None, width=None, spacing=2, use_dividers=False):
+    def __init__(self, parent=None, spacing=2, use_dividers=False, **kwargs):
         """ Constructs a new layout with a given parent and with. spacing controls
         the distance between cells. If use_dividers is set to True, there will
         be horizontal lines between the cells """
-        if width is None:
-            width = 100
-            if parent is not None:
-                width = parent.width - parent.padding_left - parent.padding_right
-
-        LUIBaseLayout.__init__(self, x=0, y=0, w=width, h=0)
-
+        LUIBaseLayout.__init__(self, x=0, y=0, w=0, h=0)
         self._rows = []
-        self._dividers = LUIObject(self, x=0, y=0, w=width, h=0)
+        self._dividers = LUIObject(self, x=0, y=0, w=0, h=0)
         self._spacing = spacing
         self._use_dividers = use_dividers
         self._in_update_section = False
         if parent is not None:
             self.parent = parent
+        LUIInitialState.init(self, kwargs)
 
     def reset(self):
         """ Resets the layout, removing all children and rows """
@@ -112,7 +107,7 @@ class LUIVerticalLayout(LUIBaseLayout):
             if index != len(self._rows) - 1:
                 self._add_divider(current_height - self._spacing // 2)
 
-        self.height = current_height
+        self.fit_to_children()
         self._in_update_section = False
 
     def _layout_changed(self, event):
@@ -125,25 +120,19 @@ class LUIHorizontalLayout(LUIBaseLayout):
     """ Standard horizontal layout,
     objects are set next to each other from left to right """
 
-    def __init__(self, parent=None, height=None, spacing=2, use_dividers=False):
+    def __init__(self, parent=None, spacing=2, use_dividers=False, **kwargs):
         """ Constructs a new horizontal layout with a given height and parent.
         spacing controls the distance between cells. If use_dividers is set to
         True, there will be horizontal lines between the cells"""
-        if height is None:
-            height = 100
-            if parent is not None:
-                height = parent.height - parent.padding_top - parent.padding_bottom
-
-        LUIBaseLayout.__init__(self, x=0, y=0, w=0, h=height)
-
+        LUIBaseLayout.__init__(self, x=0, y=0, w=0, h=0)
         self._columns = []
-        self._dividers = LUIObject(self, x=0, y=0, h=height, w=0)
+        self._dividers = LUIObject(self, x=0, y=0, h=0, w=0)
         self._spacing = spacing
         self._use_dividers = use_dividers
         self._in_update_section = False
-
         if parent is not None:
             self.parent = parent
+        LUIInitialState.init(self, kwargs)
 
     def reset(self):
         """ Resets the layout """
@@ -164,7 +153,7 @@ class LUIHorizontalLayout(LUIBaseLayout):
 
     def add(self, *objects):
         """ Adds a new column with the given objects """
-        container = LUIObject(self, 0, 0, w=self.height, h=0)
+        container = LUIObject(self, 0, 0, w=0, h=0)
         self._columns.append(container)
         container.bind("child_changed", self._layout_changed)
         for obj in objects:
@@ -178,27 +167,28 @@ class LUIHorizontalLayout(LUIBaseLayout):
     def _add_divider(self, x_pos):
         """ Internal method to add a new divider """
         if self._use_dividers:
-            divider = LUISprite(self._dividers, "ListDivider", "skin")
+            divider = LUISprite(self._dividers, "HorizontalListDivider", "skin")
             divider.height = self.height
-            divider.left = x_pos
+            divider.left = x_pos - 1
 
     def update(self):
         """ Updates the layout, adjusting the size of all cells """
         current_x = 0
         self._in_update_section = True
         self._dividers.remove_all_children()
-        self._add_divider(0)
 
         if self._use_dividers:
             current_x += self._spacing // 2
 
-        for column in self._columns:
+        for index, column in enumerate(self._columns):
             column.fit_to_children()
             column.left = current_x
             current_x += column.width + self._spacing
-            self._add_divider(current_x - self._spacing // 2)
+            if index != len(self._columns) - 1:
+                self._add_divider(current_x - self._spacing // 2)
 
-        self.width = current_x
+        self.fit_to_children()
+        self._in_update_section = False
 
     def get(self, index):
         """ Returns the n-th column object """
@@ -222,12 +212,12 @@ class LUICornerLayout(LUIObject):
     def __init__(self, image_prefix="", **kwargs):
         """ Creates a new layout, using the image_prefix as prefix. """
         LUIObject.__init__(self, x=0, y=0, w=100, h=100)
-        LUIInitialState.init(self, kwargs)
         self._prefix = image_prefix
         self._parts = {}
         for i in self._MODES:
             self._parts[i] = LUISprite(self, "blank", "skin")
         self.update_layout()
+        LUIInitialState.init(self, kwargs)
 
     def update_layout(self):
         """ Updates the layouts components. Should be called whenver the layout

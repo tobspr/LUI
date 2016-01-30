@@ -9,10 +9,8 @@ TypeHandle LUISprite::_type_handle;
 
 NotifyCategoryDef(luiSprite, ":lui");
 
-
 LUISprite::LUISprite(LUIText* parent_text)
   : LUIBaseElement(NULL) {
-  set_emits_changed_event(false);
   init((LUIObject*)parent_text, 0, 0, LColor(1));
   set_texture((Texture*)NULL, true);
 }
@@ -46,6 +44,9 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
 
   // A lui sprite always needs a parent
   nassertv(parent != NULL);
+
+  // LUISprites don't trigger change events
+  set_emits_changed_event(false);
 
   _last_frame_visible = -1;
   _texture_index = -1;

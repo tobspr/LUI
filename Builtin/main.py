@@ -55,7 +55,7 @@ if __name__ == "__main__":
     slider2 = LUISliderWithLabel(filled=True, min_value=0.0, max_value=120.0, width=250.0, precision=1, value=32)
     bar = LUIProgressbar(width=250, value=33.5)
 
-    btnOk = LUIButton(width=120, text=u"SUBMIT", template="ButtonMagic")
+    btnOk = LUIButton(width=120, text=u"SUBMIT", template="ButtonGreen")
     btnCancel = LUIButton(width=120, text=u"CANCEL")
     btnCancel.right = 0
 

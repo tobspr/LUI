@@ -19,6 +19,9 @@ f.add_constructor_parameter("font", "'label'")
 f.add_public_function("get_text", [], "string")
 f.add_public_function("set_text", [("text", "string")])
 
+f.add_property("text", "string")
+f.add_property("text_handle", "LUIText")
+
 # Events
 f.construct_sourcecode("LUILabel")
 

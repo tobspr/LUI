@@ -1,4 +1,6 @@
 
+from __future__ import division
+
 from panda3d.lui import LUIObject, LUISprite
 from LUILabel import LUILabel
 from LUIInitialState import LUIInitialState
@@ -16,7 +18,7 @@ class LUICheckbox(LUIObject):
         LUIInitialState.init(self, kwargs)
         self._checkbox_sprite = LUISprite(self, "Checkbox_Default", "skin")
         self._label = LUILabel(parent=self, text=label, shadow=True, left=self._checkbox_sprite.width + 6)
-        self._label.top = self._label.height - self._checkbox_sprite.height
+        self._label.top = (self._label.height - self._checkbox_sprite.height) // 2 - 1
         self._label.bind("resized", self._on_label_resized)
         self._checked = checked
         self._update_sprite()

@@ -43,8 +43,8 @@ PUBLISHED:
   bool operator!=(const LUIRect& other) { return !(_rect == other._rect); }
 
   friend ostream& operator<<(ostream& stream, const LUIRect& rect) {
-    return stream << "Rect[x=" << rect.get_x() << ",y=" << rect.get_y() << ",w="
-           << rect.get_w() << ",h=" << rect.get_h();
+    return stream << "Rect[" << rect.get_x() << " x " << rect.get_y() << " / "
+           << rect.get_w() << " x " << rect.get_h() << "]";
   }
 
 protected:
