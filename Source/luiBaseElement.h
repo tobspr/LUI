@@ -92,7 +92,7 @@ PUBLISHED:
   INLINE float get_margin_right() const;
   INLINE float get_margin_bottom() const;
   INLINE float get_margin_left() const;
-  INLINE LUIBounds *get_margin() const;
+  INLINE const LUIBounds& get_margin() const;
 
   // Padding
   INLINE void set_padding(const LVector4 &padding);
@@ -106,7 +106,7 @@ PUBLISHED:
   INLINE float get_padding_right() const;
   INLINE float get_padding_bottom() const;
   INLINE float get_padding_left() const;
-  INLINE LUIBounds *get_padding() const;
+  INLINE const LUIBounds& get_padding() const;
 
   // Size
   INLINE void set_size(const LVector2 &size);
@@ -116,7 +116,7 @@ PUBLISHED:
   INLINE float get_width() const;
   INLINE float get_height() const;
   INLINE bool has_size() const;
-  INLINE const LVector2 &get_size() const;
+  INLINE const LVector2& get_size() const;
 
   // Visible
   INLINE void set_visible(bool visible);
@@ -147,10 +147,11 @@ PUBLISHED:
   INLINE void begin_update_section();
   INLINE virtual void end_update_section();
 
-  INLINE void set_clip_bounds(LUIBounds *bounds);
+  INLINE void clear_clip_bounds();
+  INLINE void set_clip_bounds(const LUIBounds& bounds);
   INLINE void set_clip_bounds(float top, float right, float bottom, float left);
-  INLINE LUIBounds *get_clip_bounds() const;
-  INLINE LUIRect *get_abs_clip_bounds() const;
+  INLINE const LUIBounds& get_clip_bounds() const;
+  INLINE const LUIRect& get_abs_clip_bounds() const;
 
   INLINE bool is_topmost() const;
   INLINE void set_topmost(bool topmost);
@@ -271,20 +272,23 @@ protected:
   bool _solid;
 
   // Margin & Padding, relative to the element bounds
-  PT(LUIBounds) _margin;
-  PT(LUIBounds) _padding;
+  LUIBounds _margin;
+  LUIBounds _padding;
 
   // Clip bounds, relative to the element bounds
-  PT(LUIBounds) _clip_bounds;
+  LUIBounds _clip_bounds;
+  bool _have_clip_bounds;
 
   // Clip bounds, in render space (absolute coordinates)
-  PT(LUIRect)   _abs_clip_bounds;
+  LUIRect _abs_clip_bounds;
 
   unordered_map<string, PT(CallbackObject)> _events;
 
+  LUIRect _last_bounds;
+  LUIRect _last_clip_bounds;
 
-  LUIObject *_parent;
-  LUIRoot *_root;
+  LUIObject* _parent;
+  LUIRoot* _root;
 
   int _last_frame_visible;
   int _last_render_index;

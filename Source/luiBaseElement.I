@@ -185,110 +185,110 @@ INLINE bool LUIBaseElement::is_horizontal_centered() const {
 }
 
 INLINE void LUIBaseElement::set_margin(const LVector4 &margin) {
-  _margin->set_bounds(margin);
+  _margin.set_bounds(margin);
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin(float top, float right, float bottom, float left) {
-  _margin->set_bounds(top, right, bottom, left);
+  _margin.set_bounds(top, right, bottom, left);
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin(float margin) {
-  _margin->set_bounds(margin, margin, margin, margin);
+  _margin.set_bounds(margin, margin, margin, margin);
   recompute_position();
 }
 
 
 INLINE void LUIBaseElement::set_margin_top(float top) {
-  _margin->set_top(top);
+  _margin.set_top(top);
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin_right(float right) {
-  _margin->set_right(right);
+  _margin.set_right(right);
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin_bottom(float bottom) {
-  _margin->set_bottom(bottom);
+  _margin.set_bottom(bottom);
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin_left(float left) {
-  _margin->set_left(left);
+  _margin.set_left(left);
   recompute_position();
 }
 
 INLINE float LUIBaseElement::get_margin_top() const {
-  return _margin->get_top();
+  return _margin.get_top();
 }
 
 INLINE float LUIBaseElement::get_margin_right() const {
-  return _margin->get_right();
+  return _margin.get_right();
 }
 
 INLINE float LUIBaseElement::get_margin_bottom() const {
-  return _margin->get_bottom();
+  return _margin.get_bottom();
 }
 
 INLINE float LUIBaseElement::get_margin_left() const {
-  return _margin->get_left();
+  return _margin.get_left();
 }
 
-INLINE LUIBounds *LUIBaseElement::get_margin() const {
+INLINE const LUIBounds& LUIBaseElement::get_margin() const {
   return _margin;
 }
 
 INLINE void LUIBaseElement::set_padding(const LVector4 &padding) {
-  _padding->set_bounds(padding);
+  _padding.set_bounds(padding);
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_padding(float top, float right, float bottom, float left) {
-  _padding->set_bounds(top, right, bottom, left);
+  _padding.set_bounds(top, right, bottom, left);
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_padding(float padding) {
-  _padding->set_bounds(padding, padding, padding, padding);
+  _padding.set_bounds(padding, padding, padding, padding);
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_padding_top(float top) {
-  _padding->set_top(top);
+  _padding.set_top(top);
   recompute_position();
 }
 INLINE void LUIBaseElement::set_padding_right(float right) {
-  _padding->set_right(right);
+  _padding.set_right(right);
   recompute_position();
 }
 INLINE void LUIBaseElement::set_padding_bottom(float bottom) {
-  _padding->set_bottom(bottom);
+  _padding.set_bottom(bottom);
   recompute_position();
 }
 INLINE void LUIBaseElement::set_padding_left(float left) {
-  _padding->set_left(left);
+  _padding.set_left(left);
   recompute_position();
 }
 
 INLINE float LUIBaseElement::get_padding_top() const {
-  return _padding->get_top();
+  return _padding.get_top();
 }
 
 INLINE float LUIBaseElement::get_padding_right() const {
-  return _padding->get_right();
+  return _padding.get_right();
 }
 
 INLINE float LUIBaseElement::get_padding_bottom() const {
-  return _padding->get_bottom();
+  return _padding.get_bottom();
 }
 
 INLINE float LUIBaseElement::get_padding_left() const {
-  return _padding->get_left();
+  return _padding.get_left();
 }
 
-INLINE LUIBounds *LUIBaseElement::get_padding() const {
+INLINE const LUIBounds& LUIBaseElement::get_padding() const {
   return _padding;
 }
 
@@ -299,13 +299,10 @@ INLINE void LUIBaseElement::set_size(const LVector2 &size) {
 INLINE void LUIBaseElement::set_size(float w, float h) {
   // nassertv(w >= 0.0 && h >= 0.0);
   if ( abs(w - _size.get_x()) > 1e-6 || abs(h - _size.get_y()) > 1e-6) {
-    if (_snap_position) {
-      _size.set_x(int(w));
-      _size.set_y(int(h));
-    } else {
-      _size.set_x(w);
-      _size.set_y(h);
-    }
+    if (_snap_position)
+      _size.set(int(w), int(h));
+    else
+      _size.set(w, h);
     recompute_position();
     trigger_event("resized");
   }
@@ -349,7 +346,7 @@ INLINE float LUIBaseElement::get_height() const {
   return _size.get_y();
 }
 
-INLINE const LVector2 &LUIBaseElement::get_size() const {
+INLINE const LVector2& LUIBaseElement::get_size() const {
   return _size;
 }
 
@@ -394,10 +391,10 @@ INLINE bool LUIBaseElement::intersects(float x, float y) const {
       x <= _pos_x + _size.get_x() &&
       y <= _pos_y + _size.get_y() &&
 
-      x >= _abs_clip_bounds->get_x() &&
-      y >= _abs_clip_bounds->get_y() &&
-      x <= _abs_clip_bounds->get_x() + _abs_clip_bounds->get_w() &&
-      y <= _abs_clip_bounds->get_y() + _abs_clip_bounds->get_h()
+      x >= _abs_clip_bounds.get_x() &&
+      y >= _abs_clip_bounds.get_y() &&
+      x <= _abs_clip_bounds.get_x() + _abs_clip_bounds.get_w() &&
+      y <= _abs_clip_bounds.get_y() + _abs_clip_bounds.get_h()
     );
 }
 
@@ -425,27 +422,28 @@ INLINE void LUIBaseElement::end_update_section() {
   }
 }
 
-INLINE void LUIBaseElement::set_clip_bounds(LUIBounds *bounds) {
-  if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << "Setting clip bounds to (" << bounds->get_top() << ", " << bounds->get_right() << " / " << bounds->get_bottom() << " x " << bounds->get_left() << ") .." << endl;
-  }
-  _clip_bounds = new LUIBounds(bounds->get_bounds());
+INLINE void LUIBaseElement::clear_clip_bounds() {
+  _have_clip_bounds = false;
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_clip_bounds(const LUIBounds& bounds) {
+  _clip_bounds = bounds;
+  _have_clip_bounds = true;
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_clip_bounds(float top, float right, float bottom, float left) {
-  if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << "Setting clip bounds to (" << top << ", " << right << " / " << bottom << " x " << left << ") .." << endl;
-  }
-  _clip_bounds = new LUIBounds(top, right, bottom, left);
+  _clip_bounds.set_bounds(top, right, bottom, left);
+  _have_clip_bounds = true;
   recompute_position();
 }
 
-INLINE LUIBounds *LUIBaseElement::get_clip_bounds() const {
+INLINE const LUIBounds& LUIBaseElement::get_clip_bounds() const {
   return _clip_bounds;
 }
 
-INLINE LUIRect *LUIBaseElement::get_abs_clip_bounds() const {
+INLINE const LUIRect& LUIBaseElement::get_abs_clip_bounds() const {
   return _abs_clip_bounds;
 }
 

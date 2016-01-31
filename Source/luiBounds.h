@@ -11,13 +11,14 @@
 #include "luse.h"
 #include "referenceCount.h"
 
-class EXPCL_LUI LUIBounds : public ReferenceCount {
+class EXPCL_LUI LUIBounds {
 
 PUBLISHED:
 
-  LUIBounds(const LVector4 &bounds);
-  LUIBounds(float top, float right, float bottom, float left);
-  ~LUIBounds();
+  LUIBounds() : _bounds(-1) {};
+  explicit LUIBounds(const LVector4 &bounds) : _bounds(bounds) {};
+  LUIBounds(float top, float right, float bottom, float left)
+    : _bounds(top, right, bottom, left) {};
 
   INLINE float get_top() const;
   INLINE float get_right() const;
@@ -34,6 +35,11 @@ PUBLISHED:
   MAKE_PROPERTY(left, get_left);
   MAKE_PROPERTY(right, get_right);
 
+  friend ostream& operator<<(ostream& stream, const LUIBounds& bounds) {
+    return stream << "Bounds[" << bounds.get_top() << ", " << bounds.get_right() << ", "
+                  << bounds.get_bottom() << ", " << bounds.get_left() << "]";
+  }
+
 public:
 
   INLINE void set_top(float top);
@@ -44,8 +50,12 @@ public:
 protected:
 
   LVector4 _bounds;
-
 };
+
+
+INLINE bool operator==(const LUIBounds& a, const LUIBounds& b) { return a.get_bounds() == b.get_bounds(); }
+INLINE bool operator!=(const LUIBounds& a, const LUIBounds& b) { return !(a == b); }
+
 
 #include "luiBounds.I"
 

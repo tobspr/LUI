@@ -172,10 +172,10 @@ void LUISprite::recompute_vertices() {
   float y2 = y1 + _size.get_y();
 
   // Get bounds
-  float bnds_x1 = _abs_clip_bounds->get_x();
-  float bnds_y1 = _abs_clip_bounds->get_y();
-  float bnds_x2 = bnds_x1 + _abs_clip_bounds->get_w();
-  float bnds_y2 = bnds_y1 + _abs_clip_bounds->get_h();
+  float bnds_x1 = _abs_clip_bounds.get_x();
+  float bnds_y1 = _abs_clip_bounds.get_y();
+  float bnds_x2 = bnds_x1 + _abs_clip_bounds.get_w();
+  float bnds_y2 = bnds_y1 + _abs_clip_bounds.get_h();
 
   // Clip position to bounds
   float nx1 = min(bnds_x2, max(bnds_x1, x1));
@@ -205,13 +205,6 @@ void LUISprite::recompute_vertices() {
   u2 += (nx2 - x2) * upp;
   v1 += (ny1 - y1) * vpp;
   v2 += (ny2 - y2) * vpp;
-
-  if (luiSprite_cat.is_spam()) {
-    luiSprite_cat.spam() << "Recomputing, bounds = (" << _abs_clip_bounds->get_x() << ", "
-      << _abs_clip_bounds->get_y() << " / " << _abs_clip_bounds->get_w() << "x" << _abs_clip_bounds->get_h()
-      << "), pos = (" << nx1 << ", " << ny1 << ", " << nx2 << ", " << ny2 << ")"
-      << endl;
-  }
 
   // Update vertex positions
   _data[0].x = nx1;
@@ -252,13 +245,11 @@ void LUISprite::render_recursive(bool is_topmost_pass, bool render_anyway) {
 
   bool do_render = render_anyway || is_topmost_pass == _topmost;
   if (!do_render) return;
-  // bool do_render = false;
 
   _last_render_index = -1;
 
   // We should have a root
   nassertv(_root != NULL);
-
   // We also should have a index
   nassertv(_sprite_index >= 0);
 

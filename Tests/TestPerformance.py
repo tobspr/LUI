@@ -78,7 +78,6 @@ def test_03_reattach_lui_objects():
         object.parent = None
         object.parent = object2
         object.parent = None
-
     region.root.remove_all_children()
 
 @timeit(200, 500)

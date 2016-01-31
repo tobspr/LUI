@@ -66,9 +66,6 @@ INLINE const LColor &LUIColorable::get_composed_color() const {
 }
 
 INLINE void LUIColorable::compose_color(const LColor &parent_color) {
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "Composing color with parent color (" << parent_color.get_x() << ", " << parent_color.get_y() << ", " << parent_color.get_z() << ", " << parent_color.get_w() << ")" << endl;
-  }
 
   _composed_color = LColor(
     parent_color.get_x() * _color.get_x(),

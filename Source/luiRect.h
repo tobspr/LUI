@@ -11,13 +11,12 @@
 #include "luse.h"
 #include "referenceCount.h"
 
-class EXPCL_LUI LUIRect : public ReferenceCount {
+class EXPCL_LUI LUIRect {
 
 PUBLISHED:
-
-  LUIRect(const LVector4 &rect);
-  LUIRect(float x, float y, float w, float h);
-  ~LUIRect();
+  LUIRect() : _rect(-1) {};
+  explicit LUIRect(const LVector4 &rect) : _rect(rect) {};
+  LUIRect(float x, float y, float w, float h) : _rect(x, y, w, h) {};
 
   INLINE float get_x() const;
   INLINE float get_y() const;
@@ -39,18 +38,18 @@ PUBLISHED:
   MAKE_PROPERTY(w, get_w, set_w);
   MAKE_PROPERTY(h, get_h, set_h);
 
-  bool operator==(const LUIRect& other) { return _rect == other._rect; }
-  bool operator!=(const LUIRect& other) { return !(_rect == other._rect); }
-
   friend ostream& operator<<(ostream& stream, const LUIRect& rect) {
     return stream << "Rect[" << rect.get_x() << " x " << rect.get_y() << " / "
-           << rect.get_w() << " x " << rect.get_h() << "]";
+                  << rect.get_w() << " x " << rect.get_h() << "]";
   }
 
 protected:
-
   LVector4 _rect;
 };
+
+
+INLINE bool operator==(const LUIRect& a, const LUIRect& b) { return a.get_rect() == b.get_rect(); }
+INLINE bool operator!=(const LUIRect& a, const LUIRect& b) { return !(a == b); }
 
 #include "luiRect.I"
 
