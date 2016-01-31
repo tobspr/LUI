@@ -11,10 +11,10 @@ class LUISpriteButton(LUIObject):
         self.margin_left = -1
         self.template = template
 
-        self.fit_to_children()
+        # self.fit_to_children()
 
         self.button_sprite = LUISprite(self, template, "skin")
-        self.fit_to_children()
+        # self.fit_to_children()
 
         self.width = width
         self.height = height

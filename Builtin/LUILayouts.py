@@ -101,13 +101,13 @@ class LUIVerticalLayout(LUIBaseLayout):
             current_height += self._spacing // 2
 
         for index, row in enumerate(self._rows):
-            row.fit_to_children()
+            # row.fit_to_children()
             row.top = current_height
             current_height += row.height + self._spacing
             if index != len(self._rows) - 1:
                 self._add_divider(current_height - self._spacing // 2)
 
-        self.fit_to_children()
+        # self.fit_to_children()
         self._in_update_section = False
 
     def _layout_changed(self, event):
@@ -181,13 +181,13 @@ class LUIHorizontalLayout(LUIBaseLayout):
             current_x += self._spacing // 2
 
         for index, column in enumerate(self._columns):
-            column.fit_to_children()
+            # column.fit_to_children()
             column.left = current_x
             current_x += column.width + self._spacing
             if index != len(self._columns) - 1:
                 self._add_divider(current_x - self._spacing // 2)
 
-        self.fit_to_children()
+        # self.fit_to_children()
         self._in_update_section = False
 
     def get(self, index):
@@ -276,24 +276,21 @@ class LUIHorizontalStretchedLayout(LUIObject):
         self._sprite_left = LUISprite(self, "blank", "skin")
         self._sprite_mid = LUISprite(self, "blank", "skin")
         self._sprite_right = LUISprite(self, "blank", "skin")
-        self.prefix = prefix
-        self.recompute()
-        self.fit_to_children()
+        self._prefix = prefix
+        self.width = "100%"
+        self._sprite_right.right = 0
+        self._sprite_mid.left = 0
+        self._sprite_mid.width = "100%"
 
         if parent is not None:
             self.parent = parent
-
-    def recompute(self):
-        """ Recomputes the layout to fit new dimensions """
-        self._sprite_mid.left = self._sprite_left.width
-        self._sprite_mid.width = self.width - self._sprite_left.width - self._sprite_right.width
-        self._sprite_right.left = self._sprite_mid.left + self._sprite_mid.width
 
     def set_prefix(self, prefix):
         """ Sets the layout prefix, this controls which sprites will be used """
         self._sprite_left.set_texture(prefix + "_Left", "skin")
         self._sprite_mid.set_texture(prefix, "skin")
         self._sprite_right.set_texture(prefix + "_Right", "skin")
+        self._sprite_mid.margin = (0, self._sprite_right.width, 0, self._sprite_left.width)
         self._prefix = prefix
         self.recompute()
 
@@ -302,15 +299,3 @@ class LUIHorizontalStretchedLayout(LUIObject):
         return self._prefix
 
     prefix = property(get_prefix, set_prefix)
-
-    def get_sprite_left(self):
-        """ Returns a handle to the left sprite, usually not required """
-        return self._sprite_left
-
-    def get_sprite_mid(self):
-        """ Returns a handle to the middle sprite, usually not required """
-        return self._sprite_mid
-
-    def get_sprite_right(self):
-        """ Returns a handle to the right sprite, usually not required """
-        return self._sprite_right

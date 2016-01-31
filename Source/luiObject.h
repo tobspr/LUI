@@ -23,8 +23,6 @@
 class LUISprite;
 class LUIRoot;
 
-typedef pvector<PT(LUIBaseElement)> LUIChildVector;
-
 NotifyCategoryDecl(luiObject, EXPCL_LUI, EXPTP_LUI);
 
 class EXPCL_LUI LUIObject : public LUIBaseElement {
@@ -34,9 +32,9 @@ class EXPCL_LUI LUIObject : public LUIBaseElement {
 PUBLISHED:
 
   LUIObject(PyObject *self, float x = 0.0, float y = 0.0,
-           float w = 0.0, float h = 0.0, bool solid = false);
+           float w = -1, float h = -1, bool solid = false);
   LUIObject(PyObject *self, LUIObject *parent, float x = 0.0, float y = 0.0,
-           float w = 0.0, float h = 0.0, bool solid = false);
+           float w = -1, float h = -1, bool solid = false);
 
   virtual ~LUIObject();
 
@@ -46,10 +44,6 @@ PUBLISHED:
   INLINE void remove_child(PT(LUIBaseElement) child);
   INLINE void remove_all_children();
   INLINE int get_child_count() const;
-
-  INLINE void fit_to_children();
-  INLINE void fit_height_to_children();
-  INLINE void fit_width_to_children();
 
   INLINE void set_content_node(PT(LUIObject) content_node);
   INLINE PT(LUIObject) get_content_node() const;
@@ -65,6 +59,11 @@ public:
 
   INLINE void on_child_z_offset_changed();
 
+  void update_dimensions();
+
+  INLINE virtual bool has_fluid_width() const;
+  INLINE virtual bool has_fluid_height() const;
+
 protected:
 
   void init();
@@ -78,7 +77,7 @@ protected:
   // Interface to LUIColorable
   INLINE virtual void on_color_changed();
 
-  LUIChildVector _children;
+  pvector<PT(LUIBaseElement)> _children;
   PT(LUIObject) _content_node;
 
   static int _instance_count;
@@ -98,8 +97,6 @@ public:
 
 private:
   static TypeHandle _type_handle;
-
-
 };
 
 #include "luiObject.I"

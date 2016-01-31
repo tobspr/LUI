@@ -23,7 +23,6 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _rel_pos_y(0),
   _placement_x(M_default),
   _placement_y(M_default),
-  _size(0),
   _parent(NULL),
   _root(NULL),
   _z_offset(0.0),
@@ -43,6 +42,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _abs_clip_bounds(0, 0, 1e6, 1e6),
   _clip_bounds(0, 0, 0, 0),
   _have_clip_bounds(false),
+  _effective_size(0),
   LUIColorable()
 {
   // This code here should belong in a _ext file, but that's currently
@@ -103,8 +103,27 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
 LUIBaseElement::~LUIBaseElement() {
 }
 
+
+// Helper function for componentwise maximum
+INLINE LVector2 componentwise_max(const LVector2& a, const LVector2& b) {
+  return LVector2(
+    max(a.get_x(), b.get_x()),
+    max(a.get_y(), b.get_y())
+  );
+}
+
+INLINE LVector2 componentwise_min(const LVector2& a, const LVector2& b) {
+  return LVector2(
+    min(a.get_x(), b.get_x()),
+    min(a.get_y(), b.get_y())
+  );
+}
+
+
 void LUIBaseElement::recompute_position() {
-  if (_in_update_section) return;
+
+  if (_in_update_section)
+    return;
 
   /*
 
@@ -114,10 +133,12 @@ void LUIBaseElement::recompute_position() {
 
   */
 
-  LVector2 ppos(0);
+  LVector2 parent_pos(0);
 
-  float add_x = 0.0;
-  float add_y = 0.0;
+  update_dimensions();
+
+  float local_x_offs = 0.0;
+  float local_y_offs = 0.0;
 
   if (!_parent) {
     // When there is no parent, there is no sense in computing an accurate position
@@ -125,71 +146,71 @@ void LUIBaseElement::recompute_position() {
     _rel_pos_y = _offset_y;
 
   } else {
-
     // Recompute actual position from top/bottom and left/right offsets
-    ppos = _parent->get_abs_pos();
-    LVector2 psize = _parent->get_size();
-    const LUIBounds& ppadding = _parent->get_padding();
+    parent_pos = _parent->get_abs_pos();
+    LVector2 parent_size = _parent->get_size();
+
+    const LUIBounds& parent_padding = _parent->get_padding();
 
     // Compute top
     // Stick top
     if (_placement_y == M_default) {
       _rel_pos_y = _offset_y;
-      add_y = _margin.get_top() + ppadding.get_top();
+      local_y_offs = _margin.get_top() + parent_padding.get_top();
 
     // Stick bottom
     } else if (_placement_y == M_inverse) {
-      _rel_pos_y = psize.get_y() - _offset_y - _size.get_y();
-      add_y = -_margin.get_bottom() - ppadding.get_bottom();
+      _rel_pos_y = parent_size.get_y() - _offset_y - _effective_size.get_y();
+      local_y_offs = -_margin.get_bottom() - parent_padding.get_bottom();
 
     // Stick center
     } else {
-      _rel_pos_y = (psize.get_y() - _size.get_y()) / 2.0;
-      add_y = (_margin.get_top() - _margin.get_bottom()) +
-              (ppadding.get_top() - ppadding.get_bottom());
+      _rel_pos_y = (parent_size.get_y() - _effective_size.get_y()) / 2.0;
+      local_y_offs = (_margin.get_top() - _margin.get_bottom()) +
+              (parent_padding.get_top() - parent_padding.get_bottom());
     }
 
     // Compute left
     // Stick left
     if (_placement_x == M_default) {
       _rel_pos_x = _offset_x;
-      add_x = _margin.get_left() + ppadding.get_left();
+      local_x_offs = _margin.get_left() + parent_padding.get_left();
 
     // Stick right
     } else if (_placement_x == M_inverse) {
-      _rel_pos_x = psize.get_x() - _offset_x - _size.get_x();
-      add_x = - _margin.get_right() - ppadding.get_right();
+      _rel_pos_x = parent_size.get_x() - _offset_x - _effective_size.get_x();
+      local_x_offs = - _margin.get_right() - parent_padding.get_right();
 
     // Center Element
     } else {
-      _rel_pos_x = (psize.get_x() - _size.get_x()) / 2.0;
-       add_x = (_margin.get_left() - _margin.get_right()) +
-               (ppadding.get_left() - ppadding.get_right());
+      _rel_pos_x = (parent_size.get_x() - _effective_size.get_x()) / 2.0;
+       local_x_offs = (_margin.get_left() - _margin.get_right()) +
+               (parent_padding.get_left() - parent_padding.get_right());
     }
   }
+
+  _pos_x = _rel_pos_x + parent_pos.get_x() + local_x_offs;
+  _pos_y = _rel_pos_y + parent_pos.get_y() + local_y_offs;
 
   // In case we snap our position (Default, except for text sprites), we just ceil
   // our position. This prevents subpixel-jittering.
   if (_snap_position) {
     _rel_pos_x = ceil(_rel_pos_x);
     _rel_pos_y = ceil(_rel_pos_y);
+    _pos_x = ceil(_pos_x);
+    _pos_y = ceil(_pos_y);
   }
-
-  _pos_x = _rel_pos_x + ppos.get_x() + add_x;
-  _pos_y = _rel_pos_y + ppos.get_y() + add_y;
 
   // Compute clip rect:
   // Transform local clip bounds to absolute bounds
-  float bx1 = _pos_x;
-  float by1 = _pos_y;
-  float bx2 = bx1 + _size.get_x();
-  float by2 = by1 + _size.get_y();
+  LVector2 abs_bounds_start(_pos_x, _pos_y);
+  LVector2 abs_bounds_end(abs_bounds_start + _effective_size);
 
   if (_have_clip_bounds) {
-    bx1 += _clip_bounds.get_left();
-    by1 += _clip_bounds.get_top();
-    bx2 += -_clip_bounds.get_right();
-    by2 += -_clip_bounds.get_bottom();
+    abs_bounds_start.add_x(_clip_bounds.get_left());
+    abs_bounds_start.add_y(_clip_bounds.get_top());
+    abs_bounds_end.add_x(-_clip_bounds.get_right());
+    abs_bounds_end.add_y(-_clip_bounds.get_bottom());
   }
 
   bool ignore_parent_bounds = _topmost && !_parent->is_topmost();
@@ -197,16 +218,15 @@ void LUIBaseElement::recompute_position() {
   if (_parent && !ignore_parent_bounds) {
     const LUIRect& parent_bounds = _parent->get_abs_clip_bounds();
 
-    // If we have no specific bounds, just take the parent bounds
     if (!_have_clip_bounds) {
+      // If we have no specific bounds, just take the parent bounds
       _abs_clip_bounds = parent_bounds;
     } else {
       // Intersect parent bounds with local bounds
-      float nx = max(bx1, parent_bounds.get_x());
-      float ny = max(by1, parent_bounds.get_y());
-      float nw = max(0.0f, min(bx2, parent_bounds.get_x() + parent_bounds.get_w()) - nx);
-      float nh = max(0.0f, min(by2, parent_bounds.get_y() + parent_bounds.get_h()) - ny);
-      _abs_clip_bounds.set_rect(nx, ny, nw, nh);
+      abs_bounds_start = componentwise_max(abs_bounds_start, parent_bounds.get_xy());
+      abs_bounds_end = componentwise_min(abs_bounds_end, parent_bounds.get_xy() + parent_bounds.get_wh());
+      abs_bounds_end = componentwise_max(abs_bounds_end, LVector2(0)); // Make sure we don't have negative bounds
+      _abs_clip_bounds.set_rect(abs_bounds_start, abs_bounds_end);
     }
 
   } else {
@@ -214,13 +234,37 @@ void LUIBaseElement::recompute_position() {
       // In case we have no clip bounds, set some arbitrary huge bounds
       _abs_clip_bounds.set_rect(0, 0, 1e6, 1e6);
     } else {
-      _abs_clip_bounds.set_rect(bx1, by1, max(0.0f, bx2 - bx1), max(0.0f, by2 - by1));
+      LVector2 local_size = componentwise_max(LVector2(0), abs_bounds_end - abs_bounds_start);
+      _abs_clip_bounds.set_rect(abs_bounds_start, local_size);
     }
   }
 
-  LUIRect current_bounds(_pos_x, _pos_y, _size.get_x(), _size.get_y());
+  // Compute current bounds, and see if something changed
+  LUIRect current_bounds;
+  current_bounds.set_rect(abs_bounds_start, _effective_size);
 
+  // In case something changed, we also have to notify our children
   if (current_bounds != _last_bounds || _abs_clip_bounds != _last_clip_bounds) {
+
+    if (_parent) {
+
+      bool parent_needs_update = false;
+
+      // Check if our x-dimensions changed, and if our parent has to know about it
+      if (contributes_to_fluid_width() && (current_bounds.get_x() != _last_bounds.get_x() ||
+                                           current_bounds.get_w() != _last_bounds.get_w()) ) {
+        parent_needs_update = true;
+      }
+
+      // Check if our y-dimensions changed, and if our parent has to know about it
+      if (contributes_to_fluid_height() && (current_bounds.get_y() != _last_bounds.get_y() ||
+                                            current_bounds.get_h() != _last_bounds.get_h()) ) {
+        parent_needs_update = true;
+      }
+
+      if (parent_needs_update) _parent->recompute_position();
+    }
+
     _last_bounds = current_bounds;
     _last_clip_bounds = _abs_clip_bounds;
     on_bounds_changed();
@@ -320,4 +364,21 @@ void LUIBaseElement::clear_parent() {
     return;
   }
   _parent->remove_child(this);
+}
+
+
+void LUIBaseElement::update_dimensions() {
+  if (!_size_x.has_expression() || !_size_y.has_expression()) {
+    luiBaseElement_cat.error() << "No explicit dimensions set on element, skipping" << endl;
+    return;
+  }
+  if (_parent) {
+    float available_width = _parent->get_inner_width() - _margin.get_left() - _margin.get_right();
+    float available_height = _parent->get_inner_height() - _margin.get_top() - _margin.get_bottom();
+    _effective_size.set_x(_size_x.evaluate(available_width));
+    _effective_size.set_y(_size_y.evaluate(available_height));
+  } else {
+    _effective_size.set_x(_size_x.evaluate(0));
+    _effective_size.set_y(_size_y.evaluate(0));
+  }
 }

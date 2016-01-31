@@ -14,6 +14,7 @@
 #include "luiColorable.h"
 #include "luiBounds.h"
 #include "luiRect.h"
+#include "luiExpression.h"
 
 #include <unordered_map>
 
@@ -31,7 +32,6 @@ class EXPCL_LUI LUIBaseElement : public TypedReferenceCount, public LUIColorable
   friend class LUIText;
 
 PUBLISHED:
-
   LUIBaseElement(PyObject *self);
   virtual ~LUIBaseElement();
 
@@ -159,6 +159,12 @@ PUBLISHED:
   INLINE void set_emits_changed_event(bool emit);
   INLINE bool get_emits_changed_event() const;
 
+  INLINE float get_x_extent();
+  INLINE float get_y_extent();
+
+  INLINE float get_inner_width();
+  INLINE float get_inner_height();
+
   // Properties for python
   MAKE_PROPERTY(left_top, get_left_top, set_left_top);
   MAKE_PROPERTY(right_top, get_right_top, set_right_top);
@@ -205,6 +211,12 @@ PUBLISHED:
 
   MAKE_PROPERTY(emits_changed_event, get_emits_changed_event, set_emits_changed_event);
 
+  MAKE_PROPERTY(x_extent, get_x_extent);
+  MAKE_PROPERTY(y_extent, get_y_extent);
+
+  MAKE_PROPERTY(inner_width, get_inner_width);
+  MAKE_PROPERTY(inner_height, get_inner_height);
+
 public:
 
   INLINE void do_set_parent(LUIObject* parent);
@@ -219,6 +231,12 @@ public:
   INLINE int get_last_render_index() const;
 
   INLINE void do_set_z_offset(int z_offset);
+
+  INLINE bool contributes_to_fluid_width() const;
+  INLINE bool contributes_to_fluid_height() const;
+
+  virtual void update_dimensions();
+
 
 protected:
 
@@ -256,7 +274,11 @@ protected:
   LUIPlacementMode _placement_x, _placement_y;
   PN_stdfloat _pos_x, _pos_y;
   PN_stdfloat _rel_pos_x, _rel_pos_y;
-  LVector2 _size;
+
+  LUIExpression _size_x;
+  LUIExpression _size_y;
+  LVector2 _effective_size;
+
   bool _visible;
   bool _emits_changed_event;
 

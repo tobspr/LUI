@@ -43,7 +43,7 @@ if __name__ == "__main__":
     checkbox = LUICheckbox(checked=False, label=u"Sample checkbox")
     checkboxChecked = LUICheckbox(checked=True, label=u"Checked checkbox")
 
-    skinParent.fit_to_children()
+    # skinParent.fit_to_children()
 
     group = LUIRadioboxGroup()
     radiobox = LUILabeledRadiobox(group=group, value=5, text=u"Radiobox")
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     layout.add(LUIKeyInstruction(key=u"Enter", instruction=u"Another action"))
     layout.top = 80
 
-    skinParent.fit_to_children()
+    # skinParent.fit_to_children()
 
     bgFrame = LUISprite(region.root, "blurred_background.jpg")
     bgFrame.bind("click", lambda event: bgFrame.request_focus())

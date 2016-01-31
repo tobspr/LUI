@@ -41,7 +41,7 @@ class LUISelectbox(LUIObject):
         self._bg_right.bind("click", self.on_click)
         self._bg_right.bind("click", self.on_click)
 
-        self.fit_to_children()
+        # self.fit_to_children()
 
         self._drop_menu = LUISelectdrop(parent=self, width=width)
         self._drop_menu.top = self._bg_mid.height - 7

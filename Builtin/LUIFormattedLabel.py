@@ -22,7 +22,7 @@ class LUIFormattedLabel(LUIObject):
         """ Removes all text from this label and resets it to the initial state """
         self._cursor.set(0, 0)
         self.remove_all_children()
-        self.fit_to_children()
+        # self.fit_to_children()
 
     def newline(self, font_size=None):
         """ Moves the cursor to the next line. The font size controlls how much
@@ -41,4 +41,4 @@ class LUIFormattedLabel(LUIObject):
             self._last_size = 14
         label = LUILabel(parent=self,left=self._cursor.x, top=self._cursor.y, *args, **kwargs)
         self._cursor.x += label.width
-        self.fit_to_children()
+        # self.fit_to_children()

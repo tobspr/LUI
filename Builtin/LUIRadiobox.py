@@ -17,7 +17,7 @@ class LUIRadiobox(LUIObject):
         self._label.top = (self._label.height - self._sprite.height) // 2 - 1
         self._label.bind("resized", self._on_label_resized)
 
-        self.fit_to_children()
+        # self.fit_to_children()
         self._group = group
         self._group.register_box(self)
         self._active = False
@@ -28,7 +28,7 @@ class LUIRadiobox(LUIObject):
 
     def _on_label_resized(self, event):
         """ Internal handler when the text of the label got changed """
-        self.fit_to_children()
+        # self.fit_to_children()
 
     def on_click(self, event):
         """ Internal onclick handler. Do not override. """

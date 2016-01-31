@@ -46,7 +46,7 @@ class LUIInputField(LUIObject):
         self._tickrate = 1.0
         self._tickstart = 0.0
 
-        self.fit_to_children()
+        # self.fit_to_children()
         self._render_text()
 
         if parent is not None:

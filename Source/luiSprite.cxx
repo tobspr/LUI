@@ -61,8 +61,7 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
   begin_update_section();
   set_color(color);
   set_uv_range(0, 0, 1, 1);
-  _size.set_x(1);
-  _size.set_y(1);
+  set_size(1, 1);
   set_pos(x, y);
   end_update_section();
 
@@ -82,7 +81,7 @@ LUISprite::~LUISprite() {
 void LUISprite::ls(int indent) {
   cout << string(indent, ' ')  << "[LUISprite] pos = "
       << _pos_x << ", " << _pos_y
-      << "; size = " << _size.get_x() << " x " << _size.get_y()
+      << "; size = " << get_width() << " x " << get_height()
       << "; tex = " << (_tex != NULL ? _tex->get_name() : "none")
       << "; z = " << _z_offset << endl;
 }
@@ -165,11 +164,17 @@ void LUISprite::unassign_sprite_index() {
 
 void LUISprite::recompute_vertices() {
 
+  /*
+
+  TODO: Use LVector2 to simplify the calculations
+
+  */
+
   // Get current position
   float x1 = _pos_x;
   float y1 = _pos_y;
-  float x2 = x1 + _size.get_x();
-  float y2 = y1 + _size.get_y();
+  float x2 = x1 + _effective_size.get_x();
+  float y2 = y1 + _effective_size.get_y();
 
   // Get bounds
   float bnds_x1 = _abs_clip_bounds.get_x();

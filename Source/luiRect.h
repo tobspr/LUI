@@ -23,12 +23,16 @@ PUBLISHED:
   INLINE float get_w() const;
   INLINE float get_h() const;
 
+  INLINE LVector2 get_xy() const;
+  INLINE LVector2 get_wh() const;
+
   INLINE void set_x(float x);
   INLINE void set_y(float y);
   INLINE void set_w(float w);
   INLINE void set_h(float h);
 
-  INLINE void set_rect(const LVector4 &rect);
+  INLINE void set_rect(const LVector4& rect);
+  INLINE void set_rect(const LVector2& xy, const LVector2& wh);
   INLINE void set_rect(float x, float y, float w, float h);
 
   INLINE const LVector4 &get_rect() const;

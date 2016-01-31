@@ -5,16 +5,9 @@ INLINE void LUISprite::set_uv_range(const LTexCoord &uv_begin, const LTexCoord &
 }
 
 INLINE void LUISprite::set_uv_range(float u0, float v0, float u1, float v1) {
-
-  _uv_begin.set_x(u0);
-  _uv_begin.set_y(v0);
-
-  _uv_end.set_x(u1);
-  _uv_end.set_y(v1);
-
-
+  _uv_begin.set(u0, v0);
+  _uv_end.set(u1, v1);
 }
-
 
 INLINE const LTexCoord &LUISprite::get_uv_begin() const {
   return _uv_begin;
@@ -25,7 +18,6 @@ INLINE const LTexCoord &LUISprite::get_uv_end() const {
 }
 
 INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
-
   if (tex == _tex) {
     // No change
     return;
@@ -39,7 +31,6 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
   }
 
   if (tex != NULL) {
-
     if (luiSprite_cat.is_spam()) {
       luiSprite_cat.spam() << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
     }
@@ -119,7 +110,6 @@ INLINE void LUISprite::print_vertices() {
       << "; UV = " << _data[i].u << "," << _data[i].v
       << " COL = " << (float)_data[i].color[0] << "," << (float)_data[i].color[1] << "," << (float)_data[i].color[2] << "," << (float)_data[i].color[3] << endl;
   }
-
 }
 
 INLINE void LUISprite::on_bounds_changed() {}
@@ -145,15 +135,5 @@ INLINE void LUISprite::on_color_changed() {
 }
 
 INLINE void LUISprite::init_size(float w, float h) {
-  // if (w > 0.0 && h > 0.0) {
-  //   set_size(w, h);
-  // } else if (w > 0.0) {
-  //   set_width(w);
-  // } else if (h > 0.0) {
-  //   set_height(h);
-  // }
-  if (w > 0.0) _size.set_x(w);
-  if (h > 0.0) _size.set_y(h);
-  recompute_position();
+  set_size(w, h);
 }
-

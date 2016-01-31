@@ -35,7 +35,7 @@ class DemoFramework:
     """ This is a small helper class to setup common stuff for the demos """
 
     def __init__(self):
-        base.win.set_clear_color(Vec4(0, 0, 0, 1))
+        base.win.set_clear_color(Vec4(0.1, 0.0, 0.0, 1))
         self._skin = LUIDefaultSkin()
         self._skin.load()
 
@@ -52,7 +52,6 @@ class DemoFramework:
 
         # Background
         self._background = LUISprite(self._root, "res/DemoBackground.png")
-
 
         # Make the background solid and recieve events
         self._background.solid = True

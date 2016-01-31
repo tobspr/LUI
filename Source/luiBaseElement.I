@@ -297,57 +297,43 @@ INLINE void LUIBaseElement::set_size(const LVector2 &size) {
 }
 
 INLINE void LUIBaseElement::set_size(float w, float h) {
-  // nassertv(w >= 0.0 && h >= 0.0);
-  if ( abs(w - _size.get_x()) > 1e-6 || abs(h - _size.get_y()) > 1e-6) {
-    if (_snap_position)
-      _size.set(int(w), int(h));
-    else
-      _size.set(w, h);
-    recompute_position();
-    trigger_event("resized");
+  if (_snap_position) {
+    w = ceil(w);
+    h = ceil(h);
   }
+  _size_x.load_expression(w);
+  _size_y.load_expression(h);
+  recompute_position();
 }
 
 INLINE bool LUIBaseElement::has_size() const {
-  return _size.get_x() > 0.0 && _size.get_y() > 0.0;
+  return _effective_size.get_x() > 0.0 && _effective_size.get_y() > 0.0;
 }
 
 INLINE void LUIBaseElement::set_width(float w) {
-  // nassertv(w >= 0.0);
-  if ( abs(w - _size.get_x()) > 1e-6 ) {
-    if (_snap_position) {
-      _size.set_x(int(w));
-    } else {
-      _size.set_x(w);
-    }
-    recompute_position();
-    trigger_event("resized");
-  }
+  if (_snap_position)
+    w = ceil(w);
+  _size_x.load_expression(w);
+  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_height(float h) {
-  // nassertv(h >= 0.0);
-  if ( abs(h - _size.get_y()) > 1e-6 ) {
-    if (_snap_position) {
-      _size.set_y(int(h));
-    } else {
-      _size.set_y(h);
-    }
-    recompute_position();
-    trigger_event("resized");
-  }
+  if (_snap_position)
+    h = ceil(h);
+  _size_y.load_expression(h);
+  recompute_position();
 }
 
 INLINE float LUIBaseElement::get_width() const {
-  return _size.get_x();
+  return _effective_size.get_x();
 }
 
 INLINE float LUIBaseElement::get_height() const {
-  return _size.get_y();
+  return _effective_size.get_y();
 }
 
 INLINE const LVector2& LUIBaseElement::get_size() const {
-  return _size;
+  return _effective_size;
 }
 
 INLINE void LUIBaseElement::set_visible(bool visible) {
@@ -387,8 +373,8 @@ INLINE bool LUIBaseElement::intersects(float x, float y) const {
   return (
       x >= _pos_x &&
       y >= _pos_y &&
-      x <= _pos_x + _size.get_x() &&
-      y <= _pos_y + _size.get_y() &&
+      x <= _pos_x + _effective_size.get_x() &&
+      y <= _pos_y + _effective_size.get_y() &&
 
       x >= _abs_clip_bounds.get_x() &&
       y >= _abs_clip_bounds.get_y() &&
@@ -484,7 +470,6 @@ INLINE bool LUIBaseElement::get_solid() const {
   return _solid;
 }
 
-
 INLINE void LUIBaseElement::set_emits_changed_event(bool emit){
   _emits_changed_event = emit;
 }
@@ -493,3 +478,27 @@ INLINE bool LUIBaseElement::get_emits_changed_event() const {
   return _emits_changed_event;
 }
 
+INLINE bool LUIBaseElement::contributes_to_fluid_width() const {
+  return _placement_x == M_default;
+}
+
+INLINE bool LUIBaseElement::contributes_to_fluid_height() const {
+  return _placement_y == M_default;
+}
+
+
+INLINE float LUIBaseElement::get_inner_width() {
+  return _effective_size.get_x() - _padding.get_left() - _padding.get_right();
+}
+
+INLINE float LUIBaseElement::get_inner_height() {
+  return _effective_size.get_y() - _padding.get_top() - _padding.get_bottom();
+}
+
+INLINE float LUIBaseElement::get_x_extent() {
+  return _pos_x + _effective_size.get_x() + _margin.get_left() + _margin.get_right();
+}
+
+INLINE float LUIBaseElement::get_y_extent() {
+  return _pos_y + _effective_size.get_y() + _margin.get_top() + _margin.get_bottom();
+}

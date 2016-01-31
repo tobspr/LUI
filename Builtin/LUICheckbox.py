@@ -22,11 +22,11 @@ class LUICheckbox(LUIObject):
         self._label.bind("resized", self._on_label_resized)
         self._checked = checked
         self._update_sprite()
-        self.fit_to_children()
+        # self.fit_to_children()
 
     def _on_label_resized(self, event):
         """ Internal handler when the text of the label got changed """
-        self.fit_to_children()
+        # self.fit_to_children()
 
     def on_click(self, event):
         """ Internal onclick handler. Do not override """

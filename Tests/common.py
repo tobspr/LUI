@@ -16,7 +16,7 @@ load_prc_file_data("", """
     textures-power-2 none
     notify-level-lui warning
     show-frame-rate-meter #f
-    win-size 1 1
+    win-size 512 512
     window-title LUI Performance Test
     win-fixed-size #f
 """)
@@ -56,54 +56,3 @@ class timeit(object):
             print(" + This is", round(duration / (self._iterations * self._internal_iterations) * 1000.0, 5),
                   "ms per internal iteration")
         return _wrap
-
-@timeit(200, 100)
-def test_01_create_lui_objects():
-    for i in range(100):
-        object = LUIObject(parent=region.root)
-    region.root.remove_all_children()
-
-@timeit(200, 100)
-def test_02_create_lui_sprites():
-    for i in range(100):
-        object = LUISprite(region.root, "blank", "skin")
-    region.root.remove_all_children()
-
-@timeit(200, 2500)
-def test_03_reattach_lui_objects():
-    object = LUIObject()
-    object2 = LUIObject(parent=region.root)
-    for i in range(2500):
-        object.parent = region.root
-        object.parent = None
-        object.parent = object2
-        object.parent = None
-    region.root.remove_all_children()
-
-@timeit(200, 2500)
-def test_04_positioning():
-    object = LUIObject(parent=region.root)
-    for i in range(2500):
-        object.left = 3
-        object.right = 8
-        object.top = 3
-        object.bottom = -2
-        object.center_vertical = True
-        object.center_horizontal = True
-        object.centered = False, False
-        object.top += 3
-    region.root.remove_all_children()
-
-@timeit(40, 10)
-def test_05_vertical_layouts():
-    layout = LUIVerticalLayout(parent=region.root)
-    for i in range(10):
-        for k in range(10):
-            obj = LUIObject()
-            sprite = LUISprite(obj, "blank", "skin")
-            layout.add(obj)
-        layout.reset()
-    region.root.remove_all_children()
-
-# Execute all tests
-[v() for k, v in sorted(dict(locals()).items()) if k.startswith("test_")]

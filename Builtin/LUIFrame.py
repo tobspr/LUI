@@ -65,18 +65,3 @@ class LUIFrame(LUIObject):
         """ Internal callback when the Frame got resized """
         self._layout.size = self.size + 2* self._border_size
         self._layout.update_layout()
-
-    def fit_to_children(self):
-        """ Resizes the frame so it exactly fits its contents """
-        self._layout.size = 0, 0
-        LUIObject.fit_to_children(self)
-
-    def fit_height_to_children(self):
-        """ Resizes the frame vertically to fit its contents """
-        self._layout.size = 0, 0
-        LUIObject.fit_height_to_children(self)
-
-    def fit_width_to_children(self):
-        """ Resizes the frame horizontally to fit its contents """
-        self._layout.size = 0, 0
-        LUIObject.fit_width_to_children(self)
