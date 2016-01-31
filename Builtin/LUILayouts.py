@@ -272,18 +272,18 @@ class LUIHorizontalStretchedLayout(LUIObject):
     one will be stretched to fit the layout """
 
     def __init__(self, parent=None, width=200, prefix="ButtonDefault"):
-        LUIObject.__init__(self, x=0, y=0, w=width, h=0)
+        LUIObject.__init__(self, x=0, y=0, w=width, h=-1)
         self._sprite_left = LUISprite(self, "blank", "skin")
         self._sprite_mid = LUISprite(self, "blank", "skin")
         self._sprite_right = LUISprite(self, "blank", "skin")
-        self._prefix = prefix
         self.width = "100%"
         self._sprite_right.right = 0
         self._sprite_mid.left = 0
-        self._sprite_mid.width = "100%"
 
         if parent is not None:
             self.parent = parent
+
+        self.prefix = prefix
 
     def set_prefix(self, prefix):
         """ Sets the layout prefix, this controls which sprites will be used """
@@ -291,8 +291,8 @@ class LUIHorizontalStretchedLayout(LUIObject):
         self._sprite_mid.set_texture(prefix, "skin")
         self._sprite_right.set_texture(prefix + "_Right", "skin")
         self._sprite_mid.margin = (0, self._sprite_right.width, 0, self._sprite_left.width)
+        self._sprite_mid.width = "100%"
         self._prefix = prefix
-        self.recompute()
 
     def get_prefix(self):
         """ Returns the layout prefix """

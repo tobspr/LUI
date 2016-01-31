@@ -134,6 +134,7 @@ INLINE void LUIObject::update_dimensions() {
     }
     max_x -= get_abs_pos().get_x();
     max_x -= _padding.get_left() + _padding.get_right();
+    max_x = ceil(max_x);
     _effective_size.set_x(max_x);
   }
 
@@ -161,5 +162,9 @@ INLINE void LUIObject::update_dimensions() {
     _effective_size.set_y(max_y);
   }
 
-  // cout << "Updated position, new effective size is " << _effective_size << endl;
+  if (_snap_position) {
+    _effective_size.set_x(ceil(_effective_size.get_x()));
+    _effective_size.set_y(ceil(_effective_size.get_y()));
+  }
+
 }

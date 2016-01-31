@@ -16,7 +16,7 @@ INLINE void LUIBaseElement::unbind(const string &event_name) {
     luiBaseElement_cat.spam() << "Unbinding event '" << event_name << "'" << endl;
   }
 
-  auto elem_it = _events.find(event_name);
+  const auto elem_it = _events.find(event_name);
   if (elem_it != _events.end()) {
     _events.erase(elem_it);
   }
@@ -296,11 +296,36 @@ INLINE void LUIBaseElement::set_size(const LVector2 &size) {
   set_size(size.get_x(), size.get_y());
 }
 
+
 INLINE void LUIBaseElement::set_size(float w, float h) {
   if (_snap_position) {
     w = ceil(w);
     h = ceil(h);
   }
+  _size_x.load_expression(w);
+  _size_y.load_expression(h);
+  recompute_position();
+}
+
+
+INLINE void LUIBaseElement::set_size(const string& w, const string& h) {
+  _size_x.load_expression(w);
+  _size_y.load_expression(h);
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_size(const string& w, float h) {
+  if (_snap_position)
+    h = ceil(h);
+  _size_x.load_expression(w);
+  _size_y.load_expression(h);
+  recompute_position();
+}
+
+
+INLINE void LUIBaseElement::set_size(float w, const string& h) {
+  if (_snap_position)
+    w = ceil(w);
   _size_x.load_expression(w);
   _size_y.load_expression(h);
   recompute_position();
@@ -317,9 +342,19 @@ INLINE void LUIBaseElement::set_width(float w) {
   recompute_position();
 }
 
+INLINE void LUIBaseElement::set_width(const string& w) {
+  _size_x.load_expression(w);
+  recompute_position();
+}
+
 INLINE void LUIBaseElement::set_height(float h) {
   if (_snap_position)
     h = ceil(h);
+  _size_y.load_expression(h);
+  recompute_position();
+}
+
+INLINE void LUIBaseElement::set_height(const string& h) {
   _size_y.load_expression(h);
   recompute_position();
 }
@@ -496,9 +531,9 @@ INLINE float LUIBaseElement::get_inner_height() {
 }
 
 INLINE float LUIBaseElement::get_x_extent() {
-  return _pos_x + _effective_size.get_x() + _margin.get_left() + _margin.get_right();
+  return _pos_x + _effective_size.get_x() + _margin.get_right();
 }
 
 INLINE float LUIBaseElement::get_y_extent() {
-  return _pos_y + _effective_size.get_y() + _margin.get_top() + _margin.get_bottom();
+  return _pos_y + _effective_size.get_y() + _margin.get_bottom();
 }

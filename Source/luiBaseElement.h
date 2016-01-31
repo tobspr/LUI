@@ -111,8 +111,13 @@ PUBLISHED:
   // Size
   INLINE void set_size(const LVector2 &size);
   INLINE void set_size(float w, float h);
+  INLINE void set_size(const string& w, float h);
+  INLINE void set_size(const string& w, const string& h);
+  INLINE void set_size(float w, const string& h);
   INLINE void set_width(float w);
   INLINE void set_height(float h);
+  INLINE void set_width(const string& w);
+  INLINE void set_height(const string& h);
   INLINE float get_width() const;
   INLINE float get_height() const;
   INLINE bool has_size() const;
@@ -236,7 +241,6 @@ public:
   INLINE bool contributes_to_fluid_height() const;
 
   virtual void update_dimensions();
-
 
 protected:
 

@@ -381,4 +381,8 @@ void LUIBaseElement::update_dimensions() {
     _effective_size.set_x(_size_x.evaluate(0));
     _effective_size.set_y(_size_y.evaluate(0));
   }
+  if (_snap_position) {
+    _effective_size.set_x(ceil(_effective_size.get_x()));
+    _effective_size.set_y(ceil(_effective_size.get_y()));
+  }
 }

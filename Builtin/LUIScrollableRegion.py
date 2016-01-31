@@ -94,7 +94,7 @@ class LUIScrollableRegion(LUIObject):
 
     def _update_height(self, event):
         """ Internal handler to update the scroll height """
-        self.content_scroller.fit_height_to_children()
+        # self.content_scroller.fit_height_to_children()
         self._content_height = max(1, self.content_scroller.height)
         self._update()
 

@@ -1,6 +1,7 @@
 #include "luiExpression.h"
 
-#include <stdexcept>
+#include "pstrtod.h"
+
 
 NotifyCategoryDef(luiExpression, ":lui");
 
@@ -30,16 +31,15 @@ void LUIExpression::load_expression(const string& str) {
     }
 
     string val = str.substr(0, str.size() - 1);
-    float float_val = 0.0;
 
-    try {
-        float_val = std::stof(val);
-    } catch (const std::invalid_argument &e) {
-        luiExpression_cat.error() << "Could not parse float '" << val << "': " << e.what() << endl;
+    char* endptr;
+    double d_val = pstrtod(val.c_str(), &endptr);
+
+    if (*endptr != 0) {
+        luiExpression_cat.error() << "Could not parse float '" << val << "'" << endl;
         return;
     }
-
-    _value = float_val;
+    _value = (float)(d_val / 100.0);
     _type = ET_percentage;
 }
 

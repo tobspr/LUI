@@ -168,10 +168,10 @@ class DemoFramework:
         self.update_layouts()
 
     def update_layouts(self):
-        self._public_functions.fit_height_to_children()
+        # self._public_functions.fit_height_to_children()
         # self._constructor_parameter_frame.fit_height_to_children()
-        self._events.fit_height_to_children()
-        self._properties.fit_height_to_children()
+        # self._events.fit_height_to_children()
+        # self._properties.fit_height_to_children()
         self._right_bar.update()
 
     def construct_sourcecode(self, classname):
@@ -214,8 +214,8 @@ class DemoFramework:
 
         self._copy_code_button.bind("click", copy_code)
 
-        self._source_content.fit_height_to_children()
-        self._source_container.fit_height_to_children()
+        # self._source_content.fit_height_to_children()
+        # self._source_container.fit_height_to_children()
         self._source_container.height += 40
 
 
