@@ -237,9 +237,6 @@ class LUICornerLayout(LUIObject):
         self._parts["Mid"].margin = (self._parts["Top"].height, self._parts["Right"].width,
                                      self._parts["Bottom"].height, self._parts["Left"].width)
 
-        # self._parts["Mid"].hide()
-        # print(self._parts["Mid"].margin)
-
         # Bottom and Right
         self._parts["Bottom"].width = "100%"
         self._parts["Bottom"].margin = (0, self._parts["BR"].width, 0, self._parts["BL"].width)
@@ -254,11 +251,6 @@ class LUICornerLayout(LUIObject):
         self._parts["TR"].top_right = 0, 0
         self._parts["BL"].bottom_left = 0, 0
         self._parts["BR"].bottom_right = 0, 0
-
-        self._parts["Mid"].top_left = 0, 0
-        self._parts["Mid"].ls()
-        print(self._parts["Mid"].margin.get_bounds())
-        self._parts["Mid"].print_vertices()
 
     def set_prefix(self, prefix):
         """ Changes the texture of the layout """
