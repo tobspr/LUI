@@ -71,7 +71,6 @@ protected:
 
   // Interface to LUIBaseElement
   INLINE virtual void on_bounds_changed();
-  INLINE virtual void on_visibility_changed();
   INLINE virtual void on_detached();
   virtual void set_root(LUIRoot* root);
   virtual void render_recursive(bool is_topmost_pass, bool render_anyway);

@@ -59,13 +59,10 @@ private:
   PT(LUIRoot) _lui_root;
   PT(LUIInputHandler) _input_handler;
   int _width, _height;
-
   bool _wireframe;
 
   PT(Shader) _object_shader;
   PT(Texture) _empty_tex;
-  // void process_inputs();
-
 
 public:
   static TypeHandle get_class_type() {

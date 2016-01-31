@@ -90,7 +90,6 @@ protected:
 
   // Interface to LUIBaseElement
   INLINE void on_bounds_changed();
-  INLINE void on_visibility_changed();
   INLINE void on_detached();
   void set_root(LUIRoot* root);
 

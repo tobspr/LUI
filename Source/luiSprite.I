@@ -122,11 +122,7 @@ INLINE void LUISprite::print_vertices() {
 
 }
 
-INLINE void LUISprite::on_bounds_changed() {
-}
-
-INLINE void LUISprite::on_visibility_changed() {
-}
+INLINE void LUISprite::on_bounds_changed() {}
 
 INLINE void LUISprite::on_detached() {
   unregister_events();
@@ -134,7 +130,7 @@ INLINE void LUISprite::on_detached() {
     unassign_sprite_index();
   }
   _root = NULL;
-  // _parent = NULL;
+  _parent = NULL;
 }
 
 INLINE void LUISprite::on_color_changed() {

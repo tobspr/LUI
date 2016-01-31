@@ -224,9 +224,7 @@ void LUIBaseElement::recompute_position() {
     _last_bounds = current_bounds;
     _last_clip_bounds = _abs_clip_bounds;
     on_bounds_changed();
-  } else {
   }
-
 }
 
 void LUIBaseElement::register_events() {
@@ -235,14 +233,8 @@ void LUIBaseElement::register_events() {
       _events_registered = true;
 
       if (luiBaseElement_cat.is_spam()) {
-        luiBaseElement_cat.spam() << "Registering events for object .." << endl;
+        luiBaseElement_cat.spam() << "Registered events for object" << endl;
       }
-  } else {
-    if (luiBaseElement_cat.is_spam()) {
-      luiBaseElement_cat.spam() << "Did not register events, root = " << (_root==NULL?"NULL":"valid")
-                                << ", registered = " << (_events_registered ? "1":"0") << ", parent = "
-                                << (_parent==NULL?"NULL" : "valid") << " .." << endl;
-    }
   }
 }
 
@@ -252,13 +244,8 @@ void LUIBaseElement::unregister_events() {
     _events_registered = false;
 
     if (luiBaseElement_cat.is_spam()) {
-      luiBaseElement_cat.spam() << "Un-registering events for object .." << endl;
+      luiBaseElement_cat.spam() << "Un-registered events for object" << endl;
     }
-  } else {
-      if (luiBaseElement_cat.is_spam()) {
-        luiBaseElement_cat.spam() << "Did not unregister events, root = " << (_root == NULL?"NULL":"valid")
-                                  << ", registered = " << (_events_registered ? "1":"0") << " .." << endl;
-      }
   }
 }
 
@@ -321,11 +308,10 @@ float LUIBaseElement::get_parent_height() const {
 }
 
 void LUIBaseElement::on_color_changed() {
-  if (_parent) {
+  if (_parent)
     compose_color(_parent->get_composed_color());
-  } else {
+  else
     compose_color();
-  }
 }
 
 void LUIBaseElement::clear_parent() {

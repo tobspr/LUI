@@ -88,7 +88,6 @@ INLINE int LUIObject::get_child_count() const {
 
 INLINE void LUIObject::on_color_changed() {
   LUIBaseElement::on_color_changed();
-
   for (auto it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->on_color_changed();
   }
@@ -104,10 +103,6 @@ INLINE void LUIObject::on_bounds_changed() {
   }
 }
 
-INLINE void LUIObject::on_visibility_changed() {
-}
-
-
 INLINE void LUIObject::on_detached() {
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Got detached .." << endl;
@@ -115,7 +110,7 @@ INLINE void LUIObject::on_detached() {
 
   unregister_events();
   _root = NULL;
-  // _parent = NULL;
+  _parent = NULL;
 
   for (auto it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->on_detached();
@@ -124,54 +119,54 @@ INLINE void LUIObject::on_detached() {
 
 INLINE void LUIObject::fit_to_children() {
 
-  float maxX = 0;
-  float maxY = 0;
+  float max_x = 0;
+  float max_y = 0;
 
   for (auto it = _children.begin(); it!= _children.end(); ++it) {
     LUIBaseElement* child = (*it);
     LPoint2 pos = get_relative_pos(child->get_abs_pos());
 
     if (child->_placement_x == M_default) {
-      maxX = max(maxX, pos.get_x() + child->get_width());
+      max_x = max(max_x, pos.get_x() + child->get_width());
     }
 
     if (child->_placement_y == M_default) {
-      maxY = max(maxY, pos.get_y() + child->get_height());
+      max_y = max(max_y, pos.get_y() + child->get_height());
     }
   }
 
-  maxX = max(get_padding_left(), maxX);
-  maxY = max(get_padding_top(), maxY);
+  max_x = max(get_padding_left(), max_x);
+  max_y = max(get_padding_top(), max_y);
 
-  set_size(maxX + get_padding_right(), maxY + get_padding_bottom());
+  set_size(max_x + get_padding_right(), max_y + get_padding_bottom());
 }
 
 INLINE void LUIObject::fit_height_to_children() {
-  float maxY = 0;
+  float max_y = 0;
 
   for (auto it = _children.begin(); it!= _children.end(); ++it) {
     LUIBaseElement* child = (*it);
     LPoint2 pos = get_relative_pos(child->get_abs_pos());
     if (child->_placement_y == M_default) {
-      maxY = max(maxY, pos.get_y() + child->get_height());
+      max_y = max(max_y, pos.get_y() + child->get_height());
     }
   }
-  maxY = max(get_padding_top(), maxY);
-  set_height(maxY + get_padding_bottom());
+  max_y = max(get_padding_top(), max_y);
+  set_height(max_y + get_padding_bottom());
 }
 
 INLINE void LUIObject::fit_width_to_children() {
-  float maxX = 0;
+  float max_x = 0;
 
   for (auto it = _children.begin(); it!= _children.end(); ++it) {
     LUIBaseElement* child = (*it);
     LPoint2 pos = get_relative_pos(child->get_abs_pos());
     if (child->_placement_x == M_default) {
-      maxX = max(maxX, pos.get_x() + child->get_width());
+      max_x = max(max_x, pos.get_x() + child->get_width());
     }
   }
-  maxX = max(get_padding_left(), maxX);
-  set_height(maxX + get_padding_right());
+  max_x = max(get_padding_left(), max_x);
+  set_height(max_x + get_padding_right());
 }
 
 INLINE void LUIObject::set_content_node(PT(LUIObject) content_node) {

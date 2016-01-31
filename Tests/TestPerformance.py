@@ -69,21 +69,21 @@ def test_02_create_lui_sprites():
         object = LUISprite(region.root, "blank", "skin")
     region.root.remove_all_children()
 
-@timeit(200, 500)
+@timeit(200, 2500)
 def test_03_reattach_lui_objects():
     object = LUIObject()
     object2 = LUIObject(parent=region.root)
-    for i in range(500):
+    for i in range(2500):
         object.parent = region.root
         object.parent = None
         object.parent = object2
         object.parent = None
     region.root.remove_all_children()
 
-@timeit(200, 500)
+@timeit(200, 2500)
 def test_04_positioning():
     object = LUIObject(parent=region.root)
-    for i in range(500):
+    for i in range(2500):
         object.left = 3
         object.right = 8
         object.top = 3
@@ -106,5 +106,4 @@ def test_05_vertical_layouts():
     region.root.remove_all_children()
 
 # Execute all tests
-for f in sorted(i for i in list(locals()) if i.startswith("test_")):
-    locals()[f]()
+[v() for k, v in sorted(dict(locals()).items()) if k.startswith("test_")]

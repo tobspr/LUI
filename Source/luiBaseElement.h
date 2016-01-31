@@ -243,7 +243,6 @@ protected:
   virtual void set_root(LUIRoot* root) = 0;
   virtual void on_detached() = 0;
   virtual void on_bounds_changed() = 0;
-  virtual void on_visibility_changed() = 0;
 
   // Interface to LUIColorable
   virtual void on_color_changed();

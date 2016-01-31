@@ -38,7 +38,6 @@ LUIRegion::
 }
 
 LUIRegion::~LUIRegion() {
-  lui_cat.error() << "Todo: Make destructor of LUIRegion" << endl;
 }
 
 void LUIRegion::
