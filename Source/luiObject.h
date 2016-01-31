@@ -45,10 +45,6 @@ PUBLISHED:
   INLINE PT(LUIBaseElement) add_child(PT(LUIBaseElement) child);
   INLINE void remove_child(PT(LUIBaseElement) child);
   INLINE void remove_all_children();
-
-  INLINE void set_sort_children(bool do_sort);
-  INLINE bool get_sort_children() const;
-
   INLINE int get_child_count() const;
 
   INLINE void fit_to_children();
@@ -63,12 +59,11 @@ PUBLISHED:
   // Python properties
   MAKE_PROPERTY(children, get_children);
   MAKE_PROPERTY(child_count, get_child_count);
-  MAKE_PROPERTY(sort_children, get_sort_children, set_sort_children);
   MAKE_PROPERTY(content_node, get_content_node, set_content_node);
 
 public:
 
-  INLINE void change_child_z_offset(PT(LUIBaseElement) child, int z_offset);
+  INLINE void on_child_z_offset_changed();
 
 protected:
 
@@ -86,7 +81,6 @@ protected:
 
   LUIChildVector _children;
   PT(LUIObject) _content_node;
-  bool _sort_children;
 
   static int _instance_count;
 

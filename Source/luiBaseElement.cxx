@@ -1,7 +1,6 @@
 
-
-
 #include "luiBaseElement.h"
+
 #include "luiRoot.h"
 #include "luiObject.h"
 #include "luiEventData.h"
@@ -39,7 +38,6 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _topmost(false),
   _solid(false),
   _emits_changed_event(true),
-  _last_recorded_bounds(-1, -1, -1, -1),
   LUIColorable()
 {
 
@@ -108,20 +106,27 @@ LUIBaseElement::~LUIBaseElement() {
 void LUIBaseElement::recompute_position() {
   if (_in_update_section) return;
 
+  /*
+
+
+   TODO: Use pandas builtin vector types to make this computations prettier
+
+
+  */
+
   LVector2 ppos(0);
 
   float add_x = 0.0;
   float add_y = 0.0;
 
-  // When there is no parent, there is no sense in computing an accurate position
-  if (_parent == NULL) {
+  if (!_parent) {
 
+    // When there is no parent, there is no sense in computing an accurate position
     if (luiBaseElement_cat.is_spam()) {
       luiBaseElement_cat.spam() << "Compute, parent is none" << endl;
     }
     _rel_pos_x = _offset_x;
     _rel_pos_y = _offset_y;
-
   } else {
 
     // Recompute actual position from top/bottom and left/right offsets
@@ -129,6 +134,7 @@ void LUIBaseElement::recompute_position() {
     LVector2 psize = _parent->get_size();
     LUIBounds* ppadding = _parent->get_padding();
 
+    // Debug information
     if (luiBaseElement_cat.is_spam()) {
       luiBaseElement_cat.spam() << "Compute, bounds = " << psize.get_x() << ", "
         << psize.get_y() << ", pos = " << ppos.get_x()
@@ -138,11 +144,12 @@ void LUIBaseElement::recompute_position() {
         << ppadding->get_top() << ", " << ppadding->get_right() << ", " << ppadding->get_bottom() << ", " << ppadding->get_left()
         << ", size = " << _size.get_x() << " / " << _size.get_y()
         << endl;
-        if (_clip_bounds != NULL) {
-          luiBaseElement_cat.spam()  << "clip = " << _clip_bounds->get_top() << ", " << _clip_bounds->get_right() << ", " << _clip_bounds->get_bottom() << ", " << _clip_bounds->get_left() << endl;
+        if (_clip_bounds) {
+          luiBaseElement_cat.spam()  << "clip = " << _clip_bounds->get_top() << ", "
+                                     << _clip_bounds->get_right() << ", " << _clip_bounds->get_bottom()
+                                     << ", " << _clip_bounds->get_left() << endl;
         }
     }
-
 
     // Compute top
     // Stick top
@@ -181,44 +188,43 @@ void LUIBaseElement::recompute_position() {
     }
   }
 
+  // In case we snap our position (Default, except for text sprites), we just ceil
+  // our position. This prevents subpixel-jittering.
   if (_snap_position) {
     _rel_pos_x = ceil(_rel_pos_x);
     _rel_pos_y = ceil(_rel_pos_y);
   }
 
-
   _pos_x = _rel_pos_x + ppos.get_x() + add_x;
   _pos_y = _rel_pos_y + ppos.get_y() + add_y;
 
-  // Compute clip rect
-
+  // Compute clip rect:
   // Transform local clip bounds to absolute bounds
   float bx1 = _pos_x;
   float by1 = _pos_y;
   float bx2 = bx1 + _size.get_x();
   float by2 = by1 + _size.get_y();
 
-  if (_clip_bounds != NULL) {
+  if (_clip_bounds) {
     bx1 += _clip_bounds->get_left();
     by1 += _clip_bounds->get_top();
     bx2 += -_clip_bounds->get_right();
     by2 += -_clip_bounds->get_bottom();
   }
 
-  bool ignoreParentBounds = _topmost && !_parent->is_topmost();
+  bool ignore_parent_bounds = _topmost && !_parent->is_topmost();
 
-  if (_parent != NULL && !ignoreParentBounds) {
+  if (_parent && !ignore_parent_bounds) {
     LUIRect *parent_bounds = _parent->get_abs_clip_bounds();
 
     // If we have no specific bounds, just take the parent bounds
-    if (_clip_bounds == NULL) {
+    if (!_clip_bounds) {
       if (luiBaseElement_cat.is_spam()) {
         luiBaseElement_cat.spam() << "Using parent bounds (" << _parent << ") (no custom) (" << parent_bounds->get_x() << ", "
           << parent_bounds->get_y() << " / " << parent_bounds->get_w() << " x " << parent_bounds->get_h() << ") .." << endl;
       }
       _abs_clip_bounds->set_rect(parent_bounds->get_rect());
     } else {
-
       // Intersect parent bounds with local bounds
       float nx = max(bx1, parent_bounds->get_x());
       float ny = max(by1, parent_bounds->get_y());
@@ -232,12 +238,12 @@ void LUIBaseElement::recompute_position() {
     }
 
   } else {
-
-    if (_clip_bounds == NULL) {
+    if (!_clip_bounds) {
+      // In case we have no clip bounds, set some arbitrary huge bounds
       if (luiBaseElement_cat.is_spam()) {
         luiBaseElement_cat.spam() << "Using no bounds .." << endl;
       }
-      _abs_clip_bounds->set_rect(0,0,1000000,1000000);
+      _abs_clip_bounds->set_rect(0,0,1e10,1e10);
     } else {
       if (luiBaseElement_cat.is_spam()) {
         luiBaseElement_cat.spam() << "Using local bounds (custom) .." << endl;
@@ -253,22 +259,10 @@ void LUIBaseElement::recompute_position() {
   }
 
   on_bounds_changed();
-
-  LUIRect current_bounds = LUIRect(_pos_x, _pos_y, _size.get_x(), _size.get_y());
-
-  // Notify parent about changed dimensions
-  if (_parent && _emits_changed_event) {
-
-    // But only if they did actually change
-    if (_last_recorded_bounds != current_bounds) {
-      _last_recorded_bounds = current_bounds;
-      _parent->on_child_changed();
-    }
-  }
 }
 
 void LUIBaseElement::register_events() {
-  if (_root != NULL && _parent != NULL && !_events_registered && _solid) {
+  if (_root && _parent && !_events_registered && _solid) {
       _root->register_event_object(this);
       _events_registered = true;
 
@@ -277,14 +271,15 @@ void LUIBaseElement::register_events() {
       }
   } else {
     if (luiBaseElement_cat.is_spam()) {
-      luiBaseElement_cat.spam() << "Did not register events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << ", parent = " << (_parent==NULL?"NULL" : "valid") << " .." << endl;
+      luiBaseElement_cat.spam() << "Did not register events, root = " << (_root==NULL?"NULL":"valid")
+                                << ", registered = " << (_events_registered ? "1":"0") << ", parent = "
+                                << (_parent==NULL?"NULL" : "valid") << " .." << endl;
     }
   }
 }
 
 void LUIBaseElement::unregister_events() {
-
-  if (_root != NULL && _events_registered) {
+  if (_root && _events_registered) {
     _root->unregister_event_object(this);
     _events_registered = false;
 
@@ -293,40 +288,30 @@ void LUIBaseElement::unregister_events() {
     }
   } else {
       if (luiBaseElement_cat.is_spam()) {
-        luiBaseElement_cat.spam() << "Did not unregister events, root = " << (_root==NULL?"NULL":"valid") << ", registered = " << (_events_registered ? "1":"0") << " .." << endl;
+        luiBaseElement_cat.spam() << "Did not unregister events, root = " << (_root == NULL?"NULL":"valid")
+                                  << ", registered = " << (_events_registered ? "1":"0") << " .." << endl;
       }
   }
 }
 
-void LUIBaseElement::reparent_to(LUIBaseElement *parent) {
-  if (_parent != NULL) {
+void LUIBaseElement::set_parent(LUIObject* parent) {
+  // Detach from current parent
+  if (_parent)
+    _parent->remove_child(this);
 
-    LUIObject *parent_as_object = DCAST(LUIObject, _parent);
-
-    // If this throws, our current parent is not a LUIObject, or a base class of it (How can this ever be possible?)
-    nassertv(parent_as_object != NULL);
-    parent_as_object->remove_child(this);
-  }
-
-  LUIObject *new_parent_as_object = DCAST(LUIObject, parent);
-
-  if (new_parent_as_object == NULL) {
-    luiBaseElement_cat.error() << "You can only attach elements to a LUIObject (or a subclass of it)" << endl;
-    return;
-  }
-
-  new_parent_as_object->add_child(this);
+  // Attach to new parent
+  parent->add_child(this);
 }
-
 
 void LUIBaseElement::request_focus() {
-  _root->request_focus(this);
-  _focused = true;
+  if (_root->request_focus(this))
+    _focused = true;
 }
-
 
 void LUIBaseElement::blur() {
   _root->request_focus(NULL);
+
+  // Giving away focus will always work, so we can already set our focus state
   _focused = false;
 }
 
@@ -346,19 +331,39 @@ void LUIBaseElement::trigger_event(const string &event_name, const wstring &mess
   }
 }
 
-void LUIBaseElement::on_child_changed() {
-  // Instead of populating the event further upstream, let the implementation
-  // decide if it actually needs to get populated further
-  trigger_event("child_changed", wstring(), LPoint2(0));
+void LUIBaseElement::set_z_offset(int z_offset) {
+  _z_offset = (float)z_offset;
+
+  // Notify parent about changed z-index - so the children can be re-sorted
+  if (_parent)
+    _parent->on_child_z_offset_changed();
 }
 
 
-void LUIBaseElement::set_z_offset(int z_offset) {
+float LUIBaseElement::get_parent_width() const {
+  if (!_parent)
+    return 0.0;
+  return _parent->get_width();
+}
+
+float LUIBaseElement::get_parent_height() const {
+  if (!_parent)
+    return 0.0;
+  return _parent->get_height();
+}
+
+void LUIBaseElement::on_color_changed() {
   if (_parent) {
-    LUIObject* parent = DCAST(LUIObject, _parent);
-    nassertv(parent != NULL);
-    parent->change_child_z_offset(this, z_offset);
+    compose_color(_parent->get_composed_color());
   } else {
-    do_set_z_offset(z_offset);
+    compose_color();
   }
+}
+
+void LUIBaseElement::clear_parent() {
+  if (!_parent) {
+    luiBaseElement_cat.error() << "Called clear_parent(), but no parent is set!" << endl;
+    return;
+  }
+  _parent->remove_child(this);
 }

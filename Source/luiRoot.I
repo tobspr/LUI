@@ -52,22 +52,29 @@ INLINE void LUIRoot::unregister_event_object(LUIBaseElement *event_object) {
   _event_objects.erase(event_object);
 }
 
-INLINE void LUIRoot::request_focus(LUIBaseElement *elem) {
+INLINE bool LUIRoot::request_focus(LUIBaseElement *elem) {
+  if (_requested_focus)  {
+    if (_requested_focus == elem) {
+      lui_cat.warning() << "Element " << elem << " requested focus twice or more in one frame!" << endl;
+      return true;
+    } else {
+      lui_cat.warning() << "Multiple varying focus requests in on frame - can only serve the first one!" << endl;
+    }
+    return false;
+  }
   set_requested_focus(elem);
+  return true;
 }
 
 INLINE void LUIRoot::set_requested_focus(LUIBaseElement *elem) {
   _requested_focus = elem;
 }
 
-
-
 INLINE LUIBaseElement* LUIRoot::get_requested_focus() const {
   return _requested_focus;
 }
 
 INLINE int LUIRoot::register_sprite(LUISprite* sprite) {
-
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Registering sprite " << sprite << "" << endl;
   }
@@ -106,7 +113,6 @@ INLINE void* LUIRoot::get_sprite_vertex_pointer(int position) const {
 
   // At the position there should be an actual sprite
   nassertr(_sprites[position] != NULL, 0);
-
   nassertr(_sprite_vertex_pointer != NULL, 0);
 
   // nassertr(_sprite_vertex_pointer == _vertex_data->modify_array(0)->modify_handle()->get_write_pointer(), 0);
@@ -134,9 +140,7 @@ INLINE void LUIRoot::add_sprite_to_render_list(int position) {
   _triangle_index_buffer[index+1].vertices[2] = pos + 0;
 
   if (pos < _min_rendered_vertex) _min_rendered_vertex = pos;
-  if (pos+3 > _max_rendered_vertex) _max_rendered_vertex = pos + 3;
-
-
+  if (pos + 3 > _max_rendered_vertex) _max_rendered_vertex = pos + 3;
 }
 
 INLINE Geom* LUIRoot::get_geom() const {

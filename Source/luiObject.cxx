@@ -10,8 +10,7 @@ TypeHandle LUIObject::_type_handle;
 LUIObject::LUIObject(PyObject *self, float x, float y, float w, float h, bool solid) : LUIBaseElement(self) {
   init();
   begin_update_section();
-  _size.set_x(w);
-  _size.set_y(h);
+  _size.set(w, h);
   set_pos(x, y);
   set_solid(solid);
   end_update_section();
@@ -22,8 +21,7 @@ LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float 
 
   // Prevent recomputation of the position while we initialize the object
   begin_update_section();
-  _size.set_x(w);
-  _size.set_y(h);
+  _size.set(w, h);
   set_pos(x, y);
   set_solid(solid);
   parent->add_child(this);
@@ -31,12 +29,10 @@ LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float 
 }
 
 LUIObject::~LUIObject() {
-
-  _instance_count --;
+  --_instance_count;
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Destructing LUIObject, instances left: " << _instance_count << endl;
   }
-
   _children.clear();
 }
 
@@ -56,7 +52,6 @@ void LUIObject::set_root(LUIRoot* root) {
   }
 
   if (root != _root) {
-
     // Unregister from old root
     unregister_events();
     _root = root;
@@ -75,7 +70,7 @@ void LUIObject::ls(int indent) {
   cout << string(indent, ' ')  << "[LUIObject] pos = " << _pos_x << ", " << _pos_y << "; size = "
        << _size.get_x() << " x " << _size.get_y() << "; z = " << _z_offset << endl;
 
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.cbegin(); it != _children.cend(); ++it) {
    (*it)->ls(indent + 1);
   }
 }

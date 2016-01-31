@@ -49,7 +49,7 @@ public:
   INLINE void register_event_object(LUIBaseElement *event_object);
   INLINE void unregister_event_object(LUIBaseElement *event_object);
 
-  INLINE void request_focus(LUIBaseElement *elem);
+  INLINE bool request_focus(LUIBaseElement *elem);
   INLINE LUIBaseElement* get_requested_focus() const;
   INLINE void set_requested_focus(LUIBaseElement *elem);
 

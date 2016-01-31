@@ -137,8 +137,10 @@ PUBLISHED:
   void request_focus();
   void blur();
 
-  void reparent_to(LUIBaseElement *parent);
-  INLINE LUIBaseElement* get_parent() const;
+  INLINE bool has_parent() const;
+  void clear_parent();
+  void set_parent(LUIObject *parent);
+  INLINE LUIObject* get_parent() const;
 
   INLINE virtual bool intersects(float x, float y) const;
 
@@ -194,7 +196,7 @@ PUBLISHED:
   MAKE_PROPERTY(z_offset, get_z_offset, set_z_offset);
   MAKE_PROPERTY(absolute_z_offset, get_abs_pos);
   MAKE_PROPERTY(focused, has_focus);
-  MAKE_PROPERTY(parent, get_parent, reparent_to);
+  MAKE_PROPERTY2(parent, has_parent, get_parent, set_parent, clear_parent);
 
   MAKE_PROPERTY(clip_bounds, get_clip_bounds, set_clip_bounds);
   MAKE_PROPERTY(topmost, is_topmost, set_topmost);
@@ -202,10 +204,9 @@ PUBLISHED:
 
   MAKE_PROPERTY(emits_changed_event, get_emits_changed_event, set_emits_changed_event);
 
-
 public:
 
-  INLINE void set_parent(LUIBaseElement* parent);
+  INLINE void do_set_parent(LUIObject* parent);
   void recompute_position();
 
   INLINE void set_snap_position(bool snap);
@@ -220,21 +221,20 @@ public:
 
 protected:
 
-  INLINE float get_parent_width() const;
-  INLINE float get_parent_height() const;
+  float get_parent_width() const;
+  float get_parent_height() const;
 
   void fetch_render_index();
 
-
   enum LUIPlacementMode {
 
-    // E.g. stick to left
+    // Stick to left
     M_default,
 
-    // E.g. stick to right
+    // Stick to right
     M_inverse,
 
-    // E.g. center horizontally
+    // Center (either horizontally or vertically)
     M_center
   };
 
@@ -244,10 +244,8 @@ protected:
   virtual void on_bounds_changed() = 0;
   virtual void on_visibility_changed() = 0;
 
-  virtual void on_child_changed();
-
   // Interface to LUIColorable
-  INLINE virtual void on_color_changed();
+  virtual void on_color_changed();
 
   virtual void render_recursive(bool is_topmost_pass, bool render_anyway) = 0;
 
@@ -262,17 +260,13 @@ protected:
   bool _visible;
   bool _emits_changed_event;
 
-  LUIRect _last_recorded_bounds;
-
   // Z-Index, relative to the parent
   float _z_offset;
 
   // Wheter we already registered the element at the LUIRoot for recieving events
   bool _events_registered;
-
   bool _in_update_section;
   bool _snap_position;
-
   bool _focused;
   bool _solid;
 
@@ -289,7 +283,7 @@ protected:
   unordered_map<string, PT(CallbackObject)> _events;
 
 
-  LUIBaseElement *_parent;
+  LUIObject *_parent;
   LUIRoot *_root;
 
   int _last_frame_visible;

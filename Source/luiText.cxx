@@ -10,7 +10,6 @@ LUIText::LUIText(PyObject *self, LUIObject *parent, const wstring &text, const s
   _text(text),
   _font_size(font_size),
   _wordwrap(wordwrap) {
-  _sort_children = false;
   _snap_position = false;
   set_font(font_name);
 }
@@ -64,7 +63,7 @@ void LUIText::update_text() {
   int char_idx = 0;
   float current_x_pos = 0.0;
 
-  for (lui_element_iterator it = _children.begin(); it != _children.end(); ++it, ++char_idx)
+  for (auto it = _children.begin(); it != _children.end(); ++it, ++char_idx)
   {
     LUIBaseElement* child = *it;
     LUISprite* sprite = DCAST(LUISprite, child);
@@ -138,7 +137,7 @@ void LUIText::update_text() {
 void LUIText::ls(int indent) {
   cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; text = '" << _text << "'; z = " << _z_offset << endl;
 
-  // for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+  // for (auto it = _children.begin(); it!= _children.end(); ++it) {
   //  (*it)->ls(indent + 1);
   // }
 

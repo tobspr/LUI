@@ -76,7 +76,6 @@ input_field.request_focus()
 
 # Add some initial commands
 for demo_command in ["Hello world!", "This is a simple console", "You can type commands like this:", "/test"]:
-    input_field.set_value(demo_command)
-    input_field.trigger_event("enter", input_field.value)
+    input_field.trigger_event("enter", unicode(demo_command))
 
 s.run()

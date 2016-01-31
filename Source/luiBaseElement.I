@@ -1,4 +1,5 @@
 
+
 INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callback) {
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "Binding event '" << event_name << "'" << endl;
@@ -28,7 +29,6 @@ INLINE void LUIBaseElement::unbind_all() {
 INLINE bool LUIBaseElement::has_event(const string &event_name) {
   return _events.count(event_name) > 0;
 }
-
 
 INLINE void LUIBaseElement::set_snap_position(bool snap) {
   _snap_position = snap;
@@ -379,7 +379,11 @@ INLINE bool LUIBaseElement::has_focus() const {
   return _focused;
 }
 
-INLINE LUIBaseElement* LUIBaseElement::get_parent() const {
+INLINE bool LUIBaseElement::has_parent() const {
+  return _parent != NULL;
+}
+
+INLINE LUIObject* LUIBaseElement::get_parent() const {
   return _parent;
 }
 
@@ -445,37 +449,13 @@ INLINE LUIRect *LUIBaseElement::get_abs_clip_bounds() const {
   return _abs_clip_bounds;
 }
 
-
-
-INLINE void LUIBaseElement::set_parent(LUIBaseElement* parent) {
+INLINE void LUIBaseElement::do_set_parent(LUIObject* parent) {
   _parent = parent;
   recompute_position();
 }
 
 INLINE void LUIBaseElement::set_focus(bool focus) {
   _focused = focus;
-}
-
-INLINE float LUIBaseElement::get_parent_width() const {
-  if (_parent == NULL) {
-    return 0.0;
-  }
-  return _parent->get_width();
-}
-
-INLINE float LUIBaseElement::get_parent_height() const {
-  if (_parent == NULL) {
-    return 0.0;
-  }
-  return _parent->get_height();
-}
-
-INLINE void LUIBaseElement::on_color_changed() {
-  if (_parent != NULL) {
-    compose_color(_parent->get_composed_color());
-  } else {
-    compose_color();
-  }
 }
 
 INLINE int LUIBaseElement::get_last_frame_visible() const {
@@ -516,7 +496,3 @@ INLINE bool LUIBaseElement::get_emits_changed_event() const {
   return _emits_changed_event;
 }
 
-
-INLINE void LUIBaseElement::do_set_z_offset(int z_offset) {
-  _z_offset = (float)z_offset;
-}

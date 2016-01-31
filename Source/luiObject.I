@@ -22,20 +22,17 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
 
   _children.erase(child_it);
   child->on_detached();
-  child->set_parent(NULL);
+  child->do_set_parent(NULL);
 
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Reference count is now: " << child->get_ref_count() << endl;
   }
 }
 
-
-
-INLINE void LUIObject::change_child_z_offset(PT(LUIBaseElement) child, int z_offset) {
-  child->do_set_z_offset(z_offset);
-  std::sort(_children.begin(), _children.end(), lui_compare_z_offset);
+INLINE void LUIObject::on_child_z_offset_changed() {
+  if (!std::is_sorted(_children.cbegin(), _children.cend(), lui_compare_z_offset))
+    std::sort(_children.begin(), _children.end(), lui_compare_z_offset);
 }
-
 
 INLINE void LUIObject::remove_all_children() {
   if (luiObject_cat.is_spam()) {
@@ -45,7 +42,7 @@ INLINE void LUIObject::remove_all_children() {
   // Detach all children
   for (auto it = _children.begin(); it != _children.end(); ++it) {
     (*it)->on_detached();
-    (*it)->set_parent(NULL);
+    (*it)->do_set_parent(NULL);
   }
 
   // Now clear the vector
@@ -63,7 +60,7 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
     return child;
   }
 
-  child->set_parent(this);
+  child->do_set_parent(this);
   child->recompute_position();
   child->on_color_changed();
   _children.push_back(child);
@@ -71,7 +68,7 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
   // This has to be last. Otherwise we're attaching to the pool with outdated positions
   child->set_root(_root);
 
-  std::sort(_children.begin(), _children.end(), lui_compare_z_offset);
+  on_child_z_offset_changed();
 
   return child;
 }
@@ -92,7 +89,7 @@ INLINE int LUIObject::get_child_count() const {
 INLINE void LUIObject::on_color_changed() {
   LUIBaseElement::on_color_changed();
 
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->on_color_changed();
   }
 }
@@ -102,7 +99,7 @@ INLINE void LUIObject::on_bounds_changed() {
     luiObject_cat.spam() << "Updating children .. " << endl;
   }
 
-  for (lui_element_iterator it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.begin(); it != _children.end(); ++it) {
     (*it)->recompute_position();
   }
 }
@@ -175,14 +172,6 @@ INLINE void LUIObject::fit_width_to_children() {
   }
   maxX = max(get_padding_left(), maxX);
   set_height(maxX + get_padding_right());
-}
-
-INLINE void LUIObject::set_sort_children(bool do_sort) {
-  _sort_children = do_sort;
-}
-
-INLINE bool LUIObject::get_sort_children() const {
-  return _sort_children;
 }
 
 INLINE void LUIObject::set_content_node(PT(LUIObject) content_node) {
