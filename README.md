@@ -6,6 +6,7 @@
 ### Requirements
 
 - **Panda3D SDK** (1.9.0 or newer)
+- **CMake**
 
 ### Installation
 
