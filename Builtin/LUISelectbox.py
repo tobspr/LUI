@@ -192,7 +192,6 @@ class LUISelectdrop(LUIObject):
         offset_top = 6
         self._layout.height = num_visible_options * 30 + offset_top + 11
         self._container.height = num_visible_options * 30 + offset_top + 1
-        self._layout.update_layout()
         self._container.remove_all_children()
 
         current_y = offset_top

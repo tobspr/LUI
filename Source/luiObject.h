@@ -31,10 +31,10 @@ class EXPCL_LUI LUIObject : public LUIBaseElement {
 
 PUBLISHED:
 
-  LUIObject(PyObject *self, float x = 0.0, float y = 0.0,
-           float w = -1, float h = -1, bool solid = false);
-  LUIObject(PyObject *self, LUIObject *parent, float x = 0.0, float y = 0.0,
-           float w = -1, float h = -1, bool solid = false);
+  LUIObject(PyObject *self, float x=0.0f, float y=0.0f,
+           float w=-1.0f, float h=-1.0f, bool solid = false);
+  LUIObject(PyObject *self, LUIObject *parent, float x=0.0, float y=0.0,
+           float w =-1.0f, float h=-1.0f, bool solid = false);
 
   virtual ~LUIObject();
 

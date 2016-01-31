@@ -25,7 +25,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _placement_y(M_default),
   _parent(NULL),
   _root(NULL),
-  _z_offset(0.0),
+  _z_offset(0.0f),
   _events_registered(false),
   _in_update_section(false),
   _snap_position(true),
@@ -137,8 +137,8 @@ void LUIBaseElement::recompute_position() {
 
   update_dimensions();
 
-  float local_x_offs = 0.0;
-  float local_y_offs = 0.0;
+  float local_x_offs = 0.0f;
+  float local_y_offs = 0.0f;
 
   if (!_parent) {
     // When there is no parent, there is no sense in computing an accurate position
@@ -341,13 +341,13 @@ void LUIBaseElement::set_z_offset(int z_offset) {
 
 float LUIBaseElement::get_parent_width() const {
   if (!_parent)
-    return 0.0;
+    return 0.0f;
   return _parent->get_width();
 }
 
 float LUIBaseElement::get_parent_height() const {
   if (!_parent)
-    return 0.0;
+    return 0.0f;
   return _parent->get_height();
 }
 

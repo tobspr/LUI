@@ -61,7 +61,7 @@ void LUIText::update_text() {
 
   // Iterate over the sprites
   int char_idx = 0;
-  float current_x_pos = 0.0;
+  float current_x_pos = 0.0f;
 
   for (auto it = _children.begin(); it != _children.end(); ++it, ++char_idx)
   {
@@ -149,7 +149,7 @@ int LUIText::get_char_index(float pos) const {
   }
   nassertr(_font != NULL, 0);
 
-  float cursor = 0.0;
+  float cursor = 0.0f;
 
   for (int i = 0; i < _text.size(); ++i) {
     int char_code = (int)_text.at(i);
@@ -185,7 +185,7 @@ float LUIText::get_char_pos(int char_index) const {
   // Make sure we don't iterate over the text bounds
   int iterate_max = min(char_index, (int)_text.size());
 
-  float cursor = 0.0;
+  float cursor = 0.0f;
 
   for (int i = 0; i < iterate_max; i++) {
     int char_code = (int)_text.at(i);

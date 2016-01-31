@@ -52,14 +52,12 @@ class DemoFramework:
 
         # Background
         self._background = LUISprite(self._root, "res/DemoBackground.png")
-
         # Make the background solid and recieve events
         self._background.solid = True
 
         # Logo
         self._logo = LUISprite(self._root, "res/LUILogo.png")
-        self._logo.top = 15
-        self._logo.left = 20
+        self._logo.top_left = 15, 20
 
         # Title
         self._title_label = LUILabel(parent=self._root, text=demo_title, font_size=40,
@@ -68,8 +66,8 @@ class DemoFramework:
                                         font="default", pos=(121, 65), color=(1, 1, 1, 0.5))
 
         # Right bar
-        self._right_bar = LUIVerticalLayout(parent=self._root, width=350, spacing=20)
-        self._right_bar.pos = (410, 120)
+        self._right_bar = LUIVerticalLayout(parent=self._root, width=350, spacing=20, pos=(410, 120))
+        self._left_bar = LUIVerticalLayout(parent=self._root, width=350, spacing=20, pos=(20, 120))
 
         # Public functions
         self._public_functions = LUIFrame(width=340, style=LUIFrame.FS_sunken)
@@ -99,21 +97,19 @@ class DemoFramework:
         self._right_bar.add(self._events)
 
         # Widget
-        self._widget_container = LUIFrame(parent=self._root, width=360, height=250, style=LUIFrame.FS_sunken)
+        self._widget_container = LUIFrame(width=360, height=250, style=LUIFrame.FS_sunken)
         self._widget_label = LUILabel(parent=self._widget_container, text=u"Widget Demo")
-        self._widget_container.left = 26
-        self._widget_container.top = 120
+        self._left_bar.add(self._widget_container)
 
         # Source Code
-        self._source_container = LUIFrame(parent=self._root, width=360, height=200, style=LUIFrame.FS_sunken)
+        self._source_container = LUIFrame(width=360, height=200, style=LUIFrame.FS_sunken)
         self._source_label = LUILabel(parent=self._source_container, text=u"Default Constructor")
         self._copy_code_button = LUIButton(parent=self._source_container,
                 text=u"Copy to Clipboard", template="ButtonGreen",
                 right=-5, bottom=-5)
-        self._source_container.left = 26
-        self._source_container.top = 390
         self._source_content = LUIObject(self._source_container)
         self._source_content.top = 40
+        self._left_bar.add(self._source_container)
 
         self._widget_node = LUIObject(self._widget_container, x=0, y=40)
 

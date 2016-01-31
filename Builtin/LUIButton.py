@@ -19,8 +19,7 @@ class LUIButton(LUIObject):
 
         If an explicit width is set on the button, the button will stick to that
         width, otherwise it will automatically resize to fit the label """
-        LUIObject.__init__(self)
-        self.solid = True
+        LUIObject.__init__(self, x=0, y=0, solid=True)
         self._template = template
         self._layout = LUIHorizontalStretchedLayout(parent=self, prefix=self._template)
         self._label = LUILabel(parent=self, text=text, shadow=True, z_offset=1,

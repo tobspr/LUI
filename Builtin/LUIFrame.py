@@ -60,8 +60,3 @@ class LUIFrame(LUIObject):
             self.content_node = self._scroll_content.content_node
 
         LUIInitialState.init(self, kwargs)
-
-    def on_resized(self, event):
-        """ Internal callback when the Frame got resized """
-        self._layout.size = self.size + 2* self._border_size
-        self._layout.update_layout()

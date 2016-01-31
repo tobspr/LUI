@@ -135,5 +135,10 @@ INLINE void LUISprite::on_color_changed() {
 }
 
 INLINE void LUISprite::init_size(float w, float h) {
-  set_size(w, h);
+  if (w > 0.0 && h > 0.0)
+    set_size(w, h);
+  else if (w > 0.0)
+    set_width(w);
+  else if (h > 0.0)
+    set_height(h);
 }

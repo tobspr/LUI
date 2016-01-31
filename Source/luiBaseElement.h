@@ -44,15 +44,15 @@ PUBLISHED:
   void trigger_event(const string &event_name, const wstring &message = wstring(), const LPoint2 &coords = LPoint2(0));
 
   // Position
-  INLINE void set_left_top(const LPoint2 &pos);
-  INLINE void set_right_top(const LPoint2 &pos);
-  INLINE void set_left_bottom(const LPoint2 &pos);
-  INLINE void set_right_bottom(const LPoint2 &pos);
+  INLINE void set_top_left(const LPoint2 &pos);
+  INLINE void set_top_right(const LPoint2 &pos);
+  INLINE void set_bottom_left(const LPoint2 &pos);
+  INLINE void set_bottom_right(const LPoint2 &pos);
 
-  INLINE LPoint2 get_left_top() const;
-  INLINE LPoint2 get_right_top() const;
-  INLINE LPoint2 get_left_bottom() const;
-  INLINE LPoint2 get_right_bottom() const;
+  INLINE LPoint2 get_top_left() const;
+  INLINE LPoint2 get_top_right() const;
+  INLINE LPoint2 get_bottom_left() const;
+  INLINE LPoint2 get_bottom_right() const;
 
   INLINE void set_pos(const LPoint2 &pos);
   INLINE void set_pos(float x, float y);
@@ -171,10 +171,10 @@ PUBLISHED:
   INLINE float get_inner_height();
 
   // Properties for python
-  MAKE_PROPERTY(left_top, get_left_top, set_left_top);
-  MAKE_PROPERTY(right_top, get_right_top, set_right_top);
-  MAKE_PROPERTY(left_bottom, get_left_bottom, set_left_bottom);
-  MAKE_PROPERTY(right_bottom, get_right_bottom, set_right_bottom);
+  MAKE_PROPERTY(top_left, get_top_left, set_top_left);
+  MAKE_PROPERTY(top_right, get_top_right, set_top_right);
+  MAKE_PROPERTY(bottom_left, get_bottom_left, set_bottom_left);
+  MAKE_PROPERTY(bottom_right, get_bottom_right, set_bottom_right);
 
   MAKE_PROPERTY(pos, get_pos, set_pos);
   MAKE_PROPERTY(abs_pos, get_abs_pos);

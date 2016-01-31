@@ -46,15 +46,15 @@ PUBLISHED:
 
   // Initialize with a path to an image
   LUISprite(PyObject *self, LUIObject* parent, const string &image,
-            float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
+            float x=0.0f, float y=0.0f, float w=0.0f, float h=0.0f, const LColor &color=LColor(1));
 
   // Initialize with a texture handle
   LUISprite(PyObject *self, LUIObject* parent, Texture *texture,
-            float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
+            float x=0.0f, float y=0.0f, float w=0.0f, float h=0.0f, const LColor &color=LColor(1));
 
   // Initialize with a atlas entry
   LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id,
-            float x = 0.0, float y = 0.0, float w = 0.0, float h = 0.0, const LColor &color = LColor(1));
+            float x=0.0f, float y=0.0f, float w=0.0f, float h=0.0f, const LColor &color=LColor(1));
 
   virtual ~LUISprite();
 

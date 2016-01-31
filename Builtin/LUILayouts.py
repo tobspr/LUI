@@ -211,52 +211,59 @@ class LUICornerLayout(LUIObject):
 
     def __init__(self, image_prefix="", **kwargs):
         """ Creates a new layout, using the image_prefix as prefix. """
-        LUIObject.__init__(self, x=0, y=0, w=100, h=100)
+        LUIObject.__init__(self)
+        self.set_size("100%", "100%")
         self._prefix = image_prefix
         self._parts = {}
         for i in self._MODES:
             self._parts[i] = LUISprite(self, "blank", "skin")
-        self.update_layout()
+        self._update_layout()
         LUIInitialState.init(self, kwargs)
 
-    def update_layout(self):
-        """ Updates the layouts components. Should be called whenver the layout
-        got resized """
+    def _update_layout(self):
+        """ Updates the layouts components. """
         for i in self._MODES:
             self._parts[i].set_texture(self._prefix + i, "skin", resize=True)
 
-        # Width
-        self._parts['Top'].width = self.width - self._parts['TL'].width - self._parts['TR'].width
-        self._parts['Mid'].width = self.width - self._parts['Left'].width - self._parts['Right'].width
-        self._parts['Bottom'].width = self.width - self._parts['BL'].width - self._parts['BR'].width
+        # Top and Left
+        self._parts["Top"].width = "100%"
+        self._parts["Top"].margin = (0, self._parts["TR"].width, 0, self._parts["TL"].width)
 
-        # Height
-        self._parts['Left'].height = self.height - self._parts['TL'].height - self._parts['BL'].height
-        self._parts['Mid'].height = self.height - self._parts['Top'].height - self._parts['Bottom'].height
-        self._parts['Right'].height = self.height - self._parts['TR'].height - self._parts['BR'].height
+        self._parts["Left"].height = "100%"
+        self._parts["Left"].margin = (self._parts["TL"].height, 0, self._parts["BL"].height, 0)
 
-        # Positioning - Left
-        self._parts['Top'].left = self._parts['TL'].width
-        self._parts['Mid'].left = self._parts['Left'].width
-        self._parts['Bottom'].left = self._parts['BL'].width
+        # Mid
+        self._parts["Mid"].set_size("100%", "100%")
+        self._parts["Mid"].margin = (self._parts["Top"].height, self._parts["Right"].width,
+                                     self._parts["Bottom"].height, self._parts["Left"].width)
 
-        self._parts['TR'].left = self._parts['Top'].left + self._parts['Top'].width
-        self._parts['Right'].left = self._parts['Mid'].left + self._parts['Mid'].width
-        self._parts['BR'].left = self._parts['Bottom'].left + self._parts['Bottom'].width
+        # self._parts["Mid"].hide()
+        # print(self._parts["Mid"].margin)
 
-        # Positioning - Top
-        self._parts['Left'].top = self._parts['TL'].height
-        self._parts['Mid'].top = self._parts['Top'].height
-        self._parts['Right'].top = self._parts['TR'].height
+        # Bottom and Right
+        self._parts["Bottom"].width = "100%"
+        self._parts["Bottom"].margin = (0, self._parts["BR"].width, 0, self._parts["BL"].width)
+        self._parts["Bottom"].bottom = 0
 
-        self._parts['BL'].top = self._parts['Left'].top + self._parts['Left'].height
-        self._parts['Bottom'].top = self._parts['Mid'].top + self._parts['Mid'].height
-        self._parts['BR'].top = self._parts['Right'].top + self._parts['Right'].height
+        self._parts["Right"].height = "100%"
+        self._parts["Right"].margin = (self._parts["TR"].height, 0, self._parts["BR"].width, 0)
+        self._parts["Right"].right = 0
+
+        # Corners
+        self._parts["TL"].top_left = 0, 0
+        self._parts["TR"].top_right = 0, 0
+        self._parts["BL"].bottom_left = 0, 0
+        self._parts["BR"].bottom_right = 0, 0
+
+        self._parts["Mid"].top_left = 0, 0
+        self._parts["Mid"].ls()
+        print(self._parts["Mid"].margin.get_bounds())
+        self._parts["Mid"].print_vertices()
 
     def set_prefix(self, prefix):
         """ Changes the texture of the layout """
         self._prefix = prefix
-        self.update_layout()
+        self._update_layout()
 
     def get_prefix(self):
         """ Returns the layouts texture prefix """

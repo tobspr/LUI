@@ -9,7 +9,7 @@ LUIRoot::LUIRoot(float width, float height) : _requested_focus(NULL) {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Constructing new LUIRoot ..\n";
   }
-  _root = new LUIObject(NULL, 0.0, 0.0, width, height);
+  _root = new LUIObject(NULL, 0.0f, 0.0f, width, height);
   _root->set_root(this);
 
   _sprites_rendered = 0;
