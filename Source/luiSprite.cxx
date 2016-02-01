@@ -6,11 +6,11 @@
 int LUISprite::_instance_count = 0;
 TypeHandle LUISprite::_type_handle;
 
-
 NotifyCategoryDef(luiSprite, ":lui");
 
 LUISprite::LUISprite(LUIText* parent_text)
   : LUIBaseElement(NULL) {
+  _is_text_sprite = true;
   init((LUIObject*)parent_text, 0, 0, LColor(1));
   set_texture((Texture*)NULL, true);
 }

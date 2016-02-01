@@ -43,6 +43,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _clip_bounds(0, 0, 0, 0),
   _have_clip_bounds(false),
   _effective_size(0),
+  _is_text_sprite(false),
   LUIColorable()
 {
   // This code here should belong in a _ext file, but that's currently
@@ -223,7 +224,7 @@ void LUIBaseElement::recompute_position() {
       _abs_clip_bounds = parent_bounds;
     } else {
       // Intersect parent bounds with local bounds
-      abs_bounds_start = componentwise_max(abs_bounds_start, parent_bounds.get_xy());
+      // abs_bounds_start = componentwise_max(abs_bounds_start, parent_bounds.get_xy());
       abs_bounds_end = componentwise_min(abs_bounds_end, parent_bounds.get_xy() + parent_bounds.get_wh());
       abs_bounds_end = componentwise_max(abs_bounds_end, LVector2(0)); // Make sure we don't have negative bounds
       _abs_clip_bounds.set_rect(abs_bounds_start, abs_bounds_end);
@@ -238,6 +239,10 @@ void LUIBaseElement::recompute_position() {
       _abs_clip_bounds.set_rect(abs_bounds_start, local_size);
     }
   }
+
+  // Text sprites can stop here, since the LUIText keeps track of them, and
+  // also manages updating. If we don't do this, we get infinite recursion
+  if (_is_text_sprite) return;
 
   // Compute current bounds, and see if something changed
   LUIRect current_bounds;
@@ -262,11 +267,14 @@ void LUIBaseElement::recompute_position() {
         parent_needs_update = true;
       }
 
-      if (parent_needs_update) _parent->recompute_position();
+      if (parent_needs_update)
+        _parent->recompute_position();
     }
 
     _last_bounds = current_bounds;
     _last_clip_bounds = _abs_clip_bounds;
+
+
     on_bounds_changed();
   }
 }

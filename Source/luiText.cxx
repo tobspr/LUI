@@ -10,7 +10,6 @@ LUIText::LUIText(PyObject *self, LUIObject *parent, const wstring &text, const s
   _text(text),
   _font_size(font_size),
   _wordwrap(wordwrap) {
-  _snap_position = false;
   set_font(font_name);
 }
 
@@ -34,7 +33,6 @@ void LUIText::update_text() {
     }
     remove_child(*_children.begin());
   }
-
 
   // Allocate as many sprites as required
   int to_allocate  = len - _children.size();
@@ -112,9 +110,9 @@ void LUIText::update_text() {
       // The V coordinate is inverted, as panda stores the textures flipped
       sprite->set_uv_range(
         dynamic_glyph->get_uv_left(),
-        1-dynamic_glyph->get_uv_top(),
+        1 - dynamic_glyph->get_uv_top(),
         dynamic_glyph->get_uv_right(),
-        1-dynamic_glyph->get_uv_bottom());
+        1 - dynamic_glyph->get_uv_bottom());
 
       // Determine size from coordinates
       sprite->set_size(
@@ -131,11 +129,10 @@ void LUIText::update_text() {
   }
 
   set_size( floor(current_x_pos), floor(line_height * ppu));
-
 }
 
 void LUIText::ls(int indent) {
-  cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; size = " << get_width() << " x " << get_height() << "text = '" << _text << "'; z = " << _z_offset << endl;
+  cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; size = " << get_width() << " x " << get_height() << "; text = u'" << _text << "'; z = " << _z_offset << endl;
 
   // for (auto it = _children.begin(); it!= _children.end(); ++it) {
   //  (*it)->ls(indent + 1);

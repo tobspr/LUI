@@ -43,15 +43,12 @@ class LUIFrame(LUIObject):
         else:
             raise Exception("Unkown LUIFrame style: " + style)
 
-        self._layout = LUICornerLayout(parent=self, image_prefix=prefix)
-
-        self._effective_padding = self.padding_top + self._border_size
         self._scrollable = scrollable
-        self._layout.margin = -self._effective_padding
-
-        self._content = LUIObject(self)
+        self._layout = LUICornerLayout(parent=self, image_prefix=prefix)
+        self._layout.margin = -(self.padding_top + self._border_size)
 
         if self._scrollable:
+            self._content = LUIObject(self)
             self._content.size = (self.width, self.height)
             self._content.pos = (self._border_size, self._border_size)
             self._scroll_content = LUIScrollableRegion(self._content,

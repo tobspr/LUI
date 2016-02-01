@@ -319,6 +319,7 @@ protected:
   int _last_render_index;
   bool _topmost;
 
+  bool _is_text_sprite;
 
 public:
   static TypeHandle get_class_type() {

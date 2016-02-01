@@ -521,7 +521,6 @@ INLINE bool LUIBaseElement::contributes_to_fluid_height() const {
   return _placement_y == M_default;
 }
 
-
 INLINE float LUIBaseElement::get_inner_width() {
   return _effective_size.get_x() - _padding.get_left() - _padding.get_right();
 }

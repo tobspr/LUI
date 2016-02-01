@@ -107,19 +107,17 @@ void LUIObject::render_recursive(bool is_topmost_pass, bool render_anyway) {
 
 INLINE void LUIObject::update_dimensions() {
 
-  // if (_parent) {
-  //   cout << "Updating dimensions .. parent size is: " << _parent->get_size() << endl;
-  // } else {
-  //   cout << "Updating dimensions .. no parent" << endl;
-  // }
+  float available_width = 0.0;
+  float available_height = 0.0;
+
+  if (_parent) {
+    available_width = _parent->get_inner_width() - _margin.get_left() - _margin.get_right();
+    available_height = _parent->get_inner_height() - _margin.get_top() - _margin.get_bottom();
+  }
 
   // When the user set a size on the container, like 10px or 50%
   if (_size_x.has_expression()) {
-    if (_parent) {
-      _effective_size.set_x(_size_x.evaluate(_parent->get_width()));
-    } else {
-      _effective_size.set_x(_size_x.evaluate(0));
-    }
+    _effective_size.set_x(_size_x.evaluate(available_width));
 
   // Otherwise fit the container arround its childrens
   } else {
@@ -134,17 +132,13 @@ INLINE void LUIObject::update_dimensions() {
     }
     max_x -= get_abs_pos().get_x();
     max_x -= _padding.get_left() + _padding.get_right();
-    max_x = ceil(max_x);
+    max_x -= _margin.get_left() + _margin.get_right();
     _effective_size.set_x(max_x);
   }
 
   // When the user set a size on the container, like 10px or 50%
   if (_size_y.has_expression()) {
-    if (_parent) {
-      _effective_size.set_y(_size_y.evaluate(_parent->get_height()));
-    } else {
-      _effective_size.set_y(_size_y.evaluate(0));
-    }
+    _effective_size.set_y(_size_y.evaluate(available_height));
 
   // Otherwise fit the container arround its childrens
   } else {
@@ -159,6 +153,7 @@ INLINE void LUIObject::update_dimensions() {
     }
     max_y -= get_abs_pos().get_y();
     max_y -= _padding.get_top() + _padding.get_bottom();
+    max_y -= _margin.get_top() + _margin.get_bottom();
     _effective_size.set_y(max_y);
   }
 
