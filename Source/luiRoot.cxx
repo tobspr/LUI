@@ -70,6 +70,11 @@ void LUIRoot::prepare_render() {
   _triangles->make_indexed();
   _triangles->set_index_type(GeomEnums::NT_uint32);
 
+  // Update lui elements graph
+  _root->update_downstream();
+  _root->update_upstream();
+  _root->update_clip_bounds();
+
   // Render normal elements
   _root->render_recursive(false, false);
 

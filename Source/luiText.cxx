@@ -125,7 +125,7 @@ void LUIText::update_text() {
 }
 
 void LUIText::ls(int indent) {
-  cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; size = " << get_width() << " x " << get_height() << "; text = u'" << _text << "'; z = " << _z_offset << endl;
+  cout << string(indent, ' ')  << "[LUIText] pos = " << get_abs_pos().get_x() << ", " << get_abs_pos().get_y() << "; size = " << get_width() << " x " << get_height() << "; text = u'" << _text << "'; z = " << _z_offset << endl;
 }
 
 int LUIText::get_char_index(float pos) const {

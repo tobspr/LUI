@@ -73,7 +73,7 @@ LUISprite::~LUISprite() {
 
 void LUISprite::ls(int indent) {
   cout << string(indent, ' ')  << "[LUISprite] pos = "
-      << _pos_x << ", " << _pos_y
+      << get_abs_pos().get_x() << ", " << get_abs_pos().get_y()
       << "; size = " << get_width() << " x " << get_height()
       << "; tex = " << (_tex != NULL ? _tex->get_name() : "none")
       << "; z = " << _z_offset << endl;
@@ -122,7 +122,7 @@ void LUISprite::assign_sprite_index() {
 }
 
 void LUISprite::update_vertex_pool() {
-  if (_sprite_index >= 0 && _root != NULL && !_in_update_section) {
+  if (_sprite_index >= 0 && _root != NULL) {
 
     if (luiSprite_cat.is_spam()) {
       luiSprite_cat.spam() << "Updating vertex pool slot " << _sprite_index << endl;
@@ -164,8 +164,8 @@ void LUISprite::recompute_vertices() {
   */
 
   // Get current position
-  float x1 = _pos_x;
-  float y1 = _pos_y;
+  float x1 = get_abs_pos().get_x();
+  float y1 = get_abs_pos().get_y();
   float x2 = x1 + _effective_size.get_x();
   float y2 = y1 + _effective_size.get_y();
 

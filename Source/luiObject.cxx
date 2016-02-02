@@ -59,7 +59,7 @@ void LUIObject::set_root(LUIRoot* root) {
 }
 
 void LUIObject::ls(int indent) {
-  cout << string(indent, ' ')  << "[LUIObject] pos = " << _pos_x << ", " << _pos_y << "; size = "
+  cout << string(indent, ' ')  << "[LUIObject] pos = " << get_abs_pos().get_x() << ", " << get_abs_pos().get_y() << "; size = "
        << get_height() << " x " << get_width() << "; z = " << _z_offset << endl;
 
   for (auto it = _children.cbegin(); it != _children.cend(); ++it) {
@@ -171,7 +171,7 @@ void LUIObject::update_upstream() {
 }
 
 void LUIObject::update_clip_bounds() {
-  update_bounds();
+  LUIBaseElement::update_clip_bounds();
   for (auto it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->update_clip_bounds();
   }

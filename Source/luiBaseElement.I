@@ -146,7 +146,7 @@ INLINE void LUIBaseElement::set_centered(bool center_vert, bool center_horiz) {
 INLINE void LUIBaseElement::set_center_vertical(bool centered) {
   if (centered) {
     _placement.y = M_center;
-    _position.set_y(0);
+    _position.set_y(0.0f);
   } else {
     luiBaseElement_cat.warning() << "set_center_vertical called with false as argument, this has no effect!" << endl;
   }
@@ -155,7 +155,7 @@ INLINE void LUIBaseElement::set_center_vertical(bool centered) {
 INLINE void LUIBaseElement::set_center_horizontal(bool centered) {
   if (centered) {
     _placement.x = M_center;
-    _position.set_x(0);
+    _position.set_x(0.0f);
   } else {
     luiBaseElement_cat.warning() << "set_center_horizontal called with false as argument, this has no effect!" << endl;
   }
@@ -315,15 +315,17 @@ INLINE void LUIBaseElement::set_height(const string& height) {
 }
 
 INLINE float LUIBaseElement::get_width() const {
+  if (_size.x.has_fixed_expression()) return _size.x.evaluate(0.0f);
   return _effective_size.get_x();
 }
 
 INLINE float LUIBaseElement::get_height() const {
+  if (_size.y.has_fixed_expression()) return _size.y.evaluate(0.0f);
   return _effective_size.get_y();
 }
 
 INLINE const LVector2& LUIBaseElement::get_size() const {
-  return _effective_size;
+  return LVector2(get_width(), get_height());
 }
 
 INLINE void LUIBaseElement::set_visible(bool visible) {

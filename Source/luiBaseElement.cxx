@@ -117,17 +117,6 @@ INLINE LVector2 componentwise_min(const LVector2& a, const LVector2& b) {
 
 /*
 void LUIBaseElement::recompute_position() {
-
-  if (_in_update_section)
-    return;
-
-
-
-   // TODO: Use pandas builtin vector types to make this computations prettier
-
-
-
-
   LVector2 parent_pos(0);
 
   float local_x_offs = 0.0f;
@@ -329,7 +318,7 @@ void LUIBaseElement::trigger_event(const string &event_name, const wstring &mess
 }
 
 void LUIBaseElement::set_z_offset(float z_offset) {
-  _z_offset = _offset;
+  _z_offset = z_offset;
 
   // Notify parent about changed z-index - so the children can be re-sorted
   if (_parent)
@@ -358,7 +347,6 @@ void LUIBaseElement::clear_parent() {
 }
 
 void LUIBaseElement::update_dimensions(const LVector2& available_dimensions) {
-
   if (!_size.x.has_expression()) {
     luiBaseElement_cat.warning() << "LUIBaseElement has no valid width expression!" << endl;
   }
@@ -389,12 +377,12 @@ void LUIBaseElement::update_downstream() {
     // compute it in the upstream pass
     const LUIBounds& parent_padding = _parent->_padding;
     if (_placement.x == M_default) {
-      _abs_position.set_x( _margin.get_left() + parent_padding.get_left() + parent_pos.get_x() );
+      _abs_position.set_x( _margin.get_left() + parent_padding.get_left() + parent_pos.get_x() + _position.get_x() );
     }
 
     // Compute the y-position, same as for the x-position
     if (_placement.y == M_default) {
-      _abs_position.set_y( _margin.get_top() + parent_padding.get_top() + parent_pos.get_y() );
+      _abs_position.set_y( _margin.get_top() + parent_padding.get_top() + parent_pos.get_y() + _position.get_y() );
     }
 
     // Compute how much pixels 100% would be, this is required for relative widths
@@ -420,7 +408,6 @@ void LUIBaseElement::update_downstream() {
     // (Stuff like margin and padding is not supported on the root element)
     _abs_position = _position;
     _effective_size = LVector2(_size.x.evaluate(0), _size.y.evaluate(0));
-    _abs_clip_bounds = _clip_bounds;
     compose_color(LColor(1));
   }
 
@@ -443,7 +430,7 @@ void LUIBaseElement::update_upstream() {
 
     LVector2 parent_size = _parent->_effective_size;
     LPoint2 parent_pos = _parent->_abs_position;
-    const LUIBounds& parent_padding = _parent->padding;
+    const LUIBounds& parent_padding = _parent->_padding;
 
     // Update dimensions again, now that we have information about or children.
     // This is mainly useful for the LUIObject
@@ -452,7 +439,7 @@ void LUIBaseElement::update_upstream() {
     // Compute x-position, but only if the element is centered or right aligned,
     // otherwise it already got computed in the downstream pass
     if (_placement.x == M_inverse) {
-      _abs_position.set_x(parent_pos.get_x() + parent_size.get_x()
+      _abs_position.set_x(parent_pos.get_x() + parent_size.get_x() - _position.get_x()
                           -_margin.get_right() - parent_padding.get_right());
     } else if (_placement.x == M_center) {
       _abs_position.set_x(
@@ -463,7 +450,7 @@ void LUIBaseElement::update_upstream() {
 
     // Compute y-position, same as for the x-position
     if (_placement.y == M_inverse) {
-      _abs_position.set_y(parent_pos.get_y() + parent_size.get_y()
+      _abs_position.set_y(parent_pos.get_y() + parent_size.get_y() - _position.get_y()
                           -_margin.get_bottom() - parent_padding.get_bottom());
     } else if (_placement.y == M_center) {
       _abs_position.set_y(
@@ -479,8 +466,6 @@ void LUIBaseElement::update_upstream() {
 }
 
 
-virtual void LUIBaseElement::update_clip_bounds() {
-
+void LUIBaseElement::update_clip_bounds() {
   // TODO
-
 }

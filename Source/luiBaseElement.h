@@ -217,8 +217,6 @@ public:
 
   INLINE void do_set_z_offset(int z_offset);
 
-  virtual void update_width();
-  virtual void update_height();
   virtual void update_dimensions_upstream();
   virtual void update_downstream();
   virtual void update_upstream();
@@ -226,7 +224,7 @@ public:
 
 protected:
 
-  virtual void update_dimensions();
+  virtual void update_dimensions(const LVector2& available_dimensions);
   void load_python_events(PyObject *self);
 
   float get_parent_width() const;

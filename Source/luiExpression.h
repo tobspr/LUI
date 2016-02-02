@@ -25,6 +25,7 @@ public:
     float evaluate(float max_constraint);
 
     bool has_expression() const;
+    bool has_fixed_expression() const;
 
 private:
     ExpressionType _type;

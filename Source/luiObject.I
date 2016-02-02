@@ -68,7 +68,6 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
   child->set_root(_root);
 
   on_child_z_offset_changed();
-  recompute_position();
 
   return child;
 }
@@ -98,8 +97,6 @@ INLINE void LUIObject::on_detached() {
   for (auto it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->on_detached();
   }
-
-  recompute_position();
 }
 
 INLINE void LUIObject::set_content_node(PT(LUIObject) content_node) {

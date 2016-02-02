@@ -58,13 +58,13 @@ PUBLISHED:
 public:
 
   INLINE void on_child_z_offset_changed();
-  void update_dimensions(const LVector2 &available_dimensions);
   void update_downstream();
   void update_upstream();
   void update_clip_bounds();
+  void update_dimensions_upstream();
 
 protected:
-
+  void update_dimensions(const LVector2 &available_dimensions);
   void init();
 
   // Interface to LUIBaseElement
