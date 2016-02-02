@@ -295,7 +295,7 @@ INLINE void LUIBaseElement::set_size(float width, const string& height) {
 }
 
 INLINE bool LUIBaseElement::has_size() const {
-  return _effective_size.get_x() > 0.0f && _effective_size.get_y() > 0.0f;
+  return _size.x.has_expression() && _size.y.has_expression();
 }
 
 INLINE void LUIBaseElement::set_width(float width) {

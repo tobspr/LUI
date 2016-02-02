@@ -75,7 +75,7 @@ void LUISprite::ls(int indent) {
   cout << string(indent, ' ')  << "[LUISprite] pos = "
       << get_abs_pos().get_x() << ", " << get_abs_pos().get_y()
       << "; size = " << get_width() << " x " << get_height()
-      << "; tex = " << (_tex != NULL ? _tex->get_name() : "none")
+      << "; tex = " << _debug_source
       << "; z = " << _z_offset << endl;
 }
 
@@ -164,8 +164,8 @@ void LUISprite::recompute_vertices() {
   */
 
   // Get current position
-  float x1 = get_abs_pos().get_x();
-  float y1 = get_abs_pos().get_y();
+  float x1 = _abs_position.get_x();
+  float y1 = _abs_position.get_y();
   float x2 = x1 + _effective_size.get_x();
   float y2 = y1 + _effective_size.get_y();
 

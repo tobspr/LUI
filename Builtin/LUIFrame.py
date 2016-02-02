@@ -45,7 +45,7 @@ class LUIFrame(LUIObject):
 
         self._scrollable = scrollable
         self._layout = LUICornerLayout(parent=self, image_prefix=prefix)
-        self._layout.margin = -(self.padding_top + self._border_size)
+        # self._layout.margin = -(self.padding_top + self._border_size)
 
         if self._scrollable:
             self._content = LUIObject(self)

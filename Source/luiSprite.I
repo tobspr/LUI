@@ -28,6 +28,9 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
   // Unassign old texture
   if (_tex != NULL) {
     _tex = tex;
+    _debug_source = tex->get_name();
+  } else {
+    _debug_source = "NULL";
   }
 
   if (tex != NULL) {
@@ -67,6 +70,7 @@ INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor, bool resize) 
 
 INLINE void LUISprite::set_texture(const string &source, bool resize) {
 
+  _debug_source = source;
   size_t sep_pos = source.find(":");
   if (sep_pos != string::npos) {
 
@@ -94,6 +98,7 @@ INLINE void LUISprite::set_texture(const string &entry_name, const string &atlas
   if (luiSprite_cat.is_spam()) {
     luiSprite_cat.spam() << "Load texture from atlas" << endl;
   }
+  _debug_source =  entry_name + ":" + atlas_id;
   PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, entry_name);
   set_texture(descriptor, resize);
 }

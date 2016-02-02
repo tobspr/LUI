@@ -298,6 +298,8 @@ protected:
   int _last_render_index;
   bool _topmost;
 
+  string _debug_name;
+
 public:
   static TypeHandle get_class_type() {
     return _type_handle;

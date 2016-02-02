@@ -33,6 +33,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   _last_frame_visible(-1),
   _last_render_index(-1),
   _topmost(false),
+  _debug_name("LUIBaseElement"),
 
   LUIColorable()
 {
@@ -95,6 +96,22 @@ void LUIBaseElement::load_python_events(PyObject *self) {
     }
 
     Py_DECREF(class_methods);
+
+    // Find out the class name on custom python objects
+    PyObject* cls = PyObject_GetAttrString(self, "__class__");
+    PyObject* cls_name = PyObject_GetAttrString(cls, "__name__");
+
+    char *str;
+    Py_ssize_t len;
+
+    // Get the method name as string
+    if (PyString_AsStringAndSize(cls_name, &str, &len) == 0) {
+      _debug_name = string(str, len);
+    } else {
+      luiBaseElement_cat.warning() << "Failed to extract class name" << endl;
+    }
+
+    _debug_name;
   }
 }
 

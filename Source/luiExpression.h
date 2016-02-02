@@ -22,7 +22,7 @@ public:
     LUIExpression();
     void load_expression(float scalar);
     void load_expression(const string& str);
-    float evaluate(float max_constraint);
+    float evaluate(float max_constraint) const;
 
     bool has_expression() const;
     bool has_fixed_expression() const;

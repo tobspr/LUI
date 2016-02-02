@@ -43,7 +43,7 @@ void LUIExpression::load_expression(const string& str) {
     _type = ET_percentage;
 }
 
-float LUIExpression::evaluate(float max_constraint) {
+float LUIExpression::evaluate(float max_constraint) const {
     // cout << "Evaluating expression, max constraint = " << max_constraint << ", value = " << _value << ", type = " << _type << endl;
     switch(_type) {
         case ET_none:

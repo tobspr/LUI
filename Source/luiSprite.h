@@ -118,6 +118,8 @@ protected:
   int _texture_index;
   int _sprite_index;
 
+  string _debug_source;
+
 public:
   static TypeHandle get_class_type() {
     return _type_handle;
