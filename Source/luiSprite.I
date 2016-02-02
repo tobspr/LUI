@@ -112,8 +112,6 @@ INLINE void LUISprite::print_vertices() {
   }
 }
 
-INLINE void LUISprite::on_bounds_changed() {}
-
 INLINE void LUISprite::on_detached() {
   unregister_events();
   if (_tex != NULL) {
@@ -121,17 +119,6 @@ INLINE void LUISprite::on_detached() {
   }
   _root = NULL;
   _parent = NULL;
-}
-
-INLINE void LUISprite::on_color_changed() {
-  LUIBaseElement::on_color_changed();
-
-  for (int i = 0; i < 4; i++) {
-    _data[i].color[0] = (unsigned char) (_composed_color.get_x() * 255.0);
-    _data[i].color[1] = (unsigned char) (_composed_color.get_y() * 255.0);
-    _data[i].color[2] = (unsigned char) (_composed_color.get_z() * 255.0);
-    _data[i].color[3] = (unsigned char) (_composed_color.get_w() * 255.0);
-  }
 }
 
 INLINE void LUISprite::init_size(float w, float h) {

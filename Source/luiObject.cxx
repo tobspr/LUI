@@ -9,23 +9,17 @@ TypeHandle LUIObject::_type_handle;
 
 LUIObject::LUIObject(PyObject *self, float x, float y, float w, float h, bool solid) : LUIBaseElement(self) {
   init();
-  begin_update_section();
   set_size(w, h);
   set_pos(x, y);
   set_solid(solid);
-  end_update_section();
 }
 
 LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float w, float h, bool solid)  : LUIBaseElement(self) {
   init();
-
-  // Prevent recomputation of the position while we initialize the object
-  begin_update_section();
   set_size(w, h);
   set_pos(x, y);
   set_solid(solid);
   parent->add_child(this);
-  end_update_section();
 }
 
 LUIObject::~LUIObject() {
@@ -105,61 +99,80 @@ void LUIObject::render_recursive(bool is_topmost_pass, bool render_anyway) {
   }
 }
 
-INLINE void LUIObject::update_dimensions() {
+INLINE void LUIObject::update_dimensions(const LVector2& available_dimensions) {
+  _effective_size.set(
+    _size.x.evaluate(available_dimensions.get_x()),
+    _size.y.evaluate(available_dimensions.get_x())
+  );
 
-  float available_width = 0.0;
-  float available_height = 0.0;
+}
 
-  if (_parent) {
-    available_width = _parent->get_inner_width() - _margin.get_left() - _margin.get_right();
-    available_height = _parent->get_inner_height() - _margin.get_top() - _margin.get_bottom();
-  }
+void LUIObject::update_dimensions_upstream() {
 
-  // When the user set a size on the container, like 10px or 50%
-  if (_size_x.has_expression()) {
-    _effective_size.set_x(_size_x.evaluate(available_width));
+  // Update the dimensions for all expresions which require information about
+  // the children elements.
 
-  // Otherwise fit the container arround its childrens
-  } else {
-    float max_x = get_abs_pos().get_x();
+  if (!_size.x.has_expression()) {
+    float max_x = _abs_position.get_x();
 
     // Find the maximum children extent
     for (auto it = _children.begin(); it != _children.end(); ++it) {
       LUIBaseElement *elem = *it;
-      if (elem->contributes_to_fluid_width()) {
+      if (elem->_placement.x == M_default) {
         max_x = max(max_x, elem->get_x_extent());
       }
     }
-    max_x -= get_abs_pos().get_x();
+
+    // Get the relative size
+    max_x -= _abs_position.get_x();
+
+    // Substract padding
     max_x -= _padding.get_left() + _padding.get_right();
-    max_x -= _margin.get_left() + _margin.get_right();
+
+    if (_snap_position) max_x = ceil(max_x);
+
     _effective_size.set_x(max_x);
   }
 
-  // When the user set a size on the container, like 10px or 50%
-  if (_size_y.has_expression()) {
-    _effective_size.set_y(_size_y.evaluate(available_height));
-
-  // Otherwise fit the container arround its childrens
-  } else {
-    float max_y = get_abs_pos().get_y();
+  if (!_size.y.has_expression()) {
+    float max_y = _abs_position.get_y();
 
     // Find the maximum children extent
     for (auto it = _children.begin(); it != _children.end(); ++it) {
       LUIBaseElement *elem = *it;
-      if (elem->contributes_to_fluid_height()) {
+      if (elem->_placement.y == M_default) {
         max_y = max(max_y, elem->get_y_extent());
       }
     }
-    max_y -= get_abs_pos().get_y();
+
+    // Get the relative size
+    max_y -= _abs_position.get_y();
+
+    // Substract padding
     max_y -= _padding.get_top() + _padding.get_bottom();
-    max_y -= _margin.get_top() + _margin.get_bottom();
+
+    if (_snap_position) max_y = ceil(max_y);
     _effective_size.set_y(max_y);
   }
+}
 
-  if (_snap_position) {
-    _effective_size.set_x(ceil(_effective_size.get_x()));
-    _effective_size.set_y(ceil(_effective_size.get_y()));
+void LUIObject::update_downstream() {
+  LUIBaseElement::update_downstream();
+  for (auto it = _children.begin(); it!= _children.end(); ++it) {
+    (*it)->update_downstream();
   }
+}
 
+void LUIObject::update_upstream() {
+  for (auto it = _children.begin(); it!= _children.end(); ++it) {
+    (*it)->update_upstream();
+  }
+  LUIBaseElement::update_upstream();
+}
+
+void LUIObject::update_clip_bounds() {
+  update_bounds();
+  for (auto it = _children.begin(); it!= _children.end(); ++it) {
+    (*it)->update_clip_bounds();
+  }
 }

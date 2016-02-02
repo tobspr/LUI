@@ -16,6 +16,7 @@ class EXPCL_LUI LUIBounds {
 PUBLISHED:
 
   LUIBounds() : _bounds(-1) {};
+  explicit LUIBounds(float fill_value) : _bounds(fill_value) {};
   explicit LUIBounds(const LVector4 &bounds) : _bounds(bounds) {};
   LUIBounds(float top, float right, float bottom, float left)
     : _bounds(top, right, bottom, left) {};

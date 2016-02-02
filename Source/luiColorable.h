@@ -44,7 +44,6 @@ protected:
 
   LUIColorable();
   virtual ~LUIColorable();
-  virtual void on_color_changed() = 0;
 
   INLINE void compose_color(const LColor &parent_color = LColor(1));
 

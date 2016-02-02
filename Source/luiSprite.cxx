@@ -10,7 +10,6 @@ NotifyCategoryDef(luiSprite, ":lui");
 
 LUISprite::LUISprite(LUIText* parent_text)
   : LUIBaseElement(NULL) {
-  _is_text_sprite = true;
   init((LUIObject*)parent_text, 0, 0, LColor(1));
   set_texture((Texture*)NULL, true);
 }
@@ -45,8 +44,6 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
   // A lui sprite always needs a parent
   nassertv(parent != NULL);
 
-  // LUISprites don't trigger change events
-  set_emits_changed_event(false);
 
   _last_frame_visible = -1;
   _texture_index = -1;
@@ -57,14 +54,10 @@ void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
     luiSprite_cat.spam() << "Constructed new LUISprite, (active: " << _instance_count << ")" << endl;
   }
 
-  // Prevent recomputation of the position while we initialize the sprite
-  begin_update_section();
   set_color(color);
   set_uv_range(0, 0, 1, 1);
   set_size(1, 1);
   set_pos(x, y);
-  end_update_section();
-
   parent->add_child(this);
 }
 
@@ -236,6 +229,12 @@ void LUISprite::recompute_vertices() {
     _data[i].y = 0;
   }
 
+  for (int i = 0; i < 4; i++) {
+    _data[i].color[0] = (unsigned char) (_composed_color.get_x() * 255.0);
+    _data[i].color[1] = (unsigned char) (_composed_color.get_y() * 255.0);
+    _data[i].color[2] = (unsigned char) (_composed_color.get_z() * 255.0);
+    _data[i].color[3] = (unsigned char) (_composed_color.get_w() * 255.0);
+  }
 }
 
 void LUISprite::fetch_texture_index() {

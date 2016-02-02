@@ -30,13 +30,6 @@ INLINE float LUIText::get_font_size() const {
     return _font_size;
 }
 
-INLINE void LUIText::on_color_changed() {
-  LUIBaseElement::on_color_changed();
-  for (auto it = _children.begin(); it != _children.end(); ++it) {
-    (*it)->set_color(_color);
-  }
-}
-
 INLINE void LUIText::set_wordwrap(bool wrap) {
   _wordwrap = wrap;
   update_text();

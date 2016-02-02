@@ -89,15 +89,10 @@ protected:
   void unassign_sprite_index();
 
   // Interface to LUIBaseElement
-  INLINE void on_bounds_changed();
   INLINE void on_detached();
   void set_root(LUIRoot* root);
 
   virtual void render_recursive(bool is_topmost_pass, bool render_anyway);
-
-  // Interface to LUIColorable
-  void on_color_changed();
-
 
   void fetch_texture_index();
 

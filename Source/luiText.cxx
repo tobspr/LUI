@@ -42,11 +42,7 @@ void LUIText::update_text() {
     }
     PT(LUISprite) sprite = new LUISprite(this);
 
-    // Don't make each glyph emit a changed event, this just leads to event
-    // pollution. Instead, we manually trigger changed events
-    sprite->set_emits_changed_event(false);
-
-    // Required for text rendering
+    // Required for smooth text rendering
     sprite->set_snap_position(false);
   }
 
@@ -96,7 +92,6 @@ void LUIText::update_text() {
 
     } else {
       sprite->show();
-      sprite->begin_update_section();
 
       // LUISprite has a check if the texture is the same, so if the atlas didn't
       // change, this is quite efficient.
@@ -120,8 +115,6 @@ void LUIText::update_text() {
          (dynamic_glyph->get_top() - dynamic_glyph->get_bottom()) * ppu);
 
       sprite->set_color(_color);
-      sprite->end_update_section();
-
     }
 
     // Move *cursor* by glyph length
@@ -133,11 +126,6 @@ void LUIText::update_text() {
 
 void LUIText::ls(int indent) {
   cout << string(indent, ' ')  << "[LUIText] pos = " << _pos_x << ", " << _pos_y << "; size = " << get_width() << " x " << get_height() << "; text = u'" << _text << "'; z = " << _z_offset << endl;
-
-  // for (auto it = _children.begin(); it!= _children.end(); ++it) {
-  //  (*it)->ls(indent + 1);
-  // }
-
 }
 
 int LUIText::get_char_index(float pos) const {
@@ -167,9 +155,7 @@ int LUIText::get_char_index(float pos) const {
     if (cursor > pos) {
       return i;
     }
-
   }
-
   return _text.size();
 }
 
@@ -201,5 +187,4 @@ float LUIText::get_char_pos(int char_index) const {
   }
 
   return cursor;
-
 }

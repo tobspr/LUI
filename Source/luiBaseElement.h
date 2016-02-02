@@ -70,8 +70,6 @@ PUBLISHED:
   INLINE float get_bottom() const;
   INLINE float get_left() const;
 
-  INLINE LPoint2 get_relative_pos(const LPoint2 &abs_pos) const;
-
   INLINE void set_centered(bool center_vert = true, bool center_horiz = true);
   INLINE void set_center_vertical(bool centered = true);
   INLINE void set_center_horizontal(bool centered = true);
@@ -110,14 +108,14 @@ PUBLISHED:
 
   // Size
   INLINE void set_size(const LVector2 &size);
-  INLINE void set_size(float w, float h);
-  INLINE void set_size(const string& w, float h);
-  INLINE void set_size(const string& w, const string& h);
-  INLINE void set_size(float w, const string& h);
-  INLINE void set_width(float w);
-  INLINE void set_height(float h);
-  INLINE void set_width(const string& w);
-  INLINE void set_height(const string& h);
+  INLINE void set_size(float width, float height);
+  INLINE void set_size(const string& width, float height);
+  INLINE void set_size(const string& width, const string& height);
+  INLINE void set_size(float width, const string& height);
+  INLINE void set_width(float width);
+  INLINE void set_height(float height);
+  INLINE void set_width(const string& width);
+  INLINE void set_height(const string& height);
   INLINE float get_width() const;
   INLINE float get_height() const;
   INLINE bool has_size() const;
@@ -134,7 +132,7 @@ PUBLISHED:
   INLINE bool get_solid() const;
 
   // Z-Index
-  void set_z_offset(int z_offset);
+  void set_z_offset(float z_offset);
   INLINE float get_z_offset() const;
 
   // Focus
@@ -149,9 +147,6 @@ PUBLISHED:
 
   INLINE virtual bool intersects(float x, float y) const;
 
-  INLINE void begin_update_section();
-  INLINE virtual void end_update_section();
-
   INLINE void clear_clip_bounds();
   INLINE void set_clip_bounds(const LUIBounds& bounds);
   INLINE void set_clip_bounds(float top, float right, float bottom, float left);
@@ -160,15 +155,6 @@ PUBLISHED:
 
   INLINE bool is_topmost() const;
   INLINE void set_topmost(bool topmost);
-
-  INLINE void set_emits_changed_event(bool emit);
-  INLINE bool get_emits_changed_event() const;
-
-  INLINE float get_x_extent();
-  INLINE float get_y_extent();
-
-  INLINE float get_inner_width();
-  INLINE float get_inner_height();
 
   // Properties for python
   MAKE_PROPERTY(top_left, get_top_left, set_top_left);
@@ -214,18 +200,12 @@ PUBLISHED:
   MAKE_PROPERTY(topmost, is_topmost, set_topmost);
   MAKE_PROPERTY(solid, get_solid, set_solid);
 
-  MAKE_PROPERTY(emits_changed_event, get_emits_changed_event, set_emits_changed_event);
-
-  MAKE_PROPERTY(x_extent, get_x_extent);
-  MAKE_PROPERTY(y_extent, get_y_extent);
-
-  MAKE_PROPERTY(inner_width, get_inner_width);
-  MAKE_PROPERTY(inner_height, get_inner_height);
-
 public:
 
+  INLINE float get_x_extent() const;
+  INLINE float get_y_extent() const;
+
   INLINE void do_set_parent(LUIObject* parent);
-  void recompute_position();
 
   INLINE void set_snap_position(bool snap);
 
@@ -237,12 +217,17 @@ public:
 
   INLINE void do_set_z_offset(int z_offset);
 
-  INLINE bool contributes_to_fluid_width() const;
-  INLINE bool contributes_to_fluid_height() const;
-
-  virtual void update_dimensions();
+  virtual void update_width();
+  virtual void update_height();
+  virtual void update_dimensions_upstream();
+  virtual void update_downstream();
+  virtual void update_upstream();
+  virtual void update_clip_bounds();
 
 protected:
+
+  virtual void update_dimensions();
+  void load_python_events(PyObject *self);
 
   float get_parent_width() const;
   float get_parent_height() const;
@@ -250,11 +235,10 @@ protected:
   void fetch_render_index();
 
   enum LUIPlacementMode {
-
-    // Stick to left
+    // Stick to left/top
     M_default,
 
-    // Stick to right
+    // Stick to right/bottom
     M_inverse,
 
     // Center (either horizontally or vertically)
@@ -264,39 +248,39 @@ protected:
   // Interface
   virtual void set_root(LUIRoot* root) = 0;
   virtual void on_detached() = 0;
-  virtual void on_bounds_changed() = 0;
-
-  // Interface to LUIColorable
-  virtual void on_color_changed();
 
   virtual void render_recursive(bool is_topmost_pass, bool render_anyway) = 0;
 
   void register_events();
   void unregister_events();
 
-  PN_stdfloat _offset_x, _offset_y;
-  LUIPlacementMode _placement_x, _placement_y;
-  PN_stdfloat _pos_x, _pos_y;
-  PN_stdfloat _rel_pos_x, _rel_pos_y;
+  // Relative position
+  LPoint2 _position;
 
-  LUIExpression _size_x;
-  LUIExpression _size_y;
+  // Absolute position
+  LPoint2 _abs_position;
   LVector2 _effective_size;
 
-  bool _visible;
-  bool _emits_changed_event;
+  // Placement modes
+  struct {
+    LUIPlacementMode x, y;
+  } _placement;
 
-  // Z-Index, relative to the parent
+  struct {
+    LUIExpression x, y;
+  } _size;
+
+  bool _visible;
+
+  // Z-Offset, relative to the parent
   float _z_offset;
 
-  // Wheter we already registered the element at the LUIRoot for recieving events
   bool _events_registered;
-  bool _in_update_section;
   bool _snap_position;
   bool _focused;
   bool _solid;
 
-  // Margin & Padding, relative to the element bounds
+  // Margin and padding, relative to the element bounds
   LUIBounds _margin;
   LUIBounds _padding;
 
@@ -304,13 +288,10 @@ protected:
   LUIBounds _clip_bounds;
   bool _have_clip_bounds;
 
-  // Clip bounds, in render space (absolute coordinates)
+  // Clip bounds, in absolute space
   LUIRect _abs_clip_bounds;
 
   unordered_map<string, PT(CallbackObject)> _events;
-
-  LUIRect _last_bounds;
-  LUIRect _last_clip_bounds;
 
   LUIObject* _parent;
   LUIRoot* _root;
@@ -318,8 +299,6 @@ protected:
   int _last_frame_visible;
   int _last_render_index;
   bool _topmost;
-
-  bool _is_text_sprite;
 
 public:
   static TypeHandle get_class_type() {

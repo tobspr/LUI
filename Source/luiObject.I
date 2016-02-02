@@ -28,7 +28,6 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
     luiObject_cat.spam() << "Reference count is now: " << child->get_ref_count() << endl;
   }
 
-  recompute_position();
 }
 
 INLINE void LUIObject::on_child_z_offset_changed() {
@@ -49,7 +48,6 @@ INLINE void LUIObject::remove_all_children() {
 
   // Now clear the vector
   _children.clear();
-  recompute_position();
 }
 
 
@@ -64,8 +62,6 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
   }
 
   child->do_set_parent(this);
-  child->recompute_position();
-  child->on_color_changed();
   _children.push_back(child);
 
   // This has to be last. Otherwise we're attaching to the pool with outdated positions
@@ -90,23 +86,6 @@ INLINE int LUIObject::get_child_count() const {
   return _children.size();
 }
 
-INLINE void LUIObject::on_color_changed() {
-  LUIBaseElement::on_color_changed();
-  for (auto it = _children.begin(); it!= _children.end(); ++it) {
-    (*it)->on_color_changed();
-  }
-}
-
-INLINE void LUIObject::on_bounds_changed() {
-  if (luiObject_cat.is_spam()) {
-    luiObject_cat.spam() << "Updating children .. " << endl;
-  }
-
-  for (auto it = _children.begin(); it != _children.end(); ++it) {
-    (*it)->recompute_position();
-  }
-}
-
 INLINE void LUIObject::on_detached() {
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Got detached .." << endl;
@@ -129,12 +108,4 @@ INLINE void LUIObject::set_content_node(PT(LUIObject) content_node) {
 
 INLINE PT(LUIObject) LUIObject::get_content_node() const {
   return _content_node;
-}
-
-INLINE bool LUIObject::has_fluid_width() const {
-  return _size_x.has_expression();
-}
-
-INLINE bool LUIObject::has_fluid_height() const {
-  return _size_y.has_expression();
 }

@@ -58,24 +58,19 @@ PUBLISHED:
 public:
 
   INLINE void on_child_z_offset_changed();
-
-  void update_dimensions();
-
-  INLINE virtual bool has_fluid_width() const;
-  INLINE virtual bool has_fluid_height() const;
+  void update_dimensions(const LVector2 &available_dimensions);
+  void update_downstream();
+  void update_upstream();
+  void update_clip_bounds();
 
 protected:
 
   void init();
 
   // Interface to LUIBaseElement
-  INLINE virtual void on_bounds_changed();
   INLINE virtual void on_detached();
   virtual void set_root(LUIRoot* root);
   virtual void render_recursive(bool is_topmost_pass, bool render_anyway);
-
-  // Interface to LUIColorable
-  INLINE virtual void on_color_changed();
 
   pvector<PT(LUIBaseElement)> _children;
   PT(LUIObject) _content_node;

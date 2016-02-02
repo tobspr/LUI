@@ -32,39 +32,30 @@ INLINE bool LUIBaseElement::has_event(const string &event_name) {
 
 INLINE void LUIBaseElement::set_snap_position(bool snap) {
   _snap_position = snap;
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_top_left(const LPoint2 &pos) {
-  _placement_x = M_default;
-  _placement_y = M_default;
-  _offset_x = pos.get_x();
-  _offset_y = pos.get_y();
-  recompute_position();
+  _placement.x = M_default;
+  _placement.y = M_default;
+  _position = pos;
 }
 
 INLINE void LUIBaseElement::set_top_right(const LPoint2 &pos) {
-  _placement_x = M_inverse;
-  _placement_y = M_default;
-  _offset_x = pos.get_x();
-  _offset_y = pos.get_y();
-  recompute_position();
+  _placement.x = M_inverse;
+  _placement.y = M_default;
+  _position = pos;
 }
 
 INLINE void LUIBaseElement::set_bottom_left(const LPoint2 &pos) {
-  _placement_x = M_default;
-  _placement_y = M_inverse;
-  _offset_x = pos.get_x();
-  _offset_y = pos.get_y();
-  recompute_position();
+  _placement.x = M_default;
+  _placement.y = M_inverse;
+  _position = pos;
 }
 
 INLINE void LUIBaseElement::set_bottom_right(const LPoint2 &pos) {
-  _placement_x = M_inverse;
-  _placement_y = M_inverse;
-  _offset_x = pos.get_x();
-  _offset_y = pos.get_y();
-  recompute_position();
+  _placement.x = M_inverse;
+  _placement.y = M_inverse;
+  _position = pos;
 }
 
 INLINE LPoint2 LUIBaseElement::get_top_left() const {
@@ -96,128 +87,119 @@ INLINE LPoint2 LUIBaseElement::get_pos() const {
 }
 
 INLINE LPoint2 LUIBaseElement::get_abs_pos() const {
-  return LPoint2(_pos_x, _pos_y);
+  return _abs_position;
 }
 
 INLINE void LUIBaseElement::set_top(float top) {
-  _placement_y = M_default;
-  _offset_y = top;
-  recompute_position();
+  _placement.y = M_default;
+  _position.set_y(top);
 }
 
 INLINE void LUIBaseElement::set_right(float right) {
-  _placement_x = M_inverse;
-  _offset_x = right;
-  recompute_position();
+  _placement.x = M_inverse;
+  _position.set_x(right);
 }
 
 INLINE void LUIBaseElement::set_bottom(float bottom) {
-  _placement_y = M_inverse;
-  _offset_y = bottom;
-  recompute_position();
+  _placement.y = M_inverse;
+  _position.set_y(bottom);
 }
 
 INLINE void LUIBaseElement::set_left(float left) {
-  _placement_x = M_default;
-  _offset_x = left;
-  recompute_position();
+  _placement.x = M_default;
+  _position.set_x(left);
 }
 
 INLINE float LUIBaseElement::get_top() const {
-  return _rel_pos_y;
+  return _position.get_y();
 }
 
 INLINE float LUIBaseElement::get_right() const {
-  return get_parent_width() - get_left();
+  return _position.get_x();
 }
 
 INLINE float LUIBaseElement::get_bottom() const {
-  return get_parent_height() - get_top();
+  return _position.get_y();
 }
 
 INLINE float LUIBaseElement::get_left() const {
-  return _rel_pos_x;
-}
-
-INLINE LPoint2 LUIBaseElement::get_relative_pos(const LPoint2 &abs_pos) const {
-  return abs_pos - get_abs_pos();
+  return _position.get_x();
 }
 
 INLINE void LUIBaseElement::set_centered(bool center_vert, bool center_horiz) {
   if (center_horiz) {
-    _placement_x = M_center;
-    _offset_x = 0;
-  }
-  if (center_vert) {
-    _placement_y = M_center;
-    _offset_y = 0;
+    _placement.x = M_center;
+    _position.set_x(0.0f);
   }
 
-  recompute_position();
+  if (center_vert) {
+    _placement.y = M_center;
+    _position.set_y(0.0f);
+  }
+
+  if (!center_vert && !center_horiz) {
+    luiBaseElement_cat.warning() << "set_centered() called, but no parameter was true. To un-center an "
+                                 << "element, use the top_left property for example instead." << endl;
+  }
 }
 
 INLINE void LUIBaseElement::set_center_vertical(bool centered) {
   if (centered) {
-    _placement_y = M_center;
-    _offset_y = 0;
-    recompute_position();
+    _placement.y = M_center;
+    _position.set_y(0);
+  } else {
+    luiBaseElement_cat.warning() << "set_center_vertical called with false as argument, this has no effect!" << endl;
   }
 }
 
 INLINE void LUIBaseElement::set_center_horizontal(bool centered) {
   if (centered) {
-    _placement_x = M_center;
-    _offset_x = 0;
-    recompute_position();
+    _placement.x = M_center;
+    _position.set_x(0);
+  } else {
+    luiBaseElement_cat.warning() << "set_center_horizontal called with false as argument, this has no effect!" << endl;
   }
 }
 
 INLINE bool LUIBaseElement::is_centered() const {
-  return _placement_x == M_center && _placement_y == M_center;
+  return _placement.x == M_center && _placement.y == M_center;
 }
 
 INLINE bool LUIBaseElement::is_vertical_centered() const {
-  return _placement_y == M_center;
+  return _placement.y == M_center;
 }
 
 INLINE bool LUIBaseElement::is_horizontal_centered() const {
-  return _placement_x == M_center;
+  return _placement.x == M_center;
 }
 
 INLINE void LUIBaseElement::set_margin(const LVector4 &margin) {
   _margin.set_bounds(margin);
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin(float top, float right, float bottom, float left) {
   _margin.set_bounds(top, right, bottom, left);
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin(float margin) {
   _margin.set_bounds(margin, margin, margin, margin);
-  recompute_position();
 }
 
 
 INLINE void LUIBaseElement::set_margin_top(float top) {
   _margin.set_top(top);
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin_right(float right) {
   _margin.set_right(right);
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin_bottom(float bottom) {
   _margin.set_bottom(bottom);
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_margin_left(float left) {
   _margin.set_left(left);
-  recompute_position();
 }
 
 INLINE float LUIBaseElement::get_margin_top() const {
@@ -242,34 +224,30 @@ INLINE const LUIBounds& LUIBaseElement::get_margin() const {
 
 INLINE void LUIBaseElement::set_padding(const LVector4 &padding) {
   _padding.set_bounds(padding);
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_padding(float top, float right, float bottom, float left) {
   _padding.set_bounds(top, right, bottom, left);
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_padding(float padding) {
   _padding.set_bounds(padding, padding, padding, padding);
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_padding_top(float top) {
   _padding.set_top(top);
-  recompute_position();
 }
+
 INLINE void LUIBaseElement::set_padding_right(float right) {
   _padding.set_right(right);
-  recompute_position();
 }
+
 INLINE void LUIBaseElement::set_padding_bottom(float bottom) {
   _padding.set_bottom(bottom);
-  recompute_position();
 }
+
 INLINE void LUIBaseElement::set_padding_left(float left) {
   _padding.set_left(left);
-  recompute_position();
 }
 
 INLINE float LUIBaseElement::get_padding_top() const {
@@ -296,67 +274,44 @@ INLINE void LUIBaseElement::set_size(const LVector2 &size) {
   set_size(size.get_x(), size.get_y());
 }
 
-
-INLINE void LUIBaseElement::set_size(float w, float h) {
-  if (_snap_position) {
-    w = ceil(w);
-    h = ceil(h);
-  }
-  _size_x.load_expression(w);
-  _size_y.load_expression(h);
-  recompute_position();
+INLINE void LUIBaseElement::set_size(float width, float height) {
+  _size.x.load_expression(width);
+  _size.y.load_expression(height);
 }
 
-
-INLINE void LUIBaseElement::set_size(const string& w, const string& h) {
-  _size_x.load_expression(w);
-  _size_y.load_expression(h);
-  recompute_position();
+INLINE void LUIBaseElement::set_size(const string& width, const string& height) {
+  _size.x.load_expression(width);
+  _size.y.load_expression(height);
 }
 
-INLINE void LUIBaseElement::set_size(const string& w, float h) {
-  if (_snap_position)
-    h = ceil(h);
-  _size_x.load_expression(w);
-  _size_y.load_expression(h);
-  recompute_position();
+INLINE void LUIBaseElement::set_size(const string& width, float height) {
+  _size.x.load_expression(width);
+  _size.y.load_expression(height);
 }
 
-
-INLINE void LUIBaseElement::set_size(float w, const string& h) {
-  if (_snap_position)
-    w = ceil(w);
-  _size_x.load_expression(w);
-  _size_y.load_expression(h);
-  recompute_position();
+INLINE void LUIBaseElement::set_size(float width, const string& height) {
+  _size.x.load_expression(width);
+  _size.y.load_expression(height);
 }
 
 INLINE bool LUIBaseElement::has_size() const {
   return _effective_size.get_x() > 0.0f && _effective_size.get_y() > 0.0f;
 }
 
-INLINE void LUIBaseElement::set_width(float w) {
-  if (_snap_position)
-    w = ceil(w);
-  _size_x.load_expression(w);
-  recompute_position();
+INLINE void LUIBaseElement::set_width(float width) {
+  _size.x.load_expression(width);
 }
 
-INLINE void LUIBaseElement::set_width(const string& w) {
-  _size_x.load_expression(w);
-  recompute_position();
+INLINE void LUIBaseElement::set_width(const string& width) {
+  _size.x.load_expression(width);
 }
 
-INLINE void LUIBaseElement::set_height(float h) {
-  if (_snap_position)
-    h = ceil(h);
-  _size_y.load_expression(h);
-  recompute_position();
+INLINE void LUIBaseElement::set_height(float height) {
+  _size.y.load_expression(height);
 }
 
-INLINE void LUIBaseElement::set_height(const string& h) {
-  _size_y.load_expression(h);
-  recompute_position();
+INLINE void LUIBaseElement::set_height(const string& height) {
+  _size.y.load_expression(height);
 }
 
 INLINE float LUIBaseElement::get_width() const {
@@ -391,7 +346,6 @@ INLINE float LUIBaseElement::get_z_offset() const {
   return _z_offset;
 }
 
-
 INLINE bool LUIBaseElement::has_focus() const {
   return _focused;
 }
@@ -406,10 +360,10 @@ INLINE LUIObject* LUIBaseElement::get_parent() const {
 
 INLINE bool LUIBaseElement::intersects(float x, float y) const {
   return (
-      x >= _pos_x &&
-      y >= _pos_y &&
-      x <= _pos_x + _effective_size.get_x() &&
-      y <= _pos_y + _effective_size.get_y() &&
+      x >= _abs_position.get_x() &&
+      y >= _abs_position.get_y() &&
+      x <= _abs_position.get_x() + _effective_size.get_x() &&
+      y <= _abs_position.get_y() + _effective_size.get_y() &&
 
       x >= _abs_clip_bounds.get_x() &&
       y >= _abs_clip_bounds.get_y() &&
@@ -418,45 +372,18 @@ INLINE bool LUIBaseElement::intersects(float x, float y) const {
     );
 }
 
-INLINE void LUIBaseElement::begin_update_section() {
-  nassertv(_in_update_section == false);
-  _in_update_section = true;
-
-  if (lui_cat.spam()) {
-    lui_cat.spam() << "Begin of update section .." << endl;
-  }
-}
-
-INLINE void LUIBaseElement::end_update_section() {
-  nassertv(_in_update_section == true);
-  _in_update_section = false;
-
-  if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << "End of update section .." << endl;
-  }
-
-  recompute_position();
-
-  if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << "Finally left update section .." << endl;
-  }
-}
-
 INLINE void LUIBaseElement::clear_clip_bounds() {
   _have_clip_bounds = false;
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_clip_bounds(const LUIBounds& bounds) {
   _clip_bounds = bounds;
   _have_clip_bounds = true;
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_clip_bounds(float top, float right, float bottom, float left) {
   _clip_bounds.set_bounds(top, right, bottom, left);
   _have_clip_bounds = true;
-  recompute_position();
 }
 
 INLINE const LUIBounds& LUIBaseElement::get_clip_bounds() const {
@@ -469,7 +396,6 @@ INLINE const LUIRect& LUIBaseElement::get_abs_clip_bounds() const {
 
 INLINE void LUIBaseElement::do_set_parent(LUIObject* parent) {
   _parent = parent;
-  recompute_position();
 }
 
 INLINE void LUIBaseElement::set_focus(bool focus) {
@@ -505,34 +431,13 @@ INLINE bool LUIBaseElement::get_solid() const {
   return _solid;
 }
 
-INLINE void LUIBaseElement::set_emits_changed_event(bool emit){
-  _emits_changed_event = emit;
+INLINE void LUIBaseElement::update_dimensions_upstream() {}
+
+INLINE float LUIBaseElement::get_x_extent() const {
+  return _abs_position.get_x() + _effective_size.get_x() + _margin.get_right();
 }
 
-INLINE bool LUIBaseElement::get_emits_changed_event() const {
-  return _emits_changed_event;
+INLINE float LUIBaseElement::get_y_extent() const {
+  return _abs_position.get_y() + _effective_size.get_y() + _margin.get_bottom();
 }
 
-INLINE bool LUIBaseElement::contributes_to_fluid_width() const {
-  return _placement_x == M_default;
-}
-
-INLINE bool LUIBaseElement::contributes_to_fluid_height() const {
-  return _placement_y == M_default;
-}
-
-INLINE float LUIBaseElement::get_inner_width() {
-  return _effective_size.get_x() - _padding.get_left() - _padding.get_right();
-}
-
-INLINE float LUIBaseElement::get_inner_height() {
-  return _effective_size.get_y() - _padding.get_top() - _padding.get_bottom();
-}
-
-INLINE float LUIBaseElement::get_x_extent() {
-  return _pos_x + _effective_size.get_x() + _margin.get_right();
-}
-
-INLINE float LUIBaseElement::get_y_extent() {
-  return _pos_y + _effective_size.get_y() + _margin.get_bottom();
-}

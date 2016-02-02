@@ -14,38 +14,35 @@ TypeHandle LUIBaseElement::_type_handle;
 NotifyCategoryDef(luiBaseElement, ":lui");
 
 LUIBaseElement::LUIBaseElement(PyObject *self) :
+  _position(0.0f),
+  _abs_position(0.0f),
+  _effective_size(0.0f),
   _visible(true),
-  _offset_x(0),
-  _offset_y(0),
-  _pos_x(0),
-  _pos_y(0),
-  _rel_pos_x(0),
-  _rel_pos_y(0),
-  _placement_x(M_default),
-  _placement_y(M_default),
-  _parent(NULL),
-  _root(NULL),
   _z_offset(0.0f),
   _events_registered(false),
-  _in_update_section(false),
   _snap_position(true),
   _focused(false),
+  _solid(false),
+  _margin(0.0f),
+  _padding(0.0f),
+  _clip_bounds(0.0f, 0.0f, 1e6, 1e6),
+  _have_clip_bounds(false),
+  _abs_clip_bounds(0.0f, 0.0f, 1e6, 1e6),
+  _parent(NULL),
+  _root(NULL),
   _last_frame_visible(-1),
   _last_render_index(-1),
   _topmost(false),
-  _solid(false),
-  _emits_changed_event(true),
-  _last_bounds(),
-  _last_clip_bounds(),
-  _margin(0, 0, 0, 0),
-  _padding(0, 0, 0, 0),
-  _abs_clip_bounds(0, 0, 1e6, 1e6),
-  _clip_bounds(0, 0, 0, 0),
-  _have_clip_bounds(false),
-  _effective_size(0),
-  _is_text_sprite(false),
+
   LUIColorable()
 {
+ load_python_events(self);
+}
+
+LUIBaseElement::~LUIBaseElement() {
+}
+
+void LUIBaseElement::load_python_events(PyObject *self) {
   // This code here should belong in a _ext file, but that's currently
   // not supported by interrogate.
 
@@ -101,9 +98,6 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
   }
 }
 
-LUIBaseElement::~LUIBaseElement() {
-}
-
 
 // Helper function for componentwise maximum
 INLINE LVector2 componentwise_max(const LVector2& a, const LVector2& b) {
@@ -121,22 +115,20 @@ INLINE LVector2 componentwise_min(const LVector2& a, const LVector2& b) {
 }
 
 
+/*
 void LUIBaseElement::recompute_position() {
 
   if (_in_update_section)
     return;
 
-  /*
 
 
-   TODO: Use pandas builtin vector types to make this computations prettier
+   // TODO: Use pandas builtin vector types to make this computations prettier
 
 
-  */
+
 
   LVector2 parent_pos(0);
-
-  update_dimensions();
 
   float local_x_offs = 0.0f;
   float local_y_offs = 0.0f;
@@ -155,12 +147,12 @@ void LUIBaseElement::recompute_position() {
 
     // Compute top
     // Stick top
-    if (_placement_y == M_default) {
+    if (_placement.y == M_default) {
       _rel_pos_y = _offset_y;
       local_y_offs = _margin.get_top() + parent_padding.get_top();
 
     // Stick bottom
-    } else if (_placement_y == M_inverse) {
+    } else if (_placement.y == M_inverse) {
       _rel_pos_y = parent_size.get_y() - _offset_y - _effective_size.get_y();
       local_y_offs = -_margin.get_bottom() - parent_padding.get_bottom();
 
@@ -173,12 +165,12 @@ void LUIBaseElement::recompute_position() {
 
     // Compute left
     // Stick left
-    if (_placement_x == M_default) {
+    if (_placement.x == M_default) {
       _rel_pos_x = _offset_x;
       local_x_offs = _margin.get_left() + parent_padding.get_left();
 
     // Stick right
-    } else if (_placement_x == M_inverse) {
+    } else if (_placement.x == M_inverse) {
       _rel_pos_x = parent_size.get_x() - _offset_x - _effective_size.get_x();
       local_x_offs = - _margin.get_right() - parent_padding.get_right();
 
@@ -239,11 +231,6 @@ void LUIBaseElement::recompute_position() {
       _abs_clip_bounds.set_rect(abs_bounds_start, local_size);
     }
   }
-
-  // Text sprites can stop here, since the LUIText keeps track of them, and
-  // also manages updating. If we don't do this, we get infinite recursion
-  if (_is_text_sprite) return;
-
   // Compute current bounds, and see if something changed
   LUIRect current_bounds;
   current_bounds.set_rect(abs_bounds_start, _effective_size);
@@ -258,12 +245,14 @@ void LUIBaseElement::recompute_position() {
       // Check if our x-dimensions changed, and if our parent has to know about it
       if (contributes_to_fluid_width() && (current_bounds.get_x() != _last_bounds.get_x() ||
                                            current_bounds.get_w() != _last_bounds.get_w()) ) {
+        // cout << "update parent fluid width" << endl;
         parent_needs_update = true;
       }
 
       // Check if our y-dimensions changed, and if our parent has to know about it
       if (contributes_to_fluid_height() && (current_bounds.get_y() != _last_bounds.get_y() ||
                                             current_bounds.get_h() != _last_bounds.get_h()) ) {
+        // cout << "update parent fluid height" << endl;
         parent_needs_update = true;
       }
 
@@ -275,9 +264,10 @@ void LUIBaseElement::recompute_position() {
     _last_clip_bounds = _abs_clip_bounds;
 
 
-    on_bounds_changed();
   }
 }
+
+*/
 
 void LUIBaseElement::register_events() {
   if (_root && _parent && !_events_registered && _solid) {
@@ -338,8 +328,8 @@ void LUIBaseElement::trigger_event(const string &event_name, const wstring &mess
   }
 }
 
-void LUIBaseElement::set_z_offset(int z_offset) {
-  _z_offset = (float)z_offset;
+void LUIBaseElement::set_z_offset(float z_offset) {
+  _z_offset = _offset;
 
   // Notify parent about changed z-index - so the children can be re-sorted
   if (_parent)
@@ -359,13 +349,6 @@ float LUIBaseElement::get_parent_height() const {
   return _parent->get_height();
 }
 
-void LUIBaseElement::on_color_changed() {
-  if (_parent)
-    compose_color(_parent->get_composed_color());
-  else
-    compose_color();
-}
-
 void LUIBaseElement::clear_parent() {
   if (!_parent) {
     luiBaseElement_cat.error() << "Called clear_parent(), but no parent is set!" << endl;
@@ -374,23 +357,130 @@ void LUIBaseElement::clear_parent() {
   _parent->remove_child(this);
 }
 
+void LUIBaseElement::update_dimensions(const LVector2& available_dimensions) {
 
-void LUIBaseElement::update_dimensions() {
-  if (!_size_x.has_expression() || !_size_y.has_expression()) {
-    luiBaseElement_cat.error() << "No explicit dimensions set on element, skipping" << endl;
-    return;
+  if (!_size.x.has_expression()) {
+    luiBaseElement_cat.warning() << "LUIBaseElement has no valid width expression!" << endl;
   }
+
+  if (!_size.y.has_expression()) {
+    luiBaseElement_cat.warning() << "LUIBaseElement has no valid height expression!" << endl;
+  }
+
+  _effective_size.set(
+    _size.x.evaluate(available_dimensions.get_x()),
+    _size.y.evaluate(available_dimensions.get_x())
+  );
+}
+
+void LUIBaseElement::update_downstream() {
+
+  // In the downstream pass, following attributes are updated:
+  // - absolute position for elements which are aligned top / right
+  // - width/height
+
   if (_parent) {
-    float available_width = _parent->get_inner_width() - _margin.get_left() - _margin.get_right();
-    float available_height = _parent->get_inner_height() - _margin.get_top() - _margin.get_bottom();
-    _effective_size.set_x(_size_x.evaluate(available_width));
-    _effective_size.set_y(_size_y.evaluate(available_height));
+
+    // Normal object with a parent
+    LVector2 parent_size = _parent->_effective_size;
+    LPoint2 parent_pos = _parent->_abs_position;
+
+    // Compute x-position, but only if the element is left-aligned, otherwise
+    // compute it in the upstream pass
+    const LUIBounds& parent_padding = _parent->_padding;
+    if (_placement.x == M_default) {
+      _abs_position.set_x( _margin.get_left() + parent_padding.get_left() + parent_pos.get_x() );
+    }
+
+    // Compute the y-position, same as for the x-position
+    if (_placement.y == M_default) {
+      _abs_position.set_y( _margin.get_top() + parent_padding.get_top() + parent_pos.get_y() );
+    }
+
+    // Compute how much pixels 100% would be, this is required for relative widths
+    // and heights like 23%. We start at the full size:
+    LVector2 available_dimensions = parent_size;
+
+    // Due to the parents padding, there is also less space available
+    available_dimensions.add_x(- (parent_padding.get_left() + parent_padding.get_right()));
+    available_dimensions.add_y(- (parent_padding.get_top() + parent_padding.get_bottom()));
+
+    // If the current element has margin, then that also reduces the available space
+    available_dimensions.add_x(- (_margin.get_left() + _margin.get_right()));
+    available_dimensions.add_y(- (_margin.get_top() + _margin.get_bottom()));
+
+    update_dimensions(available_dimensions);
+
+    // Update the color
+    compose_color(_parent->get_composed_color());
+
   } else {
-    _effective_size.set_x(_size_x.evaluate(0));
-    _effective_size.set_y(_size_y.evaluate(0));
+
+    // When we have no parent, we are the root, so we don't need a good position.
+    // (Stuff like margin and padding is not supported on the root element)
+    _abs_position = _position;
+    _effective_size = LVector2(_size.x.evaluate(0), _size.y.evaluate(0));
+    _abs_clip_bounds = _clip_bounds;
+    compose_color(LColor(1));
   }
+
+  // After computing everything, snap the position if specified
   if (_snap_position) {
     _effective_size.set_x(ceil(_effective_size.get_x()));
     _effective_size.set_y(ceil(_effective_size.get_y()));
+    _abs_position.set_x(ceil(_abs_position.get_x()));
+    _abs_position.set_y(ceil(_abs_position.get_y()));
+    // TODO: Clamp absolute clip bounds
   }
+}
+
+void LUIBaseElement::update_upstream() {
+
+  // In the upstream pass, the following attributes are updated:
+  // - absolute position for elements which are aligned right / bottom
+  // - width/height for elements without explicit size
+  if (_parent) {
+
+    LVector2 parent_size = _parent->_effective_size;
+    LPoint2 parent_pos = _parent->_abs_position;
+    const LUIBounds& parent_padding = _parent->padding;
+
+    // Update dimensions again, now that we have information about or children.
+    // This is mainly useful for the LUIObject
+    update_dimensions_upstream();
+
+    // Compute x-position, but only if the element is centered or right aligned,
+    // otherwise it already got computed in the downstream pass
+    if (_placement.x == M_inverse) {
+      _abs_position.set_x(parent_pos.get_x() + parent_size.get_x()
+                          -_margin.get_right() - parent_padding.get_right());
+    } else if (_placement.x == M_center) {
+      _abs_position.set_x(
+        parent_pos.get_x() + (parent_size.get_x() - _effective_size.get_x()) / 2.0f
+        + _margin.get_left() - _margin.get_right() + parent_padding.get_left() - parent_padding.get_right()
+      );
+    }
+
+    // Compute y-position, same as for the x-position
+    if (_placement.y == M_inverse) {
+      _abs_position.set_y(parent_pos.get_y() + parent_size.get_y()
+                          -_margin.get_bottom() - parent_padding.get_bottom());
+    } else if (_placement.y == M_center) {
+      _abs_position.set_y(
+        parent_pos.get_y() + (parent_size.get_y() - _effective_size.get_y()) / 2.0f
+        + _margin.get_top() - _margin.get_bottom() + parent_padding.get_top() - parent_padding.get_bottom()
+      );
+    }
+
+  } else {
+    // In case of no parent, we are the root element. In that case, we don't really
+    // have to do anything.
+  }
+}
+
+
+virtual void LUIBaseElement::update_clip_bounds() {
+
+  // TODO
+
 }

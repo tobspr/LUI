@@ -51,16 +51,9 @@ PUBLISHED:
   MAKE_PROPERTY(text, get_text, set_text);
   MAKE_PROPERTY(font_size, get_font_size, set_font_size);
 
-public:
-  INLINE virtual bool has_fluid_width() const { return false; }
-  INLINE virtual bool has_fluid_height() const { return false; }
-
 protected:
 
   void update_text();
-
-  // Interface to LUIColorable
-  INLINE virtual void on_color_changed();
 
   DynamicTextFont *_font;
   wstring _text;
