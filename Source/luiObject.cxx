@@ -102,7 +102,7 @@ void LUIObject::render_recursive(bool is_topmost_pass, bool render_anyway) {
 INLINE void LUIObject::update_dimensions(const LVector2& available_dimensions) {
   _effective_size.set(
     _size.x.evaluate(available_dimensions.get_x()),
-    _size.y.evaluate(available_dimensions.get_x())
+    _size.y.evaluate(available_dimensions.get_y())
   );
 
 }

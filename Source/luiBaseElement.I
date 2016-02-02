@@ -324,7 +324,7 @@ INLINE float LUIBaseElement::get_height() const {
   return _effective_size.get_y();
 }
 
-INLINE const LVector2& LUIBaseElement::get_size() const {
+INLINE LVector2 LUIBaseElement::get_size() const {
   return LVector2(get_width(), get_height());
 }
 

@@ -119,7 +119,7 @@ PUBLISHED:
   INLINE float get_width() const;
   INLINE float get_height() const;
   INLINE bool has_size() const;
-  INLINE const LVector2& get_size() const;
+  INLINE LVector2 get_size() const;
 
   // Visible
   INLINE void set_visible(bool visible);

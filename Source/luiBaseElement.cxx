@@ -98,7 +98,7 @@ void LUIBaseElement::load_python_events(PyObject *self) {
     Py_DECREF(class_methods);
 
     // Find out the class name on custom python objects
-    PyObject* cls = PyObject_GetAttrString(self, "__class__");
+    PyObject* cls = (PyObject*)Py_TYPE(self);
     PyObject* cls_name = PyObject_GetAttrString(cls, "__name__");
 
     char *str;
@@ -110,6 +110,8 @@ void LUIBaseElement::load_python_events(PyObject *self) {
     } else {
       luiBaseElement_cat.warning() << "Failed to extract class name" << endl;
     }
+
+    Py_DECREF(cls_name);
 
     _debug_name;
   }
@@ -374,7 +376,7 @@ void LUIBaseElement::update_dimensions(const LVector2& available_dimensions) {
 
   _effective_size.set(
     _size.x.evaluate(available_dimensions.get_x()),
-    _size.y.evaluate(available_dimensions.get_x())
+    _size.y.evaluate(available_dimensions.get_y())
   );
 }
 
@@ -413,6 +415,7 @@ void LUIBaseElement::update_downstream() {
     // If the current element has margin, then that also reduces the available space
     available_dimensions.add_x(- (_margin.get_left() + _margin.get_right()));
     available_dimensions.add_y(- (_margin.get_top() + _margin.get_bottom()));
+
 
     update_dimensions(available_dimensions);
 
@@ -457,7 +460,7 @@ void LUIBaseElement::update_upstream() {
     // otherwise it already got computed in the downstream pass
     if (_placement.x == M_inverse) {
       _abs_position.set_x(parent_pos.get_x() + parent_size.get_x() - _position.get_x()
-                          -_margin.get_right() - parent_padding.get_right());
+                          - _effective_size.get_x() - _margin.get_right() - parent_padding.get_right());
     } else if (_placement.x == M_center) {
       _abs_position.set_x(
         parent_pos.get_x() + (parent_size.get_x() - _effective_size.get_x()) / 2.0f
@@ -468,7 +471,7 @@ void LUIBaseElement::update_upstream() {
     // Compute y-position, same as for the x-position
     if (_placement.y == M_inverse) {
       _abs_position.set_y(parent_pos.get_y() + parent_size.get_y() - _position.get_y()
-                          -_margin.get_bottom() - parent_padding.get_bottom());
+                          - _effective_size.get_y() - _margin.get_bottom() - parent_padding.get_bottom());
     } else if (_placement.y == M_center) {
       _abs_position.set_y(
         parent_pos.get_y() + (parent_size.get_y() - _effective_size.get_y()) / 2.0f
