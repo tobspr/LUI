@@ -101,10 +101,10 @@ void LUIObject::render_recursive(bool is_topmost_pass, bool render_anyway) {
 
 INLINE void LUIObject::update_dimensions() {
   LVector2 available_dimensions = get_available_dimensions();
-  _effective_size.set(
-    _size.x.evaluate(available_dimensions.get_x()),
-    _size.y.evaluate(available_dimensions.get_y())
-  );
+  if (_size.x.has_expression())
+    _effective_size.set_x(_size.x.evaluate(available_dimensions.get_x()));
+  if (_size.y.has_expression())
+    _effective_size.set_y(_size.y.evaluate(available_dimensions.get_y()));
 }
 
 void LUIObject::update_dimensions_upstream() {
@@ -130,8 +130,8 @@ void LUIObject::update_dimensions_upstream() {
     // Get the relative size
     max_x -= _abs_position.get_x();
 
-    // Substract padding
-    max_x -= _padding.get_left() + _padding.get_right();
+    // Take padding into account
+    max_x += _padding.get_right();
 
     if (_snap_position) max_x = ceil(max_x);
     _effective_size.set_x(max_x);
@@ -151,12 +151,14 @@ void LUIObject::update_dimensions_upstream() {
     // Get the relative size
     max_y -= _abs_position.get_y();
 
-    // Substract padding
-    max_y -= _padding.get_top() + _padding.get_bottom();
+    // Take padding into account
+    max_y += _padding.get_bottom();
 
     if (_snap_position) max_y = ceil(max_y);
     _effective_size.set_y(max_y);
   }
+
+  update_dimensions();
 }
 
 void LUIObject::update_downstream() {

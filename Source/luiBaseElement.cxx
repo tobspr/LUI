@@ -403,6 +403,12 @@ void LUIBaseElement::update_dimensions() {
   );
 }
 
+
+void LUIBaseElement::update_dimensions_upstream() {
+  update_dimensions();
+}
+
+
 void LUIBaseElement::update_downstream() {
 
   // In the downstream pass, following attributes are updated:

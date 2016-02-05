@@ -433,10 +433,6 @@ INLINE bool LUIBaseElement::get_solid() const {
   return _solid;
 }
 
-INLINE void LUIBaseElement::update_dimensions_upstream() {
-  update_dimensions();
-}
-
 INLINE float LUIBaseElement::get_x_extent() const {
   return _abs_position.get_x() + _effective_size.get_x() + _margin.get_right();
 }

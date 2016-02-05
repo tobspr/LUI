@@ -13,14 +13,12 @@ class LUILabel(LUIObject):
         LUIObject.__init__(self)
         LUIInitialState.init(self, kwargs)
         self._text = LUIText(self, unicode(text), font, font_size, 0, 0)
-        self._text.color = (1,1,1,0.9)
         self._text.z_offset = 1
         self._have_shadow = shadow
-
         if self._have_shadow:
             self._shadow_text = LUIText(self, unicode(text), font, font_size, 0, 0)
             self._shadow_text.top = 1
-            self._shadow_text.color = (0,0,0,0.7)
+            self._shadow_text.color = (0,0,0,0.6)
 
     def get_text_handle(self):
         """ Returns a handle to the internal used LUIText object """

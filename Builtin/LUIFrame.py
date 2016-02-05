@@ -30,7 +30,7 @@ class LUIFrame(LUIObject):
         # TODO: We could do this automatically, determined by the sprite size
         # probably?
         self._border_size = 0
-        self.padding = 10
+        # self.padding = 10
         self.solid = True
         prefix = ""
 
