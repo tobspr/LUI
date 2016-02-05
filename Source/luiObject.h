@@ -64,7 +64,7 @@ public:
   void update_dimensions_upstream();
 
 protected:
-  void update_dimensions(const LVector2 &available_dimensions);
+  void update_dimensions();
   void init();
 
   // Interface to LUIBaseElement

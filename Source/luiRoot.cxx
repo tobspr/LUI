@@ -72,6 +72,7 @@ void LUIRoot::prepare_render() {
 
   // Update lui elements graph
   _root->update_downstream();
+  _root->update_dimensions_upstream();
   _root->update_upstream();
   _root->update_clip_bounds();
 

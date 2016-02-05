@@ -270,19 +270,17 @@ class LUIHorizontalStretchedLayout(LUIObject):
     middle sprite. While the left and right sprites remain untouched, the middle
     one will be stretched to fit the layout """
 
-    def __init__(self, parent=None, width=200, prefix="ButtonDefault"):
-        LUIObject.__init__(self, x=0, y=0, w=width, h=-1)
+    def __init__(self, parent=None, prefix="ButtonDefault", **kwargs):
+        LUIObject.__init__(self)
         self._sprite_left = LUISprite(self, "blank", "skin")
         self._sprite_mid = LUISprite(self, "blank", "skin")
         self._sprite_right = LUISprite(self, "blank", "skin")
-        self.width = "100%"
         self._sprite_right.right = 0
         self._sprite_mid.left = 0
-
         if parent is not None:
             self.parent = parent
-
         self.prefix = prefix
+        LUIInitialState.init(self, kwargs)
 
     def set_prefix(self, prefix):
         """ Sets the layout prefix, this controls which sprites will be used """
@@ -290,6 +288,7 @@ class LUIHorizontalStretchedLayout(LUIObject):
         self._sprite_mid.set_texture(prefix, "skin")
         self._sprite_right.set_texture(prefix + "_Right", "skin")
         self._sprite_mid.margin = (0, self._sprite_right.width, 0, self._sprite_left.width)
+
         self._sprite_mid.width = "100%"
         self._prefix = prefix
 

@@ -224,7 +224,9 @@ public:
 
 protected:
 
-  virtual void update_dimensions(const LVector2& available_dimensions);
+  virtual void update_dimensions();
+  LVector2 get_available_dimensions() const;
+
   void load_python_events(PyObject *self);
 
   float get_parent_width() const;

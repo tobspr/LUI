@@ -365,7 +365,29 @@ void LUIBaseElement::clear_parent() {
   _parent->remove_child(this);
 }
 
-void LUIBaseElement::update_dimensions(const LVector2& available_dimensions) {
+LVector2 LUIBaseElement::get_available_dimensions() const {
+  if (!_parent)
+    return LVector2(0);
+
+  const LUIBounds& parent_padding = _parent->_padding;
+  const LVector2& parent_size = _parent->_effective_size;
+
+  // Compute how much pixels 100% would be, this is required for relative widths
+  // and heights like 23%. We start at the full size:
+  LVector2 available_dimensions = parent_size;
+
+  // Due to the parents padding, there is also less space available
+  available_dimensions.add_x(- (parent_padding.get_left() + parent_padding.get_right()));
+  available_dimensions.add_y(- (parent_padding.get_top() + parent_padding.get_bottom()));
+
+  // If the current element has margin, then that also reduces the available space
+  available_dimensions.add_x(- (_margin.get_left() + _margin.get_right()));
+  available_dimensions.add_y(- (_margin.get_top() + _margin.get_bottom()));
+
+  return available_dimensions;
+}
+
+void LUIBaseElement::update_dimensions() {
   if (!_size.x.has_expression()) {
     luiBaseElement_cat.warning() << "LUIBaseElement has no valid width expression!" << endl;
   }
@@ -374,6 +396,7 @@ void LUIBaseElement::update_dimensions(const LVector2& available_dimensions) {
     luiBaseElement_cat.warning() << "LUIBaseElement has no valid height expression!" << endl;
   }
 
+  LVector2 available_dimensions = get_available_dimensions();
   _effective_size.set(
     _size.x.evaluate(available_dimensions.get_x()),
     _size.y.evaluate(available_dimensions.get_y())
@@ -389,8 +412,7 @@ void LUIBaseElement::update_downstream() {
   if (_parent) {
 
     // Normal object with a parent
-    LVector2 parent_size = _parent->_effective_size;
-    LPoint2 parent_pos = _parent->_abs_position;
+    const LPoint2& parent_pos = _parent->_abs_position;
 
     // Compute x-position, but only if the element is left-aligned, otherwise
     // compute it in the upstream pass
@@ -404,20 +426,7 @@ void LUIBaseElement::update_downstream() {
       _abs_position.set_y( _margin.get_top() + parent_padding.get_top() + parent_pos.get_y() + _position.get_y() );
     }
 
-    // Compute how much pixels 100% would be, this is required for relative widths
-    // and heights like 23%. We start at the full size:
-    LVector2 available_dimensions = parent_size;
-
-    // Due to the parents padding, there is also less space available
-    available_dimensions.add_x(- (parent_padding.get_left() + parent_padding.get_right()));
-    available_dimensions.add_y(- (parent_padding.get_top() + parent_padding.get_bottom()));
-
-    // If the current element has margin, then that also reduces the available space
-    available_dimensions.add_x(- (_margin.get_left() + _margin.get_right()));
-    available_dimensions.add_y(- (_margin.get_top() + _margin.get_bottom()));
-
-
-    update_dimensions(available_dimensions);
+    update_dimensions();
 
     // Update the color
     compose_color(_parent->get_composed_color());
@@ -439,6 +448,7 @@ void LUIBaseElement::update_downstream() {
     _abs_position.set_y(ceil(_abs_position.get_y()));
     // TODO: Clamp absolute clip bounds
   }
+
 }
 
 void LUIBaseElement::update_upstream() {
@@ -448,13 +458,9 @@ void LUIBaseElement::update_upstream() {
   // - width/height for elements without explicit size
   if (_parent) {
 
-    LVector2 parent_size = _parent->_effective_size;
-    LPoint2 parent_pos = _parent->_abs_position;
+    const LVector2& parent_size = _parent->_effective_size;
+    const LPoint2& parent_pos = _parent->_abs_position;
     const LUIBounds& parent_padding = _parent->_padding;
-
-    // Update dimensions again, now that we have information about or children.
-    // This is mainly useful for the LUIObject
-    update_dimensions_upstream();
 
     // Compute x-position, but only if the element is centered or right aligned,
     // otherwise it already got computed in the downstream pass

@@ -21,7 +21,8 @@ class LUIButton(LUIObject):
         width, otherwise it will automatically resize to fit the label """
         LUIObject.__init__(self, x=0, y=0, solid=True)
         self._template = template
-        self._layout = LUIHorizontalStretchedLayout(parent=self, prefix=self._template)
+        self._layout = LUIHorizontalStretchedLayout(
+            parent=self, prefix=self._template, width="100%")
         self._label = LUILabel(parent=self, text=text, shadow=True, z_offset=1,
                                 center_vertical=True, margin=(0, 20, 0, 20))
         self.margin_left = -1
@@ -44,7 +45,5 @@ class LUIButton(LUIObject):
     def set_text(self, text):
         """ Sets the label text of the button """
         self._label.text = text
-        if self._dynamic_width:
-            self.width = int(self._label.width) + 20
 
     text = property(get_text, set_text)

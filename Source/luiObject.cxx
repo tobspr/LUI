@@ -99,15 +99,19 @@ void LUIObject::render_recursive(bool is_topmost_pass, bool render_anyway) {
   }
 }
 
-INLINE void LUIObject::update_dimensions(const LVector2& available_dimensions) {
+INLINE void LUIObject::update_dimensions() {
+  LVector2 available_dimensions = get_available_dimensions();
   _effective_size.set(
     _size.x.evaluate(available_dimensions.get_x()),
     _size.y.evaluate(available_dimensions.get_y())
   );
-
 }
 
 void LUIObject::update_dimensions_upstream() {
+
+  for (auto it = _children.begin(); it!= _children.end(); ++it) {
+    (*it)->update_dimensions_upstream();
+  }
 
   // Update the dimensions for all expresions which require information about
   // the children elements.
@@ -130,7 +134,6 @@ void LUIObject::update_dimensions_upstream() {
     max_x -= _padding.get_left() + _padding.get_right();
 
     if (_snap_position) max_x = ceil(max_x);
-
     _effective_size.set_x(max_x);
   }
 
