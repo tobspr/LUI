@@ -11,7 +11,7 @@
 #include "pandabase.h"
 NotifyCategoryDecl(luiVerticalLayout, EXPCL_LUI, EXPTP_LUI);
 
-class LUIVerticalLayout : public LUIObject {
+class EXPCL_LUI LUIVerticalLayout : public LUIObject {
 
 public:
 

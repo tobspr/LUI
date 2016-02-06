@@ -7,6 +7,7 @@ class LUIRadioboxGroup(LUIObject):
     checked at one timem """
 
     def __init__(self):
+        """ Constructs a new group without any radioboxes inside """
         self._boxes = []
         self._selected_box = None
 

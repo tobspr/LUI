@@ -63,7 +63,7 @@ protected:
   LUIInputState _last_state;
   LUIInputState _current_state;
 
-  map<int, string> _keymap;
+  pmap<int, string> _keymap;
   vector<LUIKeyEvent> _key_events;
   vector<int> _text_events;
 

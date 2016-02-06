@@ -1,10 +1,14 @@
 
-__all__ = ["LUIFrame"]
+__all__ = ["LUIInitialState"]
 
 class LUIInitialState:
 
     """ Small helper class to pass keyword arguments to the LUI-objects. It takes
-    all keyword arguments of a given call, and calls obj.<kwarg> = <value>. """
+    all keyword arguments of a given call, and calls obj.<kwarg> = <value> for
+    each keyword. It usually is called at the end of the __init__ method. """
+
+    def __init__(self):
+        raise Exception("LUIInitialState is a static class")
 
     @staticmethod
     def init(obj, kwargs):

@@ -416,6 +416,12 @@ INLINE void LUIBaseElement::set_topmost(bool topmost) {
   _topmost = topmost;
 }
 
+
+INLINE LVector2 LUIBaseElement::get_relative_pos(const LPoint2& pos) const {
+  return _abs_position - pos;
+}
+
+
 INLINE int LUIBaseElement::get_last_render_index() const {
   return _last_render_index;
 }

@@ -22,11 +22,11 @@ class LUIFormattedLabel(LUIObject):
         """ Removes all text from this label and resets it to the initial state """
         self._cursor.set(0, 0)
         self.remove_all_children()
-        # self.fit_to_children()
 
     def newline(self, font_size=None):
-        """ Moves the cursor to the next line. The font size controlls how much
-        the cursor will move. """
+        """ Moves the cursor to the next line. The font size controls how much
+        the cursor will move. By default, the font size of the last added text
+        is used, or if no text was added yet, a size of 14."""
         self._cursor.x = 0
         if font_size is None:
             font_size = self._last_size
@@ -34,11 +34,14 @@ class LUIFormattedLabel(LUIObject):
 
     def add(self, *args, **kwargs):
         """ Appends a new text. The arguments are equal to the arguments of
-        LUILabel """
+        LUILabel. The arguments shouldn't contain information about the placement
+        like top_left, or center_vertical. """
         if "font_size" in kwargs:
             self._last_size = kwargs["font_size"]
         else:
             self._last_size = 14
-        label = LUILabel(parent=self,left=self._cursor.x, top=self._cursor.y, *args, **kwargs)
-        self._cursor.x += label.width
-        # self.fit_to_children()
+        label = LUILabel(
+            parent=self, left=self._cursor.x, top=self._cursor.y, *args, **kwargs)
+        # This is a bit of a hack, we should use a horizontal layout, but we don't
+        # for performance reasons.
+        self._cursor.x += label.text_handle.width

@@ -10,11 +10,11 @@ __all__ = ["LUIFrame"]
 
 class LUIFrame(LUIObject):
 
+    """ A container which can store multiple ui-elements """
+
     # Frame styles
     FS_sunken = 1
     FS_raised = 2
-
-    """ A container which can store multiple ui-elements """
 
     def __init__(self, inner_padding=5, scrollable=False, style=FS_raised, **kwargs):
         """ Creates a new frame with the given options and style. If scrollable
@@ -30,7 +30,7 @@ class LUIFrame(LUIObject):
         # TODO: We could do this automatically, determined by the sprite size
         # probably?
         self._border_size = 0
-        # self.padding = 10
+        self.padding = 10
         self.solid = True
         prefix = ""
 
@@ -46,7 +46,6 @@ class LUIFrame(LUIObject):
         self._scrollable = scrollable
         self._layout = LUICornerLayout(parent=self, image_prefix=prefix)
         self._layout.margin = -(self.padding_top + self._border_size)
-
         if self._scrollable:
             self._content = LUIObject(self)
             self._content.size = (self.width, self.height)

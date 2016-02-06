@@ -156,6 +156,8 @@ PUBLISHED:
   INLINE bool is_topmost() const;
   INLINE void set_topmost(bool topmost);
 
+  INLINE LVector2 get_relative_pos(const LPoint2& pos) const;
+
   // Properties for python
   MAKE_PROPERTY(top_left, get_top_left, set_top_left);
   MAKE_PROPERTY(top_right, get_top_right, set_top_right);
@@ -291,7 +293,7 @@ protected:
   // Clip bounds, in absolute space
   LUIRect _abs_clip_bounds;
 
-  unordered_map<string, PT(CallbackObject)> _events;
+  pmap<string, PT(CallbackObject)> _events;
 
   LUIObject* _parent;
   LUIRoot* _root;

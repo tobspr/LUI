@@ -9,7 +9,8 @@ class LUILabel(LUIObject):
     """ A simple label, displaying text. """
 
     def __init__(self, text=u"Label", shadow=True, font_size=14, font="label", **kwargs):
-        """ Creates a new label. """
+        """ Creates a new label. If shadow is True, a small text shadow will be
+        rendered below the actual text. """
         LUIObject.__init__(self)
         LUIInitialState.init(self, kwargs)
         self._text = LUIText(self, unicode(text), font, font_size, 0, 0)

@@ -24,8 +24,8 @@ public:
     void load_expression(const string& str);
     float evaluate(float max_constraint) const;
 
-    bool has_expression() const;
-    bool has_fixed_expression() const;
+    inline bool has_expression() const;
+    inline bool has_fixed_expression() const;
 
 private:
     ExpressionType _type;
@@ -40,5 +40,7 @@ inline ostream& operator<<(ostream& stream, LUIExpression::ExpressionType ty) {
     }
     return stream << "(Invalid Expression Type)";
 }
+
+#include "luiExpression.I"
 
 #endif

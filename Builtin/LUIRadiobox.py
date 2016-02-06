@@ -9,30 +9,39 @@ class LUIRadiobox(LUIObject):
 
     """ A radiobox which can be used in combination with a LUIRadioboxGroup """
 
-    def __init__(self, group=None, value=None, active=False, label=u"Radiobox", **kwargs):
-        LUIObject.__init__(self, x=0, y=0, w=0, h=0, solid=True)
-        LUIInitialState.init(self, kwargs)
+    def __init__(self, parent=None, group=None, value=None, active=False, label=u"Radiobox", **kwargs):
+        """ Constructs a new radiobox. group should be a handle to a LUIRadioboxGroup.
+        value will be the value returned by group.value, in case the box was
+        selected. By default, the radiobox is not active. """
+        assert group is not None, "LUIRadiobox needs a LUIRadioboxGroup!"
+        LUIObject.__init__(self, x=0, y=0, solid=True)
         self._sprite = LUISprite(self, "Radiobox_Default", "skin")
-        self._label = LUILabel(parent=self, text=label, shadow=True, left=self._sprite.width + 6)
-        self._label.top = (self._label.height - self._sprite.height) // 2 - 1
-        self._label.bind("resized", self._on_label_resized)
-
-        # self.fit_to_children()
+        self._label = LUILabel(parent=self, text=label, shadow=True, margin_left=23,
+            center_vertical=True, margin_top=-1)
+        self._value = value
+        self._active = False
+        self._hovered = False
         self._group = group
         self._group.register_box(self)
-        self._active = False
-        self._value = value
-
         if active:
             self.set_active()
-
-    def _on_label_resized(self, event):
-        """ Internal handler when the text of the label got changed """
-        # self.fit_to_children()
+        if parent:
+            self.parent = parent
+        LUIInitialState.init(self, kwargs)
 
     def on_click(self, event):
         """ Internal onclick handler. Do not override. """
         self.set_active()
+
+    def on_mouseover(self, event):
+        """ Internal mouseover handler """
+        self._hovered = True
+        self._update_sprite()
+
+    def on_mouseout(self, event):
+        """ Internal mouseout handler """
+        self._hovered = False
+        self._update_sprite()
 
     def set_active(self):
         """ Internal function to set the radiobox active """
@@ -67,13 +76,15 @@ class LUIRadiobox(LUIObject):
 
     def on_mousedown(self, event):
         """ Internal onmousedown handler. Do not override. """
-        self.color = (0.86,0.86,0.86,1.0)
+        self._sprite.color = (0.86,0.86,0.86,1.0)
 
     def on_mouseup(self, event):
         """ Internal onmouseup handler. Do not override. """
-        self.color = (1,1,1,1)
+        self._sprite.color = (1,1,1,1)
 
     def _update_sprite(self):
         """ Internal function to update the sprite of the radiobox """
         img = "Radiobox_Active" if self._active else "Radiobox_Default"
+        if self._hovered:
+            img += "Hover"
         self._sprite.set_texture(img, "skin")

@@ -56,3 +56,7 @@ class timeit(object):
             print(" + This is", round(duration / (self._iterations * self._internal_iterations) * 1000.0, 5),
                   "ms per internal iteration")
         return _wrap
+
+def render_frames():
+    for i in range(3):
+        base.graphicsEngine.renderFrame()

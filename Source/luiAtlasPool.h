@@ -34,7 +34,7 @@ private:
   LUIAtlasPool();
   ~LUIAtlasPool();
 
-  map<string, PT(LUIAtlas)> _atlases;
+  pmap<string, PT(LUIAtlas)> _atlases;
 
   static LUIAtlasPool *_global_ptr;
 

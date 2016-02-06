@@ -13,12 +13,14 @@ class LUICheckbox(LUIObject):
     be checked or unchecked. """
 
     def __init__(self, checked=False, label=u"Checkbox", **kwargs):
-        """ Constructs a new checkbox with the given label and state. """
+        """ Constructs a new checkbox with the given label and state. By default,
+        the checkbox is not checked. """
         LUIObject.__init__(self, x=0, y=0, solid=True)
         self._checked = checked
         self._checkbox_sprite = LUISprite(self, "Checkbox_Default", "skin")
         self._label = LUILabel(parent=self, text=label, shadow=True, margin_left=23,
             center_vertical=True, margin_top=-1)
+        self._hovered = False
         LUIInitialState.init(self, kwargs)
 
     def on_click(self, event):
@@ -34,6 +36,16 @@ class LUICheckbox(LUIObject):
     def on_mouseup(self, event):
         """ Internal on_mouseup handler. """
         self._checkbox_sprite.color = (1, 1, 1, 1)
+
+    def on_mouseover(self, event):
+        """ Internal mouseover handler """
+        self._hovered = True
+        self._update_sprite()
+
+    def on_mouseout(self, event):
+        """ Internal mouseout handler """
+        self._hovered = False
+        self._update_sprite()
 
     def toggle_checked(self):
         """ Toggles the checkbox state """
@@ -60,4 +72,6 @@ class LUICheckbox(LUIObject):
     def _update_sprite(self):
         """ Internal method to update the sprites """
         img = "Checkbox_Checked" if self._checked else "Checkbox_Default"
+        if self._hovered:
+            img += "Hover"
         self._checkbox_sprite.set_texture(img, "skin")

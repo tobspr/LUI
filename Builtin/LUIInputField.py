@@ -3,12 +3,14 @@ from panda3d.lui import LUIObject, LUISprite
 from LUILabel import LUILabel
 from LUIInitialState import LUIInitialState
 
+__all__ = ["LUIInputField"]
+
 class LUIInputField(LUIObject):
 
     """ Simple input field """
 
     def __init__(self, parent=None, width=200, placeholder=u"Enter some text ..", value=u"", **kwargs):
-        LUIObject.__init__(self, x=0, y=0, w=width, h=0, solid=True)
+        LUIObject.__init__(self, x=0, y=0, w=width, solid=True)
 
         self._bg_left = LUISprite(self, "InputField_Left", "skin")
         self._bg_mid = LUISprite(self, "InputField", "skin")
