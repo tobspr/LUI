@@ -125,7 +125,7 @@ void LUIBaseLayout::update_layout() {
   }
 
   // Take spacing into account
-  available -= max(0, _cells.size() - 1) * _spacing;
+  available -= max(size_t(0), _cells.size() - 1) * _spacing;
 
   if (available < 0.0f) {
     // luiBaseLayout_cat.warning() << "Not enough space available! (Missing " << -available << " pixels)" << endl;
@@ -133,7 +133,7 @@ void LUIBaseLayout::update_layout() {
   }
 
   // Divide available space by amount of containers that specify the '*' flag
-  available /= max(1, num_fill_cells);
+  available /= max(size_t(1), num_fill_cells);
   available = ceil(available);
 
   // cout << "Available metrics = " << ava%ilable << " (for " << num_fill_cells << " cells)" << endl;
