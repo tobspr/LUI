@@ -38,7 +38,7 @@ class DemoFramework:
 
     def __init__(self):
 
-        if True:
+        if False:
             self._skin = LUIMetroSkin()
             base.win.set_clear_color(Vec4(1))
         else:

@@ -23,3 +23,6 @@ shutil.copyfile("ButtonGreen.png", "ButtonGreen_Right.png")
 shutil.copyfile("Selectbox.png", "Selectbox_Left.png")
 shutil.copyfile("Selectbox.png", "SelectboxActive.png")
 shutil.copyfile("Selectbox.png", "SelectboxActive_Left.png")
+
+for align in "TR TL BR BL Top Right Bottom Left".split():
+    shutil.copyfile("Selectdrop_Mid.png", "Selectdrop_" + align + ".png")
