@@ -1,6 +1,7 @@
 # encoding: utf-8
 import sys
 sys.path.insert(0, "../Builtin")
+sys.path.insert(0, "../")
 
 from direct.showbase.ShowBase import ShowBase
 from direct.showbase.DirectObject import DirectObject
@@ -28,10 +29,22 @@ from LUIInputField import LUIInputField
 from LUIFormattedLabel import LUIFormattedLabel
 from LUIScrollableRegion import LUIScrollableRegion
 
+
+from Skins.Metro.LUIMetroSkin import LUIMetroSkin
+
+
 s = ShowBase()
 
-skin = LUIDefaultSkin()
+
+if True:
+    skin = LUIMetroSkin()
+    base.win.set_clear_color(Vec4(1))
+else:
+    skin = LUIDefaultSkin()
+    base.win.set_clear_color(Vec4(0.1, 0.0, 0.0, 1))
+
 skin.load()
+
 
 region = LUIRegion.make("LUI", base.win)
 handler = LUIInputHandler()
@@ -41,7 +54,6 @@ region.set_input_handler(handler)
 # Title
 title_label = LUILabel(parent=region.root, text="LUI Console Example", font_size=40,
                        font="header", pos=(25, 17))
-
 
 # Container
 container = LUIFrame(

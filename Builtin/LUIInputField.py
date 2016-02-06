@@ -18,12 +18,13 @@ class LUIInputField(LUIObject):
 
         # Container for the text
         self._text_content = LUIObject(self)
-        self._text_content.margin = (5, 8, 5, 8)
+        self._text_content.margin = (5, 12, 5, 12)
         self._text_content.clip_bounds = (0,0,0,0)
         self._text_content.set_size("100%", "100%")
 
         # Scroller for the text, so we can move right and left
         self._text_scroller = LUIObject(parent=self._text_content)
+        self._text_scroller.center_vertical = True
         self._text = LUILabel(parent=self._text_scroller, text=u"")
 
         # Cursor for the current position
@@ -36,8 +37,8 @@ class LUIInputField(LUIObject):
         self._value = value
 
         # Placeholder text, shown when out of focus and no value exists
-        self._placeholder = LUILabel(parent=self._text_content, text=placeholder, shadow=False)
-        self._placeholder.color = (1,1,1,0.2)
+        self._placeholder = LUILabel(parent=self._text_content, text=placeholder, shadow=False,
+            center_vertical=True, alpha=0.2)
 
         # Various states
         self._tickrate = 1.0

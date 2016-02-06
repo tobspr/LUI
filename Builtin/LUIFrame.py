@@ -1,7 +1,7 @@
 
 from __future__ import print_function
 
-from panda3d.lui import LUIObject
+from panda3d.lui import LUIObject, LUISprite
 from LUILayouts import LUICornerLayout
 from LUIInitialState import LUIInitialState
 from LUIScrollableRegion import LUIScrollableRegion
@@ -35,7 +35,9 @@ class LUIFrame(LUIObject):
         prefix = ""
 
         if style == LUIFrame.FS_raised:
-            self._border_size = 33
+            temp = LUISprite(self, "Frame_Left", "skin")
+            self._border_size = temp.width
+            self.remove_child(temp)
             prefix = "Frame_"
         elif style == LUIFrame.FS_sunken:
             self._border_size = 0
