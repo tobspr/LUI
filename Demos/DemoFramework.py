@@ -1,4 +1,10 @@
+"""
 
+
+This file contains some setup code for all the widget examples
+
+
+"""
 
 import sys
 sys.path.insert(0, "../")
@@ -37,6 +43,7 @@ class DemoFramework:
     """ This is a small helper class to setup common stuff for the demos """
 
     def __init__(self):
+        """ Constructs the demo framework """
 
         if False:
             self._skin = LUIMetroSkin()

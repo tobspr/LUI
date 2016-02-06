@@ -12,7 +12,6 @@ f.prepare_demo("LUIButton")
 f.add_constructor_parameter("text", "u'Button'")
 f.add_constructor_parameter("template", "'ButtonDefault'")
 
-
 # Functions
 f.add_public_function("set_text", [("text", "string")])
 f.add_public_function("get_text", [], "string")

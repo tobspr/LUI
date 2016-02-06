@@ -29,7 +29,7 @@ class LUIDefaultSkin(LUISkin):
 
     """ The default skin which comes with LUI """
 
-    skin_location = os.path.dirname(os.path.abspath(__file__))
+    skin_location = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../Skins/Default/")
 
     def __init__(self):
         pass

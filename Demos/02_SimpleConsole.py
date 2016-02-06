@@ -20,6 +20,7 @@ load_prc_file_data("", """
     win-fixed-size #f
 """)
 
+# Imports
 from panda3d.lui import LUIRegion, LUIObject, LUIInputHandler
 from panda3d.lui import LUIVerticalLayout
 from LUISkin import LUIDefaultSkin
@@ -29,14 +30,12 @@ from LUIInputField import LUIInputField
 from LUIFormattedLabel import LUIFormattedLabel
 from LUIScrollableRegion import LUIScrollableRegion
 
-
 from Skins.Metro.LUIMetroSkin import LUIMetroSkin
-
 
 s = ShowBase()
 
-
-if True:
+# Load a LUI Skin
+if False:
     skin = LUIMetroSkin()
     base.win.set_clear_color(Vec4(1))
 else:
@@ -45,7 +44,7 @@ else:
 
 skin.load()
 
-
+# Initialize LUI
 region = LUIRegion.make("LUI", base.win)
 handler = LUIInputHandler()
 base.mouseWatcher.attach_new_node(handler)
@@ -56,15 +55,8 @@ title_label = LUILabel(parent=region.root, text="LUI Console Example", font_size
                        font="header", pos=(25, 17))
 
 # Container
-container = LUIFrame(
-    parent = region.root,
-    pos=(0, 0),
-    width=700,
-    height=500,
-    style=LUIFrame.FS_sunken,
-    margin=30)
-
-container.top = 50
+container = LUIFrame(parent = region.root, width=700, height=500,
+    style=LUIFrame.FS_sunken, margin=30, top=50)
 
 text_container = LUIScrollableRegion(parent=container, width=675, height=440,
     padding=0)
@@ -73,6 +65,8 @@ base.win.set_clear_color(Vec4(0.1, 0.1, 0.1, 1.0))
 layout = LUIVerticalLayout(parent=text_container.content_node)
 
 def send_command(event):
+    """ Called when the user presses enter in the input field, submits the
+    command and prints something on the console """
     label = LUIFormattedLabel()
     color = (0.9, 0.9, 0.9, 1.0)
     if event.message.startswith(u"/"):
@@ -88,7 +82,8 @@ def send_command(event):
 
     text_container.scroll_to_bottom()
 
-input_field = LUIInputField(parent=container, bottom=0, left=0, width=680)
+# Create the input box
+input_field = LUIInputField(parent=container, bottom=0, left=0, width="100%")
 input_field.bind("enter", send_command)
 input_field.request_focus()
 
