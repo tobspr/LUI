@@ -37,7 +37,7 @@ layout.add(LUIButton(text="Fancy button"))
 
 f.set_actions({
         "Resize to 300x160": lambda: frame.set_size(300, 160),
-        # "Fit to children": lambda: frame.fit_to_children(),
+        "Fit to children": lambda: frame.clear_size(),
     })
 
 run()

@@ -2,6 +2,7 @@
 from panda3d.lui import LUIObject, LUISprite
 from LUILabel import LUILabel
 from LUIInitialState import LUIInitialState
+from LUILayouts import LUIHorizontalStretchedLayout
 
 __all__ = ["LUIInputField"]
 
@@ -10,45 +11,38 @@ class LUIInputField(LUIObject):
     """ Simple input field """
 
     def __init__(self, parent=None, width=200, placeholder=u"Enter some text ..", value=u"", **kwargs):
-        LUIObject.__init__(self, x=0, y=0, w=width, solid=True)
+        """ Constructs a new input field. An input field always needs a width specified """
+        LUIObject.__init__(self, x=0, y=0, solid=True)
+        self.set_width(width)
+        self._layout = LUIHorizontalStretchedLayout(parent=self, prefix="InputField", width="100%")
 
-        self._bg_left = LUISprite(self, "InputField_Left", "skin")
-        self._bg_mid = LUISprite(self, "InputField", "skin")
-        self._bg_right = LUISprite(self, "InputField_Right", "skin")
-
+        # Container for the text
         self._text_content = LUIObject(self)
         self._text_content.margin = (5, 8, 5, 8)
         self._text_content.clip_bounds = (0,0,0,0)
-        self._text_content.height = self._bg_mid.height - 10
-        self._text_content.width = self.width - 16
+        self._text_content.set_size("100%", "100%")
 
-        self._text_scroller = LUIObject(parent=self._text_content, x=0, y=0)
-        self._text = LUILabel(parent=self._text_scroller, text=u"", shadow=True)
+        # Scroller for the text, so we can move right and left
+        self._text_scroller = LUIObject(parent=self._text_content)
+        self._text = LUILabel(parent=self._text_scroller, text=u"")
 
-        self._cursor = LUISprite(
-            self._text_scroller, "blank", "skin", x=0, y=0, w=2, h=15)
+        # Cursor for the current position
+        self._cursor = LUISprite(self._text_scroller, "blank", "skin", x=0, y=0, w=2, h=15)
         self._cursor.color = (0.5, 0.5, 0.5)
         self._cursor.margin.top = 2
         self._cursor.z_offset = 20
         self._cursor_index = 0
         self._cursor.hide()
-
         self._value = value
 
+        # Placeholder text, shown when out of focus and no value exists
         self._placeholder = LUILabel(parent=self._text_content, text=placeholder, shadow=False)
         self._placeholder.color = (1,1,1,0.2)
 
-        self._bg_mid.width = self.width - self._bg_left.width - self._bg_right.width
-        self._bg_mid.left = self._bg_left.width
-        self._bg_right.left = self._bg_mid.width + self._bg_mid.left
-
-        if len(self._value) > 0:
-            self._placeholder.hide()
-
+        # Various states
         self._tickrate = 1.0
         self._tickstart = 0.0
 
-        # self.fit_to_children()
         self._render_text()
 
         if parent is not None:
@@ -63,7 +57,6 @@ class LUIInputField(LUIObject):
     def set_value(self, value):
         """ Sets the value of the input field """
         self._value = unicode(value)
-        # QUESTION: Should we trigger a callback when the user changes the value hisself?
         self.trigger_event("changed", self._value)
         self._render_text()
 
@@ -113,9 +106,7 @@ class LUIInputField(LUIObject):
         self._placeholder.hide()
         self._reset_cursor_tick()
 
-        self._bg_left.color  = (0.9,0.9,0.9,1)
-        self._bg_mid.color   = (0.9,0.9,0.9,1)
-        self._bg_right.color = (0.9,0.9,0.9,1)
+        self._layout.color  = (0.9,0.9,0.9,1)
 
     def on_keydown(self, event):
         """ Internal keydown handler """
@@ -154,9 +145,7 @@ class LUIInputField(LUIObject):
         if len(self._value) < 1:
             self._placeholder.show()
 
-        self._bg_left.color = (1,1,1,1)
-        self._bg_mid.color = (1,1,1,1)
-        self._bg_right.color = (1,1,1,1)
+        self._layout.color = (1,1,1,1)
 
     def _render_text(self):
         """ Internal method to render the text """
@@ -171,9 +160,8 @@ class LUIInputField(LUIObject):
                 self._placeholder.show()
 
         # Scroll if the cursor is outside of the clip bounds
-        relX = self.get_relative_pos(self._cursor.get_abs_pos()).x
-        if relX >= max_left:
+        rel_pos = self.get_relative_pos(self._cursor.get_abs_pos()).x
+        if rel_pos >= max_left:
             self._text_scroller.left = min(0, max_left - self._cursor.left)
-        if relX <= 0:
-            self._text_scroller.left = min(0, - self._cursor.left - relX)
-
+        if rel_pos <= 0:
+            self._text_scroller.left = min(0, - self._cursor.left - rel_pos)

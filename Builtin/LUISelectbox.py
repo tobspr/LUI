@@ -1,7 +1,7 @@
 
 from panda3d.lui import LUIObject, LUISprite
 from LUILabel import LUILabel
-from LUILayouts import LUICornerLayout
+from LUILayouts import LUICornerLayout, LUIHorizontalStretchedLayout
 from LUIInitialState import LUIInitialState
 
 from functools import partial
@@ -21,30 +21,14 @@ class LUISelectbox(LUIObject):
         # The selectbox has a small border, to correct this we move it
         self.margin.left = -2
 
-        self._bg_left = LUISprite(self, "Selectbox_Left", "skin")
-        self._bg_mid = LUISprite(self, "Selectbox", "skin")
-        self._bg_right = LUISprite(self, "Selectbox_Right", "skin")
+        self._bg_layout = LUIHorizontalStretchedLayout(parent=self, prefix="Selectbox", width="100%")
 
-        self._bg_mid.width = self.width - self._bg_left.width - self._bg_right.width
-        self._bg_mid.left = self._bg_left.width
-        self._bg_right.left = self._bg_mid.width + self._bg_mid.left
-
-        self._bg_right.z_offset = 1
-
-        self._label_container = LUIObject(self, x=10, y=8, w=width - 20 - self._bg_right.width, h=self._bg_mid.height - 6)
+        self._label_container = LUIObject(self, x=10, y=8)
         self._label_container.clip_bounds = (0,0,0,0)
-
-        self._label = LUILabel(parent=self._label_container, text=u"Select an option ..", shadow=True)
-
-        self._bg_right.bind("mouseover", self._knob_mouseover)
-        self._bg_right.bind("mouseout", self._knob_mouseout)
-        self._bg_right.bind("click", self.on_click)
-        self._bg_right.bind("click", self.on_click)
-
-        # self.fit_to_children()
+        self._label = LUILabel(parent=self._label_container, text=u"Select an option ..")
 
         self._drop_menu = LUISelectdrop(parent=self, width=width)
-        self._drop_menu.top = self._bg_mid.height - 7
+        self._drop_menu.top = self._bg_layout._sprite_right.height - 7
         self._drop_menu.topmost = True
 
         self._drop_open = False
@@ -96,13 +80,13 @@ class LUISelectbox(LUIObject):
                 return
         self._label.color = (1,1,1,0.3)
 
-    def _knob_mouseover(self, event):
-        """ Internal handle when the select-knob was hovered """
-        self._bg_right.color = (0.9,0.9,0.9,1.0)
+    # def on_mouseover(self, event):
+    #     """ Internal handle when the select-knob was hovered """
+    #     self._bg_layout.color = (0.9,0.9,0.9,1.0)
 
-    def _knob_mouseout(self, event):
-        """ Internal handle when the select-knob was no longer hovered """
-        self._bg_right.color = (1,1,1,1.0)
+    # def on_mouseout(self, event):
+    #     """ Internal handle when the select-knob was no longer hovered """
+    #     self._bg_layout.color = (1,1,1,1.0)
 
     def on_click(self, event):
         """ On-Click handler """
@@ -114,13 +98,13 @@ class LUISelectbox(LUIObject):
 
     def on_mousedown(self, event):
         """ Mousedown handler """
-        self._bg_left.color = (0.9,0.9,0.9,1.0)
-        self._bg_mid.color = (0.9,0.9,0.9,1.0)
+        self._bg_layout.color = (0.9,0.9,0.9,1.0)
+        # self._bg_mid.color = (0.9,0.9,0.9,1.0)
 
     def on_mouseup(self, event):
         """ Mouseup handler """
-        self._bg_left.color = (1,1,1,1.0)
-        self._bg_mid.color = (1,1,1,1.0)
+        self._bg_layout.color = (1,1,1,1.0)
+        # self._bg_mid.color = (1,1,1,1.0)
 
     def on_blur(self, event):
         """ Internal handler when the selectbox lost focus """

@@ -21,6 +21,7 @@ public:
   LUIExpression();
   void load_expression(float scalar);
   void load_expression(const string& str);
+  void clear();
   float evaluate(float max_constraint) const;
 
   INLINE bool has_expression() const;

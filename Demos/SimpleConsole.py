@@ -13,7 +13,7 @@ load_prc_file_data("", """
     text-pixels-per-unit 32
     sync-video #f
     textures-power-2 none
-    show-frame-rate-meter #f
+    show-frame-rate-meter #t
     win-size 780 630
     window-title LUI Demo
     win-fixed-size #f

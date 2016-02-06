@@ -302,8 +302,30 @@ INLINE void LUIBaseElement::set_size(float width, const string& height) {
   _size.y.load_expression(height);
 }
 
+
 INLINE bool LUIBaseElement::has_size() const {
   return _size.x.has_expression() && _size.y.has_expression();
+}
+
+INLINE bool LUIBaseElement::has_width() const {
+  return _size.x.has_expression();
+}
+
+INLINE bool LUIBaseElement::has_height() const {
+  return _size.y.has_expression();
+}
+
+INLINE void LUIBaseElement::clear_width() {
+  _size.x.clear();
+}
+
+INLINE void LUIBaseElement::clear_height() {
+  _size.y.clear();
+}
+
+INLINE void LUIBaseElement::clear_size() {
+  _size.x.clear();
+  _size.y.clear();
 }
 
 INLINE void LUIBaseElement::set_width(float width) {
@@ -424,11 +446,9 @@ INLINE void LUIBaseElement::set_topmost(bool topmost) {
   _topmost = topmost;
 }
 
-
 INLINE LVector2 LUIBaseElement::get_relative_pos(const LPoint2& pos) const {
-  return _abs_position - pos;
+  return pos - _abs_position;
 }
-
 
 INLINE int LUIBaseElement::get_last_render_index() const {
   return _last_render_index;

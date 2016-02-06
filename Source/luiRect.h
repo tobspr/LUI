@@ -35,6 +35,7 @@ PUBLISHED:
   INLINE void set_rect(const LVector2& xy, const LVector2& wh);
   INLINE void set_rect(float x, float y, float w, float h);
 
+
   INLINE const LVector4 &get_rect() const;
 
   MAKE_PROPERTY(x, get_x, set_x);

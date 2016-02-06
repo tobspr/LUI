@@ -29,6 +29,10 @@ PUBLISHED:
   void add(PT(LUIBaseElement) object, float cell_height);
   void reset();
 
+  PT(LUIObject) cell(const string& cell_mode);
+  PT(LUIObject) cell(float cell_height);
+  PT(LUIObject) cell();
+
   INLINE void set_spacing(float spacing);
   INLINE float get_spacing() const;
 
@@ -50,7 +54,7 @@ protected:
     LUIBaseElement* node;
   };
 
-  void add_cell(PT(LUIBaseElement) object, Cell cell);
+  LUIObject* add_cell(PT(LUIBaseElement) object, Cell cell);
 
   // Interface
   virtual void init_container(LUIObject* container) = 0;

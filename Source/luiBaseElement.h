@@ -120,6 +120,11 @@ PUBLISHED:
   INLINE void set_height(const string& height);
   INLINE float get_width() const;
   INLINE float get_height() const;
+  INLINE void clear_width();
+  INLINE void clear_height();
+  INLINE void clear_size();
+  INLINE bool has_width() const;
+  INLINE bool has_height() const;
   INLINE bool has_size() const;
   INLINE LVector2 get_size() const;
 
@@ -181,9 +186,9 @@ PUBLISHED:
   MAKE_PROPERTY(margin, get_margin, set_margin);
   MAKE_PROPERTY(padding, get_padding, set_padding);
 
-  MAKE_PROPERTY(size, get_size, set_size);
-  MAKE_PROPERTY(width, get_width, set_width);
-  MAKE_PROPERTY(height, get_height, set_height);
+  MAKE_PROPERTY2(size, has_size, get_size, set_size, clear_size);
+  MAKE_PROPERTY2(width, has_width, get_width, set_width, clear_width);
+  MAKE_PROPERTY2(height, has_height, get_height, set_height, clear_height);
 
   MAKE_PROPERTY(visible, is_visible, set_visible);
   MAKE_PROPERTY(z_offset, get_z_offset, set_z_offset);

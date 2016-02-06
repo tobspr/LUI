@@ -26,15 +26,32 @@ void LUIBaseLayout::add(PT(LUIBaseElement) object, float cell_height) {
   add_cell(object, cell);
 }
 
-void LUIBaseLayout::add_cell(PT(LUIBaseElement) object, Cell cell) {
+LUIObject* LUIBaseLayout::add_cell(PT(LUIBaseElement) object, Cell cell) {
   // Construct cell container object
   LUIObject* container = new LUIObject(NULL);
   add_child(container);
-  container->add_child(object);
+  if (object)
+    container->add_child(object);
   container->set_debug_name("LUILayoutCell");
   cell.node = container;
   init_container(container);
   _cells.push_back(cell);
+  return container;
+}
+
+
+PT(LUIObject) LUIBaseLayout::cell(const string& cell_mode) {
+  return add_cell(NULL, construct_cell(cell_mode));
+}
+
+PT(LUIObject) LUIBaseLayout::cell(float cell_height) {
+  Cell cell = { CM_fixed, cell_height, NULL };
+  return add_cell(NULL, cell);
+}
+
+PT(LUIObject) LUIBaseLayout::cell() {
+  Cell cell = { CM_fit, 0.0f, NULL };
+  return add_cell(NULL, cell);
 }
 
 bool check_int(const string& str) {

@@ -90,7 +90,7 @@ class DemoFramework:
         # Actions
         self._actions = LUIFrame(width=340, style=LUIFrame.FS_sunken, height=80)
         self._actions_label = LUILabel(parent=self._actions, text=U"Demo-Actions")
-        self._actions_select = LUISelectbox(parent=self._actions, width=245, top=30)
+        self._actions_select = LUISelectbox(parent=self._actions, width=225, top=30)
         self._actions_btn = LUIButton(parent=self._actions, right=0, top=30, text=u"Execute", template="ButtonGreen")
         self._actions_btn.bind("click", self._exec_action)
 
@@ -111,10 +111,10 @@ class DemoFramework:
         self._left_bar.add(self._widget_container)
 
         # Source Code
-        self._source_container = LUIFrame(width=360, height=200, style=LUIFrame.FS_sunken)
+        self._source_container = LUIFrame(width=360, height=190, style=LUIFrame.FS_sunken)
         self._source_label = LUILabel(parent=self._source_container, text=u"Default Constructor")
         self._copy_code_button = LUIButton(parent=self._source_container,
-                text=u"Copy to Clipboard", template="ButtonGreen", bottom_right=(-5,-5))
+                text=u"Copy to Clipboard", template="ButtonGreen", bottom_right=(0, 0))
         self._source_content = LUIObject(self._source_container)
         self._source_content.top = 40
         self._left_bar.add(self._source_container)
