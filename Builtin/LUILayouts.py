@@ -1,33 +1,12 @@
 
 from __future__ import print_function, division
 
-from panda3d.lui import *
+from panda3d.lui import LUIObject, LUISprite, LUIHorizontalLayout
 from direct.directnotify.DirectNotify import DirectNotify
 
 from LUIInitialState import LUIInitialState
 
-__all__ = ["LUIBaseLayout",
-           "LUICornerLayout", "LUIHorizontalStretchedLayout"]
-
-class LUIBaseLayout(LUIObject):
-
-    """ Abstract class to supply a consistent interface for different layouts """
-
-    def add(self, *objects):
-        """ Use to add elements """
-        raise NotImplementedError()
-
-    def remove(self, index):
-        """ Use to delete cells """
-        raise NotImplementedError()
-
-    def reset(self):
-        """ Resets the layout, removing all components """
-        raise NotImplementedError()
-
-    def get(self, index):
-        """ Use to get an element """
-        raise NotImplementedError()
+__all__ = ["LUICornerLayout", "LUIHorizontalStretchedLayout"]
 
 class LUICornerLayout(LUIObject):
 
@@ -100,11 +79,11 @@ class LUIHorizontalStretchedLayout(LUIObject):
 
     def __init__(self, parent=None, prefix="ButtonDefault", **kwargs):
         LUIObject.__init__(self)
-        self._sprite_left = LUISprite(self, "blank", "skin")
-        self._sprite_mid = LUISprite(self, "blank", "skin")
-        self._sprite_right = LUISprite(self, "blank", "skin")
-        self._sprite_right.right = 0
-        self._sprite_mid.left = 0
+        self._layout = LUIHorizontalLayout(self, spacing=0)
+        self._layout.width = "100%"
+        self._sprite_left = LUISprite(self._layout.cell(), "blank", "skin")
+        self._sprite_mid = LUISprite(self._layout.cell('*'), "blank", "skin")
+        self._sprite_right = LUISprite(self._layout.cell(), "blank", "skin")
         if parent is not None:
             self.parent = parent
         self.prefix = prefix
@@ -115,8 +94,6 @@ class LUIHorizontalStretchedLayout(LUIObject):
         self._sprite_left.set_texture(prefix + "_Left", "skin")
         self._sprite_mid.set_texture(prefix, "skin")
         self._sprite_right.set_texture(prefix + "_Right", "skin")
-        self._sprite_mid.margin = (0, self._sprite_right.width, 0, self._sprite_left.width)
-
         self._sprite_mid.width = "100%"
         self._prefix = prefix
 

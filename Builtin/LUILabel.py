@@ -8,6 +8,7 @@ class LUILabel(LUIObject):
 
     """ A simple label, displaying text. """
 
+    # Default variables which can be overridden by skins
     DEFAULT_COLOR = (0.9, 0.9, 0.9, 1)
     DEFAULT_USE_SHADOW = True
 
@@ -17,7 +18,7 @@ class LUILabel(LUIObject):
         LUIObject.__init__(self)
         self._text = LUIText(self, unicode(text), font, font_size)
         self._text.z_offset = 1
-        self.color = self.DEFAULT_COLOR
+        self.color = LUILabel.DEFAULT_COLOR
         if shadow is None:
             shadow = LUILabel.DEFAULT_USE_SHADOW
         self._have_shadow = shadow
