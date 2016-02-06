@@ -3,7 +3,7 @@
 from DemoFramework import DemoFramework
 from LUIRadiobox import LUIRadiobox
 from LUIRadioboxGroup import LUIRadioboxGroup
-from LUILayouts import LUIVerticalLayout
+from panda3d.lui import LUIVerticalLayout
 
 import random
 
@@ -31,7 +31,7 @@ f.construct_sourcecode("LUIRadiobox")
 group = LUIRadioboxGroup()
 
 # Create a layout for the boxes
-grid = LUIVerticalLayout(parent=f.get_widget_node(), width=250, spacing=5)
+grid = LUIVerticalLayout(parent=f.get_widget_node(), spacing=5)
 
 # Create the boxes
 boxes = []

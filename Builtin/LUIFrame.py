@@ -38,7 +38,7 @@ class LUIFrame(LUIObject):
             self._border_size = 33
             prefix = "Frame_"
         elif style == LUIFrame.FS_sunken:
-            self._border_size = 5
+            self._border_size = 0
             prefix = "SunkenFrame_"
         else:
             raise Exception("Unkown LUIFrame style: " + style)

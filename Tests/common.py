@@ -25,7 +25,7 @@ import time
 from functools import wraps
 from panda3d.lui import LUIRegion, LUIObject, LUIInputHandler, LUISprite
 from LUISkin import LUIDefaultSkin
-from LUILayouts import LUIVerticalLayout
+from panda3d.lui import LUIVerticalLayout
 from LUIFrame import LUIFrame
 from LUIFormattedLabel import LUIFormattedLabel
 from LUIInputField import LUIInputField

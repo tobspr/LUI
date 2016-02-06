@@ -407,34 +407,54 @@ void LUIBaseElement::update_dimensions_upstream() {
   update_dimensions();
 }
 
+void LUIBaseElement::update_position() {
+
+  const LVector2& parent_size = _parent->_effective_size;
+  const LPoint2& parent_pos = _parent->_abs_position;
+  const LUIBounds& parent_padding = _parent->_padding;
+
+  if (_placement.x == M_default) {
+    _abs_position.set_x( _margin.get_left() + parent_padding.get_left() + parent_pos.get_x() + _position.get_x() );
+  } else if (_placement.x == M_inverse) {
+    _abs_position.set_x(parent_pos.get_x() + parent_size.get_x() - _position.get_x()
+                        - _effective_size.get_x() - _margin.get_right() - parent_padding.get_right());
+  } else if (_placement.x == M_center) {
+    _abs_position.set_x(
+      parent_pos.get_x() + (parent_size.get_x() - _effective_size.get_x()) / 2.0f
+      + _margin.get_left() - _margin.get_right() + parent_padding.get_left() - parent_padding.get_right()
+    );
+  }
+
+  // Compute the y-position, same as for the x-position
+  if (_placement.y == M_default) {
+    _abs_position.set_y( _margin.get_top() + parent_padding.get_top() + parent_pos.get_y() + _position.get_y() );
+  } else if (_placement.y == M_inverse) {
+    _abs_position.set_y(parent_pos.get_y() + parent_size.get_y() - _position.get_y()
+                        - _effective_size.get_y() - _margin.get_bottom() - parent_padding.get_bottom());
+  } else if (_placement.y == M_center) {
+    _abs_position.set_y(
+      parent_pos.get_y() + (parent_size.get_y() - _effective_size.get_y()) / 2.0f
+      + _margin.get_top() - _margin.get_bottom() + parent_padding.get_top() - parent_padding.get_bottom()
+    );
+  }
+}
+
 void LUIBaseElement::update_downstream() {
+
+  // Reset temporary attributes
+  // _abs_position.set(0, 0);
+  // _effective_size.set(0, 0);
 
   // In the downstream pass, following attributes are updated:
   // - absolute position for elements which are aligned top / right
   // - width/height
 
   if (_parent) {
-
-    // Normal object with a parent
-    const LPoint2& parent_pos = _parent->_abs_position;
-
-    // Compute x-position, but only if the element is left-aligned, otherwise
-    // compute it in the upstream pass
-    const LUIBounds& parent_padding = _parent->_padding;
-    if (_placement.x == M_default) {
-      _abs_position.set_x( _margin.get_left() + parent_padding.get_left() + parent_pos.get_x() + _position.get_x() );
-    }
-
-    // Compute the y-position, same as for the x-position
-    if (_placement.y == M_default) {
-      _abs_position.set_y( _margin.get_top() + parent_padding.get_top() + parent_pos.get_y() + _position.get_y() );
-    }
-
+    update_position();
     update_dimensions();
 
     // Update the color
     compose_color(_parent->get_composed_color());
-
   } else {
 
     // When we have no parent, we are the root, so we don't need a good position.
@@ -461,34 +481,8 @@ void LUIBaseElement::update_upstream() {
   // - absolute position for elements which are aligned right / bottom
   // - width/height for elements without explicit size
   if (_parent) {
-
-    const LVector2& parent_size = _parent->_effective_size;
-    const LPoint2& parent_pos = _parent->_abs_position;
-    const LUIBounds& parent_padding = _parent->_padding;
-
-    // Compute x-position, but only if the element is centered or right aligned,
-    // otherwise it already got computed in the downstream pass
-    if (_placement.x == M_inverse) {
-      _abs_position.set_x(parent_pos.get_x() + parent_size.get_x() - _position.get_x()
-                          - _effective_size.get_x() - _margin.get_right() - parent_padding.get_right());
-    } else if (_placement.x == M_center) {
-      _abs_position.set_x(
-        parent_pos.get_x() + (parent_size.get_x() - _effective_size.get_x()) / 2.0f
-        + _margin.get_left() - _margin.get_right() + parent_padding.get_left() - parent_padding.get_right()
-      );
-    }
-
-    // Compute y-position, same as for the x-position
-    if (_placement.y == M_inverse) {
-      _abs_position.set_y(parent_pos.get_y() + parent_size.get_y() - _position.get_y()
-                          - _effective_size.get_y() - _margin.get_bottom() - parent_padding.get_bottom());
-    } else if (_placement.y == M_center) {
-      _abs_position.set_y(
-        parent_pos.get_y() + (parent_size.get_y() - _effective_size.get_y()) / 2.0f
-        + _margin.get_top() - _margin.get_bottom() + parent_padding.get_top() - parent_padding.get_bottom()
-      );
-    }
-
+    update_position();
+    update_dimensions();
   } else {
     // In case of no parent, we are the root element. In that case, we don't really
     // have to do anything.

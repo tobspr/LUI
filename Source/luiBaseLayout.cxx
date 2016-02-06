@@ -8,7 +8,7 @@
 TypeHandle LUIBaseLayout::_type_handle;
 NotifyCategoryDef(luiBaseLayout, ":lui");
 
-LUIBaseLayout::LUIBaseLayout(PyObject* self) : LUIObject(self)
+LUIBaseLayout::LUIBaseLayout(PyObject* self) : LUIObject(self), _spacing(0.0f)
 {
 }
 
@@ -101,21 +101,27 @@ void LUIBaseLayout::update_layout() {
   float available = get_metric(this);
   size_t num_fill_cells = 0;
   for (auto it = _cells.begin(); it != _cells.end(); ++it) {
-    available -= get_metric((*it).node);
     if ((*it).mode == CM_fill)
       ++num_fill_cells;
+    else
+      available -= get_metric((*it).node);
   }
 
+  // Take spacing into account
+  available -= max(0, _cells.size() - 1) * _spacing;
+
   if (available < 0.0f) {
-    luiBaseLayout_cat.warning() << "Not enough space available! (Missing " << -available << " pixels)" << endl;
+    // luiBaseLayout_cat.warning() << "Not enough space available! (Missing " << -available << " pixels)" << endl;
+    available = 0.0;
   }
 
   // Divide available space by amount of containers that specify the '*' flag
   available /= max(1, num_fill_cells);
   available = ceil(available);
 
-  float this_metric = get_metric(this);
+  // cout << "Available metrics = " << ava%ilable << " (for " << num_fill_cells << " cells)" << endl;
 
+  float this_metric = get_metric(this);
   float offset = 0.0;
 
   // Iterate over all cells and distribute them
@@ -158,6 +164,7 @@ void LUIBaseLayout::update_layout() {
         nassertv(false);
       }
     };
+    offset += _spacing;
   }
 }
 
@@ -169,4 +176,9 @@ void LUIBaseLayout::update_dimensions_upstream() {
   update_dimensions();
   update_layout();
   fit_dimensions();
+}
+
+void LUIBaseLayout::reset() {
+  _cells.clear();
+  remove_all_children();
 }

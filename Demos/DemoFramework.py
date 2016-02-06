@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, "../Builtin")
 
 from panda3d.core import *
-from panda3d.lui import LUIRegion, LUIInputHandler, LUISprite, LUIObject
+from panda3d.lui import LUIRegion, LUIInputHandler, LUISprite, LUIObject, LUIVerticalLayout
 
 from LUILabel import LUILabel
 from LUIFrame import LUIFrame
@@ -24,7 +24,6 @@ load_prc_file_data("", """
 
 import direct.directbase.DirectStart
 from LUISkin import LUIDefaultSkin
-from LUILayouts import LUIVerticalLayout
 from LUICheckbox import LUICheckbox
 from LUIFormattedLabel import LUIFormattedLabel
 from LUISelectbox import LUISelectbox
@@ -66,18 +65,27 @@ class DemoFramework:
                                         font="default", pos=(121, 65), color=(1, 1, 1, 0.5))
 
         # Right bar
-        self._right_bar = LUIVerticalLayout(parent=self._root, width=350, spacing=20, pos=(410, 120))
-        self._left_bar = LUIVerticalLayout(parent=self._root, width=350, spacing=20, pos=(20, 120))
+
+        self._right_bar = LUIVerticalLayout(parent=self._root)
+        self._left_bar = LUIVerticalLayout(parent=self._root)
+        self._right_bar.width = 350
+        self._right_bar.pos = (410, 120)
+        self._right_bar.spacing = 10
+        self._left_bar.width = 350
+        self._left_bar.pos=(20, 120)
+        self._left_bar.spacing = 10
 
         # Public functions
         self._public_functions = LUIFrame(width=340, style=LUIFrame.FS_sunken)
-        self.functions_label = LUILabel(parent=self._public_functions, text=U"Additional Public functions")
-        self.functions_layout = LUIVerticalLayout(parent=self._public_functions,spacing=10, use_dividers=True, top=30)
+        self._functions_label = LUILabel(text=U"Additional Public functions")
+        self._functions_layout = LUIVerticalLayout(parent=self._public_functions)
+        self._functions_layout.add(self._functions_label, 30)
 
         # Events
         self._events = LUIFrame(width=340, style=LUIFrame.FS_sunken)
-        self._events_label = LUILabel(parent=self._events, text=U"Additional Events")
-        self._events_layout = LUIVerticalLayout(parent=self._events, spacing=10, use_dividers=True, top=30)
+        self._events_label = LUILabel(text=U"Additional Events")
+        self._events_layout = LUIVerticalLayout(parent=self._events)
+        self._events_layout.add(self._events_label, 30)
 
         # Actions
         self._actions = LUIFrame(width=340, style=LUIFrame.FS_sunken, height=80)
@@ -88,8 +96,9 @@ class DemoFramework:
 
         # Properties
         self._properties = LUIFrame(width=340, style=LUIFrame.FS_sunken)
-        self._properties_label = LUILabel(parent=self._properties, text=u"Additional Properties")
-        self._properties_layout = LUIVerticalLayout(parent=self._properties, spacing=10, use_dividers=True, top=30)
+        self._properties_label = LUILabel(text=u"Additional Properties")
+        self._properties_layout = LUIVerticalLayout(parent=self._properties)
+        self._properties_layout.add(self._properties_label, 30)
 
         self._right_bar.add(self._actions)
         self._right_bar.add(self._public_functions)
@@ -141,7 +150,7 @@ class DemoFramework:
                 if index < len(parameters) - 1:
                     label.add(text=",", color=(0.9,0.9,0.9))
         label.add(text=" )", color=(0.9,0.9,0.9))
-        self.functions_layout.add(label)
+        self._functions_layout.add(label)
         self.update_layouts()
 
     def add_constructor_parameter(self, name, default):
@@ -163,11 +172,7 @@ class DemoFramework:
         self.update_layouts()
 
     def update_layouts(self):
-        # self._public_functions.fit_height_to_children()
-        # self._constructor_parameter_frame.fit_height_to_children()
-        # self._events.fit_height_to_children()
-        # self._properties.fit_height_to_children()
-        self._right_bar.update()
+        pass
 
     def construct_sourcecode(self, classname):
         self._source_content.remove_all_children()

@@ -227,9 +227,11 @@ public:
   void move_by(const LVector2& offset);
   INLINE void set_debug_name(const string& debug_name);
 
+
 protected:
 
   virtual void update_dimensions();
+  virtual void update_position();
   LVector2 get_available_dimensions() const;
 
   void load_python_events(PyObject *self);

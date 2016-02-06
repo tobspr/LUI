@@ -1,7 +1,7 @@
 
 from DemoFramework import DemoFramework
 from LUIButton import LUIButton
-from LUILayouts import LUIHorizontalLayout
+from panda3d.lui import LUIHorizontalLayout
 
 import random
 
@@ -22,7 +22,7 @@ f.add_property("text", "string")
 f.construct_sourcecode("LUIButton")
 
 # Create 2 new buttons, and store them in a vertical layout
-layout = LUIHorizontalLayout(parent=f.get_widget_node(), spacing=10, use_dividers=True)
+layout = LUIHorizontalLayout(parent=f.get_widget_node(), spacing=10)
 
 button1 = LUIButton(text="Do not click me")
 button2 = LUIButton(text="Instead click me", template="ButtonGreen")

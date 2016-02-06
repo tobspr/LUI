@@ -24,9 +24,15 @@ public:
 
   LUIBaseLayout(PyObject* self);
 
-  PUBLISHED:
+PUBLISHED:
   void add(PT(LUIBaseElement) object, const string& cell_mode = "?");
   void add(PT(LUIBaseElement) object, float cell_height);
+  void reset();
+
+  INLINE void set_spacing(float spacing);
+  INLINE float get_spacing() const;
+
+  MAKE_PROPERTY(spacing ,get_spacing, set_spacing);
 
 public:
 
@@ -41,7 +47,7 @@ protected:
     double payload;
 
     // Container node
-    PT(LUIBaseElement) node;
+    LUIBaseElement* node;
   };
 
   void add_cell(PT(LUIBaseElement) object, Cell cell);
@@ -59,6 +65,7 @@ protected:
 
   Cell construct_cell(const string& cell_mode);
   pvector<Cell> _cells;
+  float _spacing;
 
 public:
   static TypeHandle get_class_type() {
@@ -76,5 +83,7 @@ public:
 private:
   static TypeHandle _type_handle;
 };
+
+#include "luiBaseLayout.I"
 
 #endif // LUI_BASE_LAYOUT_H

@@ -23,8 +23,10 @@ class LUIButton(LUIObject):
         self._template = template
         self._layout = LUIHorizontalStretchedLayout(
             parent=self, prefix=self._template, width="100%")
-        self._label = LUILabel(parent=self, text=text, shadow=True, z_offset=1,
-                                center_vertical=True, margin=(0, 20, 0, 20))
+        self._label = LUILabel(parent=self, text=text, shadow=True)
+        self._label.z_offset = 1
+        self._label.center_vertical = True
+        self._label.margin = 0, 20, 0, 20
         self.margin_left = -1
         LUIInitialState.init(self, kwargs)
 

@@ -15,7 +15,7 @@ class LUISelectbox(LUIObject):
 
     def __init__(self, width=200, options=None, selected_option=None, **kwargs):
         """ Constructs a new selectbox with a given width """
-        LUIObject.__init__(self, x=0, y=0, w=width+4, h=0, solid=True)
+        LUIObject.__init__(self, x=0, y=0, w=width+4, solid=True)
         LUIInitialState.init(self, kwargs)
 
         # The selectbox has a small border, to correct this we move it

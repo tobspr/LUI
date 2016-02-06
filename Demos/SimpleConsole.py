@@ -20,8 +20,8 @@ load_prc_file_data("", """
 """)
 
 from panda3d.lui import LUIRegion, LUIObject, LUIInputHandler
+from panda3d.lui import LUIVerticalLayout
 from LUISkin import LUIDefaultSkin
-from LUILayouts import LUIVerticalLayout
 from LUIFrame import LUIFrame
 from LUILabel import LUILabel
 from LUIInputField import LUIInputField
@@ -44,15 +44,21 @@ title_label = LUILabel(parent=region.root, text="LUI Console Example", font_size
 
 
 # Container
-container = LUIFrame(parent = region.root, pos=(0, 0), width=700, height=500,
-                     style=LUIFrame.FS_sunken, margin=30)
+container = LUIFrame(
+    parent = region.root,
+    pos=(0, 0),
+    width=700,
+    height=500,
+    style=LUIFrame.FS_sunken,
+    margin=30)
+
 container.top = 50
 
 text_container = LUIScrollableRegion(parent=container, width=675, height=440,
     padding=0)
 
 base.win.set_clear_color(Vec4(0.1, 0.1, 0.1, 1.0))
-layout = LUIVerticalLayout(parent=text_container.content_node, spacing=0, use_dividers=False)
+layout = LUIVerticalLayout(parent=text_container.content_node)
 
 def send_command(event):
     label = LUIFormattedLabel()

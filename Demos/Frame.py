@@ -1,10 +1,10 @@
 
 
 from DemoFramework import DemoFramework
+from panda3d.lui import LUIVerticalLayout
 from LUIFrame import LUIFrame
 from LUILabel import LUILabel
 from LUIButton import LUIButton
-from LUILayouts import LUIVerticalLayout
 from panda3d.lui import LUIObject
 
 import random

@@ -1,20 +1,20 @@
-// Filename: luiVerticalLayout.h
+// Filename: luiHorizontalLayout.h
 // Created by:  tobspr (31Jan16)
 //
 
-#ifndef LUI_VERTICAL_LAYOUT_H
-#define LUI_VERTICAL_LAYOUT_H
+#ifndef LUI_HORIZONTAL_LAYOUT_H
+#define LUI_HORIZONTAL_LAYOUT_H
 
 #include "config_lui.h"
 #include "luiBaseLayout.h"
 
 #include "pandabase.h"
-NotifyCategoryDecl(luiVerticalLayout, EXPCL_LUI, EXPTP_LUI);
+NotifyCategoryDecl(luiHorizontalLayout, EXPCL_LUI, EXPTP_LUI);
 
-class EXPCL_LUI LUIVerticalLayout : public LUIBaseLayout {
+class EXPCL_LUI LUIHorizontalLayout : public LUIBaseLayout {
 
 PUBLISHED:
-  LUIVerticalLayout(PyObject* self, LUIObject* parent, float spacing = 0.0);
+  LUIHorizontalLayout(PyObject* self, LUIObject* parent, float spacing = 0.0);
 
 protected:
   // Interfaces
@@ -29,7 +29,7 @@ public:
   }
   static void init_type() {
     LUIBaseLayout::init_type();
-    register_type(_type_handle, "LUIVerticalLayout", LUIBaseLayout::get_class_type());
+    register_type(_type_handle, "LUIHorizontalLayout", LUIBaseLayout::get_class_type());
   }
   virtual TypeHandle get_type() const {
     return get_class_type();
@@ -41,4 +41,4 @@ private:
 
 };
 
-#endif // LUI_VERTICAL_LAYOUT_H
+#endif // LUI_HORIZONTAL_LAYOUT_H

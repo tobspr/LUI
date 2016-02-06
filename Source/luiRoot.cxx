@@ -45,7 +45,6 @@ LUIRoot::LUIRoot(float width, float height) : _requested_focus(NULL) {
   _geom->add_primitive(_triangles);
   _geom->set_bounds(new OmniBoundingVolume());
 
-
   _triangle_index_buffer = new LUITriangleIndex[_index_buffer_size];
 }
 
@@ -73,8 +72,10 @@ void LUIRoot::prepare_render() {
   // Update lui elements graph
   _root->update_downstream();
   _root->update_dimensions_upstream();
-  _root->update_upstream();
+  // for (int i = 0; i < 20; ++i)
+    _root->update_upstream();
   _root->update_clip_bounds();
+
 
   // Render normal elements
   _root->render_recursive(false, false);
@@ -83,7 +84,6 @@ void LUIRoot::prepare_render() {
   int sprites_before = _sprites_rendered;
   _root->render_recursive(true, false);
   int sprites_topmost = _sprites_rendered - sprites_before;
-
 
   if (_sprites_rendered > 0) {
     _triangles->modify_vertices()->unclean_set_num_rows(_sprites_rendered * 2 * 3);
@@ -100,9 +100,7 @@ void LUIRoot::prepare_render() {
   }
 }
 
-
 LUIRoot::~LUIRoot() {
-
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Destructed LUIRoot\n";
   }

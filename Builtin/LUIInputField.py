@@ -177,4 +177,3 @@ class LUIInputField(LUIObject):
         if relX <= 0:
             self._text_scroller.left = min(0, - self._cursor.left - relX)
 
-
