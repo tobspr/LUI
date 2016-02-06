@@ -16,7 +16,7 @@ class LUIRadiobox(LUIObject):
         assert group is not None, "LUIRadiobox needs a LUIRadioboxGroup!"
         LUIObject.__init__(self, x=0, y=0, solid=True)
         self._sprite = LUISprite(self, "Radiobox_Default", "skin")
-        self._label = LUILabel(parent=self, text=label, shadow=True, margin=(-1, 0, 0, 23),
+        self._label = LUILabel(parent=self, text=label, margin=(-1, 0, 0, 23),
             center_vertical=True)
         self._value = value
         self._active = False

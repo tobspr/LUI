@@ -60,7 +60,7 @@ if __name__ == "__main__":
     btnCancel.right = 0
 
     picker = LUIColorpicker()
-    pickLabel = LUILabel(text=u"Pick your favourite color", shadow=True)
+    pickLabel = LUILabel(text=u"Pick your favourite color")
     pickLabel.top = 6
     picker.right = 0
 

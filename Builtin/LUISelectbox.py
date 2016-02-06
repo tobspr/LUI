@@ -23,9 +23,11 @@ class LUISelectbox(LUIObject):
 
         self._bg_layout = LUIHorizontalStretchedLayout(parent=self, prefix="Selectbox", width="100%")
 
-        self._label_container = LUIObject(self, x=10, y=8)
+        self._label_container = LUIObject(self, x=10, y=0)
+        self._label_container.set_size("100%", "100%")
         self._label_container.clip_bounds = (0,0,0,0)
         self._label = LUILabel(parent=self._label_container, text=u"Select an option ..")
+        self._label.center_vertical = True
 
         self._drop_menu = LUISelectdrop(parent=self, width=width)
         self._drop_menu.top = self._bg_layout._sprite_right.height - 7
@@ -72,13 +74,13 @@ class LUISelectbox(LUIObject):
 
     def _select_option(self, opt_id):
         """ Internal method to select an option """
-        self._label.color = (1,1,1,1)
+        self._label.alpha = 1.0
         for elem_opt_id, opt_val in self._options:
             if opt_id == elem_opt_id:
                 self._label.text = opt_val
                 self._current_option_id = opt_id
                 return
-        self._label.color = (1,1,1,0.3)
+        self._label.alpha = 0.3
 
     # def on_mouseover(self, event):
     #     """ Internal handle when the select-knob was hovered """
@@ -98,13 +100,11 @@ class LUISelectbox(LUIObject):
 
     def on_mousedown(self, event):
         """ Mousedown handler """
-        self._bg_layout.color = (0.9,0.9,0.9,1.0)
-        # self._bg_mid.color = (0.9,0.9,0.9,1.0)
+        self._bg_layout.alpha = 0.9
 
     def on_mouseup(self, event):
         """ Mouseup handler """
-        self._bg_layout.color = (1,1,1,1.0)
-        # self._bg_mid.color = (1,1,1,1.0)
+        self._bg_layout.alpha = 1
 
     def on_blur(self, event):
         """ Internal handler when the selectbox lost focus """
@@ -192,7 +192,7 @@ class LUISelectdrop(LUIObject):
             opt_bg.bind("click", partial(self._on_opt_click, opt_id))
             opt_bg.solid = True
 
-            opt_label = LUILabel(parent=opt_container, text=unicode(opt_val), shadow=True)
+            opt_label = LUILabel(parent=opt_container, text=unicode(opt_val))
             opt_label.top = 8
             opt_label.left = 8
 

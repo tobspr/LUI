@@ -27,7 +27,7 @@ class LUIProgressbar(LUIObject):
         self._fg_finish.right = 0
 
         if self._show_label:
-            self._progress_label = LUILabel(parent=self, text=u"33 %", shadow=True)
+            self._progress_label = LUILabel(parent=self, text=u"33 %")
             self._progress_label.centered = (True, True)
 
         self.set_value(value)

@@ -1,6 +1,7 @@
 
 
 import sys
+sys.path.insert(0, "../")
 sys.path.insert(0, "../Builtin")
 
 from panda3d.core import *
@@ -29,13 +30,20 @@ from LUIFormattedLabel import LUIFormattedLabel
 from LUISelectbox import LUISelectbox
 from LUIButton import LUIButton
 
+from Skins.Metro.LUIMetroSkin import LUIMetroSkin
+
 class DemoFramework:
 
     """ This is a small helper class to setup common stuff for the demos """
 
     def __init__(self):
-        base.win.set_clear_color(Vec4(0.1, 0.0, 0.0, 1))
-        self._skin = LUIDefaultSkin()
+
+        if False:
+            self._skin = LUIMetroSkin()
+            base.win.set_clear_color(Vec4(1))
+        else:
+            self._skin = LUIDefaultSkin()
+            base.win.set_clear_color(Vec4(0.1, 0.0, 0.0, 1))
         self._skin.load()
 
         # Construct the LUIRegion
@@ -55,14 +63,14 @@ class DemoFramework:
         self._background.solid = True
 
         # Logo
-        self._logo = LUISprite(self._root, "res/LUILogo.png")
+        self._logo = LUISprite(self._root, "res/LUILogoBlack.png")
         self._logo.top_left = 15, 20
 
         # Title
         self._title_label = LUILabel(parent=self._root, text=demo_title, font_size=40,
                                      font="header", pos=(120, 27))
         self._subtitle_label = LUILabel(parent=self._root, text="Widget Demo", font_size=14,
-                                        font="default", pos=(121, 65), color=(1, 1, 1, 0.5))
+                                        font="default", pos=(121, 70), alpha=0.3)
 
         # Right bar
 
@@ -88,7 +96,7 @@ class DemoFramework:
         self._events_layout.add(self._events_label, 30)
 
         # Actions
-        self._actions = LUIFrame(width=340, style=LUIFrame.FS_sunken, height=80)
+        self._actions = LUIFrame(width=340, style=LUIFrame.FS_sunken)
         self._actions_label = LUILabel(parent=self._actions, text=U"Demo-Actions")
         self._actions_select = LUISelectbox(parent=self._actions, width=225, top=30)
         self._actions_btn = LUIButton(parent=self._actions, right=0, top=30, text=u"Execute", template="ButtonGreen")
