@@ -8,8 +8,6 @@ class LUISkin:
 
     """ Abstract class, each skin derives from this class """
 
-    # This is only for debugging, and stores the absolute path of the skin. Later
-    # it should be fetched dynamically
     skin_location = ""
 
     def __init__(self):
