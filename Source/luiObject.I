@@ -9,7 +9,7 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
     return _content_node->remove_child(child);
   }
 
-  const auto child_it = std::find(_children.cbegin(), _children.cend(), child);
+  auto child_it = std::find(_children.begin(), _children.end(), child);
 
   if (child_it == _children.end()) {
     luiObject_cat.warning() << "Attempted to remove child, but child is not attached to this object" << endl;
