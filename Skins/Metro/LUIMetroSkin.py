@@ -31,5 +31,5 @@ class LUIMetroSkin(LUISkin):
             self.get_resource("res/atlas.png"))
 
         # Label color
-        LUILabel.DEFAULT_COLOR = (0.0, 0.0, 0.0, 0.6)
-        LUILabel.DEFAULT_USE_SHADOW = False
+        # LUILabel.DEFAULT_COLOR = (0.0, 0.0, 0.0, 0.6)
+        # LUILabel.DEFAULT_USE_SHADOW = False

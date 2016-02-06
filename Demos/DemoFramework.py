@@ -38,7 +38,7 @@ class DemoFramework:
 
     def __init__(self):
 
-        if False:
+        if True:
             self._skin = LUIMetroSkin()
             base.win.set_clear_color(Vec4(1))
         else:
@@ -63,7 +63,7 @@ class DemoFramework:
         self._background.solid = True
 
         # Logo
-        self._logo = LUISprite(self._root, "res/LUILogoBlack.png")
+        self._logo = LUISprite(self._root, "res/LUILogo.png")
         self._logo.top_left = 15, 20
 
         # Title
