@@ -447,3 +447,6 @@ INLINE float LUIBaseElement::get_y_extent() const {
   return _abs_position.get_y() + _effective_size.get_y() + _margin.get_bottom();
 }
 
+INLINE void LUIBaseElement::set_debug_name(const string& debug_name) {
+  _debug_name = debug_name;
+}

@@ -16,6 +16,7 @@
 #include "luiText.h"
 #include "luiEventData.h"
 #include "luiBaseLayout.h"
+#include "luiVerticalLayout.h"
 
 Configure(config_lui);
 NotifyCategoryDef(lui, "");
@@ -39,4 +40,5 @@ void init_lui() {
   LUIText::init_type();
   LUIEventData::init_type();
   LUIBaseLayout::init_type();
+  LUIVerticalLayout::init_type();
 }

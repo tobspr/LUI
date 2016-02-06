@@ -17,13 +17,13 @@ LUIFontPool::LUIFontPool() {
 }
 
 LUIFontPool::~LUIFontPool() {
-    
+
 }
 
 LUIFontPool* LUIFontPool::get_global_ptr() {
   if (_global_ptr == (LUIFontPool *)NULL) {
     _global_ptr = new LUIFontPool();
-  } 
+  }
   return _global_ptr;
 }
 

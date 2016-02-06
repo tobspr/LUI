@@ -25,7 +25,7 @@ bool LUIAtlas::load_descriptor_file(const string &descriptor_path) {
   lui_cat.info() << "Loading atlas description from " << descriptor_path << endl;
 
 
-  // This sucks & crashes
+  // This seems to crash
   //VirtualFileSystem *vfs = VirtualFileSystem::get_global_ptr();
 
   //PT(VirtualFile) file = vfs->get_file(descriptor_path);

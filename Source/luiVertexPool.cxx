@@ -2,7 +2,7 @@
 
 #include "luiVertexPool.h"
 
-LUIVertexPool::LUIVertexPool(Texture *tex) : 
+LUIVertexPool::LUIVertexPool(Texture *tex) :
   _tex(tex)
 {
   if (lui_cat.is_spam()) {

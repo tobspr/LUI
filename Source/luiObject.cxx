@@ -105,13 +105,10 @@ INLINE void LUIObject::update_dimensions() {
     _effective_size.set_x(_size.x.evaluate(available_dimensions.get_x()));
   if (_size.y.has_expression())
     _effective_size.set_y(_size.y.evaluate(available_dimensions.get_y()));
+
 }
 
-void LUIObject::update_dimensions_upstream() {
-
-  for (auto it = _children.begin(); it!= _children.end(); ++it) {
-    (*it)->update_dimensions_upstream();
-  }
+void LUIObject::fit_dimensions() {
 
   // Update the dimensions for all expresions which require information about
   // the children elements.
@@ -122,7 +119,7 @@ void LUIObject::update_dimensions_upstream() {
     // Find the maximum children extent
     for (auto it = _children.begin(); it != _children.end(); ++it) {
       LUIBaseElement *elem = *it;
-      if (elem->_placement.x == M_default) {
+      if (elem->_placement.x == M_default && !elem->_size.x.has_parent_dependent_expression()) {
         max_x = max(max_x, elem->get_x_extent());
       }
     }
@@ -143,7 +140,7 @@ void LUIObject::update_dimensions_upstream() {
     // Find the maximum children extent
     for (auto it = _children.begin(); it != _children.end(); ++it) {
       LUIBaseElement *elem = *it;
-      if (elem->_placement.y == M_default) {
+      if (elem->_placement.y == M_default && !elem->_size.y.has_parent_dependent_expression()) {
         max_y = max(max_y, elem->get_y_extent());
       }
     }
@@ -158,18 +155,27 @@ void LUIObject::update_dimensions_upstream() {
     _effective_size.set_y(max_y);
   }
 
+}
+
+void LUIObject::update_dimensions_upstream() {
+
+  for (auto it = _children.begin(); it!= _children.end(); ++it) {
+    (*it)->update_dimensions_upstream();
+  }
+
+  fit_dimensions();
   update_dimensions();
 }
 
 void LUIObject::update_downstream() {
   LUIBaseElement::update_downstream();
-  for (auto it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.begin(); it != _children.end(); ++it) {
     (*it)->update_downstream();
   }
 }
 
 void LUIObject::update_upstream() {
-  for (auto it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.begin(); it != _children.end(); ++it) {
     (*it)->update_upstream();
   }
   LUIBaseElement::update_upstream();
@@ -177,7 +183,14 @@ void LUIObject::update_upstream() {
 
 void LUIObject::update_clip_bounds() {
   LUIBaseElement::update_clip_bounds();
-  for (auto it = _children.begin(); it!= _children.end(); ++it) {
+  for (auto it = _children.begin(); it != _children.end(); ++it) {
     (*it)->update_clip_bounds();
+  }
+}
+
+void LUIObject::move_by(const LVector2& offset) {
+  LUIBaseElement::move_by(offset);
+  for (auto it = _children.begin(); it != _children.end(); ++it) {
+    (*it)->move_by(offset);
   }
 }

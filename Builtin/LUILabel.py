@@ -13,11 +13,11 @@ class LUILabel(LUIObject):
         rendered below the actual text. """
         LUIObject.__init__(self)
         LUIInitialState.init(self, kwargs)
-        self._text = LUIText(self, unicode(text), font, font_size, 0, 0)
+        self._text = LUIText(self, unicode(text), font, font_size)
         self._text.z_offset = 1
         self._have_shadow = shadow
         if self._have_shadow:
-            self._shadow_text = LUIText(self, unicode(text), font, font_size, 0, 0)
+            self._shadow_text = LUIText(self, unicode(text), font, font_size)
             self._shadow_text.top = 1
             self._shadow_text.color = (0,0,0,0.6)
 

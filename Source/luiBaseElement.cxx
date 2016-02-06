@@ -403,11 +403,9 @@ void LUIBaseElement::update_dimensions() {
   );
 }
 
-
 void LUIBaseElement::update_dimensions_upstream() {
   update_dimensions();
 }
-
 
 void LUIBaseElement::update_downstream() {
 
@@ -500,4 +498,9 @@ void LUIBaseElement::update_upstream() {
 
 void LUIBaseElement::update_clip_bounds() {
   // TODO
+}
+
+void LUIBaseElement::move_by(const LVector2& offset) {
+  _abs_position.add_x(offset.get_x());
+  _abs_position.add_y(offset.get_y());
 }

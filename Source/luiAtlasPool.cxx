@@ -5,11 +5,9 @@
 LUIAtlasPool *LUIAtlasPool::_global_ptr = NULL;
 
 LUIAtlasPool::LUIAtlasPool() {
-  lui_cat.info() << "Initialized new LUIAtlasPool\n";
 }
 
 LUIAtlasPool::~LUIAtlasPool() {
-  lui_cat.info() << "Destructed LUIAtlasPool\n";
 }
 
 LUIAtlasPool* LUIAtlasPool::get_global_ptr() {
@@ -42,6 +40,3 @@ void LUIAtlasPool::load_atlas(const string &atlas_id, const string &atlas_desc_p
 
   _atlases[atlas_id] = atlas;
 }
-
-
-

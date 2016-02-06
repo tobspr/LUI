@@ -6,16 +6,38 @@
 #define LUI_VERTICAL_LAYOUT_H
 
 #include "config_lui.h"
-#include "luiObject.h"
+#include "luiBaseLayout.h"
 
 #include "pandabase.h"
 NotifyCategoryDecl(luiVerticalLayout, EXPCL_LUI, EXPTP_LUI);
 
-class EXPCL_LUI LUIVerticalLayout : public LUIObject {
+class EXPCL_LUI LUIVerticalLayout : public LUIBaseLayout {
+
+PUBLISHED:
+  LUIVerticalLayout(PyObject* self, LUIObject* parent);
+
+protected:
+  // Interfaces
+  void init_container(LUIObject* container);
+  float get_metric(LUIBaseElement* element);
+  void set_metric(LUIBaseElement* element, float metric);
+  void set_offset(LUIBaseElement* element, float offset);
 
 public:
+  static TypeHandle get_class_type() {
+    return _type_handle;
+  }
+  static void init_type() {
+    LUIBaseLayout::init_type();
+    register_type(_type_handle, "LUIVerticalLayout", LUIBaseLayout::get_class_type());
+  }
+  virtual TypeHandle get_type() const {
+    return get_class_type();
+  }
+  virtual TypeHandle force_init_type() {init_type(); return get_class_type();}
 
-
+private:
+  static TypeHandle _type_handle;
 
 };
 

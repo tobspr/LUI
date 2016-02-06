@@ -224,6 +224,9 @@ public:
   virtual void update_upstream();
   virtual void update_clip_bounds();
 
+  void move_by(const LVector2& offset);
+  INLINE void set_debug_name(const string& debug_name);
+
 protected:
 
   virtual void update_dimensions();
