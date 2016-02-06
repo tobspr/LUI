@@ -28,7 +28,7 @@ class LUIInputField(LUIObject):
         self._cursor = LUISprite(
             self._text_scroller, "blank", "skin", x=0, y=0, w=2, h=15)
         self._cursor.color = (0.5, 0.5, 0.5)
-        self._cursor.margin_top = 2
+        self._cursor.margin.top = 2
         self._cursor.z_offset = 20
         self._cursor_index = 0
         self._cursor.hide()

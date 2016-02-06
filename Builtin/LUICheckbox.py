@@ -18,8 +18,8 @@ class LUICheckbox(LUIObject):
         LUIObject.__init__(self, x=0, y=0, solid=True)
         self._checked = checked
         self._checkbox_sprite = LUISprite(self, "Checkbox_Default", "skin")
-        self._label = LUILabel(parent=self, text=label, shadow=True, margin_left=23,
-            center_vertical=True, margin_top=-1)
+        self._label = LUILabel(parent=self, text=label, shadow=True, margin=(-1, 0, 0, 23),
+            center_vertical=True)
         self._hovered = False
         LUIInitialState.init(self, kwargs)
 

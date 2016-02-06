@@ -27,18 +27,18 @@ class LUIButton(LUIObject):
         self._label.z_offset = 1
         self._label.center_vertical = True
         self._label.margin = 0, 20, 0, 20
-        self.margin_left = -1
+        self.margin.left = -1
         LUIInitialState.init(self, kwargs)
 
     def on_mousedown(self, event):
         """ Internal on_mousedown handler. Do not override """
         self._layout.prefix = self._template + "Focus"
-        self._label.margin_top = 1
+        self._label.margin.top = 1
 
     def on_mouseup(self, event):
         """ Internal on_mouseup handler. Do not override """
         self._layout.prefix = self._template
-        self._label.margin_top = 0
+        self._label.margin.top = 0
 
     def get_text(self, text):
         """ Returns the current label text of the button """

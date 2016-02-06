@@ -19,7 +19,7 @@ class LUISelectbox(LUIObject):
         LUIInitialState.init(self, kwargs)
 
         # The selectbox has a small border, to correct this we move it
-        self.margin_left = -2
+        self.margin.left = -2
 
         self._bg_left = LUISprite(self, "Selectbox_Left", "skin")
         self._bg_mid = LUISprite(self, "Selectbox", "skin")
@@ -156,7 +156,7 @@ class LUISelectdrop(LUIObject):
 
         self._layout = LUICornerLayout(parent=self, image_prefix="Selectdrop_",
                                        width=width + 10, height=100)
-        self._layout.margin_left = -3
+        self._layout.margin.left = -3
 
         self._opener = LUISprite(self, "SelectboxOpen_Right", "skin")
         self._opener.right = -4

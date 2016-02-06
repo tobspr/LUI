@@ -90,6 +90,7 @@ PUBLISHED:
   INLINE float get_margin_right() const;
   INLINE float get_margin_bottom() const;
   INLINE float get_margin_left() const;
+  INLINE LUIBounds& get_margin();
   INLINE const LUIBounds& get_margin() const;
 
   // Padding
@@ -104,6 +105,7 @@ PUBLISHED:
   INLINE float get_padding_right() const;
   INLINE float get_padding_bottom() const;
   INLINE float get_padding_left() const;
+  INLINE LUIBounds& get_padding();
   INLINE const LUIBounds& get_padding() const;
 
   // Size
@@ -177,16 +179,7 @@ PUBLISHED:
   MAKE_PROPERTY(center_horizontal, is_horizontal_centered, set_center_horizontal);
 
   MAKE_PROPERTY(margin, get_margin, set_margin);
-  MAKE_PROPERTY(margin_top, get_margin_top, set_margin_top);
-  MAKE_PROPERTY(margin_right, get_margin_right, set_margin_right);
-  MAKE_PROPERTY(margin_bottom, get_margin_bottom, set_margin_bottom);
-  MAKE_PROPERTY(margin_left, get_margin_left, set_margin_left);
-
   MAKE_PROPERTY(padding, get_padding, set_padding);
-  MAKE_PROPERTY(padding_top, get_padding_top, set_padding_top);
-  MAKE_PROPERTY(padding_right, get_padding_right, set_padding_right);
-  MAKE_PROPERTY(padding_bottom, get_padding_bottom, set_padding_bottom);
-  MAKE_PROPERTY(padding_left, get_padding_left, set_padding_left);
 
   MAKE_PROPERTY(size, get_size, set_size);
   MAKE_PROPERTY(width, get_width, set_width);

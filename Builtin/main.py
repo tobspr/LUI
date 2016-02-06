@@ -94,7 +94,7 @@ if __name__ == "__main__":
     layout.add(pickLabel, picker)
     layout.add(bar)
     layout.add(btnOk, btnCancel)
-    layout.margin_top = 10
+    layout.margin.top = 10
 
     instructions = LUIObject(region.root, x=25, y=25)
 

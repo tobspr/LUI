@@ -23,10 +23,10 @@ label = LUIFormattedLabel(parent=f.get_widget_node())
 label.add(text="Hello ", color=(0.2,0.6,1.0))
 label.add(text="World", color=(1.0,0.6,0.2))
 label.add(text="! ")
-label.add(text="This ", font_size=20, margin_top=-6, color=(0.4,0.2,1.0))
+label.add(text="This ", font_size=20, margin.top=-6, color=(0.4,0.2,1.0))
 label.add(text="is ", color=(1.0,0.2,1.0))
 label.add(text="a formatted ", font_size=10, color=(0.6,0.3,0.6))
-label.add(text="Label", font_size=25, margin_top=-11, color=(0.2,1.0,0.6))
+label.add(text="Label", font_size=25, margin.top=-11, color=(0.2,1.0,0.6))
 
 # Go to next line
 label.newline()

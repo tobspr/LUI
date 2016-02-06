@@ -272,7 +272,7 @@ class LUIKeyInstruction(LUIObject):
         self.marker = LUIKeyMarker(parent=self, key=key)
         self.instructionLabel = LUILabel(parent=self, text=instruction, shadow=True)
         self.instructionLabel.centered = (False, True)
-        self.instructionLabel.margin_top = -4
+        self.instructionLabel.margin.top = -4
         self.set_key(key)
 
     def set_key(self, key):

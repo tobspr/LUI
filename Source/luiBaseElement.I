@@ -218,6 +218,10 @@ INLINE float LUIBaseElement::get_margin_left() const {
   return _margin.get_left();
 }
 
+INLINE LUIBounds& LUIBaseElement::get_margin() {
+  return _margin;
+}
+
 INLINE const LUIBounds& LUIBaseElement::get_margin() const {
   return _margin;
 }
@@ -264,6 +268,10 @@ INLINE float LUIBaseElement::get_padding_bottom() const {
 
 INLINE float LUIBaseElement::get_padding_left() const {
   return _padding.get_left();
+}
+
+INLINE LUIBounds& LUIBaseElement::get_padding() {
+  return _padding;
 }
 
 INLINE const LUIBounds& LUIBaseElement::get_padding() const {
