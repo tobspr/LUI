@@ -2,6 +2,8 @@
 
 from DemoFramework import DemoFramework
 from LUISlider import LUISlider
+from LUILabel import LUILabel
+from panda3d.lui import LUIVerticalLayout
 
 import random
 
@@ -25,10 +27,13 @@ f.add_event("changed")
 f.construct_sourcecode("LUISlider")
 
 # Create the checkbox
-slider = LUISlider(parent=f.get_widget_node(), width=200.0)
-slider_nofill = LUISlider(parent=f.get_widget_node(), width=200.0, filled=False, top=30)
+layout = LUIVerticalLayout(parent=f.get_widget_node(), spacing=10)
 
+LUILabel(parent=layout.cell(), text="This is a filled slider:", color=(1, 1, 1, 0.4))
+slider = LUISlider(parent=layout.cell(), width=200.0)
 
+LUILabel(parent=layout.cell(), text="This is a regular slider:", color=(1, 1, 1, 0.4))
+slider_nofill = LUISlider(parent=layout.cell(), width=200.0, filled=False)
 
 f.set_actions({
         "Set to 30%": lambda: slider.set_value(0.3),

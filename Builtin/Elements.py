@@ -1,3 +1,15 @@
+"""
+
+
+
+OUTDATED
+
+Do not use anymore.
+
+
+"""
+
+
 from panda3d.lui import *
 from panda3d.core import Point2
 
@@ -11,128 +23,6 @@ from LUICallback import LUICallback
 from LUILabel import LUILabel
 from LUIFrame import LUIFrame
 from LUIButton import LUIButton
-
-class LUISlider(LUIObject, LUICallback):
-
-    def __init__(self, parent=None, filled=False, min_value=0.0, max_value=1.0, width=100.0, value=None):
-
-        LUIObject.__init__(self, x=0, y=0, w=width, h=0)
-        LUICallback.__init__(self)
-        self.knob = LUISprite(self, "SliderKnob", "skin")
-        self.knob.z_offset = 2
-
-        self.sliderBg = LUIObject(self, 0, 0, width, 0)
-        self.bgLeft = LUISprite(self.sliderBg, "SliderBg_Left", "skin")
-        self.bgRight = LUISprite(self.sliderBg, "SliderBg_Right", "skin")
-        self.bgMid = LUISprite(self.sliderBg, "SliderBg", "skin")
-
-        self.bgMid.width = self.width - self.bgLeft.width - self.bgRight.width
-        self.bgMid.left = self.bgLeft.width
-        self.bgRight.left = self.bgMid.width + self.bgMid.left
-
-        self.filled = filled
-        self.min_value = min_value
-        self.max_value = max_value
-
-        self.sliderBg.fit_to_children()
-        self.sliderBg.top = (self.knob.height - self.sliderBg.height) / 2 -1
-
-        self.sideMargin = self.knob.width / 4
-        self.effectiveWidth = self.width - 2 * self.sideMargin
-
-        if self.filled:
-            self.sliderFill = LUIObject(self, 0, 0, width, 0)
-            self.fillLeft = LUISprite(self.sliderFill, "SliderBgFill_Left", "skin")
-            self.fillMid = LUISprite(self.sliderFill, "SliderBgFill", "skin")
-            self.fillMid.left = self.fillLeft.width
-            self.sliderFill.z_offset = 1
-            self.sliderFill.top = self.sliderBg.top
-            self.sliderFill.fit_to_children()
-
-        if parent is not None:
-            self.parent = parent
-
-        self.knob.bind("mousedown", self._start_drag)
-        self.knob.bind("mousemove", self._update_drag)
-        self.knob.bind("mouseup", self._stop_drag)
-        self.knob.bind("keydown", self._on_keydown)
-        self.knob.bind("blur", self._stop_drag)
-        self.knob.bind("keyrepeat", self._on_keydown)
-
-
-        self.dragStartPos = None
-        self.dragging = False
-        self.dragStartVal = 0
-        self.currentVal = 10
-
-        if value is None:
-            self.set_value( (self.min_value + self.max_value) / 2.0 )
-        else:
-            self.set_value(value)
-
-        self.fit_to_children()
-        self._update_knob()
-
-    def on_click(self, event):
-        # I don't like this behaviour
-        if False:
-            relative_pos = self.get_relative_pos(event.coordinates)
-            if not self.dragging:
-                self._set_current_val(relative_pos.x)
-
-    def _update_knob(self):
-        self.knob.left = self.currentVal - (self.knob.width / 2) + self.sideMargin
-        if self.filled:
-            self.fillMid.width = self.currentVal - self.fillLeft.width + self.sideMargin
-
-    def _set_current_val(self, pixels):
-        pixels = max(0, min(self.effectiveWidth, pixels))
-        self.currentVal = pixels
-        self._trigger_callback(self.get_value())
-        self._update_knob()
-
-    def _start_drag(self, event):
-        self.knob.request_focus()
-        if not self.dragging:
-            self.dragStartPos = event.coordinates
-            self.dragging = True
-            self.dragStartVal = self.currentVal
-            self.knob.color = (0.8,0.8,0.8,1.0)
-
-    def set_value(self, value):
-        scaled = (float(value) - float(self.min_value)) \
-                 / (float(self.max_value) - float(self.min_value)) \
-                 * self.effectiveWidth
-        self._set_current_val(scaled)
-
-
-    def get_value(self):
-        return (self.currentVal / float(self.effectiveWidth)) \
-                 * (float(self.max_value) - float(self.min_value)) \
-                + self.min_value
-
-    def _on_keydown(self, event):
-        if event.message == "arrow_right":
-            self._set_current_val(self.currentVal + 2)
-        elif event.message == "arrow_left":
-            self._set_current_val(self.currentVal - 2)
-        elif event.message == "escape":
-            self.currentVal = self.dragStartVal
-            self._stop_drag(event)
-            self._update_knob()
-
-    def _update_drag(self, event):
-        if self.dragging:
-            dragOffset = event.coordinates.x - self.dragStartPos.x
-            finalValue = self.dragStartVal + dragOffset
-            self._set_current_val(finalValue)
-
-    def _stop_drag(self, event):
-        self.dragStartPos = None
-        self.dragging = False
-        self.dragStartVal = self.currentVal
-        self.knob.color = (1,1,1,1)
-
 
 class LUISliderWithLabel(LUIObject, LUICallback):
 
@@ -172,69 +62,6 @@ class LUISliderWithLabel(LUIObject, LUICallback):
 
     def _on_slider_changed(self, obj, value):
         self.label.text = ("{:." + str(self.precision) + "f}").format(value)
-
-class LUIProgressbar(LUIObject):
-
-    def __init__(self, parent=None, width=200, value=50, show_label=True):
-        LUIObject.__init__(self, x=0, y=0, w=width, h=0)
-
-        self.bgLeft = LUISprite(self, "ProgressbarBg_Left", "skin")
-        self.bgMid = LUISprite(self, "ProgressbarBg", "skin")
-        self.bgRight = LUISprite(self, "ProgressbarBg_Right", "skin")
-
-        self.bgMid.width = self.width - self.bgLeft.width - self.bgRight.width
-        self.bgMid.left = self.bgLeft.width
-        self.bgRight.left = self.bgMid.width + self.bgMid.left
-
-        self.fgLeft = LUISprite(self, "ProgressbarFg_Left", "skin")
-        self.fgMid = LUISprite(self, "ProgressbarFg", "skin")
-        self.fgRight = LUISprite(self, "ProgressbarFg_Right", "skin")
-        self.fgFinish = LUISprite(self, "ProgressbarFg_Finish", "skin")
-
-        self.showLabel = show_label
-        self.progressPixel = 0
-        self.fgFinish.right = 0
-
-        self.fit_to_children()
-
-        if self.showLabel:
-            self.progressLabel = LUILabel(parent=self, text=u"33 %", shadow=True)
-            self.progressLabel.centered = (True, False)
-            self.progressLabel.top = -1
-
-        self.set_value(value)
-        self._update_progress()
-
-        if parent is not None:
-            self.parent = parent
-
-    def set_value(self, val):
-        val = max(0, min(100, val))
-        self.progressPixel = int(val / 100.0 * self.width)
-        self._update_progress()
-
-    def _update_progress(self):
-        self.fgFinish.hide()
-
-        if self.progressPixel <= self.fgLeft.width + self.fgRight.width:
-            self.fgMid.hide()
-            self.fgRight.left = self.fgLeft.width
-        else:
-            self.fgMid.show()
-            self.fgMid.left = self.fgLeft.width
-            self.fgMid.width = self.progressPixel - self.fgRight.width - self.fgLeft.width
-            self.fgRight.left = self.fgMid.left + self.fgMid.width
-
-            if self.progressPixel >= self.width - self.fgRight.width:
-                self.fgFinish.show()
-                self.fgFinish.right = - (self.width - self.progressPixel)
-                self.fgFinish.clip_bounds = (0, self.width - self.progressPixel, 0, 0)
-
-        if self.showLabel:
-            percentage = self.progressPixel / self.width * 100.0
-            self.progressLabel.set_text(unicode(int(percentage)) + u" %")
-
-
 
 class LUIKeyMarker(LUIObject):
 
