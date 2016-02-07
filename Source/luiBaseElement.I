@@ -1,131 +1,321 @@
 
 
+/**
+ * @brief Binds a new event handler for a given event
+ * @details This binds a given event handler (a function taking the event as the
+ *   first argument) to an event name. Whenever the event gets triggered, the
+ *   event handler will get invoked.
+ *
+ *   In case the event is already bound, a warning is printed.
+ *
+ * @param event_name Name of the event to bind to
+ * @param callback Event handler, a method taking only one argument (the event)
+ */
 INLINE void LUIBaseElement::bind(const string& event_name, CallbackObject* callback) {
-  if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << "Binding event '" << event_name << "'" << endl;
-  }
   if (_events.count(event_name) != 0) {
     lui_cat.warning() << "Overriding event handler for '" << event_name << "'" << endl;
   }
-
   _events[event_name] = callback;
 }
 
+/**
+ * @brief Unbinds an event handler
+ * @details Unbinds a event handler, in case one is bound to the given event.
+ *   If there was no event handler for the given event, a warning is printed, and
+ *   nothing happens.
+ *
+ * @param event_name Name of the event to unbind the handler for
+ */
 INLINE void LUIBaseElement::unbind(const string& event_name) {
-  if (luiBaseElement_cat.is_spam()) {
-    luiBaseElement_cat.spam() << "Unbinding event '" << event_name << "'" << endl;
-  }
-
   const auto elem_it = _events.find(event_name);
   if (elem_it != _events.end()) {
     _events.erase(elem_it);
+  } else {
+    lui_cat.warning() << "Unbinding event handler for '" << event_name << "', but none was ever set!" << endl;
   }
 }
 
+/**
+ * @brief Unbinds all events
+ * @details This unbinds the element from all events, effectively calling unbind()
+ *   for every registered event. You should be careful on this, since most builtin
+ *   events will rely on certain events to be bound to them.
+ */
 INLINE void LUIBaseElement::unbind_all() {
   _events.clear();
 }
 
+/**
+ * @brief Checks whether an event handler is bound to the given event
+ * @details This checks whether there is a event handler for the event.
+ *   Returns true if there is a handler bound to the event, otherwise false.
+ *
+ * @param event_name Name of the evenet
+ * @return true if the event has an event handler, false otherwise
+ */
 INLINE bool LUIBaseElement::has_event(const string& event_name) {
   return _events.count(event_name) > 0;
 }
 
+/**
+ * @brief Sets whether to snap the position
+ * @details This controls whether the element snaps it position to the pixel grid.
+ *   If this is true, ceil() will be called on the position and size. This prevents
+ *   the element from being on subpixel positions, and thus causing artifacts
+ *   (for example, gaps).
+ *
+ * @param snap true to make the element snap, false otherwise
+ */
 INLINE void LUIBaseElement::set_snap_position(bool snap) {
   _snap_position = snap;
 }
 
+/**
+ * @brief Sets the top left position
+ * @details This makes the element aligned top/left and sets its position relative
+ *   to that corner.
+ *
+ * @param pos Distance to the top-left corner
+ */
 INLINE void LUIBaseElement::set_top_left(const LPoint2& pos) {
   _placement.x = M_default;
   _placement.y = M_default;
   _position = pos;
 }
 
+/**
+ * @brief Sets the top right position
+ * @details This makes the element aligned top/right and sets its position relative
+ *   to that corner.
+ *
+ * @param pos Distance to the top-right corner
+ */
 INLINE void LUIBaseElement::set_top_right(const LPoint2& pos) {
   _placement.x = M_inverse;
   _placement.y = M_default;
   _position = pos;
 }
 
+/**
+ * @brief Sets the bottom left position
+ * @details This makes the element aligned bottom/left and sets its position relative
+ *   to that corner.
+ *
+ * @param pos Distance to the bottom-öeft corner
+ */
 INLINE void LUIBaseElement::set_bottom_left(const LPoint2& pos) {
   _placement.x = M_default;
   _placement.y = M_inverse;
   _position = pos;
 }
 
+/**
+ * @brief Sets the bottom right position
+ * @details This makes the element aligned bottom/right and sets its position relative
+ *   to that corner.
+ *
+ * @param pos Distance to the bottom-right corner
+ */
 INLINE void LUIBaseElement::set_bottom_right(const LPoint2& pos) {
   _placement.x = M_inverse;
   _placement.y = M_inverse;
   _position = pos;
 }
 
+/**
+ * @brief Returns the distance to the top left corner
+ * @details This returns the distance to the top left corner. The returned value
+ *   is only meaningful if the elment is aligned top left.
+ * @return Distance to the top left corner
+ */
 INLINE LPoint2 LUIBaseElement::get_top_left() const {
   return LPoint2(get_left(), get_top());
 }
 
+/**
+ * @brief Returns the distance to the top right corner
+ * @details This returns the distance to the top right corner. The returned value
+ *   is only meaningful if the elment is aligned top right.
+ * @return Distance to the top right corner
+ */
 INLINE LPoint2 LUIBaseElement::get_top_right() const {
   return LPoint2(get_right(), get_top());
 }
 
+/**
+ * @brief Returns the distance to the bottom left corner
+ * @details This returns the distance to the bottom left corner. The returned value
+ *   is only meaningful if the elment is aligned bottom left.
+ * @return Distance to the bottom left corner
+ */
 INLINE LPoint2 LUIBaseElement::get_bottom_left() const {
   return LPoint2(get_left(), get_bottom());
 }
 
+/**
+ * @brief Returns the distance to the bottom right corner
+ * @details This returns the distance to the bottom right corner. The returned value
+ *   is only meaningful if the elment is aligned bottom right.
+ * @return Distance to the bottom right corner
+ */
 INLINE LPoint2 LUIBaseElement::get_bottom_right() const {
   return LPoint2(get_right(), get_bottom());
 }
 
+/**
+ * @brief Sets the top left position
+ * @details This is an alias for LUIBaseElement::set_top_left()
+ *
+ * @param pos See LUIBaseElement::set_top_left()
+ */
 INLINE void LUIBaseElement::set_pos(const LPoint2& pos) {
   set_pos(pos.get_x(), pos.get_y());
 }
 
+/**
+ * @brief Sets the top left position
+ * @details This is an alias for LUIBaseElement::set_top_left()
+ *
+ * @param x See LUIBaseElement::set_top_left()
+ * @param y See LUIBaseElement::set_top_left()
+ */
 INLINE void LUIBaseElement::set_pos(float x, float y) {
   set_top_left(LPoint2(x, y));
 }
 
+/**
+ * @brief Returns the top left position
+ * @details This is an alias for LUIBaseElement::get_top_left().
+ * @return Top left position
+ */
 INLINE LPoint2 LUIBaseElement::get_pos() const {
   return get_top_left();
 }
 
+/**
+ * @brief Returns the elements absolute position.
+ * @details This returns the last frame absolute position of the element.
+ *   You should not rely on this method to return correct values, since it is
+ *   only valid after at least one frame has been rendered.
+ * @return Absolute position in pixels of the element
+ */
 INLINE LPoint2 LUIBaseElement::get_abs_pos() const {
   return _abs_position;
 }
 
+/**
+ * @brief Sets the top position of the element
+ * @details This makes the element aligned to the top, and sets the distance
+ *   to the top.
+ *
+ * @param top Distance to the top
+ */
 INLINE void LUIBaseElement::set_top(float top) {
   _placement.y = M_default;
   _position.set_y(top);
 }
 
+/**
+ * @brief Sets the right position of the element
+ * @details This makes the element aligned to the right, and sets the distance
+ *   to the right.
+ *
+ * @param right Distance to the right
+ */
 INLINE void LUIBaseElement::set_right(float right) {
   _placement.x = M_inverse;
   _position.set_x(right);
 }
 
+/**
+ * @brief Sets the bottom position of the element
+ * @details This makes the element aligned to the bottom, and sets the distance
+ *   to the bottom.
+ *
+ * @param bottom Distance to the bottom
+ */
 INLINE void LUIBaseElement::set_bottom(float bottom) {
   _placement.y = M_inverse;
   _position.set_y(bottom);
 }
 
+/**
+ * @brief Sets the left position of the element
+ * @details This makes the element aligned to the left, and sets the distance
+ *   to the left.
+ *
+ * @param left Distance to the right
+ */
 INLINE void LUIBaseElement::set_left(float left) {
   _placement.x = M_default;
   _position.set_x(left);
 }
 
+/**
+ * @brief Returns the distance to the top
+ * @details This returns the distance to the top. This value is only meaningful
+ *   if the element is aligned to the top.
+ *
+ * @return Distance to the top.
+ */
 INLINE float LUIBaseElement::get_top() const {
   return _position.get_y();
 }
 
+/**
+ * @brief Returns the distance to the right
+ * @details This returns the distance to the right. This value is only meaningful
+ *   if the element is aligned to the right.
+ *
+ * @return Distance to the right.
+ */
 INLINE float LUIBaseElement::get_right() const {
   return _position.get_x();
 }
 
+/**
+ * @brief Returns the distance to the bottom
+ * @details This returns the distance to the bottom. This value is only meaningful
+ *   if the element is aligned to the bottom.
+ *
+ * @return Distance to the bottom.
+ */
 INLINE float LUIBaseElement::get_bottom() const {
   return _position.get_y();
 }
 
+/**
+ * @brief Returns the distance to the left
+ * @details This returns the distance to the left. This value is only meaningful
+ *   if the element is aligned to the left.
+ *
+ * @return Distance to the left.
+ */
 INLINE float LUIBaseElement::get_left() const {
   return _position.get_x();
 }
 
+/**
+ * @brief Sets whether to center the element
+ * @details This method controls whether to center the element horizontally
+ *   or vertically. When passing false to either center_vert or center_horiz,
+ *   nothing in that direction happens.
+ *
+ *   For example:
+ *     set_centered(true, false) makes the element center vertically,
+ *     but keep its horizontal position.
+ *
+ *     set_centered(false, true) makes the element center horizontally,
+ *     but keep its vertical position.
+ *
+ *     set_centered(true, true) makes the element center in both dimensions
+ *
+ *   However, set_centered(false, false) emits a warning, since it effectively
+ *   does nothing.
+ *
+ * @param center_vert Whether to center the element vertically
+ * @param center_horiz Whether to center the element horizontally
+ */
 INLINE void LUIBaseElement::set_centered(bool center_vert, bool center_horiz) {
   if (center_horiz) {
     _placement.x = M_center;
@@ -143,6 +333,15 @@ INLINE void LUIBaseElement::set_centered(bool center_vert, bool center_horiz) {
   }
 }
 
+/**
+ * @brief Sets whether to center the element vertically
+ * @details This makes the element center vertically. If centered is set to false,
+ *   a warning is printed. The centered parameter only exists to be able to do
+ *   element.center_vertical = True in python. The parameter should never be
+ *   false. To un-center an element, instead call set_top or set_bottom.
+ *
+ * @param centered Should always be true
+ */
 INLINE void LUIBaseElement::set_center_vertical(bool centered) {
   if (centered) {
     _placement.y = M_center;
@@ -152,6 +351,15 @@ INLINE void LUIBaseElement::set_center_vertical(bool centered) {
   }
 }
 
+/**
+ * @brief Sets whether to center the element horizontally
+ * @details This makes the element center horizontally. If centered is set to false,
+ *   a warning is printed. The centered parameter only exists to be able to do
+ *   element.center_horizontal = True in python. The parameter should never be
+ *   false. To un-center an element, instead call set_left or set_right.
+ *
+ * @param centered Should always be true
+ */
 INLINE void LUIBaseElement::set_center_horizontal(bool centered) {
   if (centered) {
     _placement.x = M_center;
@@ -161,119 +369,300 @@ INLINE void LUIBaseElement::set_center_horizontal(bool centered) {
   }
 }
 
+/**
+ * @brief Returns whether the element is centered
+ * @details This returns whether the element is horizontally and vertically
+ *   centered.
+ *
+ * @return true if the element is centered, false otherweise
+ */
 INLINE bool LUIBaseElement::is_centered() const {
   return _placement.x == M_center && _placement.y == M_center;
 }
 
+/**
+ * @brief Returns whether the element is vertically centered
+ * @details This returns whether the element is vertically centered.
+ * @return true if the element is vertically centered
+ */
 INLINE bool LUIBaseElement::is_vertical_centered() const {
   return _placement.y == M_center;
 }
 
+
+/**
+ * @brief Returns whether the element is horizontally centered
+ * @details This returns whether the element is horizontally centered.
+ * @return true if the element is horizontally centered
+ */
 INLINE bool LUIBaseElement::is_horizontal_centered() const {
   return _placement.x == M_center;
 }
 
+/**
+ * @brief Sets the margin of the element
+ * @details This sets the margin of the element. The margin should be stored in
+ *   the order top, right, bottom, left (as in CSS, TRouBLe). The margin controls
+ *   the distance to the sides, and behaves just like in CSS.
+ *
+ * @param margin Margin in pixels, top, right, bottom, left
+ */
 INLINE void LUIBaseElement::set_margin(const LVector4& margin) {
   _margin.set_bounds(margin);
 }
 
+/**
+ * @brief Sets the margin of the element
+ * @details This sets the margin of the element. The margin controls the distance
+ *   to the sides, and behaves just like in CSS:
+ *
+ * @param top Margin to the top
+ * @param right Margin to the right
+ * @param bottom Margin to the bottom
+ * @param left Margin to the left
+ */
 INLINE void LUIBaseElement::set_margin(float top, float right, float bottom, float left) {
   _margin.set_bounds(top, right, bottom, left);
 }
 
+/**
+ * @brief Sets the margin of the element
+ * @details Sets an equal margin to all sides of the element, this is equal to
+ *   calling LUIBaseElement::set_margin(margin, margin, margin, margin).
+ *
+ * @param margin Margin to all sides
+ */
 INLINE void LUIBaseElement::set_margin(float margin) {
   _margin.set_bounds(margin, margin, margin, margin);
 }
 
-
+/**
+ * @brief Sets the top-margin
+ * @details This sets only the top-margin, see LUIBaseElement::set_margin()
+ *
+ * @param top Margin to the top
+ */
 INLINE void LUIBaseElement::set_margin_top(float top) {
   _margin.set_top(top);
 }
 
+/**
+ * @brief Sets the right-margin
+ * @details This sets only the right-margin, see LUIBaseElement::set_margin()
+ *
+ * @param right Margin to the right
+ */
 INLINE void LUIBaseElement::set_margin_right(float right) {
   _margin.set_right(right);
 }
 
+/**
+ * @brief Sets the bottom-margin
+ * @details This sets only the bottom-margin, see LUIBaseElement::set_margin()
+ *
+ * @param bottom Margin to the bottom
+ */
 INLINE void LUIBaseElement::set_margin_bottom(float bottom) {
   _margin.set_bottom(bottom);
 }
 
+/**
+ * @brief Sets the left-margin
+ * @details This sets only the left-margin, see LUIBaseElement::set_margin()
+ *
+ * @param left Margin to the left
+ */
 INLINE void LUIBaseElement::set_margin_left(float left) {
   _margin.set_left(left);
 }
 
+/**
+ * @brief Returns the margin to the top
+ * @details This returns the margin to the top
+ * @return Margin to the top
+ */
 INLINE float LUIBaseElement::get_margin_top() const {
   return _margin.get_top();
 }
 
+/**
+ * @brief Returns the margin to the right
+ * @details This returns the margin to the right
+ * @return Margin to the right
+ */
 INLINE float LUIBaseElement::get_margin_right() const {
   return _margin.get_right();
 }
 
+/**
+ * @brief Returns the margin to the bottom
+ * @details This returns the margin to the bottom
+ * @return Margin to the bottom
+ */
 INLINE float LUIBaseElement::get_margin_bottom() const {
   return _margin.get_bottom();
 }
 
+/**
+ * @brief Returns the margin to the left
+ * @details This returns the margin to the left
+ * @return Margin to the left
+ */
 INLINE float LUIBaseElement::get_margin_left() const {
   return _margin.get_left();
 }
 
+/**
+ * @brief Returns the margin of the element.
+ * @details This returns the margin of the element. This method returns a non-const
+ *   reference, thus .get_margin().set_top(123) is perfectly fine. This is mainly
+ *   to support property chaining in python, so the user can do .margin.left = 5
+ * @return Handle to the margin bounds
+ */
 INLINE LUIBounds& LUIBaseElement::get_margin() {
   return _margin;
 }
 
+/**
+ * @brief Returns the margin of the element
+ * @details This returns the margin of the element, as const-version, so the bounds
+ *   are read-only.
+ * @return Readonly handle to the margin bounds
+ */
 INLINE const LUIBounds& LUIBaseElement::get_margin() const {
   return _margin;
 }
 
+/**
+ * @brief Sets the padding of the element
+ * @details This sets the padding of the element. The padding should be stored in
+ *   the order top, right, bottom, left (as in CSS, TRouBLe). The padding controls
+ *   the distance to the sides, and behaves just like in CSS.
+ *
+ * @param padding padding in pixels, top, right, bottom, left
+ */
 INLINE void LUIBaseElement::set_padding(const LVector4& padding) {
   _padding.set_bounds(padding);
 }
 
+/**
+ * @brief Sets the padding of the element
+ * @details This sets the padding of the element. The padding controls the distance
+ *   to the sides, and behaves just like in CSS:
+ *
+ * @param top padding to the top
+ * @param right padding to the right
+ * @param bottom padding to the bottom
+ * @param left padding to the left
+ */
 INLINE void LUIBaseElement::set_padding(float top, float right, float bottom, float left) {
   _padding.set_bounds(top, right, bottom, left);
 }
 
+/**
+ * @brief Sets the padding of the element
+ * @details Sets an equal padding to all sides of the element, this is equal to
+ *   calling LUIBaseElement::set_padding(padding, padding, padding, padding).
+ *
+ * @param padding padding to all sides
+ */
 INLINE void LUIBaseElement::set_padding(float padding) {
   _padding.set_bounds(padding, padding, padding, padding);
 }
 
+/**
+ * @brief Sets the top-padding
+ * @details This sets only the top-padding, see LUIBaseElement::set_padding()
+ *
+ * @param top padding to the top
+ */
 INLINE void LUIBaseElement::set_padding_top(float top) {
   _padding.set_top(top);
 }
 
+/**
+ * @brief Sets the right-padding
+ * @details This sets only the right-padding, see LUIBaseElement::set_padding()
+ *
+ * @param right padding to the right
+ */
 INLINE void LUIBaseElement::set_padding_right(float right) {
   _padding.set_right(right);
 }
 
+/**
+ * @brief Sets the bottom-padding
+ * @details This sets only the bottom-padding, see LUIBaseElement::set_padding()
+ *
+ * @param bottom padding to the bottom
+ */
 INLINE void LUIBaseElement::set_padding_bottom(float bottom) {
   _padding.set_bottom(bottom);
 }
 
+/**
+ * @brief Sets the left-padding
+ * @details This sets only the left-padding, see LUIBaseElement::set_padding()
+ *
+ * @param left padding to the left
+ */
 INLINE void LUIBaseElement::set_padding_left(float left) {
   _padding.set_left(left);
 }
 
+/**
+ * @brief Returns the padding to the top
+ * @details This returns the padding to the top
+ * @return padding to the top
+ */
 INLINE float LUIBaseElement::get_padding_top() const {
   return _padding.get_top();
 }
 
+/**
+ * @brief Returns the padding to the right
+ * @details This returns the padding to the right
+ * @return padding to the right
+ */
 INLINE float LUIBaseElement::get_padding_right() const {
   return _padding.get_right();
 }
 
+/**
+ * @brief Returns the padding to the bottom
+ * @details This returns the padding to the bottom
+ * @return padding to the bottom
+ */
 INLINE float LUIBaseElement::get_padding_bottom() const {
   return _padding.get_bottom();
 }
 
+/**
+ * @brief Returns the padding to the left
+ * @details This returns the padding to the left
+ * @return padding to the left
+ */
 INLINE float LUIBaseElement::get_padding_left() const {
   return _padding.get_left();
 }
 
+/**
+ * @brief Returns the padding of the element.
+ * @details This returns the padding of the element. This method returns a non-const
+ *   reference, thus .get_padding().set_top(123) is perfectly fine. This is mainly
+ *   to support property chaining in python, so the user can do .padding.left = 5
+ * @return Handle to the padding bounds
+ */
 INLINE LUIBounds& LUIBaseElement::get_padding() {
   return _padding;
 }
 
+/**
+ * @brief Returns the padding of the element
+ * @details This returns the padding of the element, as const-version, so the bounds
+ *   are read-only.
+ * @return Readonly handle to the padding bounds
+ */
 INLINE const LUIBounds& LUIBaseElement::get_padding() const {
   return _padding;
 }

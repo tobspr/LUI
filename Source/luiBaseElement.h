@@ -26,6 +26,12 @@ class LUIRect;
 
 NotifyCategoryDecl(luiBaseElement, EXPCL_LUI, EXPTP_LUI);
 
+/**
+ * @brief Base class for all LUI objects
+ * @details This is the base class from which every LUI object derives. It stores
+ *   information like the position, alignment and size, and also defines a common
+ *   interface.
+ */
 class EXPCL_LUI LUIBaseElement : public TypedReferenceCount, public LUIColorable {
 
   friend class LUIObject;
@@ -192,7 +198,6 @@ PUBLISHED:
 
   MAKE_PROPERTY(visible, is_visible, set_visible);
   MAKE_PROPERTY(z_offset, get_z_offset, set_z_offset);
-  MAKE_PROPERTY(absolute_z_offset, get_abs_pos);
   MAKE_PROPERTY(focused, has_focus);
   MAKE_PROPERTY2(parent, has_parent, get_parent, set_parent, clear_parent);
 
@@ -204,9 +209,7 @@ public:
 
   INLINE float get_x_extent() const;
   INLINE float get_y_extent() const;
-
   INLINE void do_set_parent(LUIObject* parent);
-
   INLINE void set_snap_position(bool snap);
 
   virtual void ls(int ident = 0) = 0;
@@ -224,7 +227,6 @@ public:
 
   void move_by(const LVector2& offset);
   INLINE void set_debug_name(const string& debug_name);
-
 
 protected:
 
@@ -322,8 +324,6 @@ public:
 
 private:
   static TypeHandle _type_handle;
-
-
 
 };
 
