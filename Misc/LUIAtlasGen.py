@@ -53,6 +53,7 @@ def generate_atlas(files, dest_dat, dest_png):
         all_entries_matched = True
 
         for entry in entries:
+            print("Finding position for", entry.w, entry.h)
             uv = packer.find_position(entry.w, entry.h)
 
             if uv.get_x() < 0:

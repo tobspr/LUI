@@ -66,7 +66,7 @@ PUBLISHED:
 
   // Texture
   INLINE void set_texture(Texture* tex, bool resize=true);
-  INLINE void set_texture(LUIAtlasDescriptor *descriptor, bool resize=true);
+  INLINE void set_texture(const LUIAtlasDescriptor& descriptor, bool resize=true);
   INLINE void set_texture(const string &source, bool resize=true);
   INLINE void set_texture(const string &entry_name, const string &atlas_id, bool resize=true);
   INLINE Texture *get_texture() const;

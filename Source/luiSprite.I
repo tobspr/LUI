@@ -52,19 +52,17 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
   }
 }
 
-INLINE void LUISprite::set_texture(LUIAtlasDescriptor *descriptor, bool resize) {
+INLINE void LUISprite::set_texture(const LUIAtlasDescriptor& descriptor, bool resize) {
 
   if (luiSprite_cat.is_spam()) {
     luiSprite_cat.spam() << "Load texture data from descriptor" << endl;
   }
 
-  nassertv(descriptor != NULL);
-
-  set_texture(descriptor->get_texture(), false);
-  set_uv_range(descriptor->get_uv_begin(), descriptor->get_uv_end());
+  set_texture(descriptor.get_texture(), false);
+  set_uv_range(descriptor.get_uv_begin(), descriptor.get_uv_end());
 
   if (resize) {
-    set_size(descriptor->get_size());
+    set_size(descriptor.get_size());
   }
 }
 
@@ -99,8 +97,7 @@ INLINE void LUISprite::set_texture(const string &entry_name, const string &atlas
     luiSprite_cat.spam() << "Load texture from atlas" << endl;
   }
   _debug_source =  entry_name + ":" + atlas_id;
-  PT(LUIAtlasDescriptor) descriptor = LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, entry_name);
-  set_texture(descriptor, resize);
+  set_texture(LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, entry_name), resize);
 }
 
 INLINE Texture *LUISprite::get_texture() const {

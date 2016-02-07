@@ -1,22 +1,12 @@
 
 #include "luiAtlasDescriptor.h"
 
-
-int LUIAtlasDescriptor::_instance_count = 0;
-
-LUIAtlasDescriptor::LUIAtlasDescriptor() {
-  _instance_count ++;
-
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "Constructed a new atlas descriptor (active: " << _instance_count << ")" << endl;
-  }
+/**
+ * @brief Constructs a new descriptor
+ * @details This constructs a new atlas descriptor, with all values set to zero.
+ *
+ */
+LUIAtlasDescriptor::LUIAtlasDescriptor() :
+  _tex(NULL)
+{
 }
-
-LUIAtlasDescriptor::~LUIAtlasDescriptor() {
-  _instance_count --;
-
-  if (lui_cat.is_spam()) {
-    lui_cat.spam() << "Destructed an atlas descriptor (left: " << _instance_count << ")" << endl;
-  }
-}
-

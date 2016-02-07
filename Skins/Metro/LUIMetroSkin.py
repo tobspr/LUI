@@ -27,7 +27,7 @@ class LUIMetroSkin(LUISkin):
         LUIFontPool.get_global_ptr().register_font("header", headerFont)
 
         LUIAtlasPool.get_global_ptr().load_atlas("skin",
-            join(self.skin_location, "res/atlas.txt"),
+            self.get_resource("res/atlas.txt"),
             self.get_resource("res/atlas.png"))
 
         # Label color

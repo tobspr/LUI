@@ -11,19 +11,29 @@
 #include "config_lui.h"
 #include "referenceCount.h"
 
+/**
+ * @brief Helper class used by the LUIAtlasPacker
+ * @details This is a helper class which is used by the LUIAtlasPacker to generate
+ *   an atlas. It provides functionality to find positions for sprites in a texture.
+ *
+ */
 class EXPCL_LUI LUIAtlasPacker : public ReferenceCount {
 
 PUBLISHED:
 
-  LUIAtlasPacker(int size);
+  LUIAtlasPacker(size_t size);
   ~LUIAtlasPacker();
 
-  LVector2f find_position(int w, int h);
+  LVector2f find_position(size_t w, size_t h);
 
 private:
 
-  bool **values_bitmask;
-  int _size;
+  // Helper methods to access the interleaved array
+  INLINE bool get_value(size_t x, size_t y) const      { return values_bitmask[x + y * _size]; }
+  INLINE void set_value(size_t x, size_t y, bool flag) { values_bitmask[x + y * _size] = flag; }
+
+  bool* values_bitmask;
+  size_t _size;
 
 };
 

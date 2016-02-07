@@ -11,7 +11,7 @@ NotifyCategoryDef(luiSprite, ":lui");
 LUISprite::LUISprite(LUIText* parent_text)
   : LUIBaseElement(NULL) {
   init((LUIObject*)parent_text, 0, 0, LColor(1));
-  set_texture((Texture*)NULL, true);
+  set_texture(NULL, true);
 }
 
 
