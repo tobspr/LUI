@@ -31,7 +31,7 @@ INLINE void LUIRect::set_h(float h) {
   _rect.set_w(h);
 }
 
-INLINE void LUIRect::set_rect(const LVector4 &rect) {
+INLINE void LUIRect::set_rect(const LVector4& rect) {
   _rect = rect;
 }
 
@@ -43,7 +43,7 @@ INLINE void LUIRect::set_rect(float x, float y, float w, float h) {
   _rect.set(x, y, w, h);
 }
 
-INLINE const LVector4 &LUIRect::get_rect() const {
+INLINE const LVector4& LUIRect::get_rect() const {
   return _rect;
 }
 

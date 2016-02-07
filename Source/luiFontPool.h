@@ -19,7 +19,7 @@ class EXPCL_LUI LUIFontPool {
 
 PUBLISHED:
 
-  static LUIFontPool *get_global_ptr();
+  static LUIFontPool* get_global_ptr();
   void load_font(const string& name, const string&font_file);
   void register_font(const string& name, PT(DynamicTextFont) font);
   INLINE bool has_font(const string& name) const;
@@ -32,7 +32,7 @@ private:
 
   pmap<string, PT(DynamicTextFont)> _fonts;
 
-  static LUIFontPool *_global_ptr;
+  static LUIFontPool* _global_ptr;
 
 };
 

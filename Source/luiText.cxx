@@ -4,7 +4,8 @@
 
 TypeHandle LUIText::_type_handle;
 
-LUIText::LUIText(PyObject *self, LUIObject *parent, const wstring &text, const string& font_name, float font_size, float x, float y, bool wordwrap)
+LUIText::LUIText(PyObject* self, LUIObject* parent, const wstring& text,
+                 const string& font_name, float font_size, float x, float y, bool wordwrap)
   :
   LUIObject(self, parent, x, y),
   _text(text),
@@ -70,7 +71,7 @@ void LUIText::update_text() {
 #if PANDA_MAJOR_VERSION > 1 || PANDA_MINOR_VERSION >= 10
     CPT(TextGlyph) const_glyph;
 #else
-    const TextGlyph *const_glyph;
+    const TextGlyph* const_glyph;
 #endif
     if (!_font->get_glyph(char_code, const_glyph)) {
       sprite->set_texture((Texture*)NULL);
@@ -142,7 +143,7 @@ int LUIText::get_char_index(float pos) const {
 #if PANDA_MAJOR_VERSION > 1 || PANDA_MINOR_VERSION >= 10
     CPT(TextGlyph) glyph;
 #else
-    const TextGlyph *glyph;
+    const TextGlyph* glyph;
 #endif
     if (!_font->get_glyph(char_code, glyph)) {
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
@@ -176,7 +177,7 @@ float LUIText::get_char_pos(int char_index) const {
 #if PANDA_MAJOR_VERSION > 1 || PANDA_MINOR_VERSION >= 10
     CPT(TextGlyph) glyph;
 #else
-    const TextGlyph *glyph;
+    const TextGlyph* glyph;
 #endif
     if (!_font->get_glyph(char_code, glyph)) {
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;

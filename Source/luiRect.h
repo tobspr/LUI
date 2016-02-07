@@ -15,7 +15,7 @@ class EXPCL_LUI LUIRect {
 
 PUBLISHED:
   LUIRect() : _rect(-1) {};
-  explicit LUIRect(const LVector4 &rect) : _rect(rect) {};
+  explicit LUIRect(const LVector4& rect) : _rect(rect) {};
   LUIRect(float x, float y, float w, float h) : _rect(x, y, w, h) {};
 
   INLINE float get_x() const;
@@ -36,7 +36,7 @@ PUBLISHED:
   INLINE void set_rect(float x, float y, float w, float h);
 
 
-  INLINE const LVector4 &get_rect() const;
+  INLINE const LVector4& get_rect() const;
 
   MAKE_PROPERTY(x, get_x, set_x);
   MAKE_PROPERTY(y, get_y, set_y);

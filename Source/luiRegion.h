@@ -29,26 +29,26 @@
 class EXPCL_LUI LUIRegion : public DisplayRegion {
 
 protected:
-  LUIRegion(GraphicsOutput *window, const LVecBase4 &dimensions,
+  LUIRegion(GraphicsOutput* window, const LVecBase4& dimensions,
                const string& context_name);
 
-  virtual void do_cull(CullHandler *cull_handler, SceneSetup *scene_setup,
-                       GraphicsStateGuardian *gsg, Thread *current_thread);
+  virtual void do_cull(CullHandler* cull_handler, SceneSetup* scene_setup,
+                       GraphicsStateGuardian* gsg, Thread* current_thread);
 
 PUBLISHED:
   virtual ~LUIRegion();
 
   INLINE static LUIRegion* make(const string& context_name,
-                                   GraphicsOutput *window);
+                                   GraphicsOutput* window);
   INLINE static LUIRegion* make(const string& context_name,
-                                   GraphicsOutput *window,
-                                   const LVecBase4 &dimensions);
+                                   GraphicsOutput* window,
+                                   const LVecBase4& dimensions);
   INLINE LUIObject* get_root() const;
 
   MAKE_PROPERTY(root, get_root);
 
-  INLINE void set_input_handler(LUIInputHandler *handler);
-  INLINE LUIInputHandler *get_input_handler() const;
+  INLINE void set_input_handler(LUIInputHandler* handler);
+  INLINE LUIInputHandler* get_input_handler() const;
 
   INLINE void set_render_wireframe(bool wireframe);
   INLINE void toggle_render_wireframe();

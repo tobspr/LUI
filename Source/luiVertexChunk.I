@@ -11,7 +11,7 @@ INLINE Geom* LUIVertexChunk::get_geom() const {
   return _geom;
 }
 
-INLINE int LUIVertexChunk::reserve_slot(LUISprite *sprite) {
+INLINE int LUIVertexChunk::reserve_slot(LUISprite* sprite) {
   nassertr(has_space(), 0);
 
   if (lui_cat.is_spam()) {
@@ -67,7 +67,7 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
   }
 }
 
-INLINE void *LUIVertexChunk::get_slot_ptr(int slot) const {
+INLINE void* LUIVertexChunk::get_slot_ptr(int slot) const {
 
   // Make sure the write pointer is correct
   nassertr(_vertex_data->modify_array(0)->modify_handle()->get_write_pointer() == _write_pointer, NULL);

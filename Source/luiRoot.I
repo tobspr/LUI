@@ -38,21 +38,21 @@ INLINE int LUIRoot::alloc_index_by_texture(Texture* tex) {
   return _textures.size() - 1;
 }
 
-INLINE void LUIRoot::register_event_object(LUIBaseElement *event_object) {
+INLINE void LUIRoot::register_event_object(LUIBaseElement* event_object) {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Registering event object .." << endl;
   }
   _event_objects.insert(event_object);
 }
 
-INLINE void LUIRoot::unregister_event_object(LUIBaseElement *event_object) {
+INLINE void LUIRoot::unregister_event_object(LUIBaseElement* event_object) {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Unregistering event object .." << endl;
   }
   _event_objects.erase(event_object);
 }
 
-INLINE bool LUIRoot::request_focus(LUIBaseElement *elem) {
+INLINE bool LUIRoot::request_focus(LUIBaseElement* elem) {
   if (_requested_focus)  {
     if (_requested_focus == elem) {
       lui_cat.warning() << "Element " << elem << " requested focus twice or more in one frame!" << endl;
@@ -66,7 +66,7 @@ INLINE bool LUIRoot::request_focus(LUIBaseElement *elem) {
   return true;
 }
 
-INLINE void LUIRoot::set_requested_focus(LUIBaseElement *elem) {
+INLINE void LUIRoot::set_requested_focus(LUIBaseElement* elem) {
   _requested_focus = elem;
 }
 

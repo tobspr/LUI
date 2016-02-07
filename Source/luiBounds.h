@@ -17,7 +17,7 @@ PUBLISHED:
 
   LUIBounds() : _bounds(-1) {};
   explicit LUIBounds(float fill_value) : _bounds(fill_value) {};
-  explicit LUIBounds(const LVector4 &bounds) : _bounds(bounds) {};
+  explicit LUIBounds(const LVector4& bounds) : _bounds(bounds) {};
   LUIBounds(float top, float right, float bottom, float left)
     : _bounds(top, right, bottom, left) {};
 
@@ -31,10 +31,10 @@ PUBLISHED:
   INLINE void set_bottom(float bottom);
   INLINE void set_left(float left);
 
-  INLINE void set_bounds(const LVector4 &bounds);
+  INLINE void set_bounds(const LVector4& bounds);
   INLINE void set_bounds(float top, float right, float bottom, float left);
 
-  INLINE const LVector4 &get_bounds() const;
+  INLINE const LVector4& get_bounds() const;
 
   MAKE_PROPERTY(top, get_top, set_top);
   MAKE_PROPERTY(right, get_right, set_right);

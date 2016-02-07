@@ -33,13 +33,13 @@ LUIInputHandler::~LUIInputHandler() {
 }
 
 // Inherited from DataNode
-void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
-                              const DataNodeTransmit &input,
-                              DataNodeTransmit &output) {
+void LUIInputHandler::do_transmit_data(DataGraphTraverser* trav,
+                              const DataNodeTransmit& input,
+                              DataNodeTransmit& output) {
 
   if (input.has_data(_mouse_pos_input)) {
     // The mouse is within the window.  Get the current mouse position.
-    const EventStoreVec2 *mouse_pos;
+    const EventStoreVec2* mouse_pos;
     DCAST_INTO_V(mouse_pos, input.get_data(_mouse_pos_input).get_ptr());
 
     _current_state.mouse_pos = mouse_pos->get_value();
@@ -58,7 +58,7 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
     int num_events = this_button_events->get_num_events();
 
     for (int i = 0; i < num_events; ++i) {
-      const ButtonEvent &be = this_button_events->get_event(i);
+      const ButtonEvent& be = this_button_events->get_event(i);
 
       // Button Down
       if (be._type == ButtonEvent::T_down) {
@@ -127,9 +127,9 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser *trav,
   }
 }
 
-void LUIInputHandler::process(LUIRoot *root) {
+void LUIInputHandler::process(LUIRoot* root) {
 
-  LUIBaseElement *current_hover = NULL;
+  LUIBaseElement* current_hover = NULL;
   int current_render_index = -1;
 
   if (_current_state.has_mouse_pos) {
@@ -139,7 +139,7 @@ void LUIInputHandler::process(LUIRoot *root) {
       LUIEventObjectSet::iterator iter = root->get_event_objects_begin();
       LUIEventObjectSet::iterator end = root->get_event_objects_end();
       for (;iter != end; ++iter) {
-        LUIBaseElement *elem = *iter;
+        LUIBaseElement* elem = *iter;
         if (
             // Visible
             elem->get_last_frame_visible() >= root->get_frame_index() &&
@@ -208,7 +208,7 @@ void LUIInputHandler::process(LUIRoot *root) {
   }
 
   // Manage focus requests
-  LUIBaseElement *requested_focus = root->get_requested_focus();
+  LUIBaseElement* requested_focus = root->get_requested_focus();
 
   if (requested_focus == NULL) {
     // No focus request, eveything remains the same

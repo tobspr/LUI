@@ -1,6 +1,6 @@
 
 
-INLINE void LUISprite::set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end) {
+INLINE void LUISprite::set_uv_range(const LTexCoord& uv_begin, const LTexCoord& uv_end) {
   set_uv_range(uv_begin.get_x(), uv_begin.get_y(), uv_end.get_x(), uv_end.get_y());
 }
 
@@ -9,11 +9,11 @@ INLINE void LUISprite::set_uv_range(float u0, float v0, float u1, float v1) {
   _uv_end.set(u1, v1);
 }
 
-INLINE const LTexCoord &LUISprite::get_uv_begin() const {
+INLINE const LTexCoord& LUISprite::get_uv_begin() const {
   return _uv_begin;
 }
 
-INLINE const LTexCoord &LUISprite::get_uv_end() const {
+INLINE const LTexCoord& LUISprite::get_uv_end() const {
   return _uv_end;
 }
 
@@ -100,7 +100,7 @@ INLINE void LUISprite::set_texture(const string& entry_name, const string& atlas
   set_texture(LUIAtlasPool::get_global_ptr()->get_descriptor(atlas_id, entry_name), resize);
 }
 
-INLINE Texture *LUISprite::get_texture() const {
+INLINE Texture* LUISprite::get_texture() const {
   return _tex;
 }
 

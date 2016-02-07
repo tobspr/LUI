@@ -32,7 +32,7 @@ class EXPCL_LUI LUIBaseElement : public TypedReferenceCount, public LUIColorable
   friend class LUIText;
 
 PUBLISHED:
-  LUIBaseElement(PyObject *self);
+  LUIBaseElement(PyObject* self);
   virtual ~LUIBaseElement();
 
   // Events
@@ -41,20 +41,20 @@ PUBLISHED:
   INLINE void unbind_all();
 
   INLINE bool has_event(const string& event_name);
-  void trigger_event(const string& event_name, const wstring &message = wstring(), const LPoint2 &coords = LPoint2(0));
+  void trigger_event(const string& event_name, const wstring& message = wstring(), const LPoint2& coords = LPoint2(0));
 
   // Position
-  INLINE void set_top_left(const LPoint2 &pos);
-  INLINE void set_top_right(const LPoint2 &pos);
-  INLINE void set_bottom_left(const LPoint2 &pos);
-  INLINE void set_bottom_right(const LPoint2 &pos);
+  INLINE void set_top_left(const LPoint2& pos);
+  INLINE void set_top_right(const LPoint2& pos);
+  INLINE void set_bottom_left(const LPoint2& pos);
+  INLINE void set_bottom_right(const LPoint2& pos);
 
   INLINE LPoint2 get_top_left() const;
   INLINE LPoint2 get_top_right() const;
   INLINE LPoint2 get_bottom_left() const;
   INLINE LPoint2 get_bottom_right() const;
 
-  INLINE void set_pos(const LPoint2 &pos);
+  INLINE void set_pos(const LPoint2& pos);
   INLINE void set_pos(float x, float y);
   INLINE LPoint2 get_pos() const;
 
@@ -79,7 +79,7 @@ PUBLISHED:
   INLINE bool is_horizontal_centered() const;
 
   // Margin
-  INLINE void set_margin(const LVector4 &margin);
+  INLINE void set_margin(const LVector4& margin);
   INLINE void set_margin(float top, float right, float bottom, float left);
   INLINE void set_margin(float margin);
   INLINE void set_margin_top(float top);
@@ -94,7 +94,7 @@ PUBLISHED:
   INLINE const LUIBounds& get_margin() const;
 
   // Padding
-  INLINE void set_padding(const LVector4 &padding);
+  INLINE void set_padding(const LVector4& padding);
   INLINE void set_padding(float top, float right, float bottom, float left);
   INLINE void set_padding(float padding);
   INLINE void set_padding_top(float top);
@@ -109,7 +109,7 @@ PUBLISHED:
   INLINE const LUIBounds& get_padding() const;
 
   // Size
-  INLINE void set_size(const LVector2 &size);
+  INLINE void set_size(const LVector2& size);
   INLINE void set_size(float width, float height);
   INLINE void set_size(const string& width, float height);
   INLINE void set_size(const string& width, const string& height);
@@ -149,7 +149,7 @@ PUBLISHED:
 
   INLINE bool has_parent() const;
   void clear_parent();
-  void set_parent(LUIObject *parent);
+  void set_parent(LUIObject* parent);
   INLINE LUIObject* get_parent() const;
 
   INLINE virtual bool intersects(float x, float y) const;
@@ -232,7 +232,7 @@ protected:
   virtual void update_position();
   LVector2 get_available_dimensions() const;
 
-  void load_python_events(PyObject *self);
+  void load_python_events(PyObject* self);
 
   float get_parent_width() const;
   float get_parent_height() const;

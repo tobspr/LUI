@@ -16,7 +16,8 @@ LUISprite::LUISprite(LUIText* parent_text)
 
 
 // Initialize with a path to an image
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string& image, float x, float y, float w, float h, const LColor &color)
+LUISprite::LUISprite(PyObject* self, LUIObject* parent, const string& image,
+                     float x, float y, float w, float h, const LColor& color)
   : LUIBaseElement(self) {
   init(parent, x, y, color);
   set_texture(image, true);
@@ -24,7 +25,8 @@ LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string& image, flo
 }
 
 // Initialize with a texture handle
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float x, float y, float w, float h, const LColor &color)
+LUISprite::LUISprite(PyObject* self, LUIObject* parent, Texture* texture,
+                     float x, float y, float w, float h, const LColor& color)
   : LUIBaseElement(self) {
   init(parent, x, y, color);
   set_texture(texture, true);
@@ -32,14 +34,15 @@ LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float 
 }
 
 // Initialize with a atlas entry
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string& entry_id, const string& atlas_id, float x, float y, float w, float h, const LColor &color)
+LUISprite::LUISprite(PyObject* self, LUIObject* parent, const string& entry_id,
+                     const string& atlas_id, float x, float y, float w, float h, const LColor& color)
   : LUIBaseElement(self) {
   init(parent, x, y, color);
   set_texture(entry_id, atlas_id, true);
   init_size(w, h);
 }
 
-void LUISprite::init(LUIObject *parent, float x, float y, const LColor &color) {
+void LUISprite::init(LUIObject* parent, float x, float y, const LColor& color) {
 
   // A lui sprite always needs a parent
   nassertv(parent != NULL);

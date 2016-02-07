@@ -34,25 +34,25 @@ INLINE void LUIBaseElement::set_snap_position(bool snap) {
   _snap_position = snap;
 }
 
-INLINE void LUIBaseElement::set_top_left(const LPoint2 &pos) {
+INLINE void LUIBaseElement::set_top_left(const LPoint2& pos) {
   _placement.x = M_default;
   _placement.y = M_default;
   _position = pos;
 }
 
-INLINE void LUIBaseElement::set_top_right(const LPoint2 &pos) {
+INLINE void LUIBaseElement::set_top_right(const LPoint2& pos) {
   _placement.x = M_inverse;
   _placement.y = M_default;
   _position = pos;
 }
 
-INLINE void LUIBaseElement::set_bottom_left(const LPoint2 &pos) {
+INLINE void LUIBaseElement::set_bottom_left(const LPoint2& pos) {
   _placement.x = M_default;
   _placement.y = M_inverse;
   _position = pos;
 }
 
-INLINE void LUIBaseElement::set_bottom_right(const LPoint2 &pos) {
+INLINE void LUIBaseElement::set_bottom_right(const LPoint2& pos) {
   _placement.x = M_inverse;
   _placement.y = M_inverse;
   _position = pos;
@@ -74,7 +74,7 @@ INLINE LPoint2 LUIBaseElement::get_bottom_right() const {
   return LPoint2(get_right(), get_bottom());
 }
 
-INLINE void LUIBaseElement::set_pos(const LPoint2 &pos) {
+INLINE void LUIBaseElement::set_pos(const LPoint2& pos) {
   set_pos(pos.get_x(), pos.get_y());
 }
 
@@ -173,7 +173,7 @@ INLINE bool LUIBaseElement::is_horizontal_centered() const {
   return _placement.x == M_center;
 }
 
-INLINE void LUIBaseElement::set_margin(const LVector4 &margin) {
+INLINE void LUIBaseElement::set_margin(const LVector4& margin) {
   _margin.set_bounds(margin);
 }
 
@@ -226,7 +226,7 @@ INLINE const LUIBounds& LUIBaseElement::get_margin() const {
   return _margin;
 }
 
-INLINE void LUIBaseElement::set_padding(const LVector4 &padding) {
+INLINE void LUIBaseElement::set_padding(const LVector4& padding) {
   _padding.set_bounds(padding);
 }
 
@@ -278,7 +278,7 @@ INLINE const LUIBounds& LUIBaseElement::get_padding() const {
   return _padding;
 }
 
-INLINE void LUIBaseElement::set_size(const LVector2 &size) {
+INLINE void LUIBaseElement::set_size(const LVector2& size) {
   set_size(size.get_x(), size.get_y());
 }
 

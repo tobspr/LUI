@@ -3,7 +3,7 @@
 #include "luiFontPool.h"
 
 
-LUIFontPool *LUIFontPool::_global_ptr = NULL;
+LUIFontPool* LUIFontPool::_global_ptr = NULL;
 
 LUIFontPool::LUIFontPool() {
 

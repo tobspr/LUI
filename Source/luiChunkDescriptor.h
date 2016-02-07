@@ -21,9 +21,9 @@ private:
   LUIChunkDescriptor();
 
   INLINE void set_slot(int slot);
-  INLINE void set_chunk(LUIVertexChunk *chunk);
+  INLINE void set_chunk(LUIVertexChunk* chunk);
 
-  LUIVertexChunk *_chunk;
+  LUIVertexChunk* _chunk;
   int _slot;
 
 public:
@@ -33,7 +33,7 @@ public:
   void release();
   void* get_write_ptr() const;
   INLINE int get_slot() const;
-  INLINE LUIVertexChunk *get_chunk() const;
+  INLINE LUIVertexChunk* get_chunk() const;
 };
 
 

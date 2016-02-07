@@ -4,7 +4,7 @@ INLINE void LUIText::set_font(const string& font_name) {
     update_text();
 }
 
-INLINE void LUIText::set_text(const wstring &text) {
+INLINE void LUIText::set_text(const wstring& text) {
     if (_text != text) {
         _text = text;
         update_text();

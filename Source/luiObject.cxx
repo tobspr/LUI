@@ -7,14 +7,16 @@ NotifyCategoryDef(luiObject, ":lui");
 int LUIObject::_instance_count = 0;
 TypeHandle LUIObject::_type_handle;
 
-LUIObject::LUIObject(PyObject *self, float x, float y, float w, float h, bool solid) : LUIBaseElement(self) {
+LUIObject::LUIObject(PyObject* self, float x, float y, float w, float h, bool solid)
+  : LUIBaseElement(self) {
   init();
   set_size(w, h);
   set_pos(x, y);
   set_solid(solid);
 }
 
-LUIObject::LUIObject(PyObject *self, LUIObject *parent, float x, float y, float w, float h, bool solid)  : LUIBaseElement(self) {
+LUIObject::LUIObject(PyObject* self, LUIObject* parent, float x, float y, float w, float h, bool solid)
+  : LUIBaseElement(self) {
   init();
   set_size(w, h);
   set_pos(x, y);
@@ -118,7 +120,7 @@ void LUIObject::fit_dimensions() {
 
     // Find the maximum children extent
     for (auto it = _children.begin(); it != _children.end(); ++it) {
-      LUIBaseElement *elem = *it;
+      LUIBaseElement* elem = *it;
       if (elem->_placement.x == M_default && !elem->_size.x.has_parent_dependent_expression()) {
         max_x = max(max_x, elem->get_x_extent());
       }
@@ -139,7 +141,7 @@ void LUIObject::fit_dimensions() {
 
     // Find the maximum children extent
     for (auto it = _children.begin(); it != _children.end(); ++it) {
-      LUIBaseElement *elem = *it;
+      LUIBaseElement* elem = *it;
       if (elem->_placement.y == M_default && !elem->_size.y.has_parent_dependent_expression()) {
         max_y = max(max_y, elem->get_y_extent());
       }

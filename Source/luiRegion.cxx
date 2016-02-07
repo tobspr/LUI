@@ -10,7 +10,7 @@
 TypeHandle LUIRegion::_type_handle;
 
 LUIRegion::
-  LUIRegion(GraphicsOutput *window, const LVecBase4 &dr_dimensions,
+  LUIRegion(GraphicsOutput* window, const LVecBase4& dr_dimensions,
   const string& context_name) :
   DisplayRegion(window, dr_dimensions),
   _input_handler(NULL),
@@ -41,8 +41,8 @@ LUIRegion::~LUIRegion() {
 }
 
 void LUIRegion::
-  do_cull(CullHandler *cull_handler, SceneSetup *scene_setup,
-  GraphicsStateGuardian *gsg, Thread *current_thread) {
+  do_cull(CullHandler* cull_handler, SceneSetup* scene_setup,
+  GraphicsStateGuardian* gsg, Thread* current_thread) {
     PStatTimer timer(get_cull_region_pcollector(), current_thread);
 
     int pl, pr, pb, pt;
@@ -62,7 +62,7 @@ void LUIRegion::
       _input_handler->process(_lui_root);
     }
 
-    CullTraverser *trav = get_cull_traverser();
+    CullTraverser* trav = get_cull_traverser();
 
     trav->set_cull_handler(cull_handler);
     trav->set_scene(scene_setup, gsg, get_incomplete_render());
@@ -105,7 +105,7 @@ void LUIRegion::
 
     Geom* geom = _lui_root->get_geom();
 
-    CullableObject *object = new CullableObject(geom, state, internal_transform);
+    CullableObject* object = new CullableObject(geom, state, internal_transform);
     trav->get_cull_handler()->record_object(object, trav);
 
     trav->end_traverse();

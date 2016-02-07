@@ -46,12 +46,12 @@ public:
 
   INLINE int alloc_index_by_texture(Texture* tex);
 
-  INLINE void register_event_object(LUIBaseElement *event_object);
-  INLINE void unregister_event_object(LUIBaseElement *event_object);
+  INLINE void register_event_object(LUIBaseElement* event_object);
+  INLINE void unregister_event_object(LUIBaseElement* event_object);
 
-  INLINE bool request_focus(LUIBaseElement *elem);
+  INLINE bool request_focus(LUIBaseElement* elem);
   INLINE LUIBaseElement* get_requested_focus() const;
-  INLINE void set_requested_focus(LUIBaseElement *elem);
+  INLINE void set_requested_focus(LUIBaseElement* elem);
 
   INLINE LUIEventObjectSet::iterator get_event_objects_begin();
   INLINE LUIEventObjectSet::iterator get_event_objects_end();

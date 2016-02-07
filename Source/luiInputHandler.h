@@ -23,10 +23,10 @@ PUBLISHED:
 public:
 
   // Inherited from DataNode
-  virtual void do_transmit_data(DataGraphTraverser *trav,
-                                const DataNodeTransmit &input,
-                                DataNodeTransmit &output);
-  void process(LUIRoot *root);
+  virtual void do_transmit_data(DataGraphTraverser* trav,
+                                const DataNodeTransmit& input,
+                                DataNodeTransmit& output);
+  void process(LUIRoot* root);
 
 protected:
 
@@ -50,9 +50,9 @@ protected:
 
   INLINE string get_key_string(int key) const;
 
-  LUIBaseElement *_hover_element;
-  LUIBaseElement *_mouse_down_element;
-  LUIBaseElement *_focused_element;
+  LUIBaseElement* _hover_element;
+  LUIBaseElement* _mouse_down_element;
+  LUIBaseElement* _focused_element;
 
   int _mouse_pos_input;
   int _buttons_input;

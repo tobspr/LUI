@@ -25,15 +25,15 @@ class EXPCL_LUI LUIText : public LUIObject {
 
 PUBLISHED:
 
-  LUIText(PyObject *self,
-    LUIObject *parent, const wstring &text, const string& font_name="default",
+  LUIText(PyObject* self,
+    LUIObject* parent, const wstring& text, const string& font_name="default",
     float font_size=16.0f, float x=0.0f, float y=0.0f, bool wordwrap=true);
   ~LUIText();
 
   INLINE void set_font(const string& font_name);
   INLINE DynamicTextFont* get_font() const;
 
-  INLINE void set_text(const wstring &text);
+  INLINE void set_text(const wstring& text);
   INLINE const wstring& get_text() const;
 
   INLINE void set_font_size(float size);
@@ -55,7 +55,7 @@ protected:
 
   void update_text();
 
-  DynamicTextFont *_font;
+  DynamicTextFont* _font;
   wstring _text;
   float _font_size;
   bool _wordwrap;

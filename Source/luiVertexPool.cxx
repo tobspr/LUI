@@ -2,7 +2,7 @@
 
 #include "luiVertexPool.h"
 
-LUIVertexPool::LUIVertexPool(Texture *tex) :
+LUIVertexPool::LUIVertexPool(Texture* tex) :
   _tex(tex)
 {
   if (lui_cat.is_spam()) {
@@ -23,12 +23,12 @@ LUIVertexPool::~LUIVertexPool() {
 
 }
 
-LUIChunkDescriptor *LUIVertexPool::allocate_slot(LUISprite* child) {
+LUIChunkDescriptor* LUIVertexPool::allocate_slot(LUISprite* child) {
 
-  LUIVertexChunk *chunk = NULL;
+  LUIVertexChunk* chunk = NULL;
 
   for (int i = 0; i < _chunks.size(); i++) {
-    LUIVertexChunk *current = _chunks[i];
+    LUIVertexChunk* current = _chunks[i];
     if (current->has_space()) {
       chunk = current;
       break;
@@ -54,7 +54,7 @@ LUIChunkDescriptor *LUIVertexPool::allocate_slot(LUISprite* child) {
   int slot = chunk->reserve_slot(child);
   nassertr(slot >= 0, NULL);
 
-  LUIChunkDescriptor *result = new LUIChunkDescriptor();
+  LUIChunkDescriptor* result = new LUIChunkDescriptor();
   result->set_chunk(chunk);
   result->set_slot(slot);
   return result;

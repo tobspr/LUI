@@ -28,10 +28,10 @@ class LUIVertexPool {
 
 public:
 
-  LUIVertexPool(Texture *tex);
+  LUIVertexPool(Texture* tex);
   ~LUIVertexPool();
 
-  LUIChunkDescriptor *allocate_slot(LUISprite *child);
+  LUIChunkDescriptor* allocate_slot(LUISprite* child);
 
   INLINE int get_num_chunks() const;
   INLINE LUIVertexChunk* get_chunk(int n) const;

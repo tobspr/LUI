@@ -15,8 +15,8 @@ class EXPCL_LUI LUIColorable {
 PUBLISHED:
 
   // Color
-  INLINE void set_color(const LColor &color);
-  INLINE void set_color(const LVecBase3 &rgb);
+  INLINE void set_color(const LColor& color);
+  INLINE void set_color(const LVecBase3& rgb);
   INLINE void set_color(float r, float g, float b, float a = 1.0);
 
   INLINE void set_red(float r);
@@ -29,8 +29,8 @@ PUBLISHED:
   INLINE float get_blue() const;
   INLINE float get_alpha() const;
 
-  INLINE const LColor &get_color() const;
-  INLINE const LColor &get_composed_color() const;
+  INLINE const LColor& get_color() const;
+  INLINE const LColor& get_composed_color() const;
 
   // Python properties
   MAKE_PROPERTY(color, get_color, set_color);
@@ -45,7 +45,7 @@ protected:
   LUIColorable();
   virtual ~LUIColorable();
 
-  INLINE void compose_color(const LColor &parent_color = LColor(1));
+  INLINE void compose_color(const LColor& parent_color = LColor(1));
 
   LColor _color;
   LColor _composed_color;

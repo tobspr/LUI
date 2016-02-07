@@ -31,7 +31,7 @@ public:
   INLINE bool has_space() const;
   INLINE Geom* get_geom() const;
 
-  INLINE int reserve_slot(LUISprite *sprite);
+  INLINE int reserve_slot(LUISprite* sprite);
   INLINE void free_slot(int slot);
   INLINE void* get_slot_ptr(int slot) const;
 
@@ -43,8 +43,8 @@ private:
 
   int _sprite_count;
   int _chunk_size;
-  void *_write_pointer;
-  LUISprite **_children;
+  void* _write_pointer;
+  LUISprite** _children;
 
 };
 

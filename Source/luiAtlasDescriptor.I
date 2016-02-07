@@ -17,7 +17,7 @@ INLINE Texture* LUIAtlasDescriptor::get_texture() const {
  *
  * @return Texture size
  */
-INLINE const LVector2 &LUIAtlasDescriptor::get_size() const {
+INLINE const LVector2& LUIAtlasDescriptor::get_size() const {
   return _size;
 }
 
@@ -28,7 +28,7 @@ INLINE const LVector2 &LUIAtlasDescriptor::get_size() const {
  *
  * @return uv-start coordinate
  */
-INLINE const LTexCoord &LUIAtlasDescriptor::get_uv_begin() const {
+INLINE const LTexCoord& LUIAtlasDescriptor::get_uv_begin() const {
   return _uv_begin;
 }
 
@@ -39,7 +39,7 @@ INLINE const LTexCoord &LUIAtlasDescriptor::get_uv_begin() const {
  *
  * @return uv-end coordinate
  */
-INLINE const LTexCoord &LUIAtlasDescriptor::get_uv_end() const {
+INLINE const LTexCoord& LUIAtlasDescriptor::get_uv_end() const {
   return _uv_end;
 }
 
@@ -66,7 +66,7 @@ INLINE void LUIAtlasDescriptor::set_texture(Texture* tex) {
  *
  * @param size Size of the sprite in pixels
  */
-INLINE void LUIAtlasDescriptor::set_size(const LVector2 &size) {
+INLINE void LUIAtlasDescriptor::set_size(const LVector2& size) {
   _size = size;
 }
 
@@ -79,7 +79,7 @@ INLINE void LUIAtlasDescriptor::set_size(const LVector2 &size) {
  * @param uv_begin Upper left coordinate in uv space
  * @param uv_end Lower right coordinate in uv space
  */
-INLINE void LUIAtlasDescriptor::set_uv_range(const LTexCoord &uv_begin, const LTexCoord &uv_end) {
+INLINE void LUIAtlasDescriptor::set_uv_range(const LTexCoord& uv_begin, const LTexCoord& uv_end) {
   _uv_begin = uv_begin;
   _uv_end = uv_end;
 }

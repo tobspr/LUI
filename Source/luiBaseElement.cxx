@@ -13,7 +13,7 @@ TypeHandle LUIBaseElement::_type_handle;
 
 NotifyCategoryDef(luiBaseElement, ":lui");
 
-LUIBaseElement::LUIBaseElement(PyObject *self) :
+LUIBaseElement::LUIBaseElement(PyObject* self) :
   _position(0.0f),
   _abs_position(0.0f),
   _effective_size(0.0f),
@@ -43,7 +43,7 @@ LUIBaseElement::LUIBaseElement(PyObject *self) :
 LUIBaseElement::~LUIBaseElement() {
 }
 
-void LUIBaseElement::load_python_events(PyObject *self) {
+void LUIBaseElement::load_python_events(PyObject* self) {
   // This code here should belong in a _ext file, but that's currently
   // not supported by interrogate.
 
@@ -51,7 +51,7 @@ void LUIBaseElement::load_python_events(PyObject *self) {
   // name, and auto-registers them, which is equal to bind("on_xxx", handler).
   if (self != NULL) {
 
-    PyObject *class_methods = PyObject_Dir((PyObject *)Py_TYPE(self));
+    PyObject* class_methods = PyObject_Dir((PyObject*)Py_TYPE(self));
     nassertv(class_methods != NULL);
     nassertv(PyList_Check(class_methods));
 
@@ -72,7 +72,7 @@ void LUIBaseElement::load_python_events(PyObject *self) {
 
       PyObject* method_name = PyList_GetItem(class_methods, i);
 
-      char *str;
+      char* str;
       Py_ssize_t len;
 
       // Get the method name as string
@@ -101,7 +101,7 @@ void LUIBaseElement::load_python_events(PyObject *self) {
     PyObject* cls = (PyObject*)Py_TYPE(self);
     PyObject* cls_name = PyObject_GetAttrString(cls, "__name__");
 
-    char *str;
+    char* str;
     Py_ssize_t len;
 
     // Get the method name as string
@@ -184,7 +184,7 @@ void LUIBaseElement::fetch_render_index() {
   }
 }
 
-void LUIBaseElement::trigger_event(const string& event_name, const wstring &message, const LPoint2 &coords) {
+void LUIBaseElement::trigger_event(const string& event_name, const wstring& message, const LPoint2& coords) {
   auto elem_it = _events.find(event_name);
   if (elem_it != _events.end()) {
       PT(LUIEventData) data = new LUIEventData(this, event_name, message, coords);
