@@ -1,6 +1,6 @@
 
 
-INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callback) {
+INLINE void LUIBaseElement::bind(const string& event_name, CallbackObject* callback) {
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "Binding event '" << event_name << "'" << endl;
   }
@@ -11,7 +11,7 @@ INLINE void LUIBaseElement::bind(const string &event_name, CallbackObject* callb
   _events[event_name] = callback;
 }
 
-INLINE void LUIBaseElement::unbind(const string &event_name) {
+INLINE void LUIBaseElement::unbind(const string& event_name) {
   if (luiBaseElement_cat.is_spam()) {
     luiBaseElement_cat.spam() << "Unbinding event '" << event_name << "'" << endl;
   }
@@ -26,7 +26,7 @@ INLINE void LUIBaseElement::unbind_all() {
   _events.clear();
 }
 
-INLINE bool LUIBaseElement::has_event(const string &event_name) {
+INLINE bool LUIBaseElement::has_event(const string& event_name) {
   return _events.count(event_name) > 0;
 }
 

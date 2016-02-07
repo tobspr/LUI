@@ -26,11 +26,11 @@ class EXPCL_LUI LUIText : public LUIObject {
 PUBLISHED:
 
   LUIText(PyObject *self,
-    LUIObject *parent, const wstring &text, const string &font_name="default",
+    LUIObject *parent, const wstring &text, const string& font_name="default",
     float font_size=16.0f, float x=0.0f, float y=0.0f, bool wordwrap=true);
   ~LUIText();
 
-  INLINE void set_font(const string &font_name);
+  INLINE void set_font(const string& font_name);
   INLINE DynamicTextFont* get_font() const;
 
   INLINE void set_text(const wstring &text);

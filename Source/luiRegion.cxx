@@ -11,7 +11,7 @@ TypeHandle LUIRegion::_type_handle;
 
 LUIRegion::
   LUIRegion(GraphicsOutput *window, const LVecBase4 &dr_dimensions,
-  const string &context_name) :
+  const string& context_name) :
   DisplayRegion(window, dr_dimensions),
   _input_handler(NULL),
   _wireframe(false) {

@@ -7,7 +7,7 @@
  * @param name Entry name, case sensitive
  * @return true if the entry was found, false otherwise
  */
-INLINE bool LUIAtlas::has_entry(const string &name) const {
+INLINE bool LUIAtlas::has_entry(const string& name) const {
   return _entries.count(name) != 0;
 }
 
@@ -20,7 +20,7 @@ INLINE bool LUIAtlas::has_entry(const string &name) const {
  * @param name Entry name, case sensitive
  * @return Handle to the atlas entry
  */
-INLINE const LUIAtlasEntry& LUIAtlas::get_entry(const string &name) const {
+INLINE const LUIAtlasEntry& LUIAtlas::get_entry(const string& name) const {
   auto it = _entries.find(name);
 
   if (it == _entries.end()) {

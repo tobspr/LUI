@@ -8,7 +8,7 @@
 
 TypeHandle LUIInputHandler::_type_handle;
 
-LUIInputHandler::LUIInputHandler(const string &name) :
+LUIInputHandler::LUIInputHandler(const string& name) :
   DataNode(name),
   _hover_element(NULL),
   _mouse_down_element(NULL),

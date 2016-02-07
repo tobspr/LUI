@@ -16,7 +16,7 @@ LUISprite::LUISprite(LUIText* parent_text)
 
 
 // Initialize with a path to an image
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &image, float x, float y, float w, float h, const LColor &color)
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string& image, float x, float y, float w, float h, const LColor &color)
   : LUIBaseElement(self) {
   init(parent, x, y, color);
   set_texture(image, true);
@@ -32,7 +32,7 @@ LUISprite::LUISprite(PyObject *self, LUIObject* parent, Texture *texture, float 
 }
 
 // Initialize with a atlas entry
-LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id, float x, float y, float w, float h, const LColor &color)
+LUISprite::LUISprite(PyObject *self, LUIObject* parent, const string& entry_id, const string& atlas_id, float x, float y, float w, float h, const LColor &color)
   : LUIBaseElement(self) {
   init(parent, x, y, color);
   set_texture(entry_id, atlas_id, true);

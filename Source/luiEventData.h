@@ -29,7 +29,7 @@ PUBLISHED:
 
 public:
 
-  LUIEventData(LUIBaseElement *sender, const string &event_name, const wstring &message, const LPoint2 &coordinates = LPoint2(0));
+  LUIEventData(LUIBaseElement *sender, const string& event_name, const wstring &message, const LPoint2 &coordinates = LPoint2(0));
   ~LUIEventData();
 
 protected:

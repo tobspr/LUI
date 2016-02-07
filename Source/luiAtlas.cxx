@@ -15,7 +15,7 @@
  * @param descriptor_path Path to the generated atlas file, most times 'atlas.txt'
  * @return true if the atlas file was loaded, false otherwise
  */
-bool LUIAtlas::load_descriptor_file(const string &descriptor_path) {
+bool LUIAtlas::load_descriptor_file(const string& descriptor_path) {
 
   lui_cat.info() << "Loading atlas description from " << descriptor_path << endl;
 
@@ -58,7 +58,7 @@ bool LUIAtlas::load_descriptor_file(const string &descriptor_path) {
  * @param texture_path Path to the atlas texture
  * @return true if the texture was loaded successfully, false otherwise
  */
-bool LUIAtlas::load_texture(const string &texture_path) {
+bool LUIAtlas::load_texture(const string& texture_path) {
   lui_cat.info() << "Loading atlas texture from " << texture_path << endl;
 
   _tex = TexturePool::load_texture(texture_path);

@@ -30,7 +30,7 @@ class EXPCL_LUI LUIRegion : public DisplayRegion {
 
 protected:
   LUIRegion(GraphicsOutput *window, const LVecBase4 &dimensions,
-               const string &context_name);
+               const string& context_name);
 
   virtual void do_cull(CullHandler *cull_handler, SceneSetup *scene_setup,
                        GraphicsStateGuardian *gsg, Thread *current_thread);
@@ -38,9 +38,9 @@ protected:
 PUBLISHED:
   virtual ~LUIRegion();
 
-  INLINE static LUIRegion* make(const string &context_name,
+  INLINE static LUIRegion* make(const string& context_name,
                                    GraphicsOutput *window);
-  INLINE static LUIRegion* make(const string &context_name,
+  INLINE static LUIRegion* make(const string& context_name,
                                    GraphicsOutput *window,
                                    const LVecBase4 &dimensions);
   INLINE LUIObject* get_root() const;

@@ -1,5 +1,5 @@
 
-INLINE void LUIText::set_font(const string &font_name) {
+INLINE void LUIText::set_font(const string& font_name) {
     _font = LUIFontPool::get_global_ptr()->get_font(font_name);
     update_text();
 }

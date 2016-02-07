@@ -17,7 +17,7 @@ class EXPCL_LUI LUIInputHandler : public DataNode {
 
 PUBLISHED:
 
-  LUIInputHandler(const string &name = string());
+  LUIInputHandler(const string& name = string());
   virtual ~LUIInputHandler();
 
 public:

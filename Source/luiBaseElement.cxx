@@ -184,7 +184,7 @@ void LUIBaseElement::fetch_render_index() {
   }
 }
 
-void LUIBaseElement::trigger_event(const string &event_name, const wstring &message, const LPoint2 &coords) {
+void LUIBaseElement::trigger_event(const string& event_name, const wstring &message, const LPoint2 &coords) {
   auto elem_it = _events.find(event_name);
   if (elem_it != _events.end()) {
       PT(LUIEventData) data = new LUIEventData(this, event_name, message, coords);

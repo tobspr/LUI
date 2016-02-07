@@ -45,7 +45,7 @@ class EXPCL_LUI LUISprite : public LUIBaseElement  {
 PUBLISHED:
 
   // Initialize with a path to an image
-  LUISprite(PyObject *self, LUIObject* parent, const string &image,
+  LUISprite(PyObject *self, LUIObject* parent, const string& image,
             float x=0.0f, float y=0.0f, float w=0.0f, float h=0.0f, const LColor &color=LColor(1));
 
   // Initialize with a texture handle
@@ -53,7 +53,7 @@ PUBLISHED:
             float x=0.0f, float y=0.0f, float w=0.0f, float h=0.0f, const LColor &color=LColor(1));
 
   // Initialize with a atlas entry
-  LUISprite(PyObject *self, LUIObject* parent, const string &entry_id, const string &atlas_id,
+  LUISprite(PyObject *self, LUIObject* parent, const string& entry_id, const string& atlas_id,
             float x=0.0f, float y=0.0f, float w=0.0f, float h=0.0f, const LColor &color=LColor(1));
 
   virtual ~LUISprite();
@@ -67,8 +67,8 @@ PUBLISHED:
   // Texture
   INLINE void set_texture(Texture* tex, bool resize=true);
   INLINE void set_texture(const LUIAtlasDescriptor& descriptor, bool resize=true);
-  INLINE void set_texture(const string &source, bool resize=true);
-  INLINE void set_texture(const string &entry_name, const string &atlas_id, bool resize=true);
+  INLINE void set_texture(const string& source, bool resize=true);
+  INLINE void set_texture(const string& entry_name, const string& atlas_id, bool resize=true);
   INLINE Texture *get_texture() const;
 
   INLINE void print_vertices();

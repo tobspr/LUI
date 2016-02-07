@@ -36,12 +36,12 @@ PUBLISHED:
   virtual ~LUIBaseElement();
 
   // Events
-  INLINE void bind(const string &event_name, CallbackObject* callback);
-  INLINE void unbind(const string &event_name);
+  INLINE void bind(const string& event_name, CallbackObject* callback);
+  INLINE void unbind(const string& event_name);
   INLINE void unbind_all();
 
-  INLINE bool has_event(const string &event_name);
-  void trigger_event(const string &event_name, const wstring &message = wstring(), const LPoint2 &coords = LPoint2(0));
+  INLINE bool has_event(const string& event_name);
+  void trigger_event(const string& event_name, const wstring &message = wstring(), const LPoint2 &coords = LPoint2(0));
 
   // Position
   INLINE void set_top_left(const LPoint2 &pos);

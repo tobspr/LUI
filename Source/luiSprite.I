@@ -66,7 +66,7 @@ INLINE void LUISprite::set_texture(const LUIAtlasDescriptor& descriptor, bool re
   }
 }
 
-INLINE void LUISprite::set_texture(const string &source, bool resize) {
+INLINE void LUISprite::set_texture(const string& source, bool resize) {
 
   _debug_source = source;
   size_t sep_pos = source.find(":");
@@ -92,7 +92,7 @@ INLINE void LUISprite::set_texture(const string &source, bool resize) {
   }
 }
 
-INLINE void LUISprite::set_texture(const string &entry_name, const string &atlas_id, bool resize) {
+INLINE void LUISprite::set_texture(const string& entry_name, const string& atlas_id, bool resize) {
   if (luiSprite_cat.is_spam()) {
     luiSprite_cat.spam() << "Load texture from atlas" << endl;
   }
