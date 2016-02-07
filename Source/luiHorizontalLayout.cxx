@@ -29,3 +29,15 @@ void LUIHorizontalLayout::set_offset(LUIBaseElement* element, float offset) {
     // won't get the update right in time, so make sure they get it.
     // element->move_by(LVector2(offset, 0));
 }
+
+bool LUIHorizontalLayout::has_space(LUIBaseElement* element) {
+  return element->has_height();
+}
+
+void LUIHorizontalLayout::set_full_metric(LUIBaseElement* element) {
+  element->set_height("100%");
+}
+
+void LUIHorizontalLayout::clear_metric(LUIBaseElement* element) {
+  element->clear_height();
+}

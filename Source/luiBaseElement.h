@@ -150,7 +150,7 @@ PUBLISHED:
 
   // Focus
   INLINE bool has_focus() const;
-  void request_focus();
+  bool request_focus();
   void blur();
 
   INLINE bool has_parent() const;

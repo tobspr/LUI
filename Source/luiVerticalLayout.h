@@ -22,6 +22,9 @@ protected:
   float get_metric(LUIBaseElement* element);
   void set_metric(LUIBaseElement* element, float metric);
   void set_offset(LUIBaseElement* element, float offset);
+  bool has_space(LUIBaseElement* element);
+  void set_full_metric(LUIBaseElement* element);
+  void clear_metric(LUIBaseElement* element);
 
 public:
   static TypeHandle get_class_type() {

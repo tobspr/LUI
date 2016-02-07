@@ -10,9 +10,18 @@
 #include "py_panda.h"
 
 TypeHandle LUIBaseElement::_type_handle;
-
 NotifyCategoryDef(luiBaseElement, ":lui");
 
+/**
+ * @brief Constructs a new LUIBaseElement
+ * @details This constructs a new LUIBaseElement, initializing all properties.
+ *   The self pointer should be usually NULL. For python objects, interrogate
+ *   automatically passes a handle to the object as the self pointer.
+ *   When a self pointer is passed, all methods named on_xxx are automatically
+ *   bound to events using LUIBaseElement::bind().
+ *
+ * @param self self-pointer or null
+ */
 LUIBaseElement::LUIBaseElement(PyObject* self) :
   _position(0.0f),
   _abs_position(0.0f),
@@ -43,6 +52,14 @@ LUIBaseElement::LUIBaseElement(PyObject* self) :
 LUIBaseElement::~LUIBaseElement() {
 }
 
+/**
+ * @brief Loads all events from a python object
+ * @details This registers all methods which are named on_xxx as events using
+ *   LUIBaseElement::bind(). This prevents the user from having to call bind
+ *   for every event method.
+ *
+ * @param self Python object self-pointer, or null
+ */
 void LUIBaseElement::load_python_events(PyObject* self) {
   // This code here should belong in a _ext file, but that's currently
   // not supported by interrogate.
@@ -118,7 +135,7 @@ void LUIBaseElement::load_python_events(PyObject* self) {
 }
 
 
-// Helper function for componentwise maximum
+// Helper function for componentwise vector maximum
 INLINE LVector2 componentwise_max(const LVector2& a, const LVector2& b) {
   return LVector2(
     max(a.get_x(), b.get_x()),
@@ -126,6 +143,7 @@ INLINE LVector2 componentwise_max(const LVector2& a, const LVector2& b) {
   );
 }
 
+// Helper function for componentwise vector minimum
 INLINE LVector2 componentwise_min(const LVector2& a, const LVector2& b) {
   return LVector2(
     min(a.get_x(), b.get_x()),
@@ -133,6 +151,12 @@ INLINE LVector2 componentwise_min(const LVector2& a, const LVector2& b) {
   );
 }
 
+/**
+ * @brief Internal method to register all events to the LUIRoot
+ * @details This method registers the element to the root element, which makes
+ *   the element recieve events. This method gets called whenever the object
+ *   recieves a new root, or gets parented to a new object.
+ */
 void LUIBaseElement::register_events() {
   if (_root && _parent && !_events_registered && _solid) {
       _root->register_event_object(this);
@@ -144,6 +168,11 @@ void LUIBaseElement::register_events() {
   }
 }
 
+/**
+ * @brief Internal method to unregister all events from the current LUIRoot
+ * @details This unregisters the element from the current LUIRoot, making it
+ *   no longer recieve any events. This gets called when the element got detached.
+ */
 void LUIBaseElement::unregister_events() {
   if (_root && _events_registered) {
     _root->unregister_event_object(this);
@@ -155,6 +184,14 @@ void LUIBaseElement::unregister_events() {
   }
 }
 
+/**
+ * @brief Sets the elements parent
+ * @details This sets the parent of the element. This is equal to calling
+ *   parent.add_child(self). If the element currently has a parent, the element
+ *   is first removed from the old parent.
+ *
+ * @param parent New parent of the element.
+ */
 void LUIBaseElement::set_parent(LUIObject* parent) {
   // Detach from current parent
   if (_parent)
@@ -164,18 +201,36 @@ void LUIBaseElement::set_parent(LUIObject* parent) {
   parent->add_child(this);
 }
 
-void LUIBaseElement::request_focus() {
+/**
+ * @brief Attempts to request focus
+ * @details This tries to request focus for the current element. If the element
+ *   recieved focus successfully, true is returned, false otherwise.
+ * @return Whether the element is focused
+ */
+bool LUIBaseElement::request_focus() {
   if (_root->request_focus(this))
     _focused = true;
+  return _focused;
 }
 
+/**
+ * @brief Gives focus away
+ * @details This makes the element no longer focused. This always succeeds.
+ */
 void LUIBaseElement::blur() {
+  if (!_focused)
+    luiBaseElement_cat.warning() << "Called blur(), but element was not focused" << endl;
   _root->request_focus(NULL);
 
   // Giving away focus will always work, so we can already set our focus state
   _focused = false;
 }
 
+/**
+ * @brief Internal method to get the rendered index
+ * @details This method asks the LUIRoot for the render index counter, and stores
+ *   it as the last render index.
+ */
 void LUIBaseElement::fetch_render_index() {
   if (_root == NULL) {
     _last_render_index = -1;
@@ -184,6 +239,17 @@ void LUIBaseElement::fetch_render_index() {
   }
 }
 
+/**
+ * @brief Triggers an event
+ * @details This triggers an event with the given name and a message. Optionally
+ *   coordinates can be passed, e.g. for mousemove events.
+ *   If no event handler is bound to this event, nothing happens. Otherwise the
+ *   event handler is called with the event data.
+ *
+ * @param event_name Name of the event
+ * @param message Optional message of the event
+ * @param coords Optional coordinates of the event
+ */
 void LUIBaseElement::trigger_event(const string& event_name, const wstring& message, const LPoint2& coords) {
   auto elem_it = _events.find(event_name);
   if (elem_it != _events.end()) {

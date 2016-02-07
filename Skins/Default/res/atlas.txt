@@ -22,10 +22,10 @@ SelectboxOpen_Right 175 180 32 32
 Selectbox_Right 207 180 32 32
 ColorpickerPreviewBg 134 183 31 31
 ColorpickerPreviewOverlay 228 72 27 27
-ScrollShadow_BL 236 0 18 18
-ScrollShadow_BR 236 18 18 18
-ScrollShadow_TL 236 36 18 18
-ScrollShadow_TR 236 54 18 18
+ScrollShadowBottom_Left 236 0 18 18
+ScrollShadowBottom_Right 236 18 18 18
+ScrollShadowTop_Left 236 36 18 18
+ScrollShadowTop_Right 236 54 18 18
 SliderKnob 228 99 18 18
 Checkbox_Checked 228 117 17 17
 Checkbox_CheckedHover 139 132 17 17
@@ -85,8 +85,8 @@ SliderBg_Left 251 137 3 7
 SliderBg_Right 28 207 3 7
 ProgressbarFg 255 96 1 20
 ProgressbarBg 137 163 1 19
-ScrollShadow_Bottom 138 163 1 18
-ScrollShadow_Top 65 202 1 18
+ScrollShadowBottom 138 163 1 18
+ScrollShadowTop 65 202 1 18
 ScrollbarHandle 228 134 11 1
 SliderBgFill 254 64 1 8
 SliderBg 255 168 1 7

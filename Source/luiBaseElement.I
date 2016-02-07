@@ -667,118 +667,296 @@ INLINE const LUIBounds& LUIBaseElement::get_padding() const {
   return _padding;
 }
 
+/**
+ * @brief Sets the size of the element
+ * @details This sets the size of the element. Size can be either floats, determining
+ *  the size in pixels, or valid terms for a LUIExpression, e.g. "23%".
+ *
+ * @param size width and height of the element
+ */
 INLINE void LUIBaseElement::set_size(const LVector2& size) {
   set_size(size.get_x(), size.get_y());
 }
 
+/**
+ * @brief Sets the size of the element
+ * @details This sets the size of the element. Size can be either floats, determining
+ *  the size in pixels, or valid terms for a LUIExpression, e.g. "23%".
+ *
+ * @param width width of the element
+ * @param height height of the element
+ */
 INLINE void LUIBaseElement::set_size(float width, float height) {
   _size.x.load_expression(width);
   _size.y.load_expression(height);
 }
 
+/**
+ * @brief Sets the size of the element
+ * @details This sets the size of the element. Size can be either floats, determining
+ *  the size in pixels, or valid terms for a LUIExpression, e.g. "23%".
+ *
+ * @param width width of the element
+ * @param height height of the element
+ */
 INLINE void LUIBaseElement::set_size(const string& width, const string& height) {
   _size.x.load_expression(width);
   _size.y.load_expression(height);
 }
 
+/**
+ * @brief Sets the size of the element
+ * @details This sets the size of the element. Size can be either floats, determining
+ *  the size in pixels, or valid terms for a LUIExpression, e.g. "23%".
+ *
+ * @param width width of the element
+ * @param height height of the element
+ */
 INLINE void LUIBaseElement::set_size(const string& width, float height) {
   _size.x.load_expression(width);
   _size.y.load_expression(height);
 }
 
+/**
+ * @brief Sets the size of the element
+ * @details This sets the size of the element. Size can be either floats, determining
+ *  the size in pixels, or valid terms for a LUIExpression, e.g. "23%".
+ *
+ * @param width width of the element
+ * @param height height of the element
+ */
 INLINE void LUIBaseElement::set_size(float width, const string& height) {
   _size.x.load_expression(width);
   _size.y.load_expression(height);
 }
 
-
+/**
+ * @brief Returns whether the element has a size assigned
+ * @details This returns whether has_width() and has_height() are both true.
+ * @return True if the element has a size for both dimensions.
+ */
 INLINE bool LUIBaseElement::has_size() const {
   return _size.x.has_expression() && _size.y.has_expression();
 }
 
+/**
+ * @brief Returns whether the element has a width expression
+ * @details This checks whether there was a width set on the element, either
+ *   a fixed width in pixels, or a percentage width.
+ * @return true if the element has a width assigned, false otherwise
+ */
 INLINE bool LUIBaseElement::has_width() const {
   return _size.x.has_expression();
 }
 
+/**
+ * @brief Returns whether the element has a height expression
+ * @details This checks whether there was a height set on the element, either
+ *   a fixed height in pixels, or a percentage height
+ * @return true if the element has a height assigned, false otherwise
+ */
 INLINE bool LUIBaseElement::has_height() const {
   return _size.y.has_expression();
 }
 
+/**
+ * @brief Clears the elements width
+ * @details This clears the elements width expression, clearing anything set
+ *   with set_width() before.
+ */
 INLINE void LUIBaseElement::clear_width() {
   _size.x.clear();
 }
 
+/**
+ * @brief Clears the elements height
+ * @details This clears the elements height expression, clearing anything set
+ *   with set_height() before.
+ */
 INLINE void LUIBaseElement::clear_height() {
   _size.y.clear();
 }
 
+/**
+ * @brief Clears the elements size
+ * @details This clears the elements size, calling clear_width() and clear_height().
+ */
 INLINE void LUIBaseElement::clear_size() {
   _size.x.clear();
   _size.y.clear();
 }
 
+/**
+ * @brief Sets the width of the element
+ * @details This sets the width of the element, width can either be a float
+ *   determining the size in pixels, or a valid term for a LUIExpression, e.g. "23%".
+ *
+ * @param width Width of the element
+ */
 INLINE void LUIBaseElement::set_width(float width) {
   _size.x.load_expression(width);
 }
 
+/**
+ * @brief Sets the width of the element
+ * @details This sets the width of the element, width can either be a float
+ *   determining the size in pixels, or a valid term for a LUIExpression, e.g. "23%".
+ *
+ * @param width Width of the element
+ */
 INLINE void LUIBaseElement::set_width(const string& width) {
   _size.x.load_expression(width);
 }
 
+/**
+ * @brief Sets the height of the element
+ * @details This sets the height of the element, height can either be a float
+ *   determining the size in pixels, or a valid term for a LUIExpression, e.g. "23%".
+ *
+ * @param height Height of the element
+ */
 INLINE void LUIBaseElement::set_height(float height) {
   _size.y.load_expression(height);
 }
 
+/**
+ * @brief Sets the height of the element
+ * @details This sets the height of the element, height can either be a float
+ *   determining the size in pixels, or a valid term for a LUIExpression, e.g. "23%".
+ *
+ * @param height Height of the element
+ */
 INLINE void LUIBaseElement::set_height(const string& height) {
   _size.y.load_expression(height);
 }
 
+/**
+ * @brief Returns the width of the element
+ * @details This returns an approximated width of the element. In case a fixed
+ *   size was set on the element, it returns those. Otherwise it approximates
+ *   the width using the last-frame width.
+ * @return Approximated width
+ */
 INLINE float LUIBaseElement::get_width() const {
   if (_size.x.has_fixed_expression()) return _size.x.evaluate(0.0f);
   return _effective_size.get_x();
 }
 
+/**
+ * @brief Returns the height of the element
+ * @details This returns an approximated height of the element. In case a fixed
+ *   size was set on the element, it returns those. Otherwise it approximates
+ *   the height using the last-frame height.
+ * @return Approximated width
+ */
 INLINE float LUIBaseElement::get_height() const {
   if (_size.y.has_fixed_expression()) return _size.y.evaluate(0.0f);
   return _effective_size.get_y();
 }
 
+/**
+ * @brief Returns the size of the element
+ * @details This returns an approximated size of the element. In case a fixed
+ *   size was set on the element, it returns those. Otherwise it approximates
+ *   the size using the last-frame size.
+ * @return Approximated width
+ */
 INLINE LVector2 LUIBaseElement::get_size() const {
   return LVector2(get_width(), get_height());
 }
 
+/**
+ * @brief Sets whether the element is visible
+ * @details This sets the element visible. If visible is set to false, the element
+ *   will not be rendered anymore. If visible is set to true, the element
+ *   will be shown.
+ *
+ *   If any of the objects parents is hidden, this method has no effect, and the
+ *   element will always be hidden,
+ *
+ * @param visible Whether to render the element
+ */
 INLINE void LUIBaseElement::set_visible(bool visible) {
   _visible = visible;
 }
 
+/**
+ * @brief Returns whether the element is explicitly hidden or shown.
+ * @details This returns the value previously set by set_visible(). It does
+ *   *not* take into account whether any of the parents of the object is visible
+ *   or not, so you cannot use this to determine whether the element was actually
+ *   rendered or not.
+ * @return Whether the element was explicitly hidden / shown
+ */
 INLINE bool LUIBaseElement::is_visible() const {
   return _visible;
 }
 
+/**
+ * @brief Hides the element
+ * @details This is an alias for set_visible(false)
+ */
 INLINE void LUIBaseElement::hide() {
   set_visible(false);
 }
 
+/**
+ * @brief Shows the element
+ * @details This is an alias for set_visible(true)
+ */
 INLINE void LUIBaseElement::show() {
   set_visible(true);
 }
 
+/**
+ * @brief Returns the z offset of the element
+ * @details This returns the z offset previously set with set_z_offset()
+ * @return z offset of the element
+ */
 INLINE float LUIBaseElement::get_z_offset() const {
   return _z_offset;
 }
 
+/**
+ * @brief Returns whether the element is focused
+ * @details This method returns whether the element currently is focused.
+ *   This is usually true after a call to request_focus()
+ * @return [description]
+ */
 INLINE bool LUIBaseElement::has_focus() const {
   return _focused;
 }
 
+/**
+ * @brief Returns whether the element has a parent
+ * @details This method returns whether the element is currently parented to anything
+ * @return true if a parent is set, false otherwise
+ */
 INLINE bool LUIBaseElement::has_parent() const {
   return _parent != NULL;
 }
 
+/**
+ * @brief Returns a handle to the parent
+ * @details This returns a handle to the elements parent, or NULL if no parent
+ *   is present.
+ * @return Handle to the parent
+ */
 INLINE LUIObject* LUIBaseElement::get_parent() const {
   return _parent;
 }
 
+/**
+ * @brief Checks if the element intersects with a point
+ * @details This checks if the element intersects with a given *absolute*
+ *   coordinate point. This is only valid after traversing the tree, since otherwise
+ *   the absolute position is not known.
+ *
+ * @param x absolute x-coordinate in pixels
+ * @param y absolute y-coordinate in pixels
+ *
+ * @return true if the coordinate intersects with the element, false otherwise
+ */
 INLINE bool LUIBaseElement::intersects(float x, float y) const {
   return (
       x >= _abs_position.get_x() &&
@@ -793,52 +971,151 @@ INLINE bool LUIBaseElement::intersects(float x, float y) const {
     );
 }
 
+/**
+ * @brief Clears the clip bounds
+ * @details This clears any clip bounds previously set with set_clip_bounds(),
+ *   and thus makes the element not clip anymore.
+ */
 INLINE void LUIBaseElement::clear_clip_bounds() {
   _have_clip_bounds = false;
+  _clip_bounds.set_bounds(0, 0, 0, 0);
 }
 
+/**
+ * @brief Sets the elements clip bounds
+ * @details This sets the elements clip bounds. This is equal to setting
+ *   'overflow: hidden' in CSS. In case the clip bounds are (0, 0, 0, 0),
+ *   the clipping will happen at the sides of the element. The bounds specify
+ *   the distance of the clipping rect from the sides.
+ *
+ * @param bounds Distance of the clipping rect from the sides
+ */
 INLINE void LUIBaseElement::set_clip_bounds(const LUIBounds& bounds) {
   _clip_bounds = bounds;
   _have_clip_bounds = true;
 }
 
+/**
+ * @brief Sets the elements clip bounds
+ * @details This sets the elements clip bounds. This is equal to setting
+ *   'overflow: hidden' in CSS. In case the clip bounds are (0, 0, 0, 0),
+ *   the clipping will happen at the sides of the element. The bounds specify
+ *   the distance of the clipping rect from the sides.
+ *
+ * @param top Distance of the clipping rect from the top
+ * @param right Distance of the clipping rect from the right
+ * @param bottom Distance of the clipping rect from the bottom
+ * @param left Distance of the clipping rect from the left
+ */
 INLINE void LUIBaseElement::set_clip_bounds(float top, float right, float bottom, float left) {
   _clip_bounds.set_bounds(top, right, bottom, left);
   _have_clip_bounds = true;
 }
 
+/**
+ * @brief Returns the clip bounds
+ * @details This returns the clip bounds. In case no clip bounds were set, this
+ *   returns (0, 0, 0, 0).
+ * @return Current clip bounds
+ */
 INLINE const LUIBounds& LUIBaseElement::get_clip_bounds() const {
   return _clip_bounds;
 }
 
+/**
+ * @brief Returns the clip rect
+ * @details This returns the clip region, in absolute coordinate space. This is only
+ *   valid after a frame has been rendered.
+ * @return Absolute clip rectangle
+ */
 INLINE const LUIRect& LUIBaseElement::get_abs_clip_bounds() const {
   return _abs_clip_bounds;
 }
 
+/**
+ * @brief Internal method to set the parent
+ * @details This is the internal method used to set the current parent. It is used
+ *   by the LUIObject after the object has been parented.
+ *
+ * @param parent The current parent
+ */
 INLINE void LUIBaseElement::do_set_parent(LUIObject* parent) {
   _parent = parent;
 }
 
+/**
+ * @brief Internal method to set the focus
+ * @details This is the internal method used to notify the element when it
+ *   gained or lost focus. It just sets the new focus state
+ *
+ * @param focus Whether the element is currently focused
+ */
 INLINE void LUIBaseElement::set_focus(bool focus) {
   _focused = focus;
 }
 
+/**
+ * @brief Returns the frame when the element was visible
+ * @details This returns the index of the last frame where the element was visible
+ *   and rendered. This can be used to determine if the element was rendered
+ *   in the current frame or not, and is used by the event system.
+ *
+ * @return Last frame index where the element was visible
+ */
 INLINE int LUIBaseElement::get_last_frame_visible() const {
   return _last_frame_visible;
 }
 
+/**
+ * @brief Returns whether the element is topmost
+ * @details This returns whether the element is set to topmost, and thus gets
+ *   rendered in front of all objects. This does not check if any parent of the
+ *   object is topmost.
+ *
+ * @return True if the element is explicitly set to topmost
+ */
 INLINE bool LUIBaseElement::is_topmost() const {
   return _topmost;
 }
 
+/**
+ * @brief Sets the element to render topmost
+ * @details This makes the element render in top of all other elements. This also
+ *   affects the children of the element in case it has some. Topmost elements are
+ *   rendered in a seperate render pass above all elements. They also recieve
+ *   events before regular events.
+ *
+ *   This does affect all children elements, too. Setting this too false will have
+ *   no effect if any parent of the element is set to topmost.
+ *
+ * @param topmost Whether to render the element topmost
+ */
 INLINE void LUIBaseElement::set_topmost(bool topmost) {
   _topmost = topmost;
 }
 
+/**
+ * @brief Returns the relative position of an absolute point
+ * @details This returns the position of a point relative to this element. This is
+ *   only valid after a frame has been rendered, since it depends on the absolute
+ *   position. The relative position is computed by pos - element_pos.
+ *
+ * @param pos Absolute point position
+ * @return Vector to that point, relative to the element
+ */
 INLINE LVector2 LUIBaseElement::get_relative_pos(const LPoint2& pos) const {
   return pos - _abs_position;
 }
 
+/**
+ * @brief Returns the last render index of the element
+ * @details This returns the last frames render index of the element. The render
+ *   index is basically a counter which increases whenever an element gets
+ *   rendered. This way the event manager can check if an element was rendered
+ *   above an element, by doing a.render_index > b.render_index.
+ *
+ * @return Last frames render index
+ */
 INLINE int LUIBaseElement::get_last_render_index() const {
   return _last_render_index;
 }
@@ -852,18 +1129,53 @@ INLINE void LUIBaseElement::set_solid(bool solid) {
   }
 }
 
+/**
+ * @brief Returns whether element is solid
+ * @details This returns the value previously set with set_solid(). See
+ *   LUIBaseElement::set_solid() for further information.
+ * @return Solidness of the element
+ */
 INLINE bool LUIBaseElement::get_solid() const {
   return _solid;
 }
 
+/**
+ * @brief Returns the x-extent of the element
+ * @details This returns the maximum x-position of the element. This can be
+ *   used for fitting a parent to its children, by resizing so that all x- and
+ *   y-extends are still contained.
+ *
+ *   The extend contains the margin as well as the size of the element.
+ *
+ * @return Maximum x-position of the element
+ */
 INLINE float LUIBaseElement::get_x_extent() const {
   return _abs_position.get_x() + _effective_size.get_x() + _margin.get_right();
 }
 
+
+/**
+ * @brief Returns the y-extent of the element
+ * @details This returns the maximum x-position of the element. This can be
+ *   used for fitting a parent to its children, by resizing so that all x- and
+ *   y-extends are still contained.
+ *
+ *   The extend contains the margin as well as the size of the element.
+ *
+ * @return Maximum y-position of the element
+ */
 INLINE float LUIBaseElement::get_y_extent() const {
   return _abs_position.get_y() + _effective_size.get_y() + _margin.get_bottom();
 }
 
+/**
+ * @brief Sets the debugging name
+ * @details This sets the debug name, which is shown when calling
+ *   LUIBaseElement::ls(). It usually is set to the class name, but can be overriden
+ *   to provide additional information.
+ *
+ * @param debug_name Debug-Name of the object.
+ */
 INLINE void LUIBaseElement::set_debug_name(const string& debug_name) {
   _debug_name = debug_name;
 }

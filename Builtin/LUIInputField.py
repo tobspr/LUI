@@ -152,7 +152,7 @@ class LUIInputField(LUIObject):
         """ Internal method to render the text """
         self._text.set_text(self._value)
         self._cursor.left = self._text.left + self._text.text_handle.get_char_pos(self._cursor_index) + 1
-        max_left = self.width - 20
+        max_left = self.width - 30
 
         if self._value:
             self._placeholder.hide()

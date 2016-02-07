@@ -1,6 +1,7 @@
 
 from panda3d.lui import LUIObject, LUISprite
 from LUIInitialState import LUIInitialState
+from LUILayouts import LUIHorizontalStretchedLayout
 
 class LUIScrollableRegion(LUIObject):
 
@@ -8,12 +9,15 @@ class LUIScrollableRegion(LUIObject):
     scroll. """
 
     def __init__(self, parent=None, width=100, height=100, padding=10, **kwargs):
-        LUIObject.__init__(self, x=0, y=0, w=width, h=height)
-
-        self._content_parent = LUIObject(self, x=0, y=0, w=width, h=height)
+        LUIObject.__init__(self)
+        self.set_size(width, height)
+        self._content_parent = LUIObject(self)
+        self._content_parent.set_size("100%", "100%")
         self._content_parent.clip_bounds = (0,0,0,0)
 
-        self._content_clip = LUIObject(self._content_parent, x=padding, y=padding, w=self.width - 2*padding, h=self.height - 2*padding)
+        self._content_clip = LUIObject(self._content_parent, x=padding, y=padding)
+        self._content_clip.set_size("100%", "100%")
+
         self.content_scroller = LUIObject(self._content_clip, x=0, y=0, w=self._content_clip.width, h=500)
 
         self._scrollbar = LUIObject(self, x=0, y=0, w=20, h=self.height)
@@ -49,35 +53,18 @@ class LUIScrollableRegion(LUIObject):
 
         scroll_shadow_width = self.width - 10
 
-        # Top shadow
-        self._scroll_shadow_top = LUIObject(self)
-        self._scroll_shadow_top_left = LUISprite(self._scroll_shadow_top, "ScrollShadow_BL", "skin")
-        self._scroll_shadow_top_mid = LUISprite(self._scroll_shadow_top, "ScrollShadow_Bottom", "skin")
-        self._scroll_shadow_top_right = LUISprite(self._scroll_shadow_top, "ScrollShadow_BR", "skin")
-        self._scroll_shadow_top_mid.left = self._scroll_shadow_top_left.width
-        self._scroll_shadow_top_mid.width = scroll_shadow_width - self._scroll_shadow_top_left.width - self._scroll_shadow_top_right.width
-        self._scroll_shadow_top_right.left = self._scroll_shadow_top_mid.left + self._scroll_shadow_top_mid.width
-
-        # Bottom shadow
-        self._scroll_shadow_bottom = LUIObject(self)
-        self._scroll_shadow_bottom_left = LUISprite(self._scroll_shadow_bottom, "ScrollShadow_TL", "skin")
-        self._scroll_shadow_bottom_mid = LUISprite(self._scroll_shadow_bottom, "ScrollShadow_Top", "skin")
-        self._scroll_shadow_bottom_right = LUISprite(self._scroll_shadow_bottom, "ScrollShadow_TR", "skin")
-        self._scroll_shadow_bottom_mid.left = self._scroll_shadow_bottom_left.width
-        self._scroll_shadow_bottom_mid.width = scroll_shadow_width - self._scroll_shadow_bottom_left.width - self._scroll_shadow_bottom_right.width
-        self._scroll_shadow_bottom_right.left = self._scroll_shadow_bottom_mid.left + self._scroll_shadow_bottom_mid.width
+        # Scroll shadow
+        self._scroll_shadow_top = LUIHorizontalStretchedLayout(parent=self, prefix="ScrollShadowTop", width="100%")
+        self._scroll_shadow_bottom = LUIHorizontalStretchedLayout(parent=self, prefix="ScrollShadowBottom", width="100%")
         self._scroll_shadow_bottom.bottom = 0
-        self._scroll_shadow_bottom_left.bottom = 0
-        self._scroll_shadow_bottom_mid.bottom = 0
-        self._scroll_shadow_bottom_right.bottom = 0
 
         self._handle_height = 100
-        self._update()
 
         if parent is not None:
             self.parent = parent
 
         LUIInitialState.init(self, kwargs)
+        self._update()
 
     def _on_bar_click(self, event):
         """ Internal handler when the user clicks on the scroll bar """
@@ -122,8 +109,9 @@ class LUIScrollableRegion(LUIObject):
 
     def _set_handle_height(self, height):
         """ Internal method to set the scrollbar height """
-        self._scroll_handle_mid.top = self._scroll_handle_top.height
-        self._scroll_handle_mid.height = height - self._scroll_handle_top.height - self._scroll_handle_bottom.height
+        self._scroll_handle_mid.top = float(self._scroll_handle_top.height)
+
+        self._scroll_handle_mid.height = max(0.0, height - self._scroll_handle_top.height - self._scroll_handle_bottom.height)
         self._scroll_handle_bottom.top = self._scroll_handle_mid.height + self._scroll_handle_mid.top
         self._handle_height = height
 

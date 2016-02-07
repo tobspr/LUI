@@ -199,3 +199,19 @@ void LUIBaseLayout::reset() {
   _cells.clear();
   remove_all_children();
 }
+
+
+void LUIBaseLayout::update_downstream() {
+  bool fill_children = has_space(this);
+
+  for (auto it = _children.begin(); it != _children.end(); ++it) {
+    if (fill_children)
+      // Layout has either fixed width/height assigned, make all containers resize
+      set_full_metric(*it);
+    else
+      // Layout has no fixed size, fit the children
+      clear_metric(*it);
+  }
+
+  LUIObject::update_downstream();
+}

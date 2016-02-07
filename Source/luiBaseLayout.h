@@ -41,6 +41,7 @@ PUBLISHED:
 public:
 
   void update_dimensions_upstream();
+  void update_downstream();
 
 protected:
   struct Cell {
@@ -64,6 +65,9 @@ protected:
   virtual float get_metric(LUIBaseElement* element) = 0;
   virtual void set_metric(LUIBaseElement* element, float metric) = 0;
   virtual void set_offset(LUIBaseElement* element, float offset) = 0;
+  virtual bool has_space(LUIBaseElement* element) = 0;
+  virtual void set_full_metric(LUIBaseElement* element) = 0;
+  virtual void clear_metric(LUIBaseElement* element) = 0;
 
   void update_layout();
 

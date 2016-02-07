@@ -24,8 +24,16 @@ void LUIVerticalLayout::set_metric(LUIBaseElement* element, float metric) {
 
 void LUIVerticalLayout::set_offset(LUIBaseElement* element, float offset) {
     element->set_top(offset);
+}
 
-    // Since we are in the downstream pass when performing this, our children
-    // won't get the update right in time, so make sure they get it.
-    // element->move_by(LVector2(0, offset));
+bool LUIVerticalLayout::has_space(LUIBaseElement* element) {
+  return element->has_width();
+}
+
+void LUIVerticalLayout::set_full_metric(LUIBaseElement* element) {
+  element->set_width("100%");
+}
+
+void LUIVerticalLayout::clear_metric(LUIBaseElement* element) {
+  element->clear_width();
 }
