@@ -202,6 +202,9 @@ void LUIBaseLayout::reset() {
 
 
 void LUIBaseLayout::update_downstream() {
+
+  update_layout();
+
   bool fill_children = has_space(this);
 
   for (auto it = _children.begin(); it != _children.end(); ++it) {
