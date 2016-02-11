@@ -43,7 +43,7 @@ LUIBaseElement::LUIBaseElement(PyObject* self) :
   _last_render_index(-1),
   _topmost(false),
   _debug_name("LUIBaseElement"),
-
+  _name(""),
   LUIColorable()
 {
  load_python_events(self);

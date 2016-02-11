@@ -58,6 +58,29 @@ INLINE bool LUIBaseElement::has_event(const string& event_name) {
 }
 
 /**
+ * @brief Sets the elements name
+ * @details This sets the name of the element, which can get queried by get_name
+ *   later on. This does not expose any functionality, and only is a help for the
+ *   user.
+ *
+ * @param name Name of the element
+ */
+INLINE void LUIBaseElement::set_name(const string& name) {
+  _name = name;
+}
+
+/**
+ * @brief Returns the name of the element
+ * @details Returns the name of the element, or an empty string if no name
+ *   was set yet.
+ *
+ * @return Name of the element
+ */
+INLINE const string& LUIBaseElement::get_name() const {
+  return _name;
+}
+
+/**
  * @brief Sets whether to snap the position
  * @details This controls whether the element snaps it position to the pixel grid.
  *   If this is true, ceil() will be called on the position and size. This prevents

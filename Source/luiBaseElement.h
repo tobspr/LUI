@@ -49,6 +49,10 @@ PUBLISHED:
   INLINE bool has_event(const string& event_name);
   void trigger_event(const string& event_name, const wstring& message = wstring(), const LPoint2& coords = LPoint2(0));
 
+  // NAME
+  INLINE void set_name(const string& name);
+  INLINE const string& get_name() const;
+
   // Position
   INLINE void set_top_left(const LPoint2& pos);
   INLINE void set_top_right(const LPoint2& pos);
@@ -172,6 +176,8 @@ PUBLISHED:
   INLINE LVector2 get_relative_pos(const LPoint2& pos) const;
 
   // Properties for python
+  MAKE_PROPERTY(name, get_name, set_name);
+
   MAKE_PROPERTY(top_left, get_top_left, set_top_left);
   MAKE_PROPERTY(top_right, get_top_right, set_top_right);
   MAKE_PROPERTY(bottom_left, get_bottom_left, set_bottom_left);
@@ -308,6 +314,7 @@ protected:
   bool _topmost;
 
   string _debug_name;
+  string _name;
 
 public:
   static TypeHandle get_class_type() {
