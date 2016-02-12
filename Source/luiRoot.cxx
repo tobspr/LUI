@@ -115,7 +115,7 @@ LUIRoot::~LUIRoot() {
 PT(Shader) LUIRoot::create_object_shader() {
   return Shader::make(Shader::SL_GLSL,
     // Vertex
-    "#version 150\n"
+    "#version 130\n"
     "uniform mat4 p3d_ModelViewProjectionMatrix;\n"
     "in vec4 p3d_Vertex;\n"
     "in uint texindex;\n"
@@ -132,7 +132,7 @@ PT(Shader) LUIRoot::create_object_shader() {
     "}\n"
     ,
     // Fragment
-    "#version 150\n"
+    "#version 130\n"
     "in vec2 texcoord;\n"
     "flat in uint vtx_texindex;\n"
     "in vec4 color_scale;\n"
