@@ -15,7 +15,7 @@ Now there should be a `lui.pyd` or `lui.so` depending on your system.
 
 If you are on **windows**, copy the .pyd into `PATH_TO_PANDA_SDK/panda3d/lui.pyd`.
 
-If you are on **linux**, copy the .so into `usr/lib/panda3d/lui.pyd`
+If you are on **linux**, copy the .so into `usr/lib/panda3d/lui.so`
 
 
 ### Running the Samples
