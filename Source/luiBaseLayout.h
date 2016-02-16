@@ -28,6 +28,7 @@ PUBLISHED:
   void add(PT(LUIBaseElement) object, const string& cell_mode = "?");
   void add(PT(LUIBaseElement) object, float cell_height);
   void reset();
+  void remove_cell(size_t index);
 
   PT(LUIObject) cell(const string& cell_mode);
   PT(LUIObject) cell(float cell_height);
