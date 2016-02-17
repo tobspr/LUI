@@ -218,3 +218,10 @@ void LUIBaseLayout::update_downstream() {
 
   LUIObject::update_downstream();
 }
+
+void LUIBaseLayout::remove_cell(size_t index) {
+  nassertv(index < _cells.size());
+  PT(LUIBaseElement) cell = _cells[index].node;
+  remove_child(cell);
+  _cells.erase(_cells.begin() + index);
+}
