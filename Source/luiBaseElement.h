@@ -174,6 +174,7 @@ PUBLISHED:
   INLINE void set_topmost(bool topmost);
 
   INLINE LVector2 get_relative_pos(const LPoint2& pos) const;
+  INLINE void set_debug_name(const string& debug_name);
 
   // Properties for python
   MAKE_PROPERTY(name, get_name, set_name);
@@ -232,7 +233,6 @@ public:
   virtual void update_clip_bounds();
 
   void move_by(const LVector2& offset);
-  INLINE void set_debug_name(const string& debug_name);
 
 protected:
 
