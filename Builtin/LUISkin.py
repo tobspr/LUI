@@ -1,8 +1,9 @@
 
-from panda3d.lui import LUIFontPool, LUIAtlasPool
-from panda3d.core import Filename
 import os
 from os.path import join
+
+from panda3d.core import Filename
+from panda3d.lui import LUIFontPool, LUIAtlasPool
 
 class LUISkin:
 

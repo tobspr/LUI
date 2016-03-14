@@ -1,5 +1,5 @@
 
-from panda3d.lui import LUIObject
+from LUIObject import LUIObject
 
 class LUIRadioboxGroup(LUIObject):
 

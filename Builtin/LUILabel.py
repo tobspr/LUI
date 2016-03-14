@@ -1,5 +1,6 @@
 
-from panda3d.lui import LUIObject, LUIText
+from panda3d.lui import LUIText
+from LUIObject import LUIObject
 from LUIInitialState import LUIInitialState
 
 __all__ = ["LUILabel"]

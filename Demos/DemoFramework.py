@@ -11,8 +11,12 @@ sys.path.insert(0, "../")
 sys.path.insert(0, "../Builtin")
 
 from panda3d.core import *
-from panda3d.lui import LUIRegion, LUIInputHandler, LUISprite, LUIObject, LUIVerticalLayout
 
+from LUIRegion import LUIRegion
+from LUIInputHandler import LUIInputHandler
+from LUISprite import LUISprite
+from LUIObject import LUIObject
+from LUIVerticalLayout import LUIVerticalLayout
 from LUILabel import LUILabel
 from LUIFrame import LUIFrame
 

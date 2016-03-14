@@ -1,7 +1,8 @@
 
 from __future__ import division
 
-from panda3d.lui import LUIObject, LUISprite
+from LUIObject import LUIObject
+from LUISprite import LUISprite
 from LUILabel import LUILabel
 from LUIInitialState import LUIInitialState
 

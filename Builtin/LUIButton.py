@@ -1,5 +1,5 @@
 
-from panda3d.lui import LUIObject
+from LUIObject import LUIObject
 from LUILayouts import LUIHorizontalStretchedLayout
 from LUILabel import LUILabel
 from LUIInitialState import LUIInitialState
