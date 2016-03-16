@@ -163,3 +163,14 @@ INLINE int LUIRoot::get_frame_index() const {
 INLINE int LUIRoot::allocate_render_index() {
   return _render_index++;
 }
+
+/**
+ * @brief Sets whether to use GLSL 1.30 instead of 1.20
+ * @details This controls whether GLSL 1.30 is used instead of 1.20. It can
+ *   provide a performance benefit although it also bumps the OpenGL requirement.
+ *
+ * @param use_glsl_130 Whether to use GLSL 1.30
+ */
+INLINE void LUIRoot::set_use_glsl_130(bool use_glsl_130) {
+  _use_glsl_130 = use_glsl_130;
+}

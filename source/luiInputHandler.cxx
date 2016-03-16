@@ -148,7 +148,9 @@ void LUIInputHandler::process(LUIRoot* root) {
             // Under the mouse cursor
             elem->intersects(
               _current_state.mouse_pos.get_x(),
-              _current_state.mouse_pos.get_y())) {
+              _current_state.mouse_pos.get_y()) &&
+            // Visible #2
+            elem->is_visible()) {
           current_hover = elem;
           current_render_index = elem->get_last_render_index();
       }
@@ -185,7 +187,7 @@ void LUIInputHandler::process(LUIRoot* root) {
   bool lost_focus = false;
 
   if (mouse_key_pressed(click_mouse_button)) {
-    if (_hover_element != NULL) {
+    if (_hover_element != NULL && _hover_element->is_visible()) {
       _mouse_down_element = _hover_element;
       _hover_element->trigger_event("mousedown", wstring(), _current_state.mouse_pos);
 
@@ -247,7 +249,7 @@ void LUIInputHandler::process(LUIRoot* root) {
   root->set_requested_focus(NULL);
 
   // Check key events
-  if (_focused_element != NULL) {
+  if (_focused_element != NULL && _focused_element->is_visible()) {
     vector<LUIKeyEvent>::const_iterator it;
     for (it = _key_events.begin(); it != _key_events.end(); ++it) {
 

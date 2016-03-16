@@ -3,6 +3,8 @@
 #include "luiRoot.h"
 #include "shader.h"
 
+bool LUIRoot::_use_glsl_130 = false;
+
 
 LUIRoot::LUIRoot(float width, float height) : _requested_focus(NULL) {
 
@@ -113,52 +115,101 @@ LUIRoot::~LUIRoot() {
 
 
 PT(Shader) LUIRoot::create_object_shader() {
-  return Shader::make(Shader::SL_GLSL,
-    // Vertex
-    "#version 130\n"
-    "uniform mat4 p3d_ModelViewProjectionMatrix;\n"
-    "in vec4 p3d_Vertex;\n"
-    "in uint texindex;\n"
-    "in vec4 color;\n"
-    "in vec2 p3d_MultiTexCoord0;\n"
-    "out vec2 texcoord;\n"
-    "flat out uint vtx_texindex;\n"
-    "out vec4 color_scale;\n"
-    "void main() {\n"
-    "  texcoord = p3d_MultiTexCoord0;\n"
-    "  color_scale = color;\n"
-    "  vtx_texindex = texindex;\n"
-    "  gl_Position = p3d_ModelViewProjectionMatrix * p3d_Vertex;\n"
-    "}\n"
-    ,
-    // Fragment
-    "#version 130\n"
-    "in vec2 texcoord;\n"
-    "flat in uint vtx_texindex;\n"
-    "in vec4 color_scale;\n"
-    "uniform sampler2D lui_texture_0;\n"
-    "uniform sampler2D lui_texture_1;\n"
-    "uniform sampler2D lui_texture_2;\n"
-    "uniform sampler2D lui_texture_3;\n"
-    "uniform sampler2D lui_texture_4;\n"
-    "uniform sampler2D lui_texture_5;\n"
-    "uniform sampler2D lui_texture_6;\n"
-    "uniform sampler2D lui_texture_7;\n"
-    "out vec4 color;\n"
-    "void main() {\n"
-    "  vec4 texcolor = vec4(0,0,0,1);\n"
-    "  switch(vtx_texindex) {\n"
-    "    case 0u: texcolor = texture(lui_texture_0, texcoord); break;\n"
-    "    case 1u: texcolor = texture(lui_texture_1, texcoord); break;\n"
-    "    case 2u: texcolor = texture(lui_texture_2, texcoord); break;\n"
-    "    case 3u: texcolor = texture(lui_texture_3, texcoord); break;\n"
-    "    case 4u: texcolor = texture(lui_texture_4, texcoord); break;\n"
-    "    case 5u: texcolor = texture(lui_texture_5, texcoord); break;\n"
-    "    case 6u: texcolor = texture(lui_texture_6, texcoord); break;\n"
-    "    case 7u: texcolor = texture(lui_texture_7, texcoord); break;\n"
-    "  }\n"
-    "  color = vec4(texcolor * color_scale);\n"
-    "}\n"
-    );
-
+  if (_use_glsl_130) {
+    return Shader::make(Shader::SL_GLSL,
+      // Vertex
+      "#version 130\n"
+      "uniform mat4 p3d_ModelViewProjectionMatrix;\n"
+      "in vec4 p3d_Vertex;\n"
+      "in uint texindex;\n"
+      "in vec4 color;\n"
+      "in vec2 p3d_MultiTexCoord0;\n"
+      "out vec2 texcoord;\n"
+      "flat out uint vtx_texindex;\n"
+      "out vec4 color_scale;\n"
+      "void main() {\n"
+      "  texcoord = p3d_MultiTexCoord0;\n"
+      "  color_scale = color;\n"
+      "  vtx_texindex = texindex;\n"
+      "  gl_Position = p3d_ModelViewProjectionMatrix * p3d_Vertex;\n"
+      "}\n"
+      ,
+      // Fragment
+      "#version 130\n"
+      "in vec2 texcoord;\n"
+      "flat in uint vtx_texindex;\n"
+      "in vec4 color_scale;\n"
+      "uniform sampler2D lui_texture_0;\n"
+      "uniform sampler2D lui_texture_1;\n"
+      "uniform sampler2D lui_texture_2;\n"
+      "uniform sampler2D lui_texture_3;\n"
+      "uniform sampler2D lui_texture_4;\n"
+      "uniform sampler2D lui_texture_5;\n"
+      "uniform sampler2D lui_texture_6;\n"
+      "uniform sampler2D lui_texture_7;\n"
+      "out vec4 color;\n"
+      "void main() {\n"
+      "  vec4 texcolor = vec4(0,0,0,1);\n"
+      "  switch(vtx_texindex) {\n"
+      "    case 0u: texcolor = texture(lui_texture_0, texcoord); break;\n"
+      "    case 1u: texcolor = texture(lui_texture_1, texcoord); break;\n"
+      "    case 2u: texcolor = texture(lui_texture_2, texcoord); break;\n"
+      "    case 3u: texcolor = texture(lui_texture_3, texcoord); break;\n"
+      "    case 4u: texcolor = texture(lui_texture_4, texcoord); break;\n"
+      "    case 5u: texcolor = texture(lui_texture_5, texcoord); break;\n"
+      "    case 6u: texcolor = texture(lui_texture_6, texcoord); break;\n"
+      "    case 7u: texcolor = texture(lui_texture_7, texcoord); break;\n"
+      "  }\n"
+      "  color = vec4(texcolor * color_scale);\n"
+      "}\n"
+      );
+  } else {
+    cout << "OBJECT SHADER!" << endl;
+    return Shader::make(Shader::SL_GLSL,
+      // Vertex
+      "#version 120\n"
+      "uniform mat4 p3d_ModelViewProjectionMatrix;\n"
+      "attribute vec4 p3d_Vertex;\n"
+      "attribute float texindex;\n"
+      "attribute vec4 color;\n"
+      "attribute vec2 p3d_MultiTexCoord0;\n"
+      "varying vec2 texcoord;\n"
+      "varying float vtx_texindex;\n"
+      "varying vec4 color_scale;\n"
+      "void main() {\n"
+      "  texcoord = p3d_MultiTexCoord0;\n"
+      "  color_scale = color;\n"
+      "  vtx_texindex = texindex;\n"
+      "  gl_Position = p3d_ModelViewProjectionMatrix * p3d_Vertex;\n"
+      "}\n"
+      ,
+      // Fragment
+      "#version 120\n"
+      "varying vec2 texcoord;\n"
+      "varying float vtx_texindex;\n"
+      "varying vec4 color_scale;\n"
+      "uniform sampler2D lui_texture_0;\n"
+      "uniform sampler2D lui_texture_1;\n"
+      "uniform sampler2D lui_texture_2;\n"
+      "uniform sampler2D lui_texture_3;\n"
+      "uniform sampler2D lui_texture_4;\n"
+      "uniform sampler2D lui_texture_5;\n"
+      "uniform sampler2D lui_texture_6;\n"
+      "uniform sampler2D lui_texture_7;\n"
+      "void main() {\n"
+      "  vec4 texcolor = vec4(0,0,0,1);\n"
+      // OpenGL ES doesn't have ints unfortunately
+      "  #define DO_SWITCH(n) if (vtx_texindex > (n - 0.5) && vtx_texindex < (n + 0.5)) texcolor = texture2D(lui_texture_ ## n, texcoord);\n"
+      "  DO_SWITCH(0)\n"
+      "  DO_SWITCH(1)\n"
+      "  DO_SWITCH(2)\n"
+      "  DO_SWITCH(3)\n"
+      "  DO_SWITCH(4)\n"
+      "  DO_SWITCH(5)\n"
+      "  DO_SWITCH(6)\n"
+      "  DO_SWITCH(7)\n"
+      "  gl_FragColor = vec4(texcolor * color_scale);\n"
+      "}\n"
+      );
+  }
 }

@@ -19,7 +19,7 @@ class LUIInputField(LUIObject):
 
         # Container for the text
         self._text_content = LUIObject(self)
-        self._text_content.margin = (5, 12, 5, 12)
+        self._text_content.margin = (5, 7, 5, 7)
         self._text_content.clip_bounds = (0,0,0,0)
         self._text_content.set_size("100%", "100%")
 
@@ -153,7 +153,7 @@ class LUIInputField(LUIObject):
         """ Internal method to render the text """
         self._text.set_text(self._value)
         self._cursor.left = self._text.left + self._text.text_handle.get_char_pos(self._cursor_index) + 1
-        max_left = self.width - 30
+        max_left = self.width - 15
 
         if self._value:
             self._placeholder.hide()
