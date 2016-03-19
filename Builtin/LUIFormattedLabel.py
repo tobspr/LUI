@@ -1,6 +1,6 @@
 
 from panda3d.core import LVecBase2i
-from panda3d.lui import LUIObject
+from LUIObject import LUIObject
 from LUILabel import LUILabel
 from LUIInitialState import LUIInitialState
 

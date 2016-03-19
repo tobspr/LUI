@@ -3,7 +3,7 @@
 from DemoFramework import DemoFramework
 from LUISlider import LUISlider
 from LUILabel import LUILabel
-from panda3d.lui import LUIVerticalLayout
+from LUIVerticalLayout import LUIVerticalLayout
 
 import random
 

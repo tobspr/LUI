@@ -1,5 +1,6 @@
 
-from panda3d.lui import LUIObject, LUISprite
+from LUIObject import LUIObject
+from LUISprite import LUISprite
 from LUILabel import LUILabel
 from LUILayouts import LUICornerLayout, LUIHorizontalStretchedLayout
 from LUIInitialState import LUIInitialState
@@ -172,7 +173,7 @@ class LUISelectdrop(LUIObject):
 
     def _render_options(self, options):
         """ Internal method to update the options """
-        num_visible_options = min(4, len(options))
+        num_visible_options = min(30, len(options))
         offset_top = 6
         self._layout.height = num_visible_options * 30 + offset_top + 11
         self._container.height = num_visible_options * 30 + offset_top + 1

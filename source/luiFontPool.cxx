@@ -28,6 +28,11 @@ LUIFontPool* LUIFontPool::get_global_ptr() {
 
 void LUIFontPool::register_font(const string& name, PT(DynamicTextFont) font) {
   _fonts[name] = font;
+  if (font->get_num_pages() > 0) {
+    lui_cat.warning() << "Font was already used, calling clear() first." << endl;
+    font->clear();
+  }
+  font->set_fg(LColor(0.99, 0.99, 0.99, 1.0));
 }
 
 void LUIFontPool::load_font(const string& name, const string&font_file) {

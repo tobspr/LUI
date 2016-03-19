@@ -83,11 +83,11 @@ def download_submodule(author, module_name, dest_path, ignore_list):
     print("Extracted", num_files, "files and", num_dirs, "directories")
 
 if __name__ == "__main__":
-    ignore = ("__init__.py LICENSE README.md config.ini Source/config_module.cpp "
-        "Source/config_module.h Source/ExampleClass.cpp Source/ExampleClass.h Source/ExampleClass.I").split()
+    ignore = ("__init__.py LICENSE README.md config.ini source/config_module.cpp "
+        "source/config_module.h").split()
     curr_dir = os.path.dirname(os.path.realpath(__file__)); os.chdir(curr_dir);
     download_submodule("tobspr", "P3DModuleBuilder", curr_dir, ignore)
-    with open("Scripts/__init__.py", "w") as handle: pass
+    with open("scripts/__init__.py", "w") as handle: pass
     try: os.remove(".gitignore")
     except: pass
     os.rename("prefab.gitignore", ".gitignore")

@@ -10,10 +10,18 @@ class LUIInitialState:
     def __init__(self):
         raise Exception("LUIInitialState is a static class")
 
-    @staticmethod
-    def init(obj, kwargs):
+    __mappings = {
+        "x": "left",
+        "y": "top",
+        "w": "width",
+        "h": "height"
+    }
+
+    @classmethod
+    def init(cls, obj, kwargs):
         """ Applies the keyword arguments as properties """
         for arg_name, arg_val in kwargs.items():
+            arg_name = cls.__mappings.get(arg_name, arg_name)
             if hasattr(obj, arg_name):
                 setattr(obj, arg_name, arg_val)
             else:

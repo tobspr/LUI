@@ -42,6 +42,8 @@ PUBLISHED:
 
   INLINE PT(LUIObject) node();
 
+  static INLINE void set_use_glsl_130(bool use_glsl_130);
+
 public:
 
   INLINE int alloc_index_by_texture(Texture* tex);
@@ -75,6 +77,7 @@ public:
 
 private:
 
+  static bool _use_glsl_130;
 
   PT(GeomVertexData) _vertex_data;
   PT(GeomTriangles) _triangles;

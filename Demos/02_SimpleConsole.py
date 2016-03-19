@@ -21,14 +21,17 @@ load_prc_file_data("", """
 """)
 
 # Imports
-from panda3d.lui import LUIRegion, LUIObject, LUIInputHandler
-from panda3d.lui import LUIVerticalLayout
+
 from LUISkin import LUIDefaultSkin
 from LUIFrame import LUIFrame
 from LUILabel import LUILabel
 from LUIInputField import LUIInputField
 from LUIFormattedLabel import LUIFormattedLabel
 from LUIScrollableRegion import LUIScrollableRegion
+from LUIObject import LUIObject
+from LUIRegion import LUIRegion
+from LUIInputHandler import LUIInputHandler
+from LUIVerticalLayout import LUIVerticalLayout
 
 from Skins.Metro.LUIMetroSkin import LUIMetroSkin
 

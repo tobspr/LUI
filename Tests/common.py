@@ -23,7 +23,10 @@ load_prc_file_data("", """
 
 import time
 from functools import wraps
-from panda3d.lui import LUIRegion, LUIObject, LUIInputHandler, LUISprite
+from LUIRegion import LUIRegion
+from LUIObject import LUIObject
+from LUIInputHandler import LUIInputHandler
+from LUISprite import LUISprite
 from LUISkin import LUIDefaultSkin
 from panda3d.lui import LUIVerticalLayout
 from LUIFrame import LUIFrame

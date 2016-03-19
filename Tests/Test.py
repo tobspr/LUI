@@ -19,7 +19,11 @@ load_prc_file_data("", """
     win-fixed-size #f
 """)
 
-from panda3d.lui import LUIRegion, LUIObject, LUIInputHandler, LUISprite, LUIVerticalLayout
+from LUIRegion import LUIRegion
+from LUIObject import LUIObject
+from LUIInputHandler import LUIInputHandler
+from LUISprite import LUISprite
+from LUIVerticalLayout import LUIVerticalLayout
 from LUISkin import LUIDefaultSkin
 from LUIFrame import LUIFrame
 from LUIFormattedLabel import LUIFormattedLabel

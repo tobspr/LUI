@@ -10,13 +10,12 @@ LUI projects.
 import sys
 sys.path.insert(0, "../Builtin")
 
-# Load some required LUI classes
-from panda3d.lui import LUIRegion, LUIInputHandler
-
-# Load a builtin LUI class. When lui is included in panda, this will be
-# from direct.luiwidgets.LUIButton import LUIButton
+# Load some builtin LUI classes. When lui is included in panda, this will be
+# from direct.lui.LUIButton import LUIButton
 from LUIButton import LUIButton
 from LUISkin import LUIDefaultSkin
+from LUIRegion import LUIRegion
+from LUIInputHandler import LUIInputHandler
 
 # Setup panda, nothing special here
 from panda3d.core import load_prc_file_data

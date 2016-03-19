@@ -1,7 +1,7 @@
 
 from DemoFramework import DemoFramework
 from LUIButton import LUIButton
-from panda3d.lui import LUIHorizontalLayout
+from LUIHorizontalLayout import LUIHorizontalLayout
 
 import random
 

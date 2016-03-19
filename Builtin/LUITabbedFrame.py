@@ -1,6 +1,9 @@
+
 from LUIFrame import LUIFrame
 from LUILabel import LUILabel
-from panda3d.lui import LUIVerticalLayout, LUIHorizontalLayout, LUIObject
+from LUIObject import LUIObject
+from LUIVerticalLayout import LUIVerticalLayout
+from LUIHorizontalLayout import LUIHorizontalLayout
 
 class LUITabbedFrame(LUIFrame):
     def __init__(self, **kwargs):

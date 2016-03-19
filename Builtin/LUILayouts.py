@@ -1,7 +1,9 @@
 
 from __future__ import print_function, division
 
-from panda3d.lui import LUIObject, LUISprite, LUIHorizontalLayout
+from LUIObject import LUIObject
+from LUISprite import LUISprite
+from LUIHorizontalLayout import LUIHorizontalLayout
 from direct.directnotify.DirectNotify import DirectNotify
 
 from LUIInitialState import LUIInitialState

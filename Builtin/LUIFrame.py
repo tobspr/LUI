@@ -1,7 +1,8 @@
 
 from __future__ import print_function
 
-from panda3d.lui import LUIObject, LUISprite
+from LUIObject import LUIObject
+from LUISprite import LUISprite
 from LUILayouts import LUICornerLayout
 from LUIInitialState import LUIInitialState
 from LUIScrollableRegion import LUIScrollableRegion

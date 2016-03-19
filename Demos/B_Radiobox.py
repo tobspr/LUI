@@ -3,7 +3,7 @@
 from DemoFramework import DemoFramework
 from LUIRadiobox import LUIRadiobox
 from LUIRadioboxGroup import LUIRadioboxGroup
-from panda3d.lui import LUIVerticalLayout
+from LUIVerticalLayout import LUIVerticalLayout
 
 import random
 
