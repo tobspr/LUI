@@ -197,17 +197,18 @@ PT(Shader) LUIRoot::create_object_shader() {
       "uniform sampler2D lui_texture_6;\n"
       "uniform sampler2D lui_texture_7;\n"
       "void main() {\n"
-      "  vec4 texcolor = vec4(0.0, 0.0, 0.0, 1.0);\n"
-      // OpenGL ES doesn't have ints unfortunately
-      "  #define DO_SWITCH(n) if (vtx_texindex > (n ## .0 - 0.5) && vtx_texindex < (n ## .0 + 0.5)) texcolor = texture2D(lui_texture_ ## n, texcoord);\n"
-      "  DO_SWITCH(0)\n"
-      "  DO_SWITCH(1)\n"
-      "  DO_SWITCH(2)\n"
-      "  DO_SWITCH(3)\n"
-      "  DO_SWITCH(4)\n"
-      "  DO_SWITCH(5)\n"
-      "  DO_SWITCH(6)\n"
-      "  DO_SWITCH(7)\n"
+      "  vec4 texcolor = vec4(0.1, 0.0, 0.0, 1.0);\n"
+
+      // We can't even properly use defines with the GLES compiler .. that sucks
+      "  if (vtx_texindex > -0.5 && vtx_texindex < 0.5) texcolor = texture2D(lui_texture_0, texcoord); \n"
+      "  if (vtx_texindex >  0.5 && vtx_texindex < 1.5) texcolor = texture2D(lui_texture_1, texcoord); \n"
+      "  if (vtx_texindex >  1.5 && vtx_texindex < 2.5) texcolor = texture2D(lui_texture_2, texcoord); \n"
+      "  if (vtx_texindex >  2.5 && vtx_texindex < 3.5) texcolor = texture2D(lui_texture_3, texcoord); \n"
+      "  if (vtx_texindex >  3.5 && vtx_texindex < 4.5) texcolor = texture2D(lui_texture_4, texcoord); \n"
+      "  if (vtx_texindex >  4.5 && vtx_texindex < 5.5) texcolor = texture2D(lui_texture_5, texcoord); \n"
+      "  if (vtx_texindex >  5.5 && vtx_texindex < 6.5) texcolor = texture2D(lui_texture_6, texcoord); \n"
+      "  if (vtx_texindex >  6.5 && vtx_texindex < 7.5) texcolor = texture2D(lui_texture_7, texcoord); \n"
+
       "  gl_FragColor = vec4(texcolor * color_scale);\n"
       "}\n"
       );
