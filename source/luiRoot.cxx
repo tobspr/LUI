@@ -164,10 +164,9 @@ PT(Shader) LUIRoot::create_object_shader() {
       "}\n"
       );
   } else {
-    cout << "OBJECT SHADER!" << endl;
     return Shader::make(Shader::SL_GLSL,
       // Vertex
-      "#version 120\n"
+      "#version 100\n"
       "uniform mat4 p3d_ModelViewProjectionMatrix;\n"
       "attribute vec4 p3d_Vertex;\n"
       "attribute float texindex;\n"
@@ -184,7 +183,8 @@ PT(Shader) LUIRoot::create_object_shader() {
       "}\n"
       ,
       // Fragment
-      "#version 120\n"
+      "#version 100\n"
+      "precision mediump float;\n"
       "varying vec2 texcoord;\n"
       "varying float vtx_texindex;\n"
       "varying vec4 color_scale;\n"
@@ -197,9 +197,9 @@ PT(Shader) LUIRoot::create_object_shader() {
       "uniform sampler2D lui_texture_6;\n"
       "uniform sampler2D lui_texture_7;\n"
       "void main() {\n"
-      "  vec4 texcolor = vec4(0,0,0,1);\n"
+      "  vec4 texcolor = vec4(0.0, 0.0, 0.0, 1.0);\n"
       // OpenGL ES doesn't have ints unfortunately
-      "  #define DO_SWITCH(n) if (vtx_texindex > (n - 0.5) && vtx_texindex < (n + 0.5)) texcolor = texture2D(lui_texture_ ## n, texcoord);\n"
+      "  #define DO_SWITCH(n) if (vtx_texindex > (n ## .0 - 0.5) && vtx_texindex < (n ## .0 + 0.5)) texcolor = texture2D(lui_texture_ ## n, texcoord);\n"
       "  DO_SWITCH(0)\n"
       "  DO_SWITCH(1)\n"
       "  DO_SWITCH(2)\n"
