@@ -51,7 +51,7 @@ protected:
   INLINE string get_key_string(int key) const;
 
   LUIBaseElement* _hover_element;
-  LUIBaseElement* _mouse_down_element;
+  vector<LUIBaseElement*> _mouse_down_elements;
   LUIBaseElement* _focused_element;
 
   int _mouse_pos_input;

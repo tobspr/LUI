@@ -11,16 +11,16 @@ TypeHandle LUIInputHandler::_type_handle;
 LUIInputHandler::LUIInputHandler(const string& name) :
   DataNode(name),
   _hover_element(NULL),
-  _mouse_down_element(NULL),
   _focused_element(NULL)
 {
+  _mouse_down_elements.resize(5, NULL);
   _mouse_pos_input = define_input("pixel_xy", ParamVecBase2f::get_class_type());
   _buttons_input = define_input("button_events", ButtonEventList::get_class_type());
 
   // Init states
   for (int i = 0; i < 5; i++) {
-    _current_state.mouse_buttons[0] = 0;
-    _last_state.mouse_buttons[0] = 0;
+    _current_state.mouse_buttons[i] = false;
+    _last_state.mouse_buttons[i] = false;
   }
 
   _current_state.has_mouse_pos = false;
@@ -183,29 +183,31 @@ void LUIInputHandler::process(LUIRoot* root) {
   }
 
   // Check for click events
-  int click_mouse_button = 0;
+  // int click_mouse_button = 0;
   bool lost_focus = false;
+  for (size_t mouse_button = 0; mouse_button < 5; ++mouse_button) {
 
-  if (mouse_key_pressed(click_mouse_button)) {
-    if (_hover_element != NULL && _hover_element->is_visible()) {
-      _mouse_down_element = _hover_element;
-      _hover_element->trigger_event("mousedown", wstring(), _current_state.mouse_pos);
+    if (mouse_key_pressed(mouse_button)) {
+      if (_hover_element != NULL && _hover_element->is_visible()) {
+        _mouse_down_elements[mouse_button] = _hover_element;
+        _hover_element->trigger_event("mousedown", std::to_wstring(mouse_button), _current_state.mouse_pos);
 
-      if (_focused_element != NULL && _hover_element != _focused_element) {
-        // When clicking somewhere, and the clicked element is not the focused one,
-        // make the focused one loose focus
-        lost_focus = true;
+        if (_focused_element != NULL && _hover_element != _focused_element) {
+          // When clicking somewhere, and the clicked element is not the focused one,
+          // make the focused one loose focus
+          lost_focus = true;
+        }
       }
     }
-  }
 
-  if (mouse_key_released(click_mouse_button)) {
-    if (_mouse_down_element != NULL) {
-      _mouse_down_element->trigger_event("mouseup", wstring(), _current_state.mouse_pos);
-    }
+    if (mouse_key_released(mouse_button)) {
+      if (_mouse_down_elements[mouse_button] != NULL) {
+        _mouse_down_elements[mouse_button]->trigger_event("mouseup", std::to_wstring(mouse_button), _current_state.mouse_pos);
+      }
 
-    if (_mouse_down_element != NULL && _mouse_down_element == _hover_element) {
-      _mouse_down_element->trigger_event("click", wstring(), _current_state.mouse_pos);
+      if (_mouse_down_elements[mouse_button] != NULL && _mouse_down_elements[mouse_button] == _hover_element) {
+        _mouse_down_elements[mouse_button]->trigger_event("click", std::to_wstring(mouse_button), _current_state.mouse_pos);
+      }
     }
   }
 
