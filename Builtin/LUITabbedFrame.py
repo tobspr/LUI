@@ -1,4 +1,3 @@
-
 from LUIFrame import LUIFrame
 from LUILabel import LUILabel
 from LUIObject import LUIObject
@@ -51,23 +50,41 @@ class LUITabbedFrame(LUIFrame):
             self.current_frame.show()
         else:
             frame.hide()
+        return header
 
-    #def remove(self, header):
-    #    if header in self.header_to_frame.keys():
-    #        idx_dict = {idx: elem
-    #                    for idx, elem in zip(range(self.header_bar.child_count),
-    #                                         self.header_bar.children)}
-    #        idx = idx_dict[header]
-    #        print(idx)
-    #        self.header_bar.remove_cell(idx)
-    #        frame = self.header_to_frame[header]
-    #        frame.parent = None
-    #        del self.header_to_frame[header]
-    #        if self.current_frame == frame:
-    #            self.current_frame = None
-    #        return True
-    #    else:
-    #        return False
+    def _find_header_index(self, header):
+        # This code is a mess. I blame the absence of StopIteration.
+        # It's also mostly untested.
+        idx = -1
+        cont = True
+        found = False
+        children = self.header_bar.children
+        while cont:
+            idx += 1
+            child = children.next()
+            if child is None:
+                cont = False
+            else:
+                for grandchild in child.children:
+                    if grandchild is None:
+                        break
+                    if grandchild == header:
+                        found = True
+                        cont = False
+                        break
+        if found:
+            return idx
+        else:
+            raise ValueError("Given object is not a header bar item.")
+
+    def remove(self, header):
+        idx = self._find_header_index(header)
+        self.header_bar.remove_cell(idx)
+        frame = self.header_to_frame[header]
+        frame.parent = None
+        del self.header_to_frame[header]
+        if self.current_frame == frame:
+            self.current_frame = None
 
     def _change_to_tab(self, lui_event):
         header = lui_event.sender
