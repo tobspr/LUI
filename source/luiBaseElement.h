@@ -175,9 +175,11 @@ PUBLISHED:
 
   INLINE LVector2 get_relative_pos(const LPoint2& pos) const;
   INLINE void set_debug_name(const string& debug_name);
+  INLINE const string& get_debug_name() const;
 
   // Properties for python
   MAKE_PROPERTY(name, get_name, set_name);
+  MAKE_PROPERTY(debug_name, get_debug_name, set_debug_name);
 
   MAKE_PROPERTY(top_left, get_top_left, set_top_left);
   MAKE_PROPERTY(top_right, get_top_right, set_top_right);

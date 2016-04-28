@@ -75,7 +75,7 @@ void LUIText::update_text() {
 #endif
     if (!_font->get_glyph(char_code, const_glyph)) {
       sprite->set_texture((Texture*)NULL);
-      lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
+      lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .. target = " << _debug_name << endl;
       continue;
     }
 
@@ -126,7 +126,9 @@ void LUIText::update_text() {
 }
 
 void LUIText::ls(int indent) {
-  cout << string(indent, ' ')  << "[" << _debug_name << "] pos = " << get_abs_pos().get_x() << ", " << get_abs_pos().get_y() << "; size = " << get_width() << " x " << get_height() << "; text = u'" << _text << "'; color = " << _color << " / " << _composed_color << "; z = " << _z_offset << endl;
+  cout << string(indent, ' ')  << "[" << _debug_name << "] pos = " << get_abs_pos().get_x() << ", " << get_abs_pos().get_y()
+       << "; size = " << get_width() << " x " << get_height() << "; text = u'" << _text << "'; color = "
+       << _color << " / " << _composed_color << "; z = " << _z_offset << endl;
 }
 
 int LUIText::get_char_index(float pos) const {
@@ -146,7 +148,7 @@ int LUIText::get_char_index(float pos) const {
     const TextGlyph* glyph;
 #endif
     if (!_font->get_glyph(char_code, glyph)) {
-      lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
+      lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .. target = " << _debug_name << endl;
       continue;
     }
 
@@ -180,7 +182,7 @@ float LUIText::get_char_pos(int char_index) const {
     const TextGlyph* glyph;
 #endif
     if (!_font->get_glyph(char_code, glyph)) {
-      lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .." << endl;
+      lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .. target = " << _debug_name << endl;
       continue;
     }
     nassertr(glyph != NULL, 0);

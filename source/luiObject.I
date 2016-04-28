@@ -12,7 +12,7 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
   auto child_it = std::find(_children.begin(), _children.end(), child);
 
   if (child_it == _children.end()) {
-    luiObject_cat.warning() << "Attempted to remove child, but child is not attached to this object" << endl;
+    luiObject_cat.warning() << "Attempted to remove child, but child is not attached to this object. Parent = " << _debug_name << ", child = " << child->_debug_name << endl;
     return;
   }
 
@@ -57,7 +57,7 @@ INLINE PT(LUIBaseElement) LUIObject::add_child(PT(LUIBaseElement) child) {
   }
 
   if (child->get_parent()) {
-    luiObject_cat.error() << "You cannot reattach a child, unattach the child from it's current parent first" << endl;
+    luiObject_cat.error() << "You cannot reattach a child, unattach the child from it's current parent first! target = " << child->_debug_name << endl;
     return child;
   }
 

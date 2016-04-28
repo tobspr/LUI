@@ -14,7 +14,8 @@ LUIBaseLayout::LUIBaseLayout(PyObject* self) : LUIObject(self), _spacing(0.0f)
 
 void LUIBaseLayout::add(PT(LUIBaseElement) object, const string& cell_mode) {
   if (object->has_parent()) {
-    luiBaseLayout_cat.error() << "Cannot call add() with an object which already has a parent!" << endl;
+    luiBaseLayout_cat.error() << "Cannot call add() with an object which already has a parent! Tried to add "
+      << object->get_debug_name() << " to " << get_debug_name() << ", current parent is " << object->get_parent()->get_debug_name() << endl;
     return;
   }
 

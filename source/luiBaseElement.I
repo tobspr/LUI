@@ -13,7 +13,7 @@
  */
 INLINE void LUIBaseElement::bind(const string& event_name, CallbackObject* callback) {
   if (_events.count(event_name) != 0) {
-    lui_cat.warning() << "Overriding event handler for '" << event_name << "'" << endl;
+    lui_cat.warning() << "Overriding event handler for '" << event_name << "', target = " << _debug_name << endl;
   }
   _events[event_name] = callback;
 }
@@ -1202,3 +1202,14 @@ INLINE float LUIBaseElement::get_y_extent() const {
 INLINE void LUIBaseElement::set_debug_name(const string& debug_name) {
   _debug_name = debug_name;
 }
+
+/**
+ * @brief Returns the debugging name
+ * @details This returns the debug name previously set with set_debug_name()
+ * 
+ * @return The debug name
+ */
+INLINE const string& LUIBaseElement::get_debug_name() const {
+  return _debug_name;
+}
+

@@ -219,7 +219,7 @@ bool LUIBaseElement::request_focus() {
  */
 void LUIBaseElement::blur() {
   if (!_focused)
-    luiBaseElement_cat.warning() << "Called blur(), but element was not focused" << endl;
+    luiBaseElement_cat.warning() << "Called blur(), but element was not focused, target = " << _debug_name << endl;
   _root->request_focus(NULL);
 
   // Giving away focus will always work, so we can already set our focus state
@@ -280,7 +280,7 @@ float LUIBaseElement::get_parent_height() const {
 
 void LUIBaseElement::clear_parent() {
   if (!_parent) {
-    luiBaseElement_cat.error() << "Called clear_parent(), but no parent is set!" << endl;
+    luiBaseElement_cat.error() << "Called clear_parent(), but no parent is set! target = " << _debug_name << endl;
     return;
   }
   _parent->remove_child(this);
@@ -310,11 +310,11 @@ LVector2 LUIBaseElement::get_available_dimensions() const {
 
 void LUIBaseElement::update_dimensions() {
   if (!_size.x.has_expression()) {
-    luiBaseElement_cat.warning() << "LUIBaseElement has no valid width expression!" << endl;
+    luiBaseElement_cat.warning() << "LUIBaseElement has no valid width expression! target = " << _debug_name << endl;
   }
 
   if (!_size.y.has_expression()) {
-    luiBaseElement_cat.warning() << "LUIBaseElement has no valid height expression!" << endl;
+    luiBaseElement_cat.warning() << "LUIBaseElement has no valid height expression! target = " << _debug_name << endl;
   }
 
   LVector2 available_dimensions = get_available_dimensions();

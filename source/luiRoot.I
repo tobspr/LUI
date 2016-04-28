@@ -55,7 +55,7 @@ INLINE void LUIRoot::unregister_event_object(LUIBaseElement* event_object) {
 INLINE bool LUIRoot::request_focus(LUIBaseElement* elem) {
   if (_requested_focus)  {
     if (_requested_focus == elem) {
-      lui_cat.warning() << "Element " << elem << " requested focus twice or more in one frame!" << endl;
+      lui_cat.warning() << "Element " << elem->get_debug_name() << " requested focus twice or more in one frame!" << endl;
       return true;
     } else {
       lui_cat.warning() << "Multiple varying focus requests in on frame - can only serve the first one!" << endl;
