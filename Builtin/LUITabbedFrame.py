@@ -31,6 +31,8 @@ class LUITabbedFrame(LUIFrame):
         self.main_frame.margin = 0
         # self.main_frame.padding = 0
         self.root_layout.add(self.main_frame, "*")
+        self.bind("expose", self.on_expose)
+        self.bind("unexpose", self.on_unexpose)
 
     def add(self, header, frame):
         # header
@@ -72,7 +74,14 @@ class LUITabbedFrame(LUIFrame):
     def _change_to_tab(self, lui_event):
         header = lui_event.sender
         if self.current_frame is not None:
+            self.current_frame.trigger_event("unexpose")
             self.current_frame.hide()
         self.current_frame = self.header_to_frame[header]
         self.current_frame.show()
+        self.current_frame.trigger_event("expose")
 
+    def on_expose(self, event):
+        self.current_frame.trigger_event("expose")
+
+    def on_unexpose(self, event):
+        self.current_frame.trigger_event("unexpose")
