@@ -53,29 +53,12 @@ class LUITabbedFrame(LUIFrame):
         return header
 
     def _find_header_index(self, header):
-        # This code is a mess. I blame the absence of StopIteration.
-        # It's also mostly untested.
-        idx = -1
-        cont = True
-        found = False
-        children = self.header_bar.children
-        while cont:
-            idx += 1
-            child = children.next()
-            if child is None:
-                cont = False
-            else:
-                for grandchild in child.children:
-                    if grandchild is None:
-                        break
-                    if grandchild == header:
-                        found = True
-                        cont = False
-                        break
-        if found:
-            return idx
+        for idx, child in enumerate(self.header_bar.children):
+            if any([grandchild == header for grandchild in child.children]):
+                break
         else:
             raise ValueError("Given object is not a header bar item.")
+        return idx
 
     def remove(self, header):
         idx = self._find_header_index(header)
