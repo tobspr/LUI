@@ -135,6 +135,10 @@ class LUIInputField(LUIObject):
             self.set_cursor_pos(self._cursor_index - 1)
         elif key_name == "arrow_right":
             self.set_cursor_pos(self._cursor_index + 1)
+        elif key_name == "home":
+            self.cursor_pos = 0
+        elif key_name == "end":
+            self.cursor_pos = len(self.value)
 
         self.trigger_event(key_name, self._value)
 
