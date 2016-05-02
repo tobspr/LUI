@@ -68,10 +68,20 @@ class LUIInputField(LUIObject):
         """ Clears the input value """
         self.value = u""
 
-    def _set_cursor_pos(self, pos):
-        """ Internal method to set the cursor position """
-        self._cursor_index = max(0, min(len(self._value), pos))
+    def get_cursor_pos(self):
+        """ Set the cursor position """
+        return self._cursor_index
+    
+    def set_cursor_pos(self, pos):
+        """ Set the cursor position """
+        if pos >= 0:
+            self._cursor_index = max(0, min(len(self._value), pos))
+        else:
+            self._cursor_index = max(len(self._value) + pos + 1, 0)
         self._reset_cursor_tick()
+        self._render_text()
+
+    cursor_pos = property(get_cursor_pos, set_cursor_pos)
 
     def on_tick(self, event):
         """ Tick handler, gets executed every frame """
@@ -85,8 +95,7 @@ class LUIInputField(LUIObject):
     def _add_text(self, text):
         """ Internal method to append text """
         self._value = self._value[:self._cursor_index] + text + self._value[self._cursor_index:]
-        self._set_cursor_pos(self._cursor_index + len(text))
-        self._render_text()
+        self.set_cursor_pos(self._cursor_index + len(text))
 
     def on_click(self, event):
         """ Internal on click handler """
@@ -95,8 +104,7 @@ class LUIInputField(LUIObject):
     def on_mousedown(self, event):
         """ Internal mousedown handler """
         local_x_offset = self._text.text_handle.get_relative_pos(event.coordinates).x
-        self._set_cursor_pos(self._text.text_handle.get_char_index(local_x_offset))
-        self._render_text()
+        self.set_cursor_pos(self._text.text_handle.get_char_index(local_x_offset))
 
     def _reset_cursor_tick(self):
         """ Internal method to reset the cursor tick """
@@ -115,20 +123,16 @@ class LUIInputField(LUIObject):
         key_name = event.message
         if key_name == "backspace":
             self._value = self._value[:max(0, self._cursor_index - 1)] + self._value[self._cursor_index:]
-            self._set_cursor_pos(self._cursor_index - 1)
+            self.set_cursor_pos(self._cursor_index - 1)
             self.trigger_event("changed", self._value)
-            self._render_text()
         elif key_name == "delete":
             self._value = self._value[:self._cursor_index] + self._value[min(len(self._value), self._cursor_index + 1):]
-            self._set_cursor_pos(self._cursor_index)
+            self.set_cursor_pos(self._cursor_index)
             self.trigger_event("changed", self._value)
-            self._render_text()
         elif key_name == "arrow_left":
-            self._set_cursor_pos(self._cursor_index - 1)
-            self._render_text()
+            self.set_cursor_pos(self._cursor_index - 1)
         elif key_name == "arrow_right":
-            self._set_cursor_pos(self._cursor_index + 1)
-            self._render_text()
+            self.set_cursor_pos(self._cursor_index + 1)
 
         self.trigger_event(key_name, self._value)
 
