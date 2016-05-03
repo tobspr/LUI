@@ -12,6 +12,8 @@ class LUIInputField(LUIObject):
 
     """ Simple input field """
 
+    re_skip = re.compile("\W*\w+\W")
+
     def __init__(self, parent=None, width=200, placeholder=u"Enter some text ..", value=u"", **kwargs):
         """ Constructs a new input field. An input field always needs a width specified """
         LUIObject.__init__(self, x=0, y=0, solid=True)
@@ -52,7 +54,6 @@ class LUIInputField(LUIObject):
             self.parent = parent
 
         LUIInitialState.init(self, kwargs)
-        self.re_skip = re.compile("\W*\w+\W")
 
     def get_value(self):
         """ Returns the value of the input field """
