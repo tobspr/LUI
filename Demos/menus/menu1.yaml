@@ -1,0 +1,37 @@
+# example yaml file for loading LUI menus
+# 
+#general structure:
+#object_name:
+#  type: LUIClassName
+#  keyword: value   (passed to constructor)
+#  bind:
+#      event: function
+
+
+- vertical:
+    type: LUIVerticalLayout
+    spacing: 30
+    children:
+        - b_enter:
+            type: LUIButton
+            template: ButtonGreen
+            text: instancing example
+            bind: 
+                click: change_to_example
+
+
+# custom python module for e.g. event handling
+# acces all gui elements as attributes of global variable "gui"
+- python: |
+    def handle(event):
+        print "button2 pressed!"
+
+    def change_to_example(event):
+        print "button <enter another menu> pressed!"
+        gui.loadGui("menus/structure_test.yaml")
+
+    #print "python inside yaml script executed"
+    
+
+
+

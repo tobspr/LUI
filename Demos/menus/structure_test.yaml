@@ -1,0 +1,44 @@
+# yamlgui test file
+# creates 2 rows of 3 columns each
+- vertical1:
+    type: LUIVerticalLayout     # type = lui class name
+    spacing: 30
+    children:
+        - main_button:
+            type: LUIButton
+            text: back to the other menu!
+            bind:
+                click: toMain
+
+
+# prefab for instancing
+- horizontal{0}:   # referenced name
+    type: LUIHorizontalLayout
+    spacing: 30
+    block_load: True    # do not load until explicitly wanted, by calling loadElement(name, parent, formatlist)
+    children:
+        - mybutton{0}_1:
+            type: LUIButton
+            text: line{0} row1
+        - mybutton{0}_2:
+            type: LUIButton
+            text: line{0} row2
+        - mybutton{0}_3:
+            type: LUIButton
+            text: line{0} row3
+
+
+- python: |
+    def handle_shutdown(event):
+        gui.deleteGui()
+    def toMain(event):
+        gui.loadGui("menus/menu1.yaml")
+    
+
+    # this creates an instance of the pre-defined tree "horizontal{0}", under the parent gui.vertical1
+    # the element name - and all str typed keywords - will be modified using str.format(formatlist)
+    # e.g. mybutton{0}_3 format(2)->mybutton2_3
+    gui.instanceElement("horizontal{0}", gui.vertical1, [1])
+    gui.instanceElement("horizontal{0}", gui.vertical1, [2])
+    # instanced elements can be used just like any other gui, with the new, formatted name
+    gui.mybutton2_3.bind("click", handle_shutdown)
