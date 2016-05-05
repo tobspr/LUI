@@ -1,3 +1,4 @@
+import re
 
 from LUIObject import LUIObject
 from LUISprite import LUISprite
@@ -10,6 +11,8 @@ __all__ = ["LUIInputField"]
 class LUIInputField(LUIObject):
 
     """ Simple input field """
+
+    re_skip = re.compile("\W*\w+\W")
 
     def __init__(self, parent=None, width=200, placeholder=u"Enter some text ..", value=u"", **kwargs):
         """ Constructs a new input field. An input field always needs a width specified """
@@ -133,6 +136,10 @@ class LUIInputField(LUIObject):
             self.set_cursor_pos(self._cursor_index - 1)
         elif key_name == "arrow_right":
             self.set_cursor_pos(self._cursor_index + 1)
+        elif key_name == "home":
+            self.cursor_pos = 0
+        elif key_name == "end":
+            self.cursor_pos = len(self.value)
 
         self.trigger_event(key_name, self._value)
 
@@ -171,3 +178,19 @@ class LUIInputField(LUIObject):
             self._text_scroller.left = min(0, max_left - self._cursor.left)
         if rel_pos <= 0:
             self._text_scroller.left = min(0, - self._cursor.left - rel_pos)
+    
+    def cursor_skip_left(self):
+        left_hand_str = ''.join(reversed(self.value[0:self.cursor_pos]))
+        match = self.re_skip.match(left_hand_str)
+        if match is not None:
+            self.cursor_pos -= match.end() - 1
+        else:
+            self.cursor_pos = 0
+    
+    def cursor_skip_right(self):
+        right_hand_str = self.value[self.cursor_pos:]
+        match = self.re_skip.match(right_hand_str)
+        if match is not None:
+            self.cursor_pos += match.end() - 1
+        else:
+            self.cursor_pos = len(self.value)
