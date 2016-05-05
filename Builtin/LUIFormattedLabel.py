@@ -6,6 +6,7 @@ from LUIInitialState import LUIInitialState
 
 __all__ = ["LUIFormattedLabel"]
 
+
 class LUIFormattedLabel(LUIObject):
 
     """ Small helper class to build a text consisting of different formatted
@@ -19,7 +20,8 @@ class LUIFormattedLabel(LUIObject):
         self._last_size = 14
 
     def clear(self):
-        """ Removes all text from this label and resets it to the initial state """
+        """ Removes all text from this label and resets it to the initial state.
+        This will also detach the sub-labels from this label. """
         self._cursor.set(0, 0)
         self.remove_all_children()
 
@@ -34,14 +36,12 @@ class LUIFormattedLabel(LUIObject):
 
     def add(self, *args, **kwargs):
         """ Appends a new text. The arguments are equal to the arguments of
-        LUILabel. The arguments shouldn't contain information about the placement
-        like top_left, or center_vertical. """
-        if "font_size" in kwargs:
-            self._last_size = kwargs["font_size"]
-        else:
-            self._last_size = 14
-        label = LUILabel(
-            parent=self, left=self._cursor.x, top=self._cursor.y, *args, **kwargs)
-        # This is a bit of a hack, we should use a horizontal layout, but we don't
-        # for performance reasons.
+        LUILabel. The arguments shouldn't contain information about the
+        placement like top_left, or center_vertical, since the labels are
+        placed at explicit positions. """
+        self._last_size = kwargs.get("font_size", 14)
+        label = LUILabel(parent=self, left=self._cursor.x, top=self._cursor.y,
+                         *args, **kwargs)
+        # This is a bit of a hack, we should use a horizontal layout, but we
+        # don't for performance reasons.
         self._cursor.x += label.text_handle.width

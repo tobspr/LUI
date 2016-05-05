@@ -8,6 +8,7 @@ from LUIInitialState import LUIInitialState
 
 __all__ = ["LUICheckbox"]
 
+
 class LUICheckbox(LUIObject):
 
     """ This is a simple checkbox, including a Label. The checkbox can either
@@ -20,9 +21,34 @@ class LUICheckbox(LUIObject):
         self._checked = checked
         self._checkbox_sprite = LUISprite(self, "Checkbox_Default", "skin")
         self._label = LUILabel(parent=self, text=label, margin=(0, 0, 0, 25),
-            center_vertical=True, alpha=0.4)
+                               center_vertical=True, alpha=0.4)
         self._hovered = False
         LUIInitialState.init(self, kwargs)
+
+    @property
+    def checked(self):
+        """ Returns True if the checkbox is currently checked """
+        return self._checked
+
+    @checked.setter
+    def checked(self, checked):
+        """ Sets the checkbox state """
+        self._checked = checked
+        self._update_sprite()
+
+    def toggle(self):
+        """ Toggles the checkbox state """
+        self.checked = not self.checked
+
+    @property
+    def label(self):
+        """ Returns a handle to the label, so it can be modified """
+        return self._label
+
+    @property
+    def sprite(self):
+        """ Returns a handle to the internal checkbox sprite """
+        return self._checkbox_sprite
 
     def on_click(self, event):
         """ Internal onclick handler. Do not override """
@@ -47,28 +73,6 @@ class LUICheckbox(LUIObject):
         """ Internal mouseout handler """
         self._hovered = False
         self._update_sprite()
-
-    def toggle_checked(self):
-        """ Toggles the checkbox state """
-        self.checked = not self.checked
-
-    def set_checked(self, checked):
-        """ Sets the checkbox state """
-        self._checked = checked
-        self._update_sprite()
-
-    def get_checked(self):
-        """ Returns a boolean whether the checkbox is currently checked """
-        return self._checked
-
-    checked = property(get_checked, set_checked)
-
-    def get_label(self):
-        """ Returns a handle to the label, so it can be modified (e.g. changing
-            its text) """
-        return self._label
-
-    label = property(get_label)
 
     def _update_sprite(self):
         """ Internal method to update the sprites """

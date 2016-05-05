@@ -8,9 +8,23 @@ from LUILayouts import LUIHorizontalStretchedLayout
 
 __all__ = ["LUIInputField"]
 
+
 class LUIInputField(LUIObject):
 
-    """ Simple input field """
+    """ Simple input field, accepting text input. This input field supports
+    entering text and navigating. Selecting text is (currently) not supported.
+
+    The input field also supports various keyboard shortcuts:
+
+        [pos1]                  Move to the beginning of the text
+        [end]                   Move to the end of the text
+        [arrow_left]            Move one character to the left
+        [arrow_right]           Move one character to the right
+        [ctrl] + [arrow_left]   Move to the left, skipping over words
+        [ctrl] + [arrow_right]  Move to the right, skipping over words
+        [escape]                Un-focus input element
+
+    """
 
     re_skip = re.compile("\W*\w+\W")
 
@@ -55,27 +69,29 @@ class LUIInputField(LUIObject):
 
         LUIInitialState.init(self, kwargs)
 
-    def get_value(self):
+    @property
+    def value(self):
         """ Returns the value of the input field """
         return self._value
 
-    def set_value(self, value):
+    @value.setter
+    def value(self, new_value):
         """ Sets the value of the input field """
-        self._value = unicode(value)
-        self.trigger_event("changed", self._value)
+        self._value = unicode(new_value)
         self._render_text()
-
-    value = property(get_value, set_value)
+        self.trigger_event("changed", self._value)
 
     def clear(self):
         """ Clears the input value """
         self.value = u""
 
-    def get_cursor_pos(self):
+    @property
+    def cursor_pos(self):
         """ Set the cursor position """
         return self._cursor_index
-    
-    def set_cursor_pos(self, pos):
+
+    @cursor_pos.setter
+    def cursor_pos(self, pos):
         """ Set the cursor position """
         if pos >= 0:
             self._cursor_index = max(0, min(len(self._value), pos))
@@ -84,21 +100,14 @@ class LUIInputField(LUIObject):
         self._reset_cursor_tick()
         self._render_text()
 
-    cursor_pos = property(get_cursor_pos, set_cursor_pos)
-
     def on_tick(self, event):
         """ Tick handler, gets executed every frame """
-        frametime = globalClock.get_frame_time() - self._tickstart
-        show_cursor = frametime % self._tickrate < 0.5 * self._tickrate
+        frame_time = globalClock.get_frame_time() - self._tickstart
+        show_cursor = frame_time % self._tickrate < 0.5 * self._tickrate
         if show_cursor:
-            self._cursor.color = (0.5,0.5,0.5,1)
+            self._cursor.color = (0.5, 0.5, 0.5, 1)
         else:
-            self._cursor.color = (1,1,1,0)
-
-    def _add_text(self, text):
-        """ Internal method to append text """
-        self._value = self._value[:self._cursor_index] + text + self._value[self._cursor_index:]
-        self.set_cursor_pos(self._cursor_index + len(text))
+            self._cursor.color = (1, 1, 1, 0)
 
     def on_click(self, event):
         """ Internal on click handler """
@@ -107,35 +116,44 @@ class LUIInputField(LUIObject):
     def on_mousedown(self, event):
         """ Internal mousedown handler """
         local_x_offset = self._text.text_handle.get_relative_pos(event.coordinates).x
-        self.set_cursor_pos(self._text.text_handle.get_char_index(local_x_offset))
+        self.cursor_pos = self._text.text_handle.get_char_index(local_x_offset)
 
     def _reset_cursor_tick(self):
         """ Internal method to reset the cursor tick """
-        self._tickstart = globalClock.getFrameTime()
+        self._tickstart = globalClock.get_frame_time()
 
     def on_focus(self, event):
         """ Internal focus handler """
         self._cursor.show()
         self._placeholder.hide()
         self._reset_cursor_tick()
-
-        self._layout.color  = (0.9,0.9,0.9,1)
+        self._layout.color = (0.9, 0.9, 0.9, 1)
 
     def on_keydown(self, event):
-        """ Internal keydown handler """
+        """ Internal keydown handler. Processes the special keys, and if none are
+        present, redirects the event """
         key_name = event.message
         if key_name == "backspace":
             self._value = self._value[:max(0, self._cursor_index - 1)] + self._value[self._cursor_index:]
-            self.set_cursor_pos(self._cursor_index - 1)
+            self.cursor_pos -= 1
             self.trigger_event("changed", self._value)
         elif key_name == "delete":
-            self._value = self._value[:self._cursor_index] + self._value[min(len(self._value), self._cursor_index + 1):]
-            self.set_cursor_pos(self._cursor_index)
+            post_value = self._value[min(len(self._value), self._cursor_index + 1):]
+            self._value = self._value[:self._cursor_index] + post_value
+            self.cursor_pos = self._cursor_index
             self.trigger_event("changed", self._value)
         elif key_name == "arrow_left":
-            self.set_cursor_pos(self._cursor_index - 1)
+            if event.get_modifier_state("alt") or event.get_modifier_state("ctrl"):
+                self.cursor_skip_left()
+            else:
+                self.cursor_pos -= 1
         elif key_name == "arrow_right":
-            self.set_cursor_pos(self._cursor_index + 1)
+            if event.get_modifier_state("alt") or event.get_modifier_state("ctrl"):
+                self.cursor_skip_right()
+            else:
+                self.cursor_pos += 1
+        elif key_name == "escape":
+            self.blur()
         elif key_name == "home":
             self.cursor_pos = 0
         elif key_name == "end":
@@ -149,7 +167,9 @@ class LUIInputField(LUIObject):
 
     def on_textinput(self, event):
         """ Internal textinput handler """
-        self._add_text(event.message)
+        self._value = self._value[:self._cursor_index] + event.message + \
+            self._value[self._cursor_index:]
+        self.cursor_pos = self._cursor_index + len(event.message)
         self.trigger_event("changed", self._value)
 
     def on_blur(self, event):
@@ -158,12 +178,13 @@ class LUIInputField(LUIObject):
         if len(self._value) < 1:
             self._placeholder.show()
 
-        self._layout.color = (1,1,1,1)
+        self._layout.color = (1, 1, 1, 1)
 
     def _render_text(self):
         """ Internal method to render the text """
         self._text.set_text(self._value)
-        self._cursor.left = self._text.left + self._text.text_handle.get_char_pos(self._cursor_index) + 1
+        self._cursor.left = self._text.left + \
+            self._text.text_handle.get_char_pos(self._cursor_index) + 1
         max_left = self.width - 15
 
         if self._value:
@@ -178,16 +199,18 @@ class LUIInputField(LUIObject):
             self._text_scroller.left = min(0, max_left - self._cursor.left)
         if rel_pos <= 0:
             self._text_scroller.left = min(0, - self._cursor.left - rel_pos)
-    
+
     def cursor_skip_left(self):
+        """ Moves the cursor to the left, skipping the previous word """
         left_hand_str = ''.join(reversed(self.value[0:self.cursor_pos]))
         match = self.re_skip.match(left_hand_str)
         if match is not None:
             self.cursor_pos -= match.end() - 1
         else:
             self.cursor_pos = 0
-    
+
     def cursor_skip_right(self):
+        """ Moves the cursor to the right, skipping the next word """
         right_hand_str = self.value[self.cursor_pos:]
         match = self.re_skip.match(right_hand_str)
         if match is not None:

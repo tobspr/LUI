@@ -6,17 +6,20 @@
 bool LUIRoot::_use_glsl_130 = false;
 
 
-LUIRoot::LUIRoot(float width, float height) : _requested_focus(NULL) {
+LUIRoot::LUIRoot(float width, float height) : 
+  _requested_focus(NULL),
+  _explicit_blur(false),
+  _sprites_rendered(0),
+  _frame_count(0),
+  _render_index(0),
+  _sprite_vertex_pointer(NULL),
+  _index_buffer_size(1000000) {
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Constructing new LUIRoot ..\n";
   }
   _root = new LUIObject(NULL, 0.0f, 0.0f, width, height);
   _root->set_root(this);
-
-  _sprites_rendered = 0;
-  _frame_count = 0;
-  _render_index = 0;
 
   // Create vertex chunks
   // CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3c4t2();
@@ -27,14 +30,11 @@ LUIRoot::LUIRoot(float width, float height) : _requested_focus(NULL) {
   array_format->add_column(InternalName::make("texcoord"), 2, Geom::NT_stdfloat, Geom::C_texcoord);
   array_format->add_column(InternalName::make("texindex"), 1, Geom::NT_uint16, Geom::C_other);
 
-  _sprite_vertex_pointer = NULL;
 
   PT(GeomVertexFormat) unregistered_format = new GeomVertexFormat();
   unregistered_format->add_array(array_format);
 
   CPT(GeomVertexFormat) format = GeomVertexFormat::register_format(unregistered_format);
-
-  _index_buffer_size = 1000000;
 
   _vertex_data = new GeomVertexData("VertexPool", format, Geom::UH_dynamic);
   _vertex_data->reserve_num_rows(_index_buffer_size);

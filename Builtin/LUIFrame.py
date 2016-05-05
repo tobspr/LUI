@@ -9,15 +9,18 @@ from LUIScrollableRegion import LUIScrollableRegion
 
 __all__ = ["LUIFrame"]
 
+
 class LUIFrame(LUIObject):
 
-    """ A container which can store multiple ui-elements """
+    """ A container which can store multiple ui-elements. If you don't want a
+    border/background, you should use an empty LUIObject as container instead.
+    """
 
-    # Frame styles
     FS_sunken = 1
     FS_raised = 2
 
-    def __init__(self, inner_padding=5, scrollable=False, style=FS_raised, **kwargs):
+    def __init__(self, inner_padding=5, scrollable=False, style=FS_raised,
+                 **kwargs):
         """ Creates a new frame with the given options and style. If scrollable
         is True, the contents of the frame will scroll if they don't fit into
         the frame height. inner_padding only has effect if scrollable is True.
@@ -53,8 +56,10 @@ class LUIFrame(LUIObject):
             self._content = LUIObject(self)
             self._content.size = (self.width, self.height)
             self._content.pos = (self._border_size, self._border_size)
-            self._scroll_content = LUIScrollableRegion(self._content,
-                width=self.width-2*self.padding.left, height=self.height-2*self.padding.left,
+            self._scroll_content = LUIScrollableRegion(
+                self._content,
+                width=self.width - 2 * self.padding.left,
+                height=self.height - 2 * self.padding.left,
                 padding=inner_padding)
             self.content_node = self._scroll_content.content_node
 

@@ -219,8 +219,10 @@ bool LUIBaseElement::request_focus() {
  */
 void LUIBaseElement::blur() {
   if (!_focused)
-    luiBaseElement_cat.warning() << "Called blur(), but element was not focused, target = " << _debug_name << endl;
-  _root->request_focus(NULL);
+    luiBaseElement_cat.warning() << "Called blur(), but element was not focused, target = "
+                                 << _debug_name << endl;
+
+  _root->request_explicit_blur();
 
   // Giving away focus will always work, so we can already set our focus state
   _focused = false;

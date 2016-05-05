@@ -174,3 +174,32 @@ INLINE int LUIRoot::allocate_render_index() {
 INLINE void LUIRoot::set_use_glsl_130(bool use_glsl_130) {
   _use_glsl_130 = use_glsl_130;
 }
+
+
+/**
+ * @brief Requests explicit blur
+ * @details This requests to explicitely blur the currently focused element.
+ *   Usually elements are only blurred when other elements are focused, however
+ *   in some cases it might make sense to blur an element.
+ */
+INLINE void LUIRoot::request_explicit_blur() {
+  request_focus(NULL);
+  _explicit_blur = true;
+}
+
+/**
+ * @brief Clears the explicit blur
+ * @details This clears any explicit blur request
+ */
+INLINE void LUIRoot::clear_explicit_blur() {
+  _explicit_blur = false;
+}
+
+/**
+ * @brief Returns whether explicit blur was requested
+ * @details This returns whether any element requested explicit blur, previously
+ *   set with request_explici_tblur()
+ */
+INLINE bool LUIRoot::get_explicit_blur() const {
+  return _explicit_blur;
+}

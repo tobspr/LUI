@@ -55,6 +55,10 @@ public:
   INLINE LUIBaseElement* get_requested_focus() const;
   INLINE void set_requested_focus(LUIBaseElement* elem);
 
+  INLINE void request_explicit_blur();
+  INLINE void clear_explicit_blur();
+  INLINE bool get_explicit_blur() const;
+
   INLINE LUIEventObjectSet::iterator get_event_objects_begin();
   INLINE LUIEventObjectSet::iterator get_event_objects_end();
 
@@ -116,6 +120,9 @@ private:
 
   // Store the focus requests
   LUIBaseElement* _requested_focus;
+
+  // Explicit blur requests
+  bool _explicit_blur;
 
 };
 

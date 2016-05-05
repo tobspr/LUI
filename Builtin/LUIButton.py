@@ -6,6 +6,7 @@ from LUIInitialState import LUIInitialState
 
 __all__ = ["LUIButton"]
 
+
 class LUIButton(LUIObject):
 
     """ Simple button, containing three sprites and a label. """
@@ -17,8 +18,8 @@ class LUIButton(LUIObject):
         be used. The sprites used when the button is pressed should be named
         "ButtonDefaultFocus_Left" and so on then.
 
-        If an explicit width is set on the button, the button will stick to that
-        width, otherwise it will automatically resize to fit the label """
+        If an explicit width is set on the button, the button will stick to
+        that width, otherwise it will automatically resize to fit the label """
         LUIObject.__init__(self, x=0, y=0, solid=True)
         self._template = template
         self._layout = LUIHorizontalStretchedLayout(
@@ -30,6 +31,16 @@ class LUIButton(LUIObject):
         self.margin.left = -1
         LUIInitialState.init(self, kwargs)
 
+    @property
+    def text(self):
+        """ Returns the current label text of the button """
+        return self._label.text
+
+    @text.setter
+    def text(self, text):
+        """ Sets the label text of the button """
+        self._label.text = text
+
     def on_mousedown(self, event):
         """ Internal on_mousedown handler. Do not override """
         self._layout.prefix = self._template + "Focus"
@@ -39,13 +50,3 @@ class LUIButton(LUIObject):
         """ Internal on_mouseup handler. Do not override """
         self._layout.prefix = self._template
         self._label.margin.top = 0
-
-    def get_text(self, text):
-        """ Returns the current label text of the button """
-        return self._label.text
-
-    def set_text(self, text):
-        """ Sets the label text of the button """
-        self._label.text = text
-
-    text = property(get_text, set_text)

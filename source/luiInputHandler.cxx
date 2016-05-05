@@ -225,12 +225,14 @@ void LUIInputHandler::process(LUIRoot* root) {
   // Manage focus requests
   LUIBaseElement* requested_focus = root->get_requested_focus();
 
+
   if (requested_focus == NULL) {
     // No focus request, eveything remains the same
-    // However, when the user clicked somewhere, and t was not the focused element,
+    // However, when the user clicked somewhere, and it was not the focused element,
     // make it loose the focus. It is important this happens after calling the
     // click event, otherwise we might loose events.
-    if (_focused_element != NULL && lost_focus) {
+
+    if (_focused_element != NULL && (lost_focus || root->get_explicit_blur())) {
       _focused_element->set_focus(false);
       trigger_event(_focused_element, "blur");
       _focused_element = NULL;
@@ -254,7 +256,13 @@ void LUIInputHandler::process(LUIRoot* root) {
     }
   }
 
-  root->set_requested_focus(NULL);
+
+  // Reset any requested focus, since the element should be in focus now 
+  if (root->get_requested_focus()) {
+    root->set_requested_focus(NULL);
+  }
+  
+  root->clear_explicit_blur();
 
   // Check key events
   if (_focused_element != NULL && _focused_element->is_visible()) {
