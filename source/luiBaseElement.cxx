@@ -251,9 +251,20 @@ void LUIBaseElement::fetch_render_index() {
  * @param coords Optional coordinates of the event
  */
 void LUIBaseElement::trigger_event(const string& event_name, const wstring& message, const LPoint2& coords) {
-  auto elem_it = _events.find(event_name);
+  trigger_event(new LUIEventData(this, event_name, message, coords));
+}
+
+/**
+ * @brief Triggers an event
+ * @details This triggers an event with the given EventData.
+ *   If no event handler is bound to this event, nothing happens. Otherwise the
+ *   event handler is called with the event data.
+ *
+ * @param data Event data
+ */
+void LUIBaseElement::trigger_event(PT(LUIEventData) data) {
+  auto elem_it = _events.find(data->get_name());
   if (elem_it != _events.end()) {
-      PT(LUIEventData) data = new LUIEventData(this, event_name, message, coords);
       elem_it->second->do_callback(data);
   }
 }

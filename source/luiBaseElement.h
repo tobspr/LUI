@@ -23,6 +23,7 @@ typedef struct _object PyObject;
 class LUIRoot;
 class LUIObject;
 class LUIRect;
+class LUIEventData;
 
 NotifyCategoryDecl(luiBaseElement, EXPCL_LUI, EXPTP_LUI);
 
@@ -47,7 +48,9 @@ PUBLISHED:
   INLINE void unbind_all();
 
   INLINE bool has_event(const string& event_name);
-  void trigger_event(const string& event_name, const wstring& message = wstring(), const LPoint2& coords = LPoint2(0));
+  void trigger_event(const string& event_name, const wstring& message = wstring(),
+                     const LPoint2& coords = LPoint2(0));
+  void trigger_event(PT(LUIEventData) data);
 
   // NAME
   INLINE void set_name(const string& name);

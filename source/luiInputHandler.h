@@ -34,6 +34,7 @@ protected:
     LVecBase2 mouse_pos;
     bool has_mouse_pos;
     bool mouse_buttons[5];
+    size_t key_modifiers;
   };
 
   enum LUIKeyEventMode {
@@ -49,6 +50,10 @@ protected:
   };
 
   INLINE string get_key_string(int key) const;
+  INLINE wstring get_mouse_button_name(size_t index) const;
+
+  void trigger_event(LUIBaseElement* sender, const string& name,
+                     const wstring& message = L"") const;
 
   LUIBaseElement* _hover_element;
   vector<LUIBaseElement*> _mouse_down_elements;

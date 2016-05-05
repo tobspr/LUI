@@ -1,5 +1,6 @@
 
 #include "luiInputHandler.h"
+#include "luiEventData.h"
 #include "buttonEventList.h"
 #include "dataGraphTraverser.h"
 #include "linmath_events.h"
@@ -17,14 +18,14 @@ LUIInputHandler::LUIInputHandler(const string& name) :
   _mouse_pos_input = define_input("pixel_xy", ParamVecBase2f::get_class_type());
   _buttons_input = define_input("button_events", ButtonEventList::get_class_type());
 
-  // Init states
   for (int i = 0; i < 5; i++) {
     _current_state.mouse_buttons[i] = false;
-    _last_state.mouse_buttons[i] = false;
   }
-
+  _current_state.mouse_pos.set(-1, -1);
   _current_state.has_mouse_pos = false;
-  _last_state.has_mouse_pos = false;
+  _current_state.key_modifiers = 0;
+
+  _last_state = _current_state;
 
 }
 
@@ -42,8 +43,8 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser* trav,
     const EventStoreVec2* mouse_pos;
     DCAST_INTO_V(mouse_pos, input.get_data(_mouse_pos_input).get_ptr());
 
-    _current_state.mouse_pos = mouse_pos->get_value();
     _current_state.has_mouse_pos = true;
+    _current_state.mouse_pos = mouse_pos->get_value();
   } else {
     _current_state.has_mouse_pos = false;
     _current_state.mouse_pos = LPoint2(0);
@@ -62,12 +63,14 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser* trav,
 
       // Button Down
       if (be._type == ButtonEvent::T_down) {
-        // if (be._button == KeyboardButton::control()) {
-        //   _modifiers |= KM_CTRL;
-        // } else if (be._button == KeyboardButton::shift()) {
-        //   _modifiers |= KM_SHIFT;
-        // } else if (be._button == KeyboardButton::alt()) {
-        //   _modifiers |= KM_ALT;
+        if (be._button == KeyboardButton::control()) {
+          _current_state.key_modifiers |= LUIEventData::KM_ctrl;
+        } else if (be._button == KeyboardButton::shift()) {
+          _current_state.key_modifiers |= LUIEventData::KM_shift;
+        } else if (be._button == KeyboardButton::alt()) {
+          _current_state.key_modifiers |= LUIEventData::KM_alt;
+        }
+
         // } else if (be._button == KeyboardButton::meta()) {
         //   _modifiers |= KM_META;
         // } else if (be._button == KeyboardButton::enter()) {
@@ -99,6 +102,14 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser* trav,
 
       } else if (be._type == ButtonEvent::T_up) {
 
+        if (be._button == KeyboardButton::control()) {
+          _current_state.key_modifiers &= ~LUIEventData::KM_ctrl;
+        } else if (be._button == KeyboardButton::shift()) {
+          _current_state.key_modifiers &= ~LUIEventData::KM_shift;
+        } else if (be._button == KeyboardButton::alt()) {
+          _current_state.key_modifiers &= ~LUIEventData::KM_alt;
+        }
+
         if (be._button == MouseButton::one()) {
           _current_state.mouse_buttons[0] = false;
         } else if (be._button == MouseButton::two()) {
@@ -110,9 +121,8 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser* trav,
         } else if (be._button == MouseButton::five()) {
           _current_state.mouse_buttons[4] = false;
         } else {
-
-        LUIKeyEvent event = {be._button.get_name(), M_up};
-        _key_events.push_back(event);
+          LUIKeyEvent event = {be._button.get_name(), M_up};
+          _key_events.push_back(event);
         }
 
       } else if (be._type == ButtonEvent::T_keystroke) {
@@ -128,7 +138,6 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser* trav,
 }
 
 void LUIInputHandler::process(LUIRoot* root) {
-
   LUIBaseElement* current_hover = NULL;
   int current_render_index = -1;
 
@@ -160,11 +169,12 @@ void LUIInputHandler::process(LUIRoot* root) {
   // Check for mouse over / out events
   if (current_hover != _hover_element) {
     if (_hover_element != NULL) {
-      _hover_element->trigger_event("mouseout", wstring(), _current_state.mouse_pos);
+
+      trigger_event(_hover_element, "mouseout");
     }
 
     if (current_hover != NULL) {
-      current_hover->trigger_event("mouseover", wstring(), _current_state.mouse_pos);
+      trigger_event(current_hover, "mouseover");
     }
     _hover_element = current_hover;
   }
@@ -173,12 +183,12 @@ void LUIInputHandler::process(LUIRoot* root) {
   if (_current_state.mouse_pos != _last_state.mouse_pos) {
     // Send a event to the hovered element
     if (_hover_element != NULL) {
-      _hover_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
+      trigger_event(_hover_element, "mousemove");
     }
 
     // The focus element also recieves a mousemove element
     if (_focused_element != NULL) {
-      _focused_element->trigger_event("mousemove", wstring(), _current_state.mouse_pos);
+      trigger_event(_focused_element, "mousemove");
     }
   }
 
@@ -190,7 +200,8 @@ void LUIInputHandler::process(LUIRoot* root) {
     if (mouse_key_pressed(mouse_button)) {
       if (_hover_element != NULL && _hover_element->is_visible()) {
         _mouse_down_elements[mouse_button] = _hover_element;
-        _hover_element->trigger_event("mousedown", std::to_wstring(mouse_button), _current_state.mouse_pos);
+
+        trigger_event(_hover_element, "mousedown", get_mouse_button_name(mouse_button));
 
         if (_focused_element != NULL && _hover_element != _focused_element) {
           // When clicking somewhere, and the clicked element is not the focused one,
@@ -202,11 +213,11 @@ void LUIInputHandler::process(LUIRoot* root) {
 
     if (mouse_key_released(mouse_button)) {
       if (_mouse_down_elements[mouse_button] != NULL) {
-        _mouse_down_elements[mouse_button]->trigger_event("mouseup", std::to_wstring(mouse_button), _current_state.mouse_pos);
+        trigger_event(_mouse_down_elements[mouse_button], "mouseup", get_mouse_button_name(mouse_button));
       }
 
       if (_mouse_down_elements[mouse_button] != NULL && _mouse_down_elements[mouse_button] == _hover_element) {
-        _mouse_down_elements[mouse_button]->trigger_event("click", std::to_wstring(mouse_button), _current_state.mouse_pos);
+        trigger_event(_mouse_down_elements[mouse_button], "click", get_mouse_button_name(mouse_button));
       }
     }
   }
@@ -221,28 +232,23 @@ void LUIInputHandler::process(LUIRoot* root) {
     // click event, otherwise we might loose events.
     if (_focused_element != NULL && lost_focus) {
       _focused_element->set_focus(false);
-      _focused_element->trigger_event("blur", wstring(), _current_state.mouse_pos);
+      trigger_event(_focused_element, "blur");
       _focused_element = NULL;
     }
   } else {
     // Focus was requested, and its different from the current focused element
     if (requested_focus != _focused_element) {
-      if (lui_cat.is_spam()) {
-        lui_cat.spam() << "Focus changed to "
-          << requested_focus
-          << " from " << _focused_element << endl;
-      }
 
       // Tell the currently focused element its no longer focused
       if (_focused_element != NULL) {
         _focused_element->set_focus(false);
-        _focused_element->trigger_event("blur", wstring(), _current_state.mouse_pos);
+        trigger_event(_focused_element, "blur");
         _focused_element = NULL;
       }
 
       // Tell the new element its now focused
       requested_focus->set_focus(true);
-      requested_focus->trigger_event("focus" , wstring(), _current_state.mouse_pos);
+      trigger_event(requested_focus, "focus");
 
       _focused_element = requested_focus;
     }
@@ -260,15 +266,15 @@ void LUIInputHandler::process(LUIRoot* root) {
 
       switch ((*it).mode) {
       case M_down:
-        _focused_element->trigger_event("keydown", btn_name_w, _current_state.mouse_pos);
+        trigger_event(_focused_element, "keydown", btn_name_w);
         break;
 
       case M_up:
-        _focused_element->trigger_event("keyup", btn_name_w, _current_state.mouse_pos);
+        trigger_event(_focused_element, "keyup", btn_name_w);
         break;
 
       case M_repeat:
-        _focused_element->trigger_event("keyrepeat", btn_name_w, _current_state.mouse_pos);
+        trigger_event(_focused_element, "keyrepeat", btn_name_w);
         break;
 
       case M_press:
@@ -277,14 +283,19 @@ void LUIInputHandler::process(LUIRoot* root) {
     }
 
     for (vector<int>::iterator it = _text_events.begin(); it != _text_events.end(); ++it) {
-      _focused_element->trigger_event("textinput", wstring(1, (unsigned short)(*it)), _current_state.mouse_pos);
+      trigger_event(_focused_element, "textinput", wstring(1, (unsigned short)(*it)));
     }
 
-
-    // Focus tick
-    _focused_element->trigger_event("tick", wstring(), _current_state.mouse_pos);
-
+    // Focus tick, only on the focus element to save performance
+    trigger_event(_focused_element, "tick");
   }
 
   _last_state = _current_state;
 }
+
+INLINE void LUIInputHandler::trigger_event(LUIBaseElement* sender,
+    const string& name, const wstring& message) const {
+  sender->trigger_event(
+    new LUIEventData(sender, name, message, _current_state.mouse_pos, _current_state.key_modifiers));
+}
+
