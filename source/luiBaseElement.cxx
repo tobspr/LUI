@@ -93,7 +93,12 @@ void LUIBaseElement::load_python_events(PyObject* self) {
       Py_ssize_t len;
 
       // Get the method name as string
+#if PY_MAJOR_VERSION >= 3
+      str = PyUnicode_AsUTF8AndSize(method_name, &len ); 
+      if ( str ) {
+#else
       if (PyString_AsStringAndSize(method_name, &str, &len) == 0) {
+#endif
         string method_name_str(str, len);
 
         // Check if the method name starts with the required prefix
@@ -122,7 +127,12 @@ void LUIBaseElement::load_python_events(PyObject* self) {
     Py_ssize_t len;
 
     // Get the method name as string
+#if PY_MAJOR_VERSION >= 3
+    str = PyUnicode_AsUTF8AndSize(cls_name, &len);
+    if (str) {
+#else
     if (PyString_AsStringAndSize(cls_name, &str, &len) == 0) {
+#endif
       _debug_name = string(str, len);
     } else {
       luiBaseElement_cat.warning() << "Failed to extract class name" << endl;
