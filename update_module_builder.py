@@ -36,13 +36,13 @@ def download_submodule(author, module_name, dest_path, ignore_list):
     source_url = "https://github.com/" + author + "/" + module_name + "/archive/master.zip"
     prefix = module_name + "-master"
     print("Fetching:", source_url)
-    
+
     # Download the zip
     try:
         usock = urlopen(source_url)
         zip_data = usock.read()
         usock.close()
-    except AttributeError as msg:
+    except Exception as msg:
         print("ERROR: Could not fetch module", module_name, "! Reason:", msg, file=sys.stderr)
         sys.exit(2)
 
