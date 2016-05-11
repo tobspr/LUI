@@ -7,14 +7,19 @@ from __future__ import print_function
 
 import os
 import sys
-import urllib
 import zipfile
 import shutil
 
-# Include cStringIO in case its available, since its faster
-try: from cStringIO import StringIO
-except: from StringIO import StringIO
-
+if sys.version_info.major >= 3:  # we are running Python 3.x
+    from io import BytesIO as StringIO
+    from urllib.request import urlopen
+else:
+    # Import cStringIO in case it's available, since it's faster
+    try:
+        from cStringIO import StringIO
+    except ImportError:
+        from StringIO import StringIO
+    from urllib import urlopen
 
 def download_submodule(author, module_name, dest_path, ignore_list):
     """ Downloads a submodule from the given author and module name, and extracts
@@ -34,7 +39,7 @@ def download_submodule(author, module_name, dest_path, ignore_list):
 
     # Download the zip
     try:
-        usock = urllib.urlopen(source_url)
+        usock = urlopen(source_url)
         zip_data = usock.read()
         usock.close()
     except Exception as msg:
