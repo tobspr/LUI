@@ -25,4 +25,4 @@ from LUITabbedFrame import LUITabbedFrame
 from LUIVerticalLayout import LUIVerticalLayout
 
 
-LUIWidgeds = globals()
+LUIWidgets = globals()

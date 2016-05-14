@@ -1,0 +1,44 @@
+# yamlgui test file
+# creates 2 rows of 3 columns each
+# using instancing of ui element templates
+
+
+- main_button:
+    type: LUIButton
+    text: back to the other menu!
+    center_horizontal: true
+    top: 30
+    bind:
+        click: toMain
+
+
+- rem_row_button:
+    type: LUIButton
+    text: delete row 2
+    bottom: 30
+    left: 40
+    bind:
+        click: del_row
+
+
+- vertical1:                    # the name to acces the element from code  (yamlloader.vertical1)
+    type: LUIVerticalLayout     # type = lui class name
+    spacing: 5
+    top: 100
+    center_horizontal: True
+
+
+- horizontal{0}:   # when instancing, use the name without the '{0}','{1}',...
+    type: LUIHorizontalLayout
+    spacing: 30
+    instancing_template: True    # this element will only be loaded upon calling e.g. instance_element("horizontal", parent_node, [0])
+    children:
+        - mybutton{0}_1:
+            type: LUIButton
+            text: line{0} row1
+        - mybutton{0}_2:
+            type: LUIButton
+            text: line{0} row2
+        - mybutton{0}_3:
+            type: LUIButton
+            text: line{0} row3

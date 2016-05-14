@@ -1,20 +1,15 @@
-headline:
+- headline:
     type: LUILabel
     center_horizontal: True
     center_vertical: True
     text: This is the gui from "menu/menu2.yaml"
     font_size: 34
 
-back:
+- back:
     type: LUIButton
     left: 90
     top: 90
     text: back to menu1
+    template: ButtonGreen
     bind:
-        click: backToMain
-
-
-
-python: |
-   def backToMain(event):
-    	gui.loadGui("menus/menu1.yaml")
+        click: handle_backToMain

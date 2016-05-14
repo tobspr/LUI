@@ -6,32 +6,37 @@
 #  keyword: value   (passed to constructor)
 #  bind:
 #      event: function
+#
+# children:
+#      - child_name:
+#etc...
 
 
 - vertical:
     type: LUIVerticalLayout
     spacing: 30
+    left: 60
     children:
-        - b_enter:
+        - menu_label1:
+            type: LUILabel
+            text: UI loaded from menus/menu1.yaml
+            font_size: 30
+        - enter_menu_2:
             type: LUIButton
-            template: ButtonGreen
-            text: instancing example
+            text: Go to Menu 2
             bind: 
-                click: change_to_example
+                click: handle_menu2
+        - enter_menu_3:
+            type: LUIButton
+            text: Go to Menu 3
+            bind:
+                click: handle_menu3
 
 
-# custom python module for e.g. event handling
-# acces all gui elements as attributes of global variable "gui"
-- python: |
-    def handle(event):
-        print "button2 pressed!"
-
-    def change_to_example(event):
-        print "button <enter another menu> pressed!"
-        gui.loadGui("menus/structure_test.yaml")
-
-    #print "python inside yaml script executed"
-    
-
-
-
+- quit_button:
+            type: LUIButton
+            text: Quit Demo
+            bottom: 40
+            right: 40
+#           bind:
+#               click: handle_quit
