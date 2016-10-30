@@ -19,6 +19,5 @@ INLINE string LUIInputHandler::get_key_string(int key) const {
 }
 
 INLINE wstring LUIInputHandler::get_mouse_button_name(size_t index) const {
-  return wstring(L"mouse-") + std::to_wstring(index);
+  return wstring(L"mouse-") + std::to_wstring(static_cast<long long>(index));
 }
-
