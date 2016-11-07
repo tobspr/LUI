@@ -17,4 +17,4 @@ script:
     - export PYTHONPATH=${PYTHONPATH}:/usr/share/panda3d
     - python2.7 update_module_builder.py
     - python2.7 build.py
-
+    - python2.7 -c "import panda3d; import lui; print(dir(lui))"
