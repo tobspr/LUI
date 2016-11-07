@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tobspr/LUI.svg?branch=master)](https://travis-ci.org/tobspr/LUI)
+
 # Lightweight User Interface
 
 <img src="http://fs5.directupload.net/images/151207/ltl76bsj.png" align="right" />
