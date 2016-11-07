@@ -89,7 +89,7 @@ def download_submodule(author, module_name, dest_path, ignore_list):
 
 if __name__ == "__main__":
     ignore = ("__init__.py LICENSE README.md config.ini source/config_module.cpp "
-        "source/config_module.h").split()
+        "source/config_module.h .travis.yml").split()
     curr_dir = os.path.dirname(os.path.realpath(__file__)); os.chdir(curr_dir);
     download_submodule("tobspr", "P3DModuleBuilder", curr_dir, ignore)
     with open("scripts/__init__.py", "w") as handle: pass
