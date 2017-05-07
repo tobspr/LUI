@@ -27,7 +27,7 @@ PUBLISHED:
 
   LUIText(PyObject* self,
     LUIObject* parent, const wstring& text, const string& font_name="default",
-    float font_size=16.0f, float x=0.0f, float y=0.0f, bool wordwrap=true);
+    float font_size=16.0f, float x=0.0f, float y=0.0f, bool wordwrap=false);
   ~LUIText();
 
   INLINE void set_font(const string& font_name);
@@ -54,6 +54,7 @@ PUBLISHED:
 protected:
 
   void update_text();
+  vector<int> get_line_breaks();
 
   DynamicTextFont* _font;
   wstring _text;
