@@ -23,6 +23,7 @@ class LUICheckbox(LUIObject):
         self._label = LUILabel(parent=self, text=label, margin=(0, 0, 0, 25),
                                center_vertical=True, alpha=0.4)
         self._hovered = False
+        self._update_sprite()
         LUIInitialState.init(self, kwargs)
 
     @property
