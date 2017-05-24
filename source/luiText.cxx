@@ -78,13 +78,13 @@ void LUIText::update_text() {
 #endif
 
     // Newline
-    if (_wordwrap == TRUE && char_code == 10) {
+    if (_wordwrap && char_code == 10) {
       current_x_pos = 0;
       current_y_pos += floor(line_height * ppu);
       continue;
     }
 
-    if (_wordwrap == TRUE) {
+    if (_wordwrap) {
       if(find(line_breaks.begin(), line_breaks.end(), char_idx) != line_breaks.end()) {
         current_x_pos = 0;
         current_y_pos += floor(line_height * ppu);
@@ -137,7 +137,7 @@ void LUIText::update_text() {
     }
 
     // Break word wrapping
-    if (_wordwrap == TRUE && current_x_pos + dynamic_glyph->get_advance() * ppu > get_parent_width()) {
+    if (_wordwrap && current_x_pos + dynamic_glyph->get_advance() * ppu > get_parent_width()) {
       // glyph length longer then width, force to next line
       current_x_pos = 0;
       current_y_pos += floor(line_height * ppu);
@@ -145,7 +145,7 @@ void LUIText::update_text() {
     else {
 
       // Trim left
-      if(_wordwrap == TRUE && current_x_pos == 0 && dynamic_glyph->get_page() == NULL) {
+      if (_wordwrap && current_x_pos == 0 && dynamic_glyph->get_page() == NULL) {
         continue;
       }
 
@@ -157,7 +157,7 @@ void LUIText::update_text() {
 
   }
 
-  if (_wordwrap == TRUE) {
+  if (_wordwrap) {
     set_size( get_parent_width(), floor(current_y_pos + line_height * ppu));
   }
   else {
@@ -237,7 +237,7 @@ vector<int> LUIText::get_line_breaks() {
 
   vector<int> result;
 
-  if(_wordwrap == TRUE) {
+  if (_wordwrap) {
 
     // Unreference all current glyphs
     _glyphs.clear();
