@@ -1,0 +1,42 @@
+# example yaml file for loading LUI menus
+# 
+#general structure:
+#object_name:
+#  type: LUIClassName
+#  keyword: value   (passed to constructor)
+#  bind:
+#      event: function
+#
+# children:
+#      - child_name:
+#etc...
+
+
+- vertical:
+    type: LUIVerticalLayout
+    spacing: 30
+    left: 60
+    children:
+        - menu_label1:
+            type: LUILabel
+            text: UI loaded from menus/menu1.yaml
+            font_size: 30
+        - enter_menu_2:
+            type: LUIButton
+            text: Go to Menu 2
+            bind: 
+                click: handle_menu2
+        - enter_menu_3:
+            type: LUIButton
+            text: Go to Menu 3
+            bind:
+                click: handle_menu3
+
+
+- quit_button:
+            type: LUIButton
+            text: Quit Demo
+            bottom: 40
+            right: 40
+#           bind:
+#               click: handle_quit
