@@ -113,11 +113,14 @@ void LUIBaseElement::load_python_events(PyObject* self) {
               PyObject_CallFunction(bind_func, (char *)"s#O",
                 str + event_func_prefix.size(), len - event_func_prefix.size(), method);
           }
+
+          Py_DECREF(method);
         }
       }
     }
 
     Py_DECREF(class_methods);
+    Py_DECREF(bind_func);
 
     // Find out the class name on custom python objects
     PyObject* cls = (PyObject*)Py_TYPE(self);
