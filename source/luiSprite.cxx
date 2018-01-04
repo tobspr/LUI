@@ -3,6 +3,9 @@
 #include "luiSprite.h"
 #include "luiRoot.h"
 
+// ROUND_MARGIN introduced to correct a rounding error on Radeon HD 2400 PRO (black lines between adjacent sprites)
+#define ROUND_MARGIN 0.0001
+
 int LUISprite::_instance_count = 0;
 TypeHandle LUISprite::_type_handle;
 
@@ -185,10 +188,10 @@ void LUISprite::recompute_vertices() {
   float ny2 = min(bnds_y2, max(bnds_y1, y2));
 
   // Get current texcoord
-  float u1 = _uv_begin.get_x();
-  float v1 = _uv_begin.get_y();
-  float u2 = _uv_end.get_x();
-  float v2 = _uv_end.get_y();
+  float u1 = _uv_begin.get_x() + ROUND_MARGIN;
+  float v1 = _uv_begin.get_y() + ROUND_MARGIN;
+  float u2 = _uv_end.get_x() - ROUND_MARGIN;
+  float v2 = _uv_end.get_y() - ROUND_MARGIN;
 
   // Compute texcoord-per-pixel factor
   float upp = 0, vpp = 0;
