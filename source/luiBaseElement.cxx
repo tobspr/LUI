@@ -88,7 +88,9 @@ void LUIBaseElement::load_python_events(PyObject* self) {
     for (Py_ssize_t i = 0; i < num_elements; ++i) {
 
       PyObject* method_name = PyList_GetItem(class_methods, i);
-
+#if PY_MAJOR_VERSION >= 3
+      const
+#endif
       char* str;
       Py_ssize_t len;
 
@@ -126,6 +128,9 @@ void LUIBaseElement::load_python_events(PyObject* self) {
     PyObject* cls = (PyObject*)Py_TYPE(self);
     PyObject* cls_name = PyObject_GetAttrString(cls, "__name__");
 
+#if PY_MAJOR_VERSION >= 3
+      const
+#endif
     char* str;
     Py_ssize_t len;
 
