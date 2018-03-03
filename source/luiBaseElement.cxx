@@ -90,7 +90,8 @@ void LUIBaseElement::load_python_events(PyObject* self) {
       PyObject* method_name = PyList_GetItem(class_methods, i);
 #if PY_MAJOR_VERSION >= 3
       const
-#endif        char* str;
+#endif
+      char* str;
       Py_ssize_t len;
 
       // Get the method name as string
@@ -130,7 +131,7 @@ void LUIBaseElement::load_python_events(PyObject* self) {
 #if PY_MAJOR_VERSION >= 3
       const
 #endif
-        char* str;
+    char* str;
     Py_ssize_t len;
 
     // Get the method name as string
