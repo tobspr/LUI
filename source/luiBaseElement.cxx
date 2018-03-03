@@ -89,7 +89,7 @@ void LUIBaseElement::load_python_events(PyObject* self) {
 
       PyObject* method_name = PyList_GetItem(class_methods, i);
 
-      char* str;
+      const char* str;
       Py_ssize_t len;
 
       // Get the method name as string
@@ -126,7 +126,7 @@ void LUIBaseElement::load_python_events(PyObject* self) {
     PyObject* cls = (PyObject*)Py_TYPE(self);
     PyObject* cls_name = PyObject_GetAttrString(cls, "__name__");
 
-    char* str;
+    const char* str;
     Py_ssize_t len;
 
     // Get the method name as string
