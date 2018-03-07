@@ -25,9 +25,9 @@ LUIRoot::LUIRoot(float width, float height) :
   // CPT(GeomVertexFormat) format = GeomVertexFormat::get_v3c4t2();
 
   PT(GeomVertexArrayFormat) array_format = new GeomVertexArrayFormat();
-  array_format->add_column(InternalName::make("vertex"), 3, Geom::NT_stdfloat, Geom::C_point);
+  array_format->add_column(InternalName::make("vertex"), 3, Geom::NT_float32, Geom::C_point);
   array_format->add_column(InternalName::make("color"), 4, Geom::NT_uint8, Geom::C_color);
-  array_format->add_column(InternalName::make("texcoord"), 2, Geom::NT_stdfloat, Geom::C_texcoord);
+  array_format->add_column(InternalName::make("texcoord"), 2, Geom::NT_float32, Geom::C_texcoord);
   array_format->add_column(InternalName::make("texindex"), 1, Geom::NT_uint16, Geom::C_other);
 
 
