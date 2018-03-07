@@ -15,7 +15,7 @@ LUIInputHandler::LUIInputHandler(const string& name) :
   _focused_element(NULL)
 {
   _mouse_down_elements.resize(5, NULL);
-  _mouse_pos_input = define_input("pixel_xy", ParamVecBase2f::get_class_type());
+  _mouse_pos_input = define_input("pixel_xy", EventStoreVec2::get_class_type());
   _buttons_input = define_input("button_events", ButtonEventList::get_class_type());
 
   for (int i = 0; i < 5; i++) {
