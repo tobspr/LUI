@@ -12,9 +12,9 @@
 #include <stdint.h>
 
 struct LUIVertexData {
-  PN_stdfloat x, y, z;
+  float x, y, z;
   unsigned char color[4];
-  PN_stdfloat u, v;
+  float u, v;
   uint16_t texindex;
 };
 
