@@ -95,7 +95,7 @@ private:
   int _render_index;
 
   struct LUITriangleIndex {
-    unsigned int vertices[3];
+    uint16_t vertices[3];
   };
 
   void* _sprite_vertex_pointer;
