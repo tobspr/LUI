@@ -40,7 +40,7 @@ LUIRoot::LUIRoot(float width, float height) :
   _vertex_data->reserve_num_rows(_index_buffer_size);
 
   _triangles = new GeomTriangles(Geom::UH_dynamic);
-  _triangles->set_index_type(GeomEnums::NT_uint32);
+  _triangles->set_index_type(GeomEnums::NT_uint16);
   _triangles->make_indexed();
 
   _geom = new Geom(_vertex_data);
@@ -69,7 +69,7 @@ void LUIRoot::prepare_render() {
 
   _triangles->clear_vertices();
   _triangles->make_indexed();
-  _triangles->set_index_type(GeomEnums::NT_uint32);
+  _triangles->set_index_type(GeomEnums::NT_uint16);
 
   // Update lui elements graph
   _root->update_downstream();
