@@ -22,7 +22,7 @@ INLINE void LUIObject::remove_child(PT(LUIBaseElement) child) {
 
   _children.erase(child_it);
   child->on_detached();
-  child->do_set_parent(NULL);
+  child->do_set_parent(nullptr);
 
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Reference count is now: " << child->get_ref_count() << endl;
@@ -43,7 +43,7 @@ INLINE void LUIObject::remove_all_children() {
   // Detach all children
   for (auto it = _children.begin(); it != _children.end(); ++it) {
     (*it)->on_detached();
-    (*it)->do_set_parent(NULL);
+    (*it)->do_set_parent(nullptr);
   }
 
   // Now clear the vector
@@ -77,7 +77,7 @@ INLINE PT(LUIElementIterator) LUIObject::get_children() const {
 }
 
 INLINE PT(LUIBaseElement) LUIObject::get_child(size_t index) const {
-  nassertr(index < _children.size(), NULL);
+  nassertr(index < _children.size(), nullptr);
   return _children[index];
 }
 
@@ -91,8 +91,8 @@ INLINE void LUIObject::on_detached() {
   }
 
   unregister_events();
-  _root = NULL;
-  _parent = NULL;
+  _root = nullptr;
+  _parent = nullptr;
 
   for (auto it = _children.begin(); it!= _children.end(); ++it) {
     (*it)->on_detached();

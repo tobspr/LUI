@@ -13,7 +13,7 @@ LUIRegion::
   LUIRegion(GraphicsOutput* window, const LVecBase4& dr_dimensions,
   const string& context_name) :
   DisplayRegion(window, dr_dimensions),
-  _input_handler(NULL),
+  _input_handler(nullptr),
   _wireframe(false) {
 
   if (lui_cat.is_spam()) {
@@ -58,7 +58,7 @@ void LUIRegion::
       _lens->set_film_offset(_width * 0.5, _height * 0.5);
     }
 
-    if (_input_handler != NULL) {
+    if (_input_handler != nullptr) {
       _input_handler->process(_lui_root);
     }
 
@@ -66,7 +66,7 @@ void LUIRegion::
 
     trav->set_cull_handler(cull_handler);
     trav->set_scene(scene_setup, gsg, get_incomplete_render());
-    trav->set_view_frustum(NULL);
+    trav->set_view_frustum(nullptr);
 
     CPT(RenderAttrib) shaderAttrib = ShaderAttrib::make_default();
 

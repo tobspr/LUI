@@ -19,7 +19,7 @@ INLINE int LUIRoot::alloc_index_by_texture(Texture* tex) {
     lui_cat.spam() << "Finding vertex pool for texture " << tex << endl;
   }
 
-  nassertr(tex != NULL, -1);
+  nassertr(tex != nullptr, -1);
 
   auto index = std::find(_textures.begin(), _textures.end(), tex);
 
@@ -81,7 +81,7 @@ INLINE int LUIRoot::register_sprite(LUISprite* sprite) {
 
   // Check if there is space free
   for(int i = 0; i != _sprites.size(); i++) {
-      if (_sprites[i] == NULL) {
+      if (_sprites[i] == nullptr) {
         _sprites[i] = sprite;
         return i;
       }
@@ -101,7 +101,7 @@ INLINE void LUIRoot::unregister_sprite(int position) {
   // A sprite shouldn't have an invalid index
   nassertv(position < _sprites.size() && position >= 0);
 
-  _sprites[position] = NULL;
+  _sprites[position] = nullptr;
 
   // TODO: If this sprite is the last size, make the vector smaller
   // (Strip empty elements from the end)
@@ -112,8 +112,8 @@ INLINE void* LUIRoot::get_sprite_vertex_pointer(int position) const {
   nassertr(position < _sprites.size() && position >= 0, 0);
 
   // At the position there should be an actual sprite
-  nassertr(_sprites[position] != NULL, 0);
-  nassertr(_sprite_vertex_pointer != NULL, 0);
+  nassertr(_sprites[position] != nullptr, 0);
+  nassertr(_sprite_vertex_pointer != nullptr, 0);
 
   // nassertr(_sprite_vertex_pointer == _vertex_data->modify_array(0)->modify_handle()->get_write_pointer(), 0);
 
@@ -152,7 +152,7 @@ INLINE int LUIRoot::get_num_textures() const {
 }
 
 INLINE Texture* LUIRoot::get_texture(int index) const {
-  nassertr(index >= 0 && index < _textures.size(), NULL);
+  nassertr(index >= 0 && index < _textures.size(), nullptr);
   return _textures[index];
 }
 
@@ -183,7 +183,7 @@ INLINE void LUIRoot::set_use_glsl_130(bool use_glsl_130) {
  *   in some cases it might make sense to blur an element.
  */
 INLINE void LUIRoot::request_explicit_blur() {
-  request_focus(NULL);
+  request_focus(nullptr);
   _explicit_blur = true;
 }
 

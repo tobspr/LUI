@@ -956,12 +956,12 @@ INLINE bool LUIBaseElement::has_focus() const {
  * @return true if a parent is set, false otherwise
  */
 INLINE bool LUIBaseElement::has_parent() const {
-  return _parent != NULL;
+  return _parent != nullptr;
 }
 
 /**
  * @brief Returns a handle to the parent
- * @details This returns a handle to the elements parent, or NULL if no parent
+ * @details This returns a handle to the elements parent, or nullptr if no parent
  *   is present.
  * @return Handle to the parent
  */

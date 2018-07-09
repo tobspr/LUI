@@ -23,13 +23,13 @@ void LUIBaseLayout::add(PT(LUIBaseElement) object, const string& cell_mode) {
 }
 
 void LUIBaseLayout::add(PT(LUIBaseElement) object, float cell_height) {
-  Cell cell = { CM_fixed, cell_height, NULL };
+  Cell cell = { CM_fixed, cell_height, nullptr };
   add_cell(object, cell);
 }
 
 LUIObject* LUIBaseLayout::add_cell(PT(LUIBaseElement) object, Cell cell) {
   // Construct cell container object
-  LUIObject* container = new LUIObject(NULL);
+  LUIObject* container = new LUIObject(nullptr);
   add_child(container);
   if (object)
     container->add_child(object);
@@ -42,17 +42,17 @@ LUIObject* LUIBaseLayout::add_cell(PT(LUIBaseElement) object, Cell cell) {
 
 
 PT(LUIObject) LUIBaseLayout::cell(const string& cell_mode) {
-  return add_cell(NULL, construct_cell(cell_mode));
+  return add_cell(nullptr, construct_cell(cell_mode));
 }
 
 PT(LUIObject) LUIBaseLayout::cell(float cell_height) {
-  Cell cell = { CM_fixed, cell_height, NULL };
-  return add_cell(NULL, cell);
+  Cell cell = { CM_fixed, cell_height, nullptr };
+  return add_cell(nullptr, cell);
 }
 
 PT(LUIObject) LUIBaseLayout::cell() {
-  Cell cell = { CM_fit, 0.0f, NULL };
-  return add_cell(NULL, cell);
+  Cell cell = { CM_fit, 0.0f, nullptr };
+  return add_cell(nullptr, cell);
 }
 
 bool check_int(const string& str) {
@@ -71,7 +71,7 @@ int parse_int(const string& str) {
 }
 
 LUIBaseLayout::Cell LUIBaseLayout::construct_cell(const string& cell_mode) {
-  Cell cell = { CM_fit, 0.0f, NULL };
+  Cell cell = { CM_fit, 0.0f, nullptr };
 
   // Fit
   if (cell_mode == "?") {

@@ -12,9 +12,9 @@ TypeHandle LUISprite::_type_handle;
 NotifyCategoryDef(luiSprite, ":lui");
 
 LUISprite::LUISprite(LUIText* parent_text)
-  : LUIBaseElement(NULL) {
+  : LUIBaseElement(nullptr) {
   init((LUIObject*)parent_text, 0, 0, LColor(1));
-  set_texture(NULL, true);
+  set_texture(nullptr, true);
 }
 
 
@@ -48,7 +48,7 @@ LUISprite::LUISprite(PyObject* self, LUIObject* parent, const string& entry_id,
 void LUISprite::init(LUIObject* parent, float x, float y, const LColor& color) {
 
   // A lui sprite always needs a parent
-  nassertv(parent != NULL);
+  nassertv(parent != nullptr);
 
 
   _last_frame_visible = -1;
@@ -92,7 +92,7 @@ void LUISprite::set_root(LUIRoot* root) {
     luiSprite_cat.spam() << "Root changed to " << root << " .." << endl;
   }
 
-  if (_root != NULL && _root != root) {
+  if (_root != nullptr && _root != root) {
     luiSprite_cat.warning() << "Unregistering from old LUIRoot .. you should detach the sprite from the old root first .." << endl;
     unassign_sprite_index();
   }
@@ -115,7 +115,7 @@ void LUISprite::assign_sprite_index() {
   // This should never happen, as all methods which call this method
   // should check if the root is already set. Otherwise something
   // went really wrong.
-  nassertv(_root != NULL);
+  nassertv(_root != nullptr);
 
   _sprite_index = _root->register_sprite(this);
 
@@ -128,7 +128,7 @@ void LUISprite::assign_sprite_index() {
 }
 
 void LUISprite::update_vertex_pool() {
-  if (_sprite_index >= 0 && _root != NULL) {
+  if (_sprite_index >= 0 && _root != nullptr) {
 
     if (luiSprite_cat.is_spam()) {
       luiSprite_cat.spam() << "Updating vertex pool slot " << _sprite_index << endl;
@@ -137,7 +137,7 @@ void LUISprite::update_vertex_pool() {
     void* write_pointer = _root->get_sprite_vertex_pointer(_sprite_index);
 
     // This should never happen
-    nassertv(write_pointer != NULL);
+    nassertv(write_pointer != nullptr);
 
     if (luiSprite_cat.is_spam()) {
       luiSprite_cat.spam() << "Memcopying to " << write_pointer << endl;
@@ -153,7 +153,7 @@ void LUISprite::unassign_sprite_index() {
     luiSprite_cat.spam() << "Unassign vertex pool" << endl;
   }
 
-  if (_sprite_index >= 0 && _root != NULL) {
+  if (_sprite_index >= 0 && _root != nullptr) {
     _root->unregister_sprite(_sprite_index);
     _sprite_index = -1;
   }
@@ -244,7 +244,7 @@ void LUISprite::recompute_vertices() {
 }
 
 void LUISprite::fetch_texture_index() {
-  if (_tex != NULL) {
+  if (_tex != nullptr) {
     _texture_index = _root->alloc_index_by_texture(_tex);
   }
 }
@@ -259,7 +259,7 @@ void LUISprite::render_recursive(bool is_topmost_pass, bool render_anyway) {
   _last_render_index = -1;
 
   // We should have a root
-  nassertv(_root != NULL);
+  nassertv(_root != nullptr);
   // We also should have a index
   nassertv(_sprite_index >= 0);
 

@@ -34,14 +34,14 @@ LUIObject::~LUIObject() {
 
 void LUIObject::init() {
   ++_instance_count;
-  _content_node = NULL;
+  _content_node = nullptr;
   if (luiObject_cat.is_spam()) {
     luiObject_cat.spam() << "Constructing new LUIObject (active: " << _instance_count << ")" << endl;
   }
 }
 
 void LUIObject::set_root(LUIRoot* root) {
-  if (_root != NULL && root != _root) {
+  if (_root != nullptr && root != _root) {
     luiObject_cat.error() << "Object is already attached to another root! target = " << _debug_name << endl;
     return;
   }
@@ -86,7 +86,7 @@ void LUIObject::render_recursive(bool is_topmost_pass, bool render_anyway) {
     do_render_anyway = do_render_anyway || do_render;
   }
 
-  nassertv(_root != NULL);
+  nassertv(_root != nullptr);
 
   if (do_render) {
     _last_frame_visible = _root->get_frame_index();

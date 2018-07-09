@@ -25,7 +25,7 @@ LUIVertexPool::~LUIVertexPool() {
 
 LUIChunkDescriptor* LUIVertexPool::allocate_slot(LUISprite* child) {
 
-  LUIVertexChunk* chunk = NULL;
+  LUIVertexChunk* chunk = nullptr;
 
   for (int i = 0; i < _chunks.size(); i++) {
     LUIVertexChunk* current = _chunks[i];
@@ -35,7 +35,7 @@ LUIChunkDescriptor* LUIVertexPool::allocate_slot(LUISprite* child) {
     }
   }
 
-  if (chunk == NULL) {
+  if (chunk == nullptr) {
     if (lui_cat.is_spam()) {
       lui_cat.spam() << "Allocating new lui vertex chunk .." << endl;
     }
@@ -47,12 +47,12 @@ LUIChunkDescriptor* LUIVertexPool::allocate_slot(LUISprite* child) {
     }
   }
 
-  // At this place, the chunk should not be NULL. Either we allocated a new one,
+  // At this place, the chunk should not be nullptr. Either we allocated a new one,
   // or we took an existing one, but in all cases we have one.
-  nassertr(chunk != NULL, NULL);
+  nassertr(chunk != nullptr, nullptr);
 
   int slot = chunk->reserve_slot(child);
-  nassertr(slot >= 0, NULL);
+  nassertr(slot >= 0, nullptr);
 
   LUIChunkDescriptor* result = new LUIChunkDescriptor();
   result->set_chunk(chunk);

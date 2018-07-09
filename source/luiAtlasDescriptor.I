@@ -4,7 +4,7 @@
  * @details This returns the texture previously stored with
  *   LUIAtlasDescriptor::set_texture(). Usually this is a handle to the atlas
  *   texture.
- * @return Texture handle, or NULL if no texture was set
+ * @return Texture handle, or nullptr if no texture was set
  */
 INLINE Texture* LUIAtlasDescriptor::get_texture() const {
   return _tex;

@@ -7,6 +7,6 @@
  *
  */
 LUIAtlasDescriptor::LUIAtlasDescriptor() :
-  _tex(NULL)
+  _tex(nullptr)
 {
 }
