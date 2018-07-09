@@ -20,7 +20,7 @@ INLINE int LUIVertexChunk::reserve_slot(LUISprite* sprite) {
 
   int slot = -1;
   for (int i = 0; i < _chunk_size; i++) {
-    if (_children[i] == NULL) {
+    if (_children[i] == nullptr) {
       // found slot
       slot = i;
       break;
@@ -41,12 +41,12 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
   nassertv(slot < _chunk_size);
   nassertv(!is_empty());
 
-  if (_children[slot] == NULL) {
+  if (_children[slot] == nullptr) {
     lui_cat.error() << "Cannot free slot, as it is not used" << endl;
     return;
   }
 
-  _children[slot] = NULL;
+  _children[slot] = nullptr;
   _sprite_count --;
 
 
@@ -70,10 +70,10 @@ INLINE void LUIVertexChunk::free_slot(int slot) {
 INLINE void* LUIVertexChunk::get_slot_ptr(int slot) const {
 
   // Make sure the write pointer is correct
-  nassertr(_vertex_data->modify_array(0)->modify_handle()->get_write_pointer() == _write_pointer, NULL);
+  nassertr(_vertex_data->modify_array(0)->modify_handle()->get_write_pointer() == _write_pointer, nullptr);
 
   // Make sure we don't write at the wrong location
-  nassertr(slot < _chunk_size, NULL);
+  nassertr(slot < _chunk_size, nullptr);
 
   return (void*)((uintptr_t)_write_pointer + sizeof(LUIVertexData) * 4 * slot);
 }

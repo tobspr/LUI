@@ -23,7 +23,7 @@ bool LUIAtlas::load_descriptor_file(const string& descriptor_path) {
   VirtualFileSystem *vfs = VirtualFileSystem::get_global_ptr();
   PT(VirtualFile) file = vfs->get_file(descriptor_path);
 
-  if (file == (VirtualFile *)NULL) {
+  if (file == nullptr) {
     lui_cat.error() << "Could not find " << descriptor_path << endl;
     return false;
   }
@@ -64,16 +64,16 @@ bool LUIAtlas::load_texture(const string& texture_path) {
   _tex = TexturePool::load_texture(texture_path);
 
   // File not found
-  if (_tex == NULL) {
+  if (_tex == nullptr) {
     lui_cat.error() << "Failed to load atlas texture from " << texture_path << endl;
-    _tex = NULL;
+    _tex = nullptr;
     return false;
   }
 
   // Non square
   if (_tex->get_x_size() != _tex->get_y_size()) {
     lui_cat.error() << "Cannot load non-square atlas texture!" << endl;
-    _tex = NULL;
+    _tex = nullptr;
     return false;
   }
 

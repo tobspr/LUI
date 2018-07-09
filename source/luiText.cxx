@@ -21,7 +21,7 @@ LUIText::~LUIText() {
 void LUIText::update_text() {
   int len = _text.size();
 
-  nassertv(_font != NULL);
+  nassertv(_font != nullptr);
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Current text is '" << _text.c_str() << "'" << endl;
@@ -67,7 +67,7 @@ void LUIText::update_text() {
     LUISprite* sprite = DCAST(LUISprite, child);
 
     // A lui text should have only sprites contained, otherwise something went wrong
-    nassertv(sprite != NULL);
+    nassertv(sprite != nullptr);
 
     int char_code = (int)_text.at(char_idx);
 
@@ -92,7 +92,7 @@ void LUIText::update_text() {
     }
 
     if (!_font->get_glyph(char_code, const_glyph)) {
-      sprite->set_texture((Texture*)NULL);
+      sprite->set_texture(nullptr);
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .. target = " << _debug_name << endl;
       continue;
     }
@@ -100,12 +100,12 @@ void LUIText::update_text() {
     CPT(DynamicTextGlyph) dynamic_glyph = DCAST(DynamicTextGlyph, const_glyph);
 
     // If this gets executed, a non-dynamic font got loaded.
-    nassertv(dynamic_glyph != NULL);
+    nassertv(dynamic_glyph != nullptr);
 
     _glyphs.push_back(dynamic_glyph);
 
     // Some characters have no texture (like space)
-    if (dynamic_glyph->get_page() == NULL) {
+    if (dynamic_glyph->get_page() == nullptr) {
       lui_cat.debug() << "Character '" << (char)char_code << "' (Code: " << char_code << ") has no texture page!" << endl;
       sprite->hide();
 
@@ -145,7 +145,7 @@ void LUIText::update_text() {
     else {
 
       // Trim left
-      if (_wordwrap && current_x_pos == 0 && dynamic_glyph->get_page() == NULL) {
+      if (_wordwrap && current_x_pos == 0 && dynamic_glyph->get_page() == nullptr) {
         continue;
       }
 
@@ -175,7 +175,7 @@ int LUIText::get_char_index(float pos) const {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Trying to resolve " << pos << " into a character index .." << endl;
   }
-  nassertr(_font != NULL, 0);
+  nassertr(_font != nullptr, 0);
 
   float cursor = 0.0f;
 
@@ -192,7 +192,7 @@ int LUIText::get_char_index(float pos) const {
       continue;
     }
 
-    nassertr(glyph != NULL, 0);
+    nassertr(glyph != nullptr, 0);
     cursor += glyph->get_advance() * _font_size;
 
     if (cursor > pos) {
@@ -206,7 +206,7 @@ float LUIText::get_char_pos(int char_index) const {
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Trying to resolve " << char_index << " into a character position .." << endl;
   }
-  nassertr(_font != NULL, 0);
+  nassertr(_font != nullptr, 0);
 
   // Make sure we don't iterate over the text bounds
   int iterate_max = min(char_index, (int)_text.size());
@@ -225,7 +225,7 @@ float LUIText::get_char_pos(int char_index) const {
       lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .. target = " << _debug_name << endl;
       continue;
     }
-    nassertr(glyph != NULL, 0);
+    nassertr(glyph != nullptr, 0);
     cursor += glyph->get_advance() * _font_size;
   }
 
@@ -255,7 +255,7 @@ vector<int> LUIText::get_line_breaks() {
       LUISprite* sprite = DCAST(LUISprite, child);
 
       // A lui text should have only sprites contained, otherwise something went wrong
-      nassertr(sprite != NULL, result);
+      nassertr(sprite != nullptr, result);
 
       int char_code = (int)_text.at(char_idx);
 
@@ -275,7 +275,7 @@ vector<int> LUIText::get_line_breaks() {
       }
 
       if (!_font->get_glyph(char_code, const_glyph)) {
-        sprite->set_texture((Texture*)NULL);
+        sprite->set_texture(nullptr);
         lui_cat.error() << "Font does not support character with char code " << char_code << ", ignoring .. target = " << _debug_name << endl;
         continue;
       }
@@ -283,12 +283,12 @@ vector<int> LUIText::get_line_breaks() {
       CPT(DynamicTextGlyph) dynamic_glyph = DCAST(DynamicTextGlyph, const_glyph);
 
       // If this gets executed, a non-dynamic font got loaded.
-      nassertr(dynamic_glyph != NULL, result);
+      nassertr(dynamic_glyph != nullptr, result);
 
       _glyphs.push_back(dynamic_glyph);
 
       // If a space, lets mark this as the start of the word.
-      if (dynamic_glyph->get_page() == NULL) {
+      if (dynamic_glyph->get_page() == nullptr) {
         word_start = char_idx;
         word_start_pos = future_x_pos + dynamic_glyph->get_advance() * ppu;
       }

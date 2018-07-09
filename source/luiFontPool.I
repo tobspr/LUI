@@ -5,6 +5,6 @@ INLINE bool LUIFontPool::has_font(const string& name) const {
 }
 
 DynamicTextFont* LUIFontPool::get_font(const string& name) const {
-  nassertr(has_font(name), NULL);
+  nassertr(has_font(name), nullptr);
   return _fonts.at(name);
 }

@@ -24,7 +24,7 @@ INLINE PT(LUIAtlas) LUIAtlasPool::get_atlas(const string& atlas_id) const {
   if (it != _atlases.end()) {
     return it->second;
   }
-  return NULL;
+  return nullptr;
 }
 
 /**

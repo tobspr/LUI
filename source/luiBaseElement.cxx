@@ -15,7 +15,7 @@ NotifyCategoryDef(luiBaseElement, ":lui");
 /**
  * @brief Constructs a new LUIBaseElement
  * @details This constructs a new LUIBaseElement, initializing all properties.
- *   The self pointer should be usually NULL. For python objects, interrogate
+ *   The self pointer should be usually nullptr. For python objects, interrogate
  *   automatically passes a handle to the object as the self pointer.
  *   When a self pointer is passed, all methods named on_xxx are automatically
  *   bound to events using LUIBaseElement::bind().
@@ -37,8 +37,8 @@ LUIBaseElement::LUIBaseElement(PyObject* self) :
   _clip_bounds(0.0f, 0.0f, 1e6, 1e6),
   _have_clip_bounds(false),
   _abs_clip_bounds(0.0f, 0.0f, 1e6, 1e6),
-  _parent(NULL),
-  _root(NULL),
+  _parent(nullptr),
+  _root(nullptr),
   _last_frame_visible(-1),
   _last_render_index(-1),
   _topmost(false),
@@ -66,10 +66,10 @@ void LUIBaseElement::load_python_events(PyObject* self) {
 
   // This code checks for function named "on_xxx" where xxx is an event
   // name, and auto-registers them, which is equal to bind("on_xxx", handler).
-  if (self != NULL) {
+  if (self != nullptr) {
 
     PyObject* class_methods = PyObject_Dir((PyObject*)Py_TYPE(self));
-    nassertv(class_methods != NULL);
+    nassertv(class_methods != nullptr);
     nassertv(PyList_Check(class_methods));
 
     Py_ssize_t num_elements = PyList_Size(class_methods);
@@ -82,7 +82,7 @@ void LUIBaseElement::load_python_events(PyObject* self) {
     // interrogate can't do this until after the constructor is called.
     ((Dtool_PyInstDef *)self)->_ptr_to_object = (void *)this;
     PyObject *bind_func = PyObject_GetAttrString(self, "bind");
-    nassertv(bind_func != NULL);
+    nassertv(bind_func != nullptr);
 
     // Get all attributes of the python object
     for (Py_ssize_t i = 0; i < num_elements; ++i) {
@@ -107,7 +107,7 @@ void LUIBaseElement::load_python_events(PyObject* self) {
         if (method_name_str.substr(0, event_func_prefix.size()) == event_func_prefix) {
 
           PyObject* method = PyObject_GenericGetAttr(self, method_name);
-          nassertv(method != NULL);
+          nassertv(method != nullptr);
 
           // Check if the attribute is a method
           if (PyCallable_Check(method)) {
@@ -252,7 +252,7 @@ void LUIBaseElement::blur() {
  *   it as the last render index.
  */
 void LUIBaseElement::fetch_render_index() {
-  if (_root == NULL) {
+  if (_root == nullptr) {
     _last_render_index = -1;
   } else {
     _last_render_index = _root->allocate_render_index();

@@ -3,12 +3,12 @@
 #include "luiFontPool.h"
 
 
-LUIFontPool* LUIFontPool::_global_ptr = NULL;
+LUIFontPool* LUIFontPool::_global_ptr = nullptr;
 
 LUIFontPool::LUIFontPool() {
 
   PT(DynamicTextFont) font = DCAST(DynamicTextFont,  TextProperties::get_default_font());
-  if (font != NULL) {
+  if (font != nullptr) {
     register_font("default", font);
   } else {
     lui_cat.warning() << "Could not load default font, as it is no dynamic font!" << endl;
@@ -20,7 +20,7 @@ LUIFontPool::~LUIFontPool() {
 }
 
 LUIFontPool* LUIFontPool::get_global_ptr() {
-  if (_global_ptr == (LUIFontPool *)NULL) {
+  if (_global_ptr == nullptr) {
     _global_ptr = new LUIFontPool();
   }
   return _global_ptr;

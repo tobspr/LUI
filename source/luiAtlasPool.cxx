@@ -1,7 +1,7 @@
 
 #include "luiAtlasPool.h"
 
-LUIAtlasPool* LUIAtlasPool::_global_ptr = NULL;
+LUIAtlasPool* LUIAtlasPool::_global_ptr = nullptr;
 
 /**
  * @brief Constructs the LUIAtlasPool
@@ -17,7 +17,7 @@ LUIAtlasPool::LUIAtlasPool() {
  * @return Handle to the global atlas pool instance
  */
 LUIAtlasPool* LUIAtlasPool::get_global_ptr() {
-  if (_global_ptr == NULL) {
+  if (_global_ptr == nullptr) {
     _global_ptr = new LUIAtlasPool();
   }
   return _global_ptr;

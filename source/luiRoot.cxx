@@ -7,18 +7,18 @@ bool LUIRoot::_use_glsl_130 = false;
 
 
 LUIRoot::LUIRoot(float width, float height) : 
-  _requested_focus(NULL),
+  _requested_focus(nullptr),
   _explicit_blur(false),
   _sprites_rendered(0),
   _frame_count(0),
   _render_index(0),
-  _sprite_vertex_pointer(NULL),
+  _sprite_vertex_pointer(nullptr),
   _index_buffer_size(1000000) {
 
   if (lui_cat.is_spam()) {
     lui_cat.spam() << "Constructing new LUIRoot ..\n";
   }
-  _root = new LUIObject(NULL, 0.0f, 0.0f, width, height);
+  _root = new LUIObject(nullptr, 0.0f, 0.0f, width, height);
   _root->set_root(this);
 
   // Create vertex chunks
@@ -93,7 +93,7 @@ void LUIRoot::prepare_render() {
     memcpy(_triangles->modify_vertices()->modify_handle()->get_write_pointer(), _triangle_index_buffer, _sprites_rendered * sizeof(LUITriangleIndex) * 2);
 
     nassertv(_min_rendered_vertex < _max_rendered_vertex);
-    _triangles->set_minmax(_min_rendered_vertex, _max_rendered_vertex, NULL, NULL);
+    _triangles->set_minmax(_min_rendered_vertex, _max_rendered_vertex, nullptr, nullptr);
   }
 
   if (lui_cat.is_spam()) {

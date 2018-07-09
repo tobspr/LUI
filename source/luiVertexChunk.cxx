@@ -45,7 +45,7 @@ LUIVertexChunk::LUIVertexChunk(int chunk_size)
   _children = new LUISprite*[chunk_size];
 
   for (int i = 0; i < chunk_size; i++) {
-    _children[i] = NULL;
+    _children[i] = nullptr;
   }
 
 }

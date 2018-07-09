@@ -11,10 +11,10 @@ TypeHandle LUIInputHandler::_type_handle;
 
 LUIInputHandler::LUIInputHandler(const string& name) :
   DataNode(name),
-  _hover_element(NULL),
-  _focused_element(NULL)
+  _hover_element(nullptr),
+  _focused_element(nullptr)
 {
-  _mouse_down_elements.resize(5, NULL);
+  _mouse_down_elements.resize(5, nullptr);
   _mouse_pos_input = define_input("pixel_xy", EventStoreVec2::get_class_type());
   _buttons_input = define_input("button_events", ButtonEventList::get_class_type());
 
@@ -138,7 +138,7 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser* trav,
 }
 
 void LUIInputHandler::process(LUIRoot* root) {
-  LUIBaseElement* current_hover = NULL;
+  LUIBaseElement* current_hover = nullptr;
   int current_render_index = -1;
 
   if (_current_state.has_mouse_pos) {
@@ -168,12 +168,12 @@ void LUIInputHandler::process(LUIRoot* root) {
 
   // Check for mouse over / out events
   if (current_hover != _hover_element) {
-    if (_hover_element != NULL) {
+    if (_hover_element != nullptr) {
 
       trigger_event(_hover_element, "mouseout");
     }
 
-    if (current_hover != NULL) {
+    if (current_hover != nullptr) {
       trigger_event(current_hover, "mouseover");
     }
     _hover_element = current_hover;
@@ -182,12 +182,12 @@ void LUIInputHandler::process(LUIRoot* root) {
   // Check for mouse move
   if (_current_state.mouse_pos != _last_state.mouse_pos) {
     // Send a event to the hovered element
-    if (_hover_element != NULL) {
+    if (_hover_element != nullptr) {
       trigger_event(_hover_element, "mousemove");
     }
 
     // The focus element also recieves a mousemove element
-    if (_focused_element != NULL) {
+    if (_focused_element != nullptr) {
       trigger_event(_focused_element, "mousemove");
     }
   }
@@ -198,12 +198,12 @@ void LUIInputHandler::process(LUIRoot* root) {
   for (size_t mouse_button = 0; mouse_button < 5; ++mouse_button) {
 
     if (mouse_key_pressed(mouse_button)) {
-      if (_hover_element != NULL && _hover_element->is_visible()) {
+      if (_hover_element != nullptr && _hover_element->is_visible()) {
         _mouse_down_elements[mouse_button] = _hover_element;
 
         trigger_event(_hover_element, "mousedown", get_mouse_button_name(mouse_button));
 
-        if (_focused_element != NULL && _hover_element != _focused_element) {
+        if (_focused_element != nullptr && _hover_element != _focused_element) {
           // When clicking somewhere, and the clicked element is not the focused one,
           // make the focused one loose focus
           lost_focus = true;
@@ -212,11 +212,11 @@ void LUIInputHandler::process(LUIRoot* root) {
     }
 
     if (mouse_key_released(mouse_button)) {
-      if (_mouse_down_elements[mouse_button] != NULL) {
+      if (_mouse_down_elements[mouse_button] != nullptr) {
         trigger_event(_mouse_down_elements[mouse_button], "mouseup", get_mouse_button_name(mouse_button));
       }
 
-      if (_mouse_down_elements[mouse_button] != NULL && _mouse_down_elements[mouse_button] == _hover_element) {
+      if (_mouse_down_elements[mouse_button] != nullptr && _mouse_down_elements[mouse_button] == _hover_element) {
         trigger_event(_mouse_down_elements[mouse_button], "click", get_mouse_button_name(mouse_button));
       }
     }
@@ -226,26 +226,26 @@ void LUIInputHandler::process(LUIRoot* root) {
   LUIBaseElement* requested_focus = root->get_requested_focus();
 
 
-  if (requested_focus == NULL) {
+  if (requested_focus == nullptr) {
     // No focus request, eveything remains the same
     // However, when the user clicked somewhere, and it was not the focused element,
     // make it loose the focus. It is important this happens after calling the
     // click event, otherwise we might loose events.
 
-    if (_focused_element != NULL && (lost_focus || root->get_explicit_blur())) {
+    if (_focused_element != nullptr && (lost_focus || root->get_explicit_blur())) {
       _focused_element->set_focus(false);
       trigger_event(_focused_element, "blur");
-      _focused_element = NULL;
+      _focused_element = nullptr;
     }
   } else {
     // Focus was requested, and its different from the current focused element
     if (requested_focus != _focused_element) {
 
       // Tell the currently focused element its no longer focused
-      if (_focused_element != NULL) {
+      if (_focused_element != nullptr) {
         _focused_element->set_focus(false);
         trigger_event(_focused_element, "blur");
-        _focused_element = NULL;
+        _focused_element = nullptr;
       }
 
       // Tell the new element its now focused
@@ -259,13 +259,13 @@ void LUIInputHandler::process(LUIRoot* root) {
 
   // Reset any requested focus, since the element should be in focus now 
   if (root->get_requested_focus()) {
-    root->set_requested_focus(NULL);
+    root->set_requested_focus(nullptr);
   }
   
   root->clear_explicit_blur();
 
   // Check key events
-  if (_focused_element != NULL && _focused_element->is_visible()) {
+  if (_focused_element != nullptr && _focused_element->is_visible()) {
     vector<LUIKeyEvent>::const_iterator it;
     for (it = _key_events.begin(); it != _key_events.end(); ++it) {
 

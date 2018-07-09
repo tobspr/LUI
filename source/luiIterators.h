@@ -20,7 +20,7 @@ PUBLISHED:
     if (_iter != _end) {
       return *_iter++;
     }
-    return NULL;
+    return nullptr;
   }
   INLINE LUIElementIterator& __iter__() {
     return *this;

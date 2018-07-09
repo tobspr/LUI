@@ -26,14 +26,14 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
   _texture_index = -1;
 
   // Unassign old texture
-  if (_tex != NULL) {
+  if (_tex != nullptr) {
     _tex = tex;
     _debug_source = tex->get_name();
   } else {
-    _debug_source = "NULL";
+    _debug_source = "nullptr";
   }
 
-  if (tex != NULL) {
+  if (tex != nullptr) {
     if (luiSprite_cat.is_spam()) {
       luiSprite_cat.spam() << "Assigned texture of size " << tex->get_x_size() << "x" << tex->get_y_size() << endl;
     }
@@ -46,7 +46,7 @@ INLINE void LUISprite::set_texture(Texture* tex, bool resize) {
     }
 
     // Assign new index
-    if (_root != NULL) {
+    if (_root != nullptr) {
         fetch_texture_index();
     }
   }
@@ -83,7 +83,7 @@ INLINE void LUISprite::set_texture(const string& source, bool resize) {
     // load texture from file
     PT(Texture) tex = TexturePool::load_texture(source);
 
-    if (tex == NULL) {
+    if (tex == nullptr) {
       luiSprite_cat.error() << "Could not load texture from '" << source << "'" << endl;
       return;
     }
@@ -116,11 +116,11 @@ INLINE void LUISprite::print_vertices() {
 
 INLINE void LUISprite::on_detached() {
   unregister_events();
-  if (_tex != NULL) {
+  if (_tex != nullptr) {
     unassign_sprite_index();
   }
-  _root = NULL;
-  _parent = NULL;
+  _root = nullptr;
+  _parent = nullptr;
 }
 
 INLINE void LUISprite::init_size(float w, float h) {
