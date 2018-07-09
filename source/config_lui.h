@@ -17,9 +17,6 @@ NotifyCategoryDecl(lui, EXPCL_LUI, EXPTP_LUI);
 
 extern EXPCL_LUI void init_lui();
 
-#ifdef INTERROGATE
-// Interrogate can't handle this
-#define unordered_map pmap
-#endif
+using namespace std;
 
 #endif
