@@ -52,8 +52,6 @@ class LUIScrollableRegion(LUIObject):
         self._scroll_top_position = 0
         self._content_height = 400
 
-        scroll_shadow_width = self.width - 10
-
         # Scroll shadow
         self._scroll_shadow_top = LUIHorizontalStretchedLayout(parent=self, prefix="ScrollShadowTop", width="100%")
         self._scroll_shadow_bottom = LUIHorizontalStretchedLayout(parent=self, prefix="ScrollShadowBottom", width="100%")

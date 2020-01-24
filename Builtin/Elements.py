@@ -10,15 +10,12 @@ Do not use anymore.
 """
 
 
-from panda3d.lui import *
-from panda3d.core import Point2
-
-from functools import partial
-from LUILayouts import *
-
-import math
 import colorsys
 
+from LUIObject import LUIObject
+from LUISlider import LUISlider
+from LUISprite import LUISprite
+from LUIVerticalLayout import LUIVerticalLayout
 from LUICallback import LUICallback
 from LUILabel import LUILabel
 from LUIFrame import LUIFrame
@@ -318,9 +315,9 @@ class LUIColorpickerPopup(LUIPopup, LUICallback):
         rgb = colorsys.hsv_to_rgb(self.hueValue, self.saturation, self.valueValue)
         self.activeColorBG.color = rgb
 
-        self.colorLabels[0].set_text(unicode(int(rgb[0]*255.0)))
-        self.colorLabels[1].set_text(unicode(int(rgb[1]*255.0)))
-        self.colorLabels[2].set_text(unicode(int(rgb[2]*255.0)))
+        self.colorLabels[0].set_text(str(int(rgb[0]*255.0)).encode('utf-8'))
+        self.colorLabels[1].set_text(str(int(rgb[1]*255.0)).encode('utf-8'))
+        self.colorLabels[2].set_text(str(int(rgb[2]*255.0)).encode('utf-8'))
 
         self._trigger_callback(rgb)
 
