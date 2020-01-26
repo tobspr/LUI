@@ -77,7 +77,7 @@ class LUIInputField(LUIObject):
     @value.setter
     def value(self, new_value):
         """ Sets the value of the input field """
-        self._value = unicode(new_value)
+        self._value = new_value.encode('utf-8')
         self._render_text()
         self.trigger_event("changed", self._value)
 

@@ -193,7 +193,7 @@ class LUISelectdrop(LUIObject):
             opt_bg.bind("click", partial(self._on_opt_click, opt_id))
             opt_bg.solid = True
 
-            opt_label = LUILabel(parent=opt_container, text=unicode(opt_val))
+            opt_label = LUILabel(parent=opt_container, text=opt_val.encode('utf-8'))
             opt_label.top = 8
             opt_label.left = 8
 

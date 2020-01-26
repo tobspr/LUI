@@ -69,4 +69,4 @@ class LUIProgressbar(LUIObject):
 
         if self._show_label:
             percentage = self._progress_pixel / self.width * 100.0
-            self._progress_label.set_text(unicode(int(percentage)) + u" %")
+            self._progress_label.set_text("{} %".format(int(percentage)))

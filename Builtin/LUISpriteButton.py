@@ -1,7 +1,6 @@
 
 from LUIObject import LUIObject
 from LUISprite import LUISprite
-from LUILabel import LUILabel
 from LUIInitialState import LUIInitialState
 
 class LUISpriteButton(LUIObject):
@@ -12,8 +11,10 @@ class LUISpriteButton(LUIObject):
         LUIObject.__init__(self, x=0, y=0, solid=True)
         self._template = template
         self._button_sprite = LUISprite(self, template, "skin")
-        self._button_sprite.width = width
-        self._button_sprite.height = height
+        if 'width' in kwargs:
+            self._button_sprite.width = kwargs['width']
+        if 'height' in kwargs:
+            self._button_sprite.height = kwargs['height']
         LUIInitialState.init(self, kwargs)
 
     def on_mousedown(self, event):
