@@ -13,14 +13,14 @@ class LUILabel(LUIObject):
     DEFAULT_COLOR = (0.9, 0.9, 0.9, 1)
     DEFAULT_USE_SHADOW = True
 
-    def __init__(self, text=u"Label", shadow=None, font_size=14, font="label", color=None, wordwrap=False, **kwargs):
+    def __init__(self, text="Label", shadow=None, font_size=14, font="label", color=None, wordwrap=False, **kwargs):
         """ Creates a new label. If shadow is True, a small text shadow will be
         rendered below the actual text. """
         LUIObject.__init__(self)
         LUIInitialState.init(self, kwargs)
         self._text = LUIText(
             self,
-            text.encode('utf-8'),
+            text,
             font,
             font_size,
             0,
@@ -38,7 +38,7 @@ class LUILabel(LUIObject):
         if self._have_shadow:
             self._shadow_text = LUIText(
                 self,
-                text.encode('utf-8'),
+                text,
                 font,
                 font_size,
                 0,
@@ -69,7 +69,7 @@ class LUILabel(LUIObject):
     def get_color(self):
         """ Returns the current color of the label's text """
         return self._text.color
-    
+
     def set_color(self, color):
         """ Sets the color of the label's text """
         self._text.color = color
