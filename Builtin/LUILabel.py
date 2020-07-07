@@ -60,9 +60,9 @@ class LUILabel(LUIObject):
 
     def set_text(self, text):
         """ Sets the text of the label """
-        self._text.text = text.encode('utf-8')
+        self._text.text = text
         if self._have_shadow:
-            self._shadow_text.text = text.encode('utf-8')
+            self._shadow_text.text = text
 
     text = property(get_text, set_text)
 

@@ -80,7 +80,7 @@ def setWrap(wrap):
 
 
 f.set_actions({
-        "Set Random Text": lambda: label.set_text(unicode(random.randint(100, 10000))),
+        "Set Random Text": lambda: label.set_text(str(random.randint(100, 10000))),
         "Set Random Color": lambda: label.set_color((random.random(), random.random(), random.random(), 1)),
         "Clear": lambda: label.clear(),
         "Smaller": lambda: setWidth(200),

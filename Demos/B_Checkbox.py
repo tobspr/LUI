@@ -32,7 +32,7 @@ f.set_actions({
         "Set Checked": lambda: checkbox.set_checked(True),
         "Set Unchecked": lambda: checkbox.set_checked(False),
         "Toggle Checked": lambda: checkbox.toggle_checked(),
-        "Set Random Text": lambda: checkbox.get_label().set_text(u"Text: " + unicode(random.randint(100, 10000))),
+        "Set Random Text": lambda: checkbox.get_label().set_text("Text: " + str(random.randint(100, 10000))),
     })
 
 run()

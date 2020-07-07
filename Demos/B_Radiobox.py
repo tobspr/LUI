@@ -43,7 +43,7 @@ f.set_actions({
         "Select Box 1": lambda: boxes[0].set_active(),
         "Select Box 2": lambda: boxes[1].set_active(),
         "Select Box 3": lambda: boxes[2].set_active(),
-        "Set Random Text": lambda: boxes[0].label.set_text(u"Text: " + unicode(random.randint(100, 10000))),
+        "Set Random Text": lambda: boxes[0].label.set_text("Text: " + str(random.randint(100, 10000))),
     })
 
 run()
