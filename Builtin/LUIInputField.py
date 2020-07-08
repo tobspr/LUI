@@ -43,7 +43,7 @@ class LUIInputField(LUIObject):
         # Scroller for the text, so we can move right and left
         self._text_scroller = LUIObject(parent=self._text_content)
         self._text_scroller.center_vertical = True
-        self._text = LUILabel(parent=self._text_scroller, text=u"")
+        self._text = LUILabel(parent=self._text_scroller, text="")
 
         # Cursor for the current position
         self._cursor = LUISprite(self._text_scroller, "blank", "skin", x=0, y=0, w=2, h=15)
@@ -77,7 +77,7 @@ class LUIInputField(LUIObject):
     @value.setter
     def value(self, new_value):
         """ Sets the value of the input field """
-        self._value = new_value.encode('utf-8')
+        self._value = new_value
         self._render_text()
         self.trigger_event("changed", self._value)
 

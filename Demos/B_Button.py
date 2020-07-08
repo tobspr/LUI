@@ -30,7 +30,7 @@ layout.add(button1)
 layout.add(button2)
 
 f.set_actions({
-        "Set Random Text": lambda: button1.set_text(u"Text: " + unicode(random.randint(100, 10000000))),
+        "Set Random Text": lambda: button1.set_text("Text: " + str(random.randint(100, 10000000))),
     })
 
 run()

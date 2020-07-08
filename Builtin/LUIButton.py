@@ -11,7 +11,7 @@ class LUIButton(LUIObject):
 
     """ Simple button, containing three sprites and a label. """
 
-    def __init__(self, text=u"Button", template="ButtonDefault", **kwargs):
+    def __init__(self, text="Button", template="ButtonDefault", **kwargs):
         """ Constructs a new button. The template controls which sprites to use.
         If the template is "ButtonDefault" for example, the sprites
         "ButtonDefault_Left", "ButtonDefault" and "ButtonDefault_Right" will

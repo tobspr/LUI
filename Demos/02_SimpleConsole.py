@@ -22,6 +22,8 @@ load_prc_file_data("", """
 
 # Imports
 
+import codecs
+
 from LUISkin import LUIDefaultSkin
 from LUIFrame import LUIFrame
 from LUILabel import LUILabel
@@ -79,7 +81,7 @@ def send_command(event):
     layout.add(label)
 
     result = LUIFormattedLabel()
-    result.add("Your command in rot13: " + event.message.encode("rot13"), color=(0.4, 0.4, 0.4, 1.0))
+    result.add("Your command in rot13: " + codecs.encode(event.message, "rot13"), color=(0.4, 0.4, 0.4, 1.0))
     layout.add(result)
     input_field.clear()
 
@@ -92,6 +94,6 @@ input_field.request_focus()
 
 # Add some initial commands
 for demo_command in ["Hello world!", "This is a simple console", "You can type commands like this:", "/test"]:
-    input_field.trigger_event("enter", unicode(demo_command))
+    input_field.trigger_event("enter", demo_command)
 
 s.run()
