@@ -90,6 +90,14 @@ void LUIInputHandler::do_transmit_data(DataGraphTraverser* trav,
           _current_state.mouse_buttons[3] = true;
         } else if (be._button == MouseButton::five()) {
           _current_state.mouse_buttons[4] = true;
+        } else if (be._button == MouseButton::wheel_up()) {
+          // Handle wheel up event
+          LUIKeyEvent event = {"wheel_up", M_down};
+          _key_events.push_back(event);
+        } else if (be._button == MouseButton::wheel_down()) {
+          // Handle wheel down event
+          LUIKeyEvent event = {"wheel_down", M_down};
+          _key_events.push_back(event);
         } else {
           LUIKeyEvent event = {be._button.get_name(), M_down};
           _key_events.push_back(event);
@@ -199,6 +207,20 @@ void LUIInputHandler::process(LUIRoot* root) {
 
       if (child->is_mousetracking()) {
         trigger_event(child, "mousemove");
+      }
+    }
+  }
+
+  // Check mouse wheel events
+  if (_hover_element != nullptr && _hover_element->is_visible()) {
+    for (vector<LUIKeyEvent>::const_iterator it = _key_events.begin(); it != _key_events.end(); ++it) {
+      string btn_name((*it).btn_name);
+
+      // Handle scroll wheel events on the hovered element
+      if (btn_name == "wheel_up") {
+        trigger_event(_hover_element, "scrollwheel", L"up");
+      } else if (btn_name == "wheel_down") {
+        trigger_event(_hover_element, "scrollwheel", L"down");
       }
     }
   }
