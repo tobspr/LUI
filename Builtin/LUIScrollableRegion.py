@@ -143,6 +143,11 @@ class LUIScrollableRegion(LUIObject):
         self._scroll_top_position = pixels
         self._update()
 
+    def scroll(self, amount=0.1):
+        """ Scrolls by a percentage amount, default is 10% """
+        new_percentage = self.get_scroll_percentage() - amount
+        self.set_scroll_percentage(new_percentage)
+
     scroll_percentage = property(get_scroll_percentage, set_scroll_percentage)
 
     def scroll_to_bottom(self):
