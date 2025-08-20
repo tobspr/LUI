@@ -65,6 +65,7 @@ container = LUIFrame(parent = region.root, width=700, height=500,
 
 text_container = LUIScrollableRegion(parent=container, width=675, height=440,
     padding=0)
+text_container.solid = True # Needed to detect mouse scroll events
 
 base.win.set_clear_color(Vec4(0.1, 0.1, 0.1, 1.0))
 layout = LUIVerticalLayout(parent=text_container.content_node)
@@ -91,6 +92,9 @@ def send_command(event):
 input_field = LUIInputField(parent=container, bottom=0, left=0, width="100%")
 input_field.bind("enter", send_command)
 input_field.request_focus()
+
+# Make scrollable with mouse wheel
+text_container.bind("scrollwheel", lambda event: text_container.scroll(0.1) if event.message == "up" else text_container.scroll(-0.1))
 
 # Add some initial commands
 for demo_command in ["Hello world!", "This is a simple console", "You can type commands like this:", "/test"]:
