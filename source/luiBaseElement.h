@@ -39,7 +39,7 @@ class EXPCL_LUI LUIBaseElement : public TypedReferenceCount, public LUIColorable
   friend class LUIText;
 
 PUBLISHED:
-  LUIBaseElement(PyObject* self);
+  LUIBaseElement(PyObject* self, bool visible = true, bool positioned = false);
   virtual ~LUIBaseElement();
 
   // Events
@@ -147,6 +147,10 @@ PUBLISHED:
   INLINE void hide();
   INLINE void show();
 
+  // Positioned
+  INLINE void set_positioned(bool positioned);
+  INLINE bool is_positioned() const;
+
   // Solid
   INLINE void set_solid(bool solid);
   INLINE bool get_solid() const;
@@ -218,6 +222,7 @@ PUBLISHED:
   MAKE_PROPERTY2(height, has_height, get_height, set_height, clear_height);
 
   MAKE_PROPERTY(visible, is_visible, set_visible);
+  MAKE_PROPERTY(positioned, is_positioned, set_positioned);
   MAKE_PROPERTY(z_offset, get_z_offset, set_z_offset);
   MAKE_PROPERTY(focused, has_focus);
   MAKE_PROPERTY2(parent, has_parent, get_parent, set_parent, clear_parent);
@@ -333,6 +338,8 @@ protected:
   string _name;
 
   bool _mouse_tracking;
+
+  bool _positioned = false;
 
 public:
   static TypeHandle get_class_type() {

@@ -5,9 +5,9 @@
 TypeHandle LUIText::_type_handle;
 
 LUIText::LUIText(PyObject* self, LUIObject* parent, const wstring& text,
-                 const string& font_name, float font_size, float x, float y, bool wordwrap)
+                 const string& font_name, float font_size, float x, float y, bool wordwrap, bool visible)
   :
-  LUIObject(self, parent, x, y, parent->get_parent_width(), parent->get_parent_width()),
+  LUIObject(self, parent, x, y, parent->get_parent_width(), parent->get_parent_width(), false, visible),
   _text(text),
   _font_size(font_size),
   _wordwrap(wordwrap) {

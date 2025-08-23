@@ -27,7 +27,7 @@ PUBLISHED:
 
   LUIText(PyObject* self,
     LUIObject* parent, const wstring& text, const string& font_name="default",
-    float font_size=16.0f, float x=0.0f, float y=0.0f, bool wordwrap=false);
+    float font_size=16.0f, float x=0.0f, float y=0.0f, bool wordwrap=false, bool visible=true);
   ~LUIText();
 
   INLINE void set_font(const string& font_name);

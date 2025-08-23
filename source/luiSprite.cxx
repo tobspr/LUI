@@ -299,6 +299,10 @@ void LUISprite::recompute_vertices() {
     _data[i].color[2] = (unsigned char) (_composed_color.get_z() * 255.0);
     _data[i].color[3] = (unsigned char) (_composed_color.get_w() * 255.0);
   }
+
+  // Finished positioning, and will appear at next render pass.
+  _positioned = true;
+
 }
 
 void LUISprite::fetch_texture_index() {
@@ -310,6 +314,10 @@ void LUISprite::fetch_texture_index() {
 void LUISprite::render_recursive(bool is_topmost_pass, bool render_anyway) {
 
   if (!_visible) return;
+
+  // If the sprite is not positioned, we should not render it
+  // but still do a layout pass and not add it to the render list.
+  bool is_positioned = _positioned;
 
   bool do_render = render_anyway || is_topmost_pass == _topmost;
   if (!do_render) return;
@@ -324,7 +332,8 @@ void LUISprite::render_recursive(bool is_topmost_pass, bool render_anyway) {
   fetch_render_index();
   recompute_vertices();
   update_vertex_pool();
-
-  _last_frame_visible  = _root->get_frame_index();
-  _root->add_sprite_to_render_list(_sprite_index);
+  if (is_positioned) {
+    _last_frame_visible  = _root->get_frame_index();
+    _root->add_sprite_to_render_list(_sprite_index);
+  }
 }

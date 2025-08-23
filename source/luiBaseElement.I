@@ -932,6 +932,24 @@ INLINE void LUIBaseElement::show() {
 }
 
 /**
+ * @brief Sets the position state
+ * @details If set, the element will not wait for the next frame to be rendered
+ * @param positioned Whether the element should be positioned
+ */
+INLINE void LUIBaseElement::set_positioned(bool positioned) {
+  _positioned = positioned;
+}
+
+/**
+ * @brief Returns whether the element is positioned
+ * @details This returns the value previously set by set_positioned().
+ * @return Whether the element is positioned
+ */
+INLINE bool LUIBaseElement::is_positioned() const {
+  return _positioned;
+}
+
+/**
  * @brief Returns the z offset of the element
  * @details This returns the z offset previously set with set_z_offset()
  * @return z offset of the element

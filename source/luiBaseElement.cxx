@@ -22,11 +22,12 @@ NotifyCategoryDef(luiBaseElement, ":lui");
  *
  * @param self self-pointer or null
  */
-LUIBaseElement::LUIBaseElement(PyObject* self) :
+LUIBaseElement::LUIBaseElement(PyObject* self, bool visible, bool positioned) :
   _position(0.0f),
   _abs_position(0.0f),
   _effective_size(0.0f),
-  _visible(true),
+  _visible(visible),
+  _positioned(positioned),
   _z_offset(0.0f),
   _events_registered(false),
   _snap_position(true),
@@ -218,6 +219,11 @@ void LUIBaseElement::set_parent(LUIObject* parent) {
 
   // Attach to new parent
   parent->add_child(this);
+
+  // Update position, size, and clip bounds after attaching to the new parent
+  update_upstream();
+  update_downstream();
+  update_clip_bounds();
 }
 
 /**
